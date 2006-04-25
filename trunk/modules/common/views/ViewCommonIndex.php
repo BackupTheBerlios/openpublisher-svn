@@ -34,12 +34,6 @@ class ViewCommonIndex extends SmartView
      */
     public $template = 'index';
     
-     /**
-     * Template folder for this view
-     * @var string $templateFolder
-     */    
-    public $templateFolder = 'modules/common/templates/';
-    
     /**
      * Execute the main view
      *
