@@ -1,0 +1,65 @@
+#mainleft .nodeul {
+        line-height: 1.6em;
+	float: left;
+	list-style-type: circle;
+	width: 200px;
+	padding-top: 10px;
+	padding-left: 20px;
+	font-size: 1.4em;
+}
+#mainleft .articleul {
+	float: left;
+	list-style-type: square;
+	width: 300px;
+	padding-top: 10px;
+	padding-left: 40px;
+	font-size: 1.4em;
+        line-height: 1.6em;
+}
+#mainleft .nodeli {
+        line-height: 1.4em;
+}
+#mainleft .articleli {
+        line-height: 1.4em;
+}
+
+#mainleft .articleli a:link{
+	color:#0000FF;
+}
+#mainleft .articleli a:visited{
+	color:#0000FF;
+}
+#mainleft .articleli a:active {
+	color:#FF0000;
+}
+#mainleft .articleli a:hover {
+	color:#FF0000;
+}
+#mainleft .articleli a:focus {
+	color:#FF0000;
+}
+
+
+#mainleft .nodeli a:link{
+	color:#0000FF;
+}
+#mainleft .nodeli a:visited{
+	color:#0000FF;
+}
+#mainleft .nodeli a:hover {
+	color:#FF0000;
+}
+#mainleft .nodeli a:active{
+	color:#FF0000;
+}
+#mainleft .nodeli a:focus {
+	color:#FF0000;
+}
+
+#mainleft h3{
+	font-size: 1.6em;
+	color: #666666;
+	font-style: italic;
+
+
+}

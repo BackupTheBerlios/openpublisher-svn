@@ -1,0 +1,37 @@
+Smart3 Framework Instruction d'installation
+-------------------------------------------
+
+Décompressez l'archive de Smart3 et transférer les fichier quelque part
+sur un endroit ou le serveur http a accées. 
+
+Créez une base de donnée MySql 4.1.
+
+Verifiez si les scripts php ont le droit d'écrirent dans les
+répertoires suivants:
+
+ # /cache
+ # /cache/smartyCompiled
+ # /config
+ # /data
+ # /data/article
+ # /data/article/rss
+ # /data/common
+ # /data/common/captcha
+ # /data/common/rss_cache
+ # /data/common/tinymce_cache
+ # /data/misc
+ # /data/navigation
+ # /data/user
+ # /logs
+
+Pointez votre navigateur sur le fichier "admin.php" qui se trouve
+dans le répertoire principal. Vous devez voire une page setup.
+
+Suivez les instructions. Si c'est la première foi que vous
+utilisez le système pour le tester, crochez "Insert Sample Content".
+La procédure setup va remplire la base des données avec le
+contenu de la documentation.
+
+Après le setup vous êtes renvoyés vers le login de l'administration.
+Utilisez le login "superuser" et le mot de pass que vous avez
+just crée.

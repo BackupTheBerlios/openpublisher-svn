@@ -1,0 +1,19 @@
+# Dont list files and folders
+#
+Options -Indexes
+
+# Required to get work the PEAR XML_RPC package
+#
+php_flag always_populate_raw_post_data On
+
+# We dont need it
+#
+php_flag register_globals Off
+
+
+# Disable call of cli.php
+#
+RewriteEngine on
+RewriteBase /
+
+RewriteRule cli.php index.php

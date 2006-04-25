@@ -1,0 +1,125 @@
+Smart3 Framework Change.log
+---------------------------
+
+0.2.7b
+------
+- update to TinyMce 2.0.5.1
+- update to PEAR XML_RPC 1.4.6
+- update to PEAR HTML_AJAX 0.4
+- added public css folder
+- added timezone features in modules:
+  All time strings are stored in database
+  in GMT+0. To get work this correctly you
+  have to set:
+  - server timezone in option module
+  - default timezone in option module
+  - user timezone in user module
+
+0.2.6b
+------
+- update to TinyMce 2.0.4
+- added bolg features in article module.
+  Web users can add comments to articles.
+
+0.2.5b
+------
+- update to TinyMce 2.0.3
+- added GD check in setup module
+- added TinyMce cache
+- added rss builder action
+- added ajax server and usage examples (experimental)
+- added Each article can be assigned with an individual view
+
+0.2.4b
+------
+- upgrade to Tinymce 2.0.2
+- auto public view detection related to articles
+
+0.2.3b
+--------
+- fixed self reference of nodes and keywords
+- fixed expired session time settings
+- fixed small file upload bug
+- added session expire time in options
+
+0.2.2b
+--------
+- switched to beta stage
+- added keyword module
+- added keyword features in modules: misc,article,navigation and link
+- added separated public view and template to show extern links
+- fixed the permission system
+
+0.2.1a
+--------
+- in modules "navigation" and "article" you can now set content to protect,
+  means only registered user have access to.
+- added cli (command line interface) controller to build shell applications: 
+  The cli.php controller and the related views in /views_cli as an example of how to use it
+  Example: /bin/php cli.php view=cliTest
+- added rpcserver.php (XML_RPC Server) controller and related views in /views_rpcserver.
+- added /tests/XmlRpcClient.php
+
+0.2.0.9a
+--------
+- fixed some nasty warnings under php version 5.0.5
+- fixed sql language encoding bug
+- added article select with pubdate option
+- added ActionNavigationGetNodeStatus.php action class
+- modified public error template
+
+0.2.0.8a
+--------
+- fixed small error reporting bug in error handler
+- added Smarty template engine support. Now you have the
+  choice between php and Smarty as template engine.
+
+0.2.0.7a
+--------
+- fixed small setup bug
+- minor fixes
+
+0.2.0.6a
+--------
+- fixed bug in misc module (only on *nix)
+- added javacript compression for tinymce editor
+- fixed some links in the doc
+- fixed small error log bug
+
+0.2.0.5a
+--------
+- fixed image bug in article,navigation and misc module
+- added admin view folder select in configuration array. 
+  It's now possible to develop more than one admin view
+  and its templates. Means switching between multiple
+  admin layouts.
+- added support of the mysql client extension. 
+  It supports now mysql and mysqli.
+
+0.2.0.4a
+--------
+- enhanced the article module
+- added pager classes
+- minor changes
+- fixed a few bugs
+
+0.2.0.3a
+--------
+- added article module
+- added article search public view.
+- fixed a few bugs
+
+0.2.0.2a
+--------
+- added simple link module
+- added sending system messages by email. see: my_config_dist.php.
+- added disallowed upload files in options
+- fixed modules data dir handling
+
+0.2.0.1a
+--------
+- it is possible to insert sample content on the setup page.
+
+0.2a
+----
+Initial release
