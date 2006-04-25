@@ -149,9 +149,9 @@ class SmartAdminViewFactory extends SmartViewFactory
             {
                 $tplContainer->templateFolder = $view->templateFolder;
             }
-            else if(defined('SMART_TPL_FOLDER'))
+            else
             { 
-                $tplContainer->templateFolder = SMART_TPL_FOLDER;
+                $tplContainer->templateFolder = 'modules/common/'.$this->model->config['admin_template_folder'];
             }                
                
             // render the template

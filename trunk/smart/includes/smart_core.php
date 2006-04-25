@@ -120,7 +120,11 @@ $SmartConfig['disallowedVariables'] = array('$GLOBALS',
  * admin view folder
  */
 $SmartConfig['admin_view_folder'] = 'views/';                                          
-                                          
+/**
+ * admin template folder
+ */
+$SmartConfig['admin_template_folder'] = 'templates/';
+
 /**
  * Default template and view folders
  */
