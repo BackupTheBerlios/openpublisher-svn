@@ -64,7 +64,7 @@ function subok(s){
 <form name="setup" id="setup" method="post" action="<?php echo SMART_CONTROLLER; ?>">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td align="center" valign="middle" bgcolor="#3366CC"><span class="title">SMART3 Project Setup</span></td>
+    <td align="center" valign="middle" bgcolor="#3366CC"><span class="title">Open Publisher Project Setup</span></td>
   </tr>
   <tr>
     <td align="center" valign="top"><table width="90%"  border="0" cellspacing="4" cellpadding="2">
@@ -127,7 +127,7 @@ function subok(s){
       <tr>
         <td align="left" valign="top"><span class="normal">Tables Prefix :</span></td>
         <td align="left" valign="top">
-          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($tpl['form_dbtableprefix'])) echo 'smart_';else echo $tpl['form_dbtableprefix']; ?>"/>
+          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($tpl['form_dbtableprefix'])) echo 'op_';else echo $tpl['form_dbtableprefix']; ?>"/>
         </td>
       </tr>
     </table>
