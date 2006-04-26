@@ -94,7 +94,7 @@ class ActionCommonSetup extends SmartAction
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
                  (`charset`, `templates_folder`, `css_folder`, `views_folder`,`rejected_files`)
                 VALUES
-                 ('{$data['charset']}','templates_home','css_home','views_home','.php,.php3,.php4,.php5,.phps,.pl,.py')";
+                 ('{$data['charset']}','templates_home/','css_home/','views_home/','.php,.php3,.php4,.php5,.phps,.pl,.py')";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_module (
