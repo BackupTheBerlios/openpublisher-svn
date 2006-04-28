@@ -23,12 +23,13 @@
 class ActionCommonSmartCoreNewVersion extends SmartAction
 {
     /**
-     * Add http headers to disable browser caching
+     * perform
      *
      * @param mixed $data
      */
     public function perform( $data = FALSE )
     {
+        // delete tiny Mce cache
         $this->model->action('common', 'deleteTinymceCache');
         
         // set new smart core version number in db
@@ -48,7 +49,7 @@ class ActionCommonSmartCoreNewVersion extends SmartAction
     }   
     
     /**
-     * update to new smart core version number
+     * update to new Open Publisher version number
      *
      * @param string $version  version number
      */
@@ -56,7 +57,7 @@ class ActionCommonSmartCoreNewVersion extends SmartAction
     {
         $sql = "UPDATE {$this->config['dbTablePrefix']}common_config
                     SET
-                        `smart_version_num`='{$version}'";
+                        `op_version`='{$version}'";
 
         $this->model->dba->query($sql);          
     }       

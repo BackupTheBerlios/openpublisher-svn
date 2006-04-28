@@ -79,7 +79,7 @@ class ActionCommonUpgrade extends SmartAction
                 AFTER `charset`";
                
         $this->model->dba->query($sql);
-        $this->config['smart_version_num'] = '0.3';
+        $this->config['module']['common']['version'] = '0.3';
     }
 
     /**
@@ -93,11 +93,12 @@ class ActionCommonUpgrade extends SmartAction
                 AFTER `charset`";
                
         $this->model->dba->query($sql);
-        $this->config['smart_version_num'] = '0.4';
+        $this->config['module']['common']['version'] = '0.4';
     }
 
     /**
      * upgrade from module version 0.4 to 0.5
+     * Open Publisher
      *
      */
     private function upgrade_0_4_to_0_5()
@@ -126,8 +127,20 @@ class ActionCommonUpgrade extends SmartAction
                 AFTER `templates_folder`";
                
         $this->model->dba->query($sql);
+
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+                ADD `op_version` varchar(20) NOT NULL default '1.0' 
+                AFTER `smart_version_num`";
+               
+        $this->model->dba->query($sql);
+        $this->config['op_version'] = '1.0';
         
-        $this->config['smart_version_num'] = '0.5';
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+                DROP `smart_version_num`";
+               
+        $this->model->dba->query($sql);
+        
+        $this->config['module']['common']['version'] = '0.5';
     }
 
     /**

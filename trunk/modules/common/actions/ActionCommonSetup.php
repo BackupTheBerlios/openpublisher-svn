@@ -75,8 +75,8 @@ class ActionCommonSetup extends SmartAction
         }
             
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_config (
+                 `op_version`          varchar(20) NOT NULL default '',
                  `charset`             varchar(50) NOT NULL default '',
-                 `smart_version_num`   varchar(50) NOT NULL default '',
                  `site_url`            varchar(255) NOT NULL default '',
                  `templates_folder`    varchar(255) NOT NULL default '',
                  `css_folder`          varchar(255) NOT NULL default '',
@@ -92,9 +92,11 @@ class ActionCommonSetup extends SmartAction
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
-                 (`charset`, `templates_folder`, `css_folder`, `views_folder`,`rejected_files`)
+                 (`op_version`,`charset`, `templates_folder`, `css_folder`, 
+                  `views_folder`,`rejected_files`)
                 VALUES
-                 ('{$data['charset']}','templates_home/','css_home/','views_home/','.php,.php3,.php4,.php5,.phps,.pl,.py')";
+                 ('1.0','{$data['charset']}', 'templates_home/', 'css_home/',
+                  'views_home/', '.php,.php3,.php4,.php5,.phps,.pl,.py')";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_module (

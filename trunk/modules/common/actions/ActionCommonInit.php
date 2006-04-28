@@ -34,6 +34,11 @@ ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'modules/common
 class ActionCommonInit extends SmartAction
 {
     /**
+     * Open Publisher Version
+     */
+    const OPEN_PUBLISHER_VERSION = '1.0';   
+    
+    /**
      * Common Module Version
      */
     const MOD_VERSION = '0.5';    
@@ -97,8 +102,8 @@ class ActionCommonInit extends SmartAction
         // init and start session
         $this->startSession();
               
-        // check for smart core framework version upgrade
-        $this->checkSmartVersion();
+        // check for Open Publisher version upgrade
+        $this->checkOpenPublisherVersion();
 
         // set base url and logged user vars, except if the cli controller is used
         if($this->config['controller_type'] != 'cli')
@@ -190,12 +195,12 @@ class ActionCommonInit extends SmartAction
      * Check smart core version and send message to all modules
      *
      */    
-    private function checkSmartVersion()
+    private function checkOpenPublisherVersion()
     {
-        if(0 != version_compare($this->config['smart_version_num'], $this->config['smart_version']))
+        if(0 != version_compare(self::OPEN_PUBLISHER_VERSION, $this->config['op_version']))
         {
             $this->model->broadcast('smartCoreNewVersion',
-                                 array('new_version' => (string)$this->config['smart_version']));           
+                                 array('new_version' => (string)self::OPEN_PUBLISHER_VERSION));           
         }
     } 
     
