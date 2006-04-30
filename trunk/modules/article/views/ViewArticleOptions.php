@@ -134,6 +134,15 @@ class ViewArticleOptions extends SmartView
             $this->tplVar['error'][] = "File size field is empty!";
         }   
 
+        if(isset($_POST['use_diff']))
+        {
+            $this->fields['use_diff'] = 1;
+        }
+        else
+        {
+            $this->fields['use_diff'] = 0;
+        }  
+
         if(isset($_POST['use_comment']))
         {
             $this->fields['use_comment'] = 1;
@@ -352,6 +361,10 @@ class ViewArticleOptions extends SmartView
         if(isset($_POST['use_images']))
         { 
             $this->tplVar['option']['use_images'] = (int)SmartCommonUtil::stripSlashes($_POST['use_images']);   
+        }
+        if(isset($_POST['use_diff']))
+        {
+            $this->tplVar['option']['use_diff'] = (int)SmartCommonUtil::stripSlashes($_POST['use_diff']);   
         }
         $this->tplVar['option']['default_order'] = (string)SmartCommonUtil::stripSlashes($_POST['default_order']);   
         $this->tplVar['option']['default_ordertype'] = (string)SmartCommonUtil::stripSlashes($_POST['default_ordertype']);   

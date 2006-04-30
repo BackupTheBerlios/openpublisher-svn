@@ -6,7 +6,8 @@
     <td colspan="2" align="left" valign="top" class="moduleheader2">Article module options</td>
     </tr>
   <tr>
-    <td width="74%" align="left" valign="top">      <table width="100%" border="0" cellspacing="2" cellpadding="2">
+    <td width="74%" align="left" valign="top">      
+    <table width="100%" border="0" cellspacing="2" cellpadding="2">
       <tr>
         <td align="left" valign="top" class="font10bold">Thumbnail width in pixels</td>
       </tr>
@@ -72,6 +73,13 @@
       <tr>
         <td align="left" valign="top" class="font10">
        <input type="checkbox" name="use_article_view" value="1"<?php if($tpl['option']['use_article_view']==1) echo " checked "; ?>><br>
+    </td>
+      <tr>      
+        <td align="left" valign="top" class="font10bold">Use article Diffs (Register article changes)</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">
+        <input type="checkbox" name="use_diff" value="1"<?php if($tpl['option']['use_diff']==1) echo " checked "; ?>>    
     </td>
       </tr>    
       <tr>
