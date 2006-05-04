@@ -124,6 +124,10 @@ $SmartConfig['admin_view_folder'] = 'views/';
  * admin template folder
  */
 $SmartConfig['admin_template_folder'] = 'templates/';
+/**
+ * admin css folder
+ */
+$SmartConfig['admin_css_folder'] = 'css_home/';
 
 /**
  * Default template and view folders
