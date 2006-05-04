@@ -3,7 +3,10 @@ Smart3 Framework Change.log
 
 0.2.7b
 ------
-- update to TinyMce 2.0.5.1
+- Smart3 is distributed without modules.
+  The modules are distributed under the name OpenPublisher. See:
+  http://www.open-publisher.net
+- update to TinyMce 2.0.6.1
 - update to PEAR XML_RPC 1.4.6
 - update to PEAR HTML_AJAX 0.4
 - added public css folder
