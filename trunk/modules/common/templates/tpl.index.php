@@ -48,7 +48,7 @@ function subok(s){
         <tr>
           <td width="31%" align="left" valign="top"><table width="100%"  border="0" align="left" cellpadding="2" cellspacing="2">
             <tr>
-              <td width="100%" height="50" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" width="129" height="50" align="left">  Ver.: <?php echo $tpl['smartVersionNumber']; ?></td>
+              <td width="100%" height="50" align="left" valign="top" class="style6">Open Publisher  Ver.: 0.9</td>
               </tr>
           </table></td>
           <td width="24%" align="right" valign="top" class="font10"> <br />

@@ -97,6 +97,7 @@ class ViewCommonIndex extends SmartView
         $this->tplVar['requestedModule'] = $module;
         $this->tplVar['moduleList'] = $this->model->getModuleInfo();
         $this->tplVar['charset']    = $this->config['charset'];
+        $this->tplVar['adminCssFolder'] = $this->config['admin_css_folder'];
         $this->tplVar['textarea_rows'] = $this->config['textarea_rows'];
         $this->tplVar['publicWebController'] = $this->config['public_web_controller'];
         $this->tplVar['adminWebController']  = $this->config['admin_web_controller'];
