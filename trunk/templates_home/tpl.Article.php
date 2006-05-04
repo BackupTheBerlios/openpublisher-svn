@@ -62,12 +62,12 @@
    
    <!-- Show Comments -->
    
-   <?php if(isset($tpl['showComments'])): ?>
+   <?php if($tpl['article']['allow_comment'] == 1): ?>
      <a name="comments"></a>
      <h4>Comments: </h4>
      <?php foreach($tpl['articleComments'] as $comment): ?>
        <dl class="comment">
-         <dd class="commentheader">Posted by <?php echo $comment['author']; ?>
+         <dd class="commentheader">Posted by <strong><?php echo $comment['author']; ?></strong>
            at <?php echo $comment['pubdate']; ?>
            <?php if(!empty($comment['url'])): ?>
              / <a href="<?php echo $comment['url']; ?>">url</a>
@@ -102,20 +102,20 @@
            Email: 
          </dd>
          <dd class="commentFormCol2">
-           <input name="cauthor" type="text" value="<?php echo $tpl['cemail']; ?>" size="50" maxlength="255" />
+           <input name="cemail" type="text" value="<?php echo $tpl['cemail']; ?>" size="50" maxlength="255" />
          </dd>
          <dd class="commentFormCol1">
            Url:  
          </dd>
          <dd class="commentFormCol2">
-           <input name="cauthor" type="text" value="<?php echo $tpl['curl']; ?>" size="50" maxlength="255" />
+           <input name="curl" type="text" value="<?php echo $tpl['curl']; ?>" size="50" maxlength="255" />
          </dd>
          <dd class="commentFormCol1">
            Comment:   
          </dd>
          <dd class="commentFormCol2">
            <textarea name="cbody" cols="60" rows="15" id="cbody"><?php echo $tpl['cbody']; ?></textarea>
-           <strong>You can format comment text with phpBB code:</strong><br>&nbsp;&nbsp;[url=http://www.yahoo.com]Yahoo[/url]<br>&nbsp;&nbsp;[email=mailto:test@yahoo.com]Email[/email]<br>
+           <br /><strong>You can format comment text with phpBB code:</strong><br>&nbsp;&nbsp;[url=http://www.yahoo.com]Yahoo[/url]<br>&nbsp;&nbsp;[email=mailto:test@yahoo.com]Email[/email]<br>
            <a href="http://www.phpbb.com/support/guide/#section4_2_5" target="_blank">See full phpBB code doc</a>
          </dd>
          <dd class="commentFormCol1">
@@ -140,10 +140,10 @@
        <a name="preview"></a>
        <h2>Article comment preview: </h2>
        <dl class="comment">
-         <dd class="commentheader">Posted by <?php echo $comment['author']; ?>
-           Posted by <a href="mailto:<?php echo $tpl['commentPreview']['email']; ?>"><?php echo $tpl['commentPreview']['author']; ?></a> / 
+         <dd class="commentheader">
+           Posted by <?php echo $comment['author']; ?> 
            <?php if(!empty($tpl['commentPreview']['url'])): ?>
-             / <a href="<?php echo $tpl['commentPreview']['url']; ?>">url</a>
+             / <a href="<?php echo $tpl['commentPreview']['url']; ?>">site</a>
            <?php  endif; ?>
          </dd>
          <dd class="commentbody">

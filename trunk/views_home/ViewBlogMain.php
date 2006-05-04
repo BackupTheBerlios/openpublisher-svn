@@ -60,7 +60,7 @@ class ViewBlogMain extends SmartView
         // id_node 53 is the top level node "Blog" means sector
         // here we show all articles of this sector and all sub categories
         // 
-        if($this->current_id_node == 53)
+        if($this->current_id_node == 2)
         {
             $id_item = 'id_sector';
         }

@@ -128,8 +128,6 @@ class ViewArticle extends SmartView
             $this->tplVar['curl']    = '';
             $this->tplVar['cbody']   = '';
             
-            $this->tplVar['showComments'] = TRUE;
-            
             // Do we show comments but not the add comment form?
             // Means: Visitors can no more add comments
             //
@@ -157,7 +155,7 @@ class ViewArticle extends SmartView
                                      'fields'     => array('id_comment','pubdate',
                                                            'body','id_user',
                                                            'author','email','url') )); 
-          
+
             // add html code to comments (ex.: nl2br)
             foreach($this->tplVar['articleComments'] as & $comment)
             {

@@ -1,11 +1,9 @@
-#mainleft table {
+#mainleft dl {
 	font-size: 1.2em;
 	width: 300px;
 	border: 2px solid #660000;
 	padding: 20px;
-
-
-
+	margin-left: 200px;
 }
 #login {
 	padding-left: 200px;
@@ -20,7 +18,12 @@
 	padding-bottom: 10px;
 
 }
-#mainleft .logintext {
-	text-align: right;
-	vertical-align: baseline;
+#mainleft .loginbutton {
+	font-size: 1.1em;
+	color: #336699;
+	background-color: #EAEAEA;
+	width: 5em;
+	letter-spacing: 0.1em;
+	padding: 3px;
+
 }

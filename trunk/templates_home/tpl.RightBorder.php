@@ -3,4 +3,4 @@
 
 <style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['cssFolder']; ?>typography_right.css";</style>
 
-<?php echo $tpl['news']['body']; ?>
+<!-- currently display nothing here -->
