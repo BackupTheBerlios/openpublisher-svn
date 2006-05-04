@@ -15,6 +15,7 @@
     theme : "advanced",
     convert_fonts_to_spans : true,
     inline_styles : true,
+    remove_linebreaks : false,
     theme_advanced_resizing : true,
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",   

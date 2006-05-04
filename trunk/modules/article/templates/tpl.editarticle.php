@@ -108,9 +108,16 @@ function cancel_edit(f)
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="35%" align="left" valign="top" class="font12bold">Status </td>
-              <td width="22%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $tpl['id_article']; ?>">Modify article content</a></td>
-              <td width="43%" align="right" valign="top" class="font10bold"><input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
+              <td width="34%" align="left" valign="top" class="font12bold">Status </td>
+              <td width="32%" rowspan="2" align="right" valign="top" class="font12bold">
+                <ul>
+                  <li><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $tpl['id_article']; ?>">Modify article content</a></li>
+                  <?php if($tpl['article']['status'] >= 4): ?>
+                    <li><a href="<?php echo $tpl['publicWebController']; ?>?id_article=<?php echo $tpl['id_article']; ?>" target="_blank">View online</a>              </li>
+                  <?php endif; ?>
+                </ul>
+              </td>
+              <td width="34%" align="right" valign="top" class="font10bold"><input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
                 <input name="refresh" type="submit" value="Refresh" class="button">
                 <input name="finishupdate" type="submit" value="Submit" class="button"></td>
             </tr>
@@ -123,7 +130,6 @@ function cancel_edit(f)
                 <option value="1" <?php if($tpl['article']['status'] == 1) echo 'selected="selected"'; ?>>cancel</option>
                 <option value="0" <?php if($tpl['article']['status'] == 0) echo 'selected="selected"'; ?>>delete</option>
               </select></td>
-              <td align="right" valign="top">&nbsp;</td>
               <td align="right" valign="top">&nbsp;</td>
             </tr>
           </table></td>
