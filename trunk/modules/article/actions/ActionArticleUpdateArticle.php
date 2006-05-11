@@ -80,16 +80,15 @@ class ActionArticleUpdateArticle extends SmartAction
             }
             elseif(($key == 'pubdate') || ($key == 'articledate'))
             {
-                $this->dateToGmt( $val, $this->model->config['loggedUserGmt'] );
+                $this->dateToGmt( $val, $this->config['user_gmt'] );
             }
             
             $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
             $comma = ",";
         }
-        
+
         // create modifydate
-        $modifydate = date("Y-m-d H:i:s", time() - $this->config['server_gmt'] * 3600);
-        $fields .= ",`modifydate`='{$modifydate}'";
+        $fields .= ",`modifydate`='{$this->config['gmtDate']}'";
 
         $sql = "
             UPDATE {$this->config['dbTablePrefix']}article_article
@@ -111,7 +110,7 @@ class ActionArticleUpdateArticle extends SmartAction
             }
             else
             {
-                $this->dateToGmt( $data['fields']['changedate'], $this->model->config['loggedUserGmt'] );
+                $this->dateToGmt( $data['fields']['changedate'], $this->config['user_gmt'] );
                 
                 // update article changed status
                 $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_changedate

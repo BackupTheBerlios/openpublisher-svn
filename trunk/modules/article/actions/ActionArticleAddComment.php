@@ -44,7 +44,7 @@ class ActionArticleAddComment extends SmartAction
      *
      */
     public function perform( $data = FALSE )
-    {
+    {       
         $comma  = "";
         $fields = "";
         $quest  = "";
@@ -57,13 +57,13 @@ class ActionArticleAddComment extends SmartAction
         }        
          
         $fields .= $comma."`pubdate`";
-        $quest  .= $comma."NOW()";    
+        $quest  .= $comma."'{$this->config['gmtDate']}'";    
         
         $fields .= $comma."`ip`";
-        $quest  .= $comma."'{$_SERVER["REMOTE_ADDR"]}'";            
+        $quest  .= $comma."'{$_SERVER['REMOTE_ADDR']}'";            
 
         $fields .= $comma."`agent`";
-        $quest  .= $comma."'{$_SERVER["HTTP_USER_AGENT"]}'";  
+        $quest  .= $comma."'{$_SERVER['HTTP_USER_AGENT']}'";  
 
         $fields .= $comma."`status`";
         $quest  .= $comma."'{$this->model->config['article']['default_comment_status']}'";  

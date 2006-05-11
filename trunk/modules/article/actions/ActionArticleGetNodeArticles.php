@@ -89,7 +89,11 @@ class ActionArticleGetNodeArticles extends SmartAction
         {
             if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_date = date("Y-m-d H:i:s", time() + $this->getTimeZone() * 3600 );
+                $_date = $this->config['gmtDate'];
+            }
+            else
+            {
+                $_date = $data['pubdate'][1];
             }
 
             $sql_pubdate = " AND `pubdate`{$data['pubdate'][0]}'{$_date}'";
@@ -311,35 +315,11 @@ class ActionArticleGetNodeArticles extends SmartAction
     }  
     
     private function gmtToUserGmt( & $_date )
-    {
-        $timezone = $this->getTimeZone();
-        
+    {   
         // convert date from gmt+0 to user timezone 
         $this->model->action('common', 'gmtConverter',
                              array('action'   => 'gmtToDate',
-                                   'timezone' => (int)$timezone,
                                    'date'     => & $_date ));
-    }
-    
-    private function getTimeZone()
-    {
-        if(isset($this->timezone))
-        {
-            $timezone = $this->timezone;
-        }
-        elseif(isset($this->model->config['loggedUserGmt']))
-        {
-            $timezone = $this->model->config['loggedUserGmt'];
-        }
-        elseif($this->model->config['default_gmt'])
-        {
-            $timezone = $this->model->config['default_gmt'];
-        }
-        else
-        {
-            throw new SmartModelException('No timezone defined'); 
-        }
-        return $timezone;
     }
 }
 

@@ -109,8 +109,8 @@ class ViewArticleAddArticle extends SmartView
                                     'id_user' => (int)$this->viewVar['loggedUserId'],
                                     'error'   => & $this->tplVar['error'],
                                     'fields'  => array('title'  => SmartCommonUtil::stripSlashes((string)$_POST['title']),
-                                                      'status'  => 2,
-                                                      'format'  => $this->config['article']['default_format'])));        
+                                                       'status'  => 2,
+                                                       'format'  => $this->config['article']['default_format'])));        
     }
     
     private function validate()

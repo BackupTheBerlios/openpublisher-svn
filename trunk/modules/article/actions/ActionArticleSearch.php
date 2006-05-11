@@ -89,7 +89,15 @@ class ActionArticleSearch extends SmartAction
 
         if(isset($data['pubdate']))
         {
-            $sql_pubdate = " AND a.`pubdate`{$data['pubdate'][0]}{$data['pubdate'][1]}()";
+            if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
+            {
+                $_date = $this->config['gmtDate'];
+            }
+            else
+            {
+                $_date = $data['pubdate'][1];
+            }
+            $sql_pubdate = " AND a.`pubdate`{$data['pubdate'][0]}'{$_date}'";
         }
         else
         {
@@ -147,6 +155,19 @@ class ActionArticleSearch extends SmartAction
         
         while($row = $rs->fetchAssoc())
         {
+            if(isset($row['pubdate']))
+            {
+                $this->gmtToUserGmt( $row['pubdate'] );
+            }
+            if(isset($row['modifydate']))
+            {
+                $this->gmtToUserGmt( $row['modifydate'] );
+            }
+            if(isset($row['articledate']))
+            {
+                $this->gmtToUserGmt( $row['articledate'] );
+            }
+            
             $data['result'][] = $row;
         } 
     } 
@@ -302,6 +323,15 @@ class ActionArticleSearch extends SmartAction
         }
         
         return TRUE;
+    }
+    
+    private function gmtToUserGmt( & $_date )
+    {
+        $_data = array('action'   => 'gmtToDate',
+                       'date'     => & $_date );
+      
+        // convert date from gmt+0 to user timezone 
+        $this->model->action('common', 'gmtConverter', $_data);
     }
 }
 

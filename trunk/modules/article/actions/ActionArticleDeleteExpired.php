@@ -36,7 +36,7 @@ class ActionArticleDeleteExpired extends SmartAction
             WHERE
                 `status`=0
             AND
-                `modifydate`<=NOW()-86400";
+                `modifydate`<={$this->config['gmtTime']}-86400";
         
         $rs = $this->model->dba->query($sql);
         

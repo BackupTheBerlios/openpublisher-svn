@@ -66,10 +66,7 @@ class ActionArticleAddArticle extends SmartAction
      *
      */
     public function perform( $data = FALSE )
-    {
-        $gmtdate = time() - $this->config['server_gmt'] * 3600;
-        $gmtdate = date("Y-m-d H:i:s", $gmtdate);
-            
+    {            
         $comma  = "";
         $fields = "";
         $quest  = "";
@@ -84,17 +81,17 @@ class ActionArticleAddArticle extends SmartAction
         if(!isset($data['fields']['pubdate']))
         {
             $fields .= $comma."`pubdate`";
-            $quest  .= $comma."'".$gmtdate."'";        
+            $quest  .= $comma."'".$this->config['gmtDate']."'";        
         }
         
         if(!isset($data['fields']['articledate']))
         {
             $fields .= $comma."`articledate`";
-            $quest  .= $comma."'".$gmtdate."'";          
+            $quest  .= $comma."'".$this->config['gmtDate']."'";          
         }  
 
         $fields .= $comma."`modifydate`";
-        $quest  .= $comma."'".$gmtdate."'";   
+        $quest  .= $comma."'".$this->config['gmtDate']."'";   
         
         if(!isset($data['fields']['rank']))
         {
