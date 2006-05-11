@@ -56,7 +56,7 @@ class ActionUserCheckLogin extends SmartAction
         {
             $this->model->session->set('loggedUserId',   $row['id_user']);
             $this->model->session->set('loggedUserRole', $row['role']);
-            $this->model->session->set('loggedUserGmt',  $row['user_gmt']);
+            $this->model->session->set('loggedUserGmt',  (int)$row['user_gmt']);
 
             return TRUE;
         }

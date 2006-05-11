@@ -321,6 +321,8 @@ class ViewUserEditUser extends SmartView
             if( ($_POST['user_gmt'] >= -12) &&  ($_POST['user_gmt'] <= 12) )
             {
                 $_data['fields']['user_gmt'] = (int)$_POST['user_gmt'];
+                // update session user gmt
+                $this->model->session->set('loggedUserGmt', (int)$_POST['user_gmt']);
             }        
         }
 
