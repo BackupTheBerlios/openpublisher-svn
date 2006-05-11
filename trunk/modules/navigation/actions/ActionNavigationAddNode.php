@@ -61,6 +61,10 @@ class ActionNavigationAddNode extends ActionNavigation
         // id_parent is required
         $fields .= $comma.'`rank`';
         $quest  .= $comma.$this->getRank( $data['id_parent'] );         
+
+        // id_parent is required
+        $fields .= $comma."`modifydate`";
+        $quest  .= $comma."'{$this->config['gmtDate']}'";     
         
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}navigation_node
                    ($fields)
