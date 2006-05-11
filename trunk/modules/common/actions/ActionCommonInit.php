@@ -104,15 +104,20 @@ class ActionCommonInit extends SmartAction
               
         // check for Open Publisher version upgrade
         $this->checkOpenPublisherVersion();
+        
+        // build gmt time and date
+        $this->config['gmtTime'] = time() - $this->config['server_gmt'] * 3600;
+        $this->config['gmtDate'] = date("Y-m-d H:i:s", $this->config['gmtTime']);
 
         // set base url and logged user vars, except if the cli controller is used
         if($this->config['controller_type'] != 'cli')
         {
             $this->model->baseUrlLocation = $this->base_location();
             
-            $this->config['loggedUserId']     = $this->model->session->get('loggedUserId');
-            $this->config['loggedUserRole']   = $this->model->session->get('loggedUserRole');
-            $this->config['loggedUserGmt']    = $this->model->session->get('loggedUserGmt');
+            $this->config['loggedUserId']   = $this->model->session->get('loggedUserId');
+            $this->config['loggedUserRole'] = $this->model->session->get('loggedUserRole');
+            $this->config['loggedUserGmt']  = $this->model->session->get('loggedUserGmt');
+            $this->config['user_gmt']       = $this->config['loggedUserGmt'];
 
             // if session var for public templates and css folders are defined
             // overwrite default ones

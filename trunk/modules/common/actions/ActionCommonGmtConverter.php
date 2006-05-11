@@ -42,7 +42,22 @@ class ActionCommonGmtConverter extends SmartAction
             return;
         }
         
-        $timezone = 3600 * $data['timezone'];
+        // get timezone
+        if(!isset($data['timezone']))
+        {
+            if(isset($this->config['user_gmt']))
+            {
+                $timezone = 3600 * $this->config['user_gmt'];
+            }
+            elseif(isset($this->config['default_gmt']))
+            {
+                $timezone = 3600 * $this->config['default_gmt'];
+            }
+        }
+        else
+        {
+            $timezone = 3600 * $data['timezone'];
+        }
         
         $timestamp = $this->_Mktime( $data['date']['year'], 
                                      $data['date']['month'], 
@@ -77,17 +92,16 @@ class ActionCommonGmtConverter extends SmartAction
             throw new SmartModelException("var 'action' has wrong value: 'gmtToDate' or 'dateToGmt'. Value: " . $data['action']);
         }  
         
-        if(!isset($data['timezone']))
+        if(isset($data['timezone']))
         {
-            throw new SmartModelException("'timezone' isnt defined");
-        }
-        if(!is_int($data['timezone']))
-        {
-            throw new SmartModelException("'timezone' isnt from type int");
-        }
-        if( ($data['timezone'] < -12) || ($data['timezone'] > 12) )
-        {
-            throw new SmartModelException("'timezone' value must be from -12 to +12. Value: " . $data['timezone']);
+            if(!is_int($data['timezone']))
+            {
+                throw new SmartModelException("'timezone' isnt from type int");
+            }
+            if( ($data['timezone'] < -12) || ($data['timezone'] > 12) )
+            {
+                throw new SmartModelException("'timezone' value must be from -12 to +12. Value: " . $data['timezone']);
+            }
         }
         
         if(!isset($data['date']))
@@ -191,15 +205,20 @@ class ActionCommonGmtConverter extends SmartAction
     {
         if(preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $data['date'], $tmp))
         {
+            $_data = array('action'   => $data['action'],
+                           'date'     => array('year'   => &$tmp[1],
+                                               'month'  => &$tmp[2],
+                                               'day'    => &$tmp[3],
+                                               'hour'   => &$tmp[4],
+                                               'minute' => &$tmp[5]) );
+                                               
+            if(isset($data['timezone']))
+            {
+                $_data['timezone'] = $data['timezone'];
+            }
+                                               
             // convert date from user timezone to gmt+0
-            $this->model->action('common', 'gmtConverter',
-                           array('action'   => $data['action'],
-                                 'timezone' => $data['timezone'],
-                                 'date'     => array('year'   => &$tmp[1],
-                                                     'month'  => &$tmp[2],
-                                                     'day'    => &$tmp[3],
-                                                     'hour'   => &$tmp[4],
-                                                     'minute' => &$tmp[5]) )); 
+            $this->model->action('common', 'gmtConverter', $_data); 
                                                      
             $data['date'] = $tmp[1].'-'.$tmp[2].'-'.$tmp[3].' '.$tmp[4].':'.$tmp[5].':'.$tmp[6];
         }
