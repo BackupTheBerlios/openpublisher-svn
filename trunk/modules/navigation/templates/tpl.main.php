@@ -28,15 +28,15 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
       <tr>
         <td width="21" align="left" valign="top" class="itemnormal">
     <?php if($node['status']==1): ?>
-    <img src="./modules/common/media/pics/inactive.png" width="21" height="21">
+      <img src="./modules/common/media/pics/inactive.png" width="21" height="21" border="0">
     <?php elseif($node['status']==2): ?>
-    <img src="./modules/common/media/pics/active.png" width="21" height="21">
+      <a href="<?php echo $tpl['publicWebController']; ?>?id_node=<?php echo $node['id_node']; ?>" target="_blank" title="Visite this node on the public site"><img src="./modules/common/media/pics/active.png" width="21" height="21" border="0"></a>
     <?php elseif($node['status']==3): ?>
-    <img src="./modules/common/media/pics/restricted.png" width="21" height="21"> 
+      <a href="<?php echo $tpl['publicWebController']; ?>?id_node=<?php echo $node['id_node']; ?>" target="_blank" title="Visite this node on the public site"><img src="./modules/common/media/pics/restricted.png" width="21" height="21" border="0"></a> 
     <?php endif; ?>
     </td>
-        <td width="21" align="left" valign="top" class="itemnormal"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node_up=<?php echo $node['id_node']; ?>&id_node=<?php echo $node['id_parent']; ?>"><img src="./modules/common/media/pics/up.png" width="21" height="21" border="0"></a></td>
-        <td width="21" align="left" valign="top" class="itemnormal"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node_down=<?php echo $node['id_node']; ?>&id_node=<?php echo $node['id_parent']; ?>"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a></td>
+        <td width="21" align="left" valign="top" class="itemnormal"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node_up=<?php echo $node['id_node']; ?>&id_node=<?php echo $node['id_parent']; ?>" title="Move this node up"><img src="./modules/common/media/pics/up.png" width="21" height="21" border="0"></a></td>
+        <td width="21" align="left" valign="top" class="itemnormal"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node_down=<?php echo $node['id_node']; ?>&id_node=<?php echo $node['id_parent']; ?>" title="Move this node down"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a></td>
         <td width="1%" align="left" valign="top" class="font9"><?php if($node['lock']==FALSE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=editNode&id_node=<?php echo $node['id_node']; ?>&disableMainMenu=1">edit</a><?php endif; ?>&nbsp;</td>
           <td width="99%" align="left" valign="top" class="itemnormal">
           <?php if($node['lock']==FALSE): ?>
