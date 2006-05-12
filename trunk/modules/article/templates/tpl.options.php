@@ -74,14 +74,6 @@
         <td align="left" valign="top" class="font10">
        <input type="checkbox" name="use_article_view" value="1"<?php if($tpl['option']['use_article_view']==1) echo " checked "; ?>><br>
     </td>
-      <tr>      
-        <td align="left" valign="top" class="font10bold">Use article Diffs (Register article changes)</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10">
-        <input type="checkbox" name="use_diff" value="1"<?php if($tpl['option']['use_diff']==1) echo " checked "; ?>>    
-    </td>
-      </tr>    
       <tr>
         <td align="left" valign="top" class="font10bold">Use article related content</td>
       </tr>

@@ -138,18 +138,6 @@ class ActionArticleSetup extends SmartAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}article_diff (
-                   `id_diff`       int(11) unsigned NOT NULL auto_increment,
-                   `id_article`    int(11) unsigned NOT NULL default 0,
-                   `id_user`       int(11) unsigned NOT NULL default 0,
-                   `diffdate`      datetime NOT NULL default '0000-00-00 00:00:00',
-                   `diff`          mediumtext CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',                  
-                   PRIMARY KEY       (`id_diff`),
-                   KEY `id_article`  (`id_article`),
-                   KEY `id_user`     (`id_user`)) 
-                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);
-
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_config (
                  `thumb_width`       smallint(4) NOT NULL default 120,
                  `img_size_max`      int(11) NOT NULL default 500000,
@@ -160,7 +148,6 @@ class ActionArticleSetup extends SmartAction
                  `default_order`     varchar(10) NOT NULL default '',
                  `default_ordertype` varchar(4) NOT NULL default '',
                  `default_comment_status` tinyint(1) NOT NULL default 1,
-                 `use_diff`          tinyint(1) NOT NULL default 0,
                  `use_comment`       tinyint(1) NOT NULL default 0,
                  `use_article_view`  tinyint(1) NOT NULL default 0,
                  `use_users`         tinyint(1) NOT NULL default 0,

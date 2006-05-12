@@ -49,12 +49,6 @@ class ActionArticleUpgrade extends SmartAction
             $this->upgrade_0_3_to_0_4();     
             $this->config['module']['article']['version'] = '0.4';
         }
-        if(1 == version_compare('0.4', $this->config['module']['article']['version'], '=') )
-        {
-            // upgrade from module version 0.3 to 0.4
-            $this->upgrade_0_4_to_0_5();     
-            $this->config['module']['article']['version'] = '0.5';
-        }
         
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
@@ -146,31 +140,6 @@ class ActionArticleUpgrade extends SmartAction
                   AFTER `default_ordertype`";
                
         $this->model->dba->query($sql);      
-    }
-
-    /**
-     * upgrade from module version 0.4 to 0.5
-     *
-     */
-    private function upgrade_0_4_to_0_5()
-    {
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_config
-                ADD `use_diff` tinyint(1) NOT NULL default 0
-                  AFTER `default_comment_status`";
-               
-        $this->model->dba->query($sql);      
-        
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}article_diff (
-                   `id_diff`       int(11) unsigned NOT NULL auto_increment,
-                   `id_article`    int(11) unsigned NOT NULL default 0,
-                   `id_user`       int(11) unsigned NOT NULL default 0,
-                   `diffdate`      datetime NOT NULL default '0000-00-00 00:00:00',
-                   `diff`          mediumtext CHARACTER SET {$this->config['dbcharset']} NOT NULL default '',                  
-                   PRIMARY KEY       (`id_diff`),
-                   KEY `id_article`  (`id_article`),
-                   KEY `id_user`     (`id_user`)) 
-                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);
     }
     
     /**
