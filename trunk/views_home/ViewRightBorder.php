@@ -27,7 +27,13 @@ class ViewRightBorder extends SmartView
      */
     public function perform()
     {                           
-        // currently do nothing here
+        $this->tplVar['borderText']    = array();
+
+        // get text for the front page
+        $this->model->action('misc','getText', 
+                             array('id_text' => 2,
+                                   'result'  => & $this->tplVar['borderText'],
+                                   'fields'  => array('body')));  
     }
 }
 
