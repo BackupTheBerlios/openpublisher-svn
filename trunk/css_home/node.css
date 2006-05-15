@@ -1,58 +1,39 @@
-#mainleft .nodeul {
-        line-height: 1.6em;
+
+#mainleft dl {
 	float: left;
-	list-style-type: circle;
-	width: 200px;
+	width: 350px;
+        margin: 5px;
+        border: 1px solid #D6D6D6;
+}
+#mainleft dt {
+        font-size: 1.4em;
+	color:#0066CC;
+	font-weight: bold;
+	padding-top: 5px;
+        padding-left: 20px;
+}
+#mainleft dl ul {
 	padding-top: 10px;
-	padding-left: 20px;
-	font-size: 1.4em;
+	font-size: 1.2em;
 }
-#mainleft .articleul {
-	float: left;
-	list-style-type: square;
-	width: 300px;
-	padding-top: 10px;
-	padding-left: 40px;
-	font-size: 1.4em;
-        line-height: 1.6em;
-}
-#mainleft .nodeli {
-        line-height: 1.4em;
-}
-#mainleft .articleli {
-        line-height: 1.4em;
+#mainleft dl li {
+	line-height: 1.3em;
+	padding-bottom: 8px;
 }
 
-#mainleft .articleli a:link{
+#mainleft .li a:link{
 	color:#0000FF;
 }
-#mainleft .articleli a:visited{
+#mainleft .li a:visited{
 	color:#0000FF;
 }
-#mainleft .articleli a:active {
+#mainleft .li a:active {
 	color:#FF0000;
 }
-#mainleft .articleli a:hover {
+#mainleft .li a:hover {
 	color:#FF0000;
 }
-#mainleft .articleli a:focus {
-	color:#FF0000;
-}
-
-
-#mainleft .nodeli a:link{
-	color:#0000FF;
-}
-#mainleft .nodeli a:visited{
-	color:#0000FF;
-}
-#mainleft .nodeli a:hover {
-	color:#FF0000;
-}
-#mainleft .nodeli a:active{
-	color:#FF0000;
-}
-#mainleft .nodeli a:focus {
+#mainleft .li a:focus {
 	color:#FF0000;
 }
 
