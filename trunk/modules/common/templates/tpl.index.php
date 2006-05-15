@@ -10,9 +10,15 @@
     color: #CCCCFF;
     font-weight: bold;
 }
+.style7 {
+	font-size: 12px;
+	color: #FFCC00;
+	font-weight: bold;
+}
 .style6 {
-    font-size: 12px;
-    color: #FFCC00;
+	font-size: 16px;
+	color: #FF6633;
+	font-weight: bold;
 }
 .style8 {color: #0033CC}
 -->
@@ -46,9 +52,9 @@ function subok(s){
   <tr>
     <td align="center" valign="top" bgcolor="#EBEBEB">      <table width="100%"  border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td width="31%" align="left" valign="top"><table width="100%"  border="0" align="left" cellpadding="2" cellspacing="2">
+          <td width="26%" align="left" valign="top"><table width="100%"  border="0" align="left" cellpadding="2" cellspacing="2">
             <tr>
-              <td width="100%" height="50" align="left" valign="top" class="style6">Open Publisher  Ver.: 0.9</td>
+              <td width="100%" height="50" align="left" valign="top" class="style6">Open Publisher  <span class="style7">Ver.: 0.9</span></td>
               </tr>
           </table></td>
           <td width="24%" align="right" valign="top" class="font10"> <br />
@@ -56,7 +62,7 @@ function subok(s){
           <a href="<?php echo $tpl['publicWebController']; ?>">Switch to the  public page</a>
       <?php endif; ?>
       </td>
-          <td width="33%" align="right" valign="top" class="font10">
+          <td width="34%" align="right" valign="top" class="font10">
        <br />
             <?php if(!isset($tpl['notLogged'])): ?> 
             <form action="index.php" method="post">
@@ -71,7 +77,7 @@ function subok(s){
             </form>
             <?php endif; ?>
           </td>
-          <td width="12%" align="right" valign="top">
+          <td width="16%" align="right" valign="top">
            <br />
               <a href="<?php echo $tpl['adminWebController']; ?>?mod=user&view=adminLogout" class="font12">Logout</a>
           </td>
@@ -91,7 +97,7 @@ function subok(s){
   <tr>
       <td align="left" valign="top" bgcolor="#EBEBEB"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
           <tr>
-              <td><span class="font9 style8">&copy; 2006 Armand Turpel <a href="mailto:cms@open-publisher.net">cms@open-publisher.net</a>. Project site -&gt; <a href="http://www.open-publisher.net" target="_blank">SMART3</a>.</span></td>
+              <td><span class="font9 style8">&copy; 2006 Armand Turpel <a href="mailto:cms@open-publisher.net">cms@open-publisher.net</a>. Project site -&gt; <a href="http://www.open-publisher.net" target="_blank">Open Publisher</a>. Based on the framework <a href="http://www.smart3.org" target="_blank">Smart3</a></span></td>
           </tr>
     </table></td>
   </tr>
