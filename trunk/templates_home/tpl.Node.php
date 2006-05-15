@@ -1,4 +1,3 @@
-<!-- this line puts IE in quirk mode --> 
 <!-- prevent direct call -->
 <?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 
@@ -6,7 +5,7 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>SMART3 PHP5 Framework</title>
+<title>Open Publisher PHP5 CMS - <?php echo $tpl['node']['title'];  ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>" />
 <meta name="robots" content="index, follow" />
 
@@ -49,19 +48,31 @@
    <h1> <?php echo $tpl['node']['title'];  ?> </h1>
    <?php echo $tpl['node']['body'];  ?>
 
-   <ul class="articleul">
-     <?php foreach($tpl['nodeArticles'] as $article): ?>
-        <li class="articleli"><a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></li>
-     <?php endforeach; ?>
-   </ul>
-   
-   <ul class="nodeul">
-     <?php foreach($tpl['childNodes'] as $cnode): ?>
-       <li class="nodeli">
-         <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a>
-       </li>
-     <?php endforeach; ?>
-   </ul>
+   <?php if(count($tpl['nodeArticles']) > 0): ?>
+   <dl>
+     <dt>Articles:</dt>
+     <dd>
+       <ul>
+         <?php foreach($tpl['nodeArticles'] as $article): ?>
+           <li class="li"><a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></li>
+         <?php endforeach; ?>
+       </ul>
+     </dd>
+   </dl>
+   <?php endif; ?>
+
+   <?php if(count($tpl['childNodes']) > 0): ?>
+   <dl>
+     <dt>Sub-Categories:</dt>
+     <dd>   
+       <ul>
+         <?php foreach($tpl['childNodes'] as $cnode): ?>
+           <li class="li"><a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a></li>
+         <?php endforeach; ?>
+       </ul>
+     </dd>
+   </dl>
+   <?php endif; ?>
         
 </div>
 
@@ -69,10 +80,11 @@
     <!-- --- include right border view --- -->
     <?php $viewLoader->rightBorder();?>
 </div>
+
  <br style="clear:both;" />
 </div>
 
-<!-- --- include header view --- -->
+<!-- --- include footer view --- -->
 <?php $viewLoader->footer();?>
 
 </body>
