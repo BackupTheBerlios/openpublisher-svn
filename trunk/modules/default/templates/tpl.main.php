@@ -1,5 +1,5 @@
 <?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
-<p>Welcome to the Smart admin management interface.</p>
+<p>Welcome to Open Publisher's admin management interface.</p>
   <p>Please use the links to add content or switch directly to a module on the top right page</p>
   <!-- nested includes of whatWouldYouDo views from other modules if provided -->
   <?php $viewLoader->broadcast( 'whatWouldYouDo' ) ?>
