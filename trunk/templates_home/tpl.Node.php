@@ -5,10 +5,11 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+
 <title>Open Publisher PHP5 CMS - <?php echo $tpl['node']['title'];  ?></title>
+
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>" />
 <meta name="robots" content="index, follow" />
-
 <meta name="author" content="" />
 <meta name="description" content="" />
 <meta name="keywords" content="" />
@@ -17,6 +18,7 @@
 <style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['cssFolder']; ?>typography.css";</style>
 <style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['cssFolder']; ?>node.css";</style>
 
+<!-- open new window with full size image -->
 <script language="JavaScript" type="text/JavaScript">
     function showimage(theURL,widthx,heightx){
         w = widthx+20;
@@ -35,6 +37,7 @@
 <div id="main">
 
 <div id="mainleft"> 
+
    <!-- --- show current navigation node branche --- -->
    <?php if(count($tpl['nodeBranch']) > 0): ?>
    <div id="branch">
@@ -44,10 +47,12 @@
     <hr class="hr" />
    </div>     
    <?php endif; ?>
+   
    <!-- print title and body of a navigation node -->
    <h1> <?php echo $tpl['node']['title'];  ?> </h1>
    <?php echo $tpl['node']['body'];  ?>
 
+   <!-- print article titles of the current navigation node -->
    <?php if(count($tpl['nodeArticles']) > 0): ?>
    <dl>
      <dt>Articles:</dt>
@@ -61,6 +66,7 @@
    </dl>
    <?php endif; ?>
 
+   <!-- print subnodes of the current navigation node -->
    <?php if(count($tpl['childNodes']) > 0): ?>
    <dl>
      <dt>Sub-Categories:</dt>
