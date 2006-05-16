@@ -50,6 +50,13 @@ class ActionArticleUpgrade extends SmartAction
             $this->config['module']['article']['version'] = '0.4';
         }
         
+        if(1 == version_compare('0.4', $this->config['module']['article']['version'], '=') )
+        {
+            // upgrade from module version 04 to 0.5
+            $this->upgrade_0_4_to_0_5();     
+            $this->config['module']['article']['version'] = '0.5';
+        }
+        
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
     }
@@ -140,6 +147,21 @@ class ActionArticleUpgrade extends SmartAction
                   AFTER `default_ordertype`";
                
         $this->model->dba->query($sql);      
+    }
+
+    /**
+     * upgrade from module version 0.4 to 0.5
+     *
+     */
+    private function upgrade_0_4_to_0_5()
+    {
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}article_user (
+                   `id_article`     int(11) unsigned NOT NULL default 0,
+                   `id_user`        int(11) unsigned NOT NULL default 0,
+                   KEY `id_article` (`id_article`),
+                   KEY `id_user`    (`id_user`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);
     }
     
     /**
