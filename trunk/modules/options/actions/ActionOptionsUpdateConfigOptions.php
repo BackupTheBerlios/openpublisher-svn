@@ -22,6 +22,7 @@ class ActionOptionsUpdateConfigOptions extends SmartAction
                             'css_folder'          => 'String',
                             'views_folder'        => 'String',
                             'disable_cache'       => 'Int',
+                            'recycler_time'       => 'Int',
                             'max_lock_time'       => 'Int',
                             'session_maxlifetime' => 'Int',
                             'textarea_rows'       => 'Int',

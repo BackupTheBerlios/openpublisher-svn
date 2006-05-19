@@ -89,6 +89,7 @@ class ViewOptionsMain extends SmartView
         $this->tplVar['allPublicCssFolders']  = $this->getPublicFolders( 'css_' );
         $this->tplVar['rejectedFiles']        = $this->config['rejected_files'];
         $this->tplVar['maxLockTime']          = $this->config['max_lock_time'];
+        $this->tplVar['recyclerTime']         = $this->config['recycler_time'];
         $this->tplVar['sessionMaxlifetime']   = $this->config['session_maxlifetime'];
         $this->tplVar['textareaRows']         = $this->config['textarea_rows'];
         $this->tplVar['serverGMT']            = $this->config['server_gmt'];
@@ -213,8 +214,8 @@ class ViewOptionsMain extends SmartView
        {
             if(preg_match("/[0-9]{1,11}/", $_POST['session_maxlifetime']) )
             {
-                $this->fields['session_maxlifetime'] = (string)$_POST['session_maxlifetime'];
-                $this->config['session_maxlifetime'] = (string)$_POST['session_maxlifetime'];
+                $this->fields['session_maxlifetime'] = (int)$_POST['session_maxlifetime'];
+                $this->config['session_maxlifetime'] = (int)$_POST['session_maxlifetime'];
             }
        } 
 
@@ -222,8 +223,17 @@ class ViewOptionsMain extends SmartView
        {
             if(preg_match("/[0-9]{1,11}/", $_POST['max_lock_time']) )
             {
-                $this->fields['max_lock_time'] = (string)$_POST['max_lock_time'];
-                $this->config['max_lock_time'] = (string)$_POST['max_lock_time'];
+                $this->fields['max_lock_time'] = (int)$_POST['max_lock_time'];
+                $this->config['max_lock_time'] = (int)$_POST['max_lock_time'];
+            }
+       }  
+       
+       if(isset($_POST['recycler_time']) && (strlen($_POST['recycler_time']) <= 11))
+       {
+            if(preg_match("/[0-9]{1,11}/", $_POST['recycler_time']) )
+            {
+                $this->fields['recycler_time'] = (int)$_POST['recycler_time'];
+                $this->config['recycler_time'] = (int)$_POST['recycler_time'];
             }
        }  
 
