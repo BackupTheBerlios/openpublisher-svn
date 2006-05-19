@@ -23,6 +23,7 @@ class ActionUserUpdateOptions extends smartAction
                                'img_size_max'   => 'Int',
                                'force_format'   => 'Int',
                                'default_format' => 'Int',
+                               'use_log'        => 'Int',
                                'thumb_width'    => 'Int');
                                
     /**

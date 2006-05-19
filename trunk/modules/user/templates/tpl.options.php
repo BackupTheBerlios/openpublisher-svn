@@ -85,6 +85,17 @@ Text Wikki &nbsp;&nbsp;</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">&nbsp;Admin user logging</td>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;
+            disabled: <input name="use_log" type="radio" value="0"<?php if($tpl['option']['use_log']=='0') echo ' checked="checked"'; ?> /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            enabled: <input name="use_log" type="radio" value="1"<?php if($tpl['option']['use_log']=='1') echo ' checked="checked"'; ?> /> 
+        </td>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+      </tr>
+      <tr>
         <td align="left" valign="top" class="font10">&nbsp;&nbsp;&nbsp;&nbsp;
           <input type="submit" name="updateoptions" value="update"></td>
         <td align="left" valign="top" class="font10">&nbsp;</td>

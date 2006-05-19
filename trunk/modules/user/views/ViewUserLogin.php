@@ -27,6 +27,12 @@ class ViewUserLogin extends SmartView
      * @var string $template_folder
      */    
     public $templateFolder = 'modules/user/templates/';
+
+   /**
+     * user log message for this view
+     * @var string $logMessage
+     */    
+    private $logMessage = '';
     
     /**
      * Execute the view of the template "index.tpl.php"
@@ -59,7 +65,7 @@ class ViewUserLogin extends SmartView
                                                array('turing_key'  => (string)$this->strip($_POST['captcha_turing_key']),
                                                      'public_key'  => (string)$this->strip($_POST['captcha_public_key']),
                                                      'configPath'  => (string)$this->config['config_path'])))
-            {
+            { 
                 $this->_reset_form_data();
                 return TRUE;
             }
@@ -73,6 +79,9 @@ class ViewUserLogin extends SmartView
             // If login was successfull reload the admin section
             if($login == TRUE)
             {
+                $this->addLogMessage( "Login: ".(string)$this->strip($_POST['login_name']) );
+                $this->addLogEvent( 1 );
+                
                 ob_clean();
                 @header('Location: ' . $this->config['admin_web_controller']);
                 exit;            
@@ -94,6 +103,45 @@ class ViewUserLogin extends SmartView
     private function strip( $str )
     {
         return $this->model->action( 'common', 'safeHtml', strip_tags( $str ) );   
+    }
+    
+    /**
+     * log events of this view
+     *
+     * for $type values see: /modules/user/actions/ActionUserLogAddEvent.php
+     *
+     * @param int $type 
+     */     
+    private function addLogEvent( $type )
+    {
+        // dont log
+        if($this->config['user']['use_log'] == 0)
+        {
+            return;
+        }
+        
+        $this->model->action('user','logAddEvent',
+                             array('type'    => $type,
+                                   'id_item' => 0,
+                                   'module'  => 'user',
+                                   'view'    => 'login',
+                                   'message' => $this->logMessage ));
+    }
+    
+    /**
+     * add log message string
+     *
+     *
+     * @param string $message 
+     */  
+    private function addLogMessage( $message = '' )
+    {
+        // dont log
+        if($this->config['user']['use_log'] == 0)
+        {
+            return;
+        }
+        $this->logMessage .= $message."\n";
     }
 }
 

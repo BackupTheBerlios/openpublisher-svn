@@ -42,7 +42,8 @@ class ViewUserOptions extends SmartView
             $this->model->action('user','updateOptions',
                                  array('file_size_max'  => (int)$_POST['file_size_max'],
                                        'img_size_max'   => (int)$_POST['img_size_max'],
-                                       'thumb_width'    => (int)$_POST['thumb_width']));  
+                                       'thumb_width'    => (int)$_POST['thumb_width'],
+                                       'use_log'        => (int)$_POST['use_log']));  
 
             $this->tplVar['uptodate'] = TRUE;                           
         }

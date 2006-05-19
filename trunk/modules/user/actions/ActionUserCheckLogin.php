@@ -57,6 +57,13 @@ class ActionUserCheckLogin extends SmartAction
             $this->model->session->set('loggedUserId',   $row['id_user']);
             $this->model->session->set('loggedUserRole', $row['role']);
             $this->model->session->set('loggedUserGmt',  (int)$row['user_gmt']);
+            
+            // create log session
+            if($this->config['user']['use_log'] == 1)
+            {
+                $this->config['user']['log_id_session'] = $this->createUserLogSession( $row['id_user'] );
+                $this->model->session->set('logIdSession', $this->config['user']['log_id_session']);
+            }
 
             return TRUE;
         }
@@ -98,6 +105,50 @@ class ActionUserCheckLogin extends SmartAction
         }
         
         return TRUE;
+    }
+
+    /**
+     * create  user log session
+     *
+     * @param  int $id_user
+     * @return int id_session
+     */   
+    private function createUserLogSession( $id_user )
+    {
+        $id_session = 0;
+        
+        if(isset($_SERVER['REMOTE_ADDR']))
+        {
+            $remoteIP = $_SERVER['REMOTE_ADDR'];
+            
+            if (strstr($remoteIP, ','))
+            {
+                $ips = explode(',', $remoteIP);
+                $remoteIP = trim($ips[0]);
+            }
+        }
+        else
+        {
+            $remoteIP = '0.0.0.0';
+        }
+        
+        if(isset($_SERVER['HTTP_USER_AGENT']))
+        {
+            $remoteAgent = $_SERVER['HTTP_USER_AGENT'];
+        }
+        else
+        {
+            $remoteAgent = '';
+        }
+
+        $this->model->action('user','logAddSession',
+                             array('id_session' => & $id_session,
+                                   'user'       => array('id_user' => (int)$id_user,
+                                                         'host'    => (string)gethostbyaddr($remoteIP),
+                                                         'ip'      => (string)$remoteIP,
+                                                         'agent'   => (string)$remoteAgent)));    
+
+        return $id_session;
     }
 }
 

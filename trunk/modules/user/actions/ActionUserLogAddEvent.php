@@ -1,0 +1,141 @@
+<?php
+// ---------------------------------------------
+// Open Publisher CMS
+// Copyright (c) 2006
+// by Armand Turpel < cms@open-publisher.net >
+// http://www.open-publisher.net/
+// ---------------------------------------------
+// LICENSE LGPL
+// http://www.gnu.org/licenses/lgpl.html
+// ---------------------------------------------
+
+/**
+ * ActionUserLogAddEvent class 
+ * 
+ * USAGE:
+ * 
+ * $model->action('user','logAddEvent',
+ *                array('type'    => int,
+ *                      'id_item' => int,
+ *                      'module'  => string,
+ *                      'view'    => string,
+ *                      'message' => string))
+ *
+ *
+ * type values:
+ * ------------
+ * 0 = error
+ * 1 = login
+ * 2 = logout
+ * 3 = modify
+ * 4 = access
+ *
+ */
+
+ 
+class ActionUserLogAddEvent extends SmartAction
+{
+    private $tblFields = array('module'  => 'String',
+                               'type'    => 'Int',
+                               'view'    => 'String',
+                               'id_item' => 'Int',
+                               'message' => 'String');
+    /**
+     * add user
+     *
+     * @param array $data
+     * @return int user id or false on error
+     */
+    function perform( $data = FALSE )
+    {       
+        $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_log
+                   (`id_session`,`logdate`)
+                  VALUES
+                   ({$this->config['user']['log_id_session']},'{$this->config['gmtDate']}')";
+
+        $this->model->dba->query($sql);
+        
+        $data['id_log'] = $this->model->dba->lastInsertID();
+        
+        $comma  = "";
+        $fields = "";
+        $quest  = "";
+        
+        foreach($data as $key => $val)
+        {
+            $fields .= $comma."`".$key."`";
+            $quest  .= $comma."'".$this->model->dba->escape($val)."'";
+            $comma   = ",";
+        }  
+        
+        $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_log_info
+                   ($fields)
+                  VALUES
+                   ($quest)";
+
+        $this->model->dba->query($sql);
+    }
+    
+    /**
+     * validate user data
+     *
+     * @param array $data User data
+     * @return bool 
+     */    
+    function validate( $data = FALSE )
+    {
+        // check if database fields exists
+        foreach($data as $key => $val)
+        {
+            if(!isset($this->tblFields[$key]))
+            {
+                throw new SmartModelException("Field '".$key."' dosent exists!");
+            }
+        }
+        
+        if(isset($data['module']))
+        {
+            if(!is_string($data['module']))
+            {
+                throw new SmartModelException("'module' isnt from type string!");
+            }
+        }        
+        if(isset($data['view']))
+        {
+            if(!is_string($data['view']))
+            {
+                throw new SmartModelException("'view' isnt from type string!");
+            }
+        }   
+        if(isset($data['message']))
+        {
+            if(!is_string($data['message']))
+            {
+                throw new SmartModelException("'message' isnt from type string!");
+            }
+        }  
+        
+        if(isset($data['id_item']))
+        {
+            if(!is_int($data['id_item']))
+            {
+                throw new SmartModelException("'id_item' isnt from type int!");
+            }
+        }   
+        if(isset($data['type']))
+        {
+            if(!is_int($data['type']))
+            {
+                throw new SmartModelException("'type' isnt from type int!");
+            }
+        } 
+        else
+        {
+            throw new SmartModelException("'type' isnt defined");
+        }
+        
+        return true;
+    }
+}
+
+?>
