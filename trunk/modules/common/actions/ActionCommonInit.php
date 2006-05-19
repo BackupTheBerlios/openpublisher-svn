@@ -117,6 +117,7 @@ class ActionCommonInit extends SmartAction
             $this->config['loggedUserId']   = $this->model->session->get('loggedUserId');
             $this->config['loggedUserRole'] = $this->model->session->get('loggedUserRole');
             $this->config['loggedUserGmt']  = $this->model->session->get('loggedUserGmt');
+            
             $this->config['user_gmt']       = $this->config['loggedUserGmt'];
 
             // if session var for public templates and css folders are defined
