@@ -27,6 +27,8 @@ class ActionArticleDeleteExpired extends SmartAction
      */
     function perform( $data = FALSE )
     {        
+        $expireTime = date("Y-m-d H:i:s", $this->config['gmtTime'] - 86400);
+    
         // get articles with status 'delete=0' and older than 1 day
         $sql = "
             SELECT
@@ -36,7 +38,7 @@ class ActionArticleDeleteExpired extends SmartAction
             WHERE
                 `status`=0
             AND
-                `modifydate`<={$this->config['gmtTime']}-86400";
+                `modifydate`<='{$expireTime}'";
         
         $rs = $this->model->dba->query($sql);
         

@@ -53,6 +53,12 @@ class ViewArticleEditArticle extends SmartView
      * @var bool $dontPerform
      */
     private $dontPerform = FALSE;  
+
+   /**
+     * user log message for this view
+     * @var string $logMessage
+     */    
+    private $logMessage = '';
     
     /**
      * prepend filter chain
@@ -189,7 +195,12 @@ class ViewArticleEditArticle extends SmartView
                                                        'pubdate','body','id_user',
                                                        'author','email','url',
                                                        'ip','agent') ));   
-       }       
+       }  
+       
+       if($this->config['user']['use_log'] == 1)
+       {
+           $this->tplVar['showLogLink'] = 1;
+       }
     }  
 
    /**
@@ -210,6 +221,8 @@ class ViewArticleEditArticle extends SmartView
 
             $this->deleteArticleKeywords();
             $this->updateArticle();
+            $this->addLogEvent( 3 );
+            
             if(!isset($_POST['refresh']))
             {
                 $this->unlockArticle();           
@@ -350,6 +363,8 @@ class ViewArticleEditArticle extends SmartView
                              array('id_article' => (int)$this->current_id_article,
                                    'error'      => &$this->tplVar['error'],
                                    'fields'     => $articleFields));    
+
+        $this->addLogMessage( "Updated fields: \n". var_export( $articleFields, true ) );
 
         if(isset($this->node_has_changed))
         {
@@ -499,6 +514,7 @@ class ViewArticleEditArticle extends SmartView
                 $this->current_id_node   = (int)$_POST['article_id_node'];
                 $this->tplVar['id_node'] = $this->current_id_node;
                 $this->node_has_changed = TRUE;
+                $this->addLogMessage( "Change article node: {$this->current_id_node}" );
             }
         }
     } 
@@ -542,6 +558,7 @@ class ViewArticleEditArticle extends SmartView
         $this->model->action('article','addKeyword', 
                              array('id_key'     => (int)$_REQUEST['id_key'],
                                    'id_article' => (int)$this->current_id_article));
+        $this->addLogMessage( "Add article keyword: {$_REQUEST['id_key']}" );
     }  
     
     /**
@@ -603,8 +620,9 @@ class ViewArticleEditArticle extends SmartView
                 // get navigation node branch of the current node
                 $this->model->action('article','removeKeyword', 
                                  array('id_key'     => (int)$id_key,
-                                       'id_article' => (int)$this->current_id_article));                 
-            
+                                       'id_article' => (int)$this->current_id_article)); 
+                                       
+                $this->addLogMessage( "Remove article keyword: {$id_key}" );
             }
         }
     }
@@ -639,7 +657,9 @@ class ViewArticleEditArticle extends SmartView
             {
                 $this->model->action( 'article','updateComment',
                                       array('id_comment' => (int)$id_comment,
-                                            'fields'     => array('status' => 2) ) );    
+                                            'fields'     => array('status' => 2) ) ); 
+                                            
+                $this->addLogMessage( "Validate article comment: {$id_comment}" );
             }
         }
         
@@ -648,10 +668,50 @@ class ViewArticleEditArticle extends SmartView
             foreach($_POST['id_comment_del'] as $id_comment)
             {
                 $this->model->action( 'article','deleteComment',
-                                      array('id_comment' => (int)$id_comment ));    
+                                      array('id_comment' => (int)$id_comment ));
+                                      
+                $this->addLogMessage( "Delete article comment: {$id_comment}" );
             }
         }
     } 
+
+    /**
+     * log events of this view
+     *
+     * for $type values see: /modules/user/actions/ActionUserLogAddEvent.php
+     *
+     * @param int $type 
+     */     
+    private function addLogEvent( $type )
+    {
+        // dont log
+        if($this->config['user']['use_log'] == 0)
+        {
+            return;
+        }
+        
+        $this->model->action('user','logAddEvent',
+                             array('type'    => $type,
+                                   'id_item' => (int)$this->current_id_article,
+                                   'module'  => 'article',
+                                   'view'    => 'editArticle',
+                                   'message' => $this->logMessage ));
+    }
+    /**
+     * add log message string
+     *
+     *
+     * @param string $message 
+     */  
+    private function addLogMessage( $message = '' )
+    {
+        // dont log
+        if($this->config['user']['use_log'] == 0)
+        {
+            return;
+        }
+        $this->logMessage .= $message."\n";
+    }
 }
 
 ?>

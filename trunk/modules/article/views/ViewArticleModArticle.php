@@ -45,6 +45,13 @@ class ViewArticleModArticle extends SmartView
      * @var bool $dontPerform
      */
     private $dontPerform = FALSE;       
+    
+   /**
+     * user log message for this view
+     * @var string $logMessage
+     */    
+    private $logMessage = '';
+    
     /**
      * prepend filter chain
      *
@@ -180,6 +187,8 @@ class ViewArticleModArticle extends SmartView
                                        'id_article'  => (int)$this->current_id_article,
                                        'postName'    => 'picture',
                                        'error'       => & $this->tplVar['error']) ); 
+                                       
+            $this->addLogMessage( "Upload picture" );
             $noRedirect = TRUE;
         }
         // upload logo
@@ -189,6 +198,8 @@ class ViewArticleModArticle extends SmartView
                                  array('id_article' => (int)$this->current_id_article,
                                        'error'      => & $this->tplVar['error'],
                                        'postName'   => 'logo') );  
+                                       
+            $this->addLogMessage( "Upload logo" );
             $noRedirect = TRUE;
         }
         // delete logo
@@ -197,6 +208,8 @@ class ViewArticleModArticle extends SmartView
             $this->model->action('article','deleteLogo',
                                  array('id_article' => (int)$this->current_id_article,
                                        'error'      => & $this->tplVar['error']) ); 
+                                       
+            $this->addLogMessage( "Delete logo" );
             $noRedirect = TRUE;
         }           
         // delete picture
@@ -206,6 +219,8 @@ class ViewArticleModArticle extends SmartView
                                  array('id_article' => (int)$this->current_id_article,
                                        'error'      => & $this->tplVar['error'],
                                        'id_pic'     => (int)$_POST['imageID2del']) ); 
+                                       
+            $this->addLogMessage( "Delete images" );
             $noRedirect = TRUE;
         }
         // move image rank up
@@ -216,6 +231,8 @@ class ViewArticleModArticle extends SmartView
                                        'error'      => & $this->tplVar['error'],
                                        'id_pic'     => (int)$_POST['imageIDmoveUp'],
                                        'dir'        => 'up') ); 
+                                       
+            $this->addLogMessage( "Move image rank up" );
             $noRedirect = TRUE;
         }  
         // move image rank down
@@ -226,6 +243,8 @@ class ViewArticleModArticle extends SmartView
                                        'id_pic'     => (int)$_POST['imageIDmoveDown'],
                                        'error'      => & $this->tplVar['error'],
                                        'dir'        => 'down') ); 
+                                       
+            $this->addLogMessage( "Move image rank down" );
             $noRedirect = TRUE;
         } 
         // move file rank up
@@ -235,7 +254,9 @@ class ViewArticleModArticle extends SmartView
                                  array('id_article' => (int)$this->current_id_article,
                                        'id_file'    => (int)$_POST['fileIDmoveUp'],
                                        'error'      => & $this->tplVar['error'],
-                                       'dir'        => 'up') );     
+                                       'dir'        => 'up') );  
+                                       
+            $this->addLogMessage( "Move file rank up" );
             $noRedirect = TRUE;
         }
         // move file rank down
@@ -246,6 +267,8 @@ class ViewArticleModArticle extends SmartView
                                        'id_file'    => (int)$_POST['fileIDmoveDown'],
                                        'error'      => & $this->tplVar['error'],
                                        'dir'        => 'down') );  
+                                       
+            $this->addLogMessage( "Move file rank down" );
             $noRedirect = TRUE;
         } 
         // add file
@@ -256,6 +279,8 @@ class ViewArticleModArticle extends SmartView
                                        'id_article'  => (int)$this->current_id_article,
                                        'postName'    => 'ufile',
                                        'error'       => & $this->tplVar['error']) );
+                                       
+            $this->addLogMessage( "Upload file" );
             $noRedirect = TRUE;
         }
         // delete file
@@ -265,6 +290,8 @@ class ViewArticleModArticle extends SmartView
                                  array('id_article' => (int)$this->current_id_article,
                                        'error'      => & $this->tplVar['error'],
                                        'id_file'    => (int)$_POST['fileID2del']) );
+                                       
+            $this->addLogMessage( "Delete files" );
             $noRedirect = TRUE;
         }  
         
@@ -277,6 +304,8 @@ class ViewArticleModArticle extends SmartView
                                         'ids'     => &$_POST['picid'],
                                         'fields'  => array('description' => $this->stripSlashesArray($_POST['picdesc']),
                                                            'title'       => $this->stripSlashesArray($_POST['pictitle']))));
+
+            $this->addLogMessage( "Update pictures data" );
             $noRedirect = TRUE;
         }        
 
@@ -289,6 +318,8 @@ class ViewArticleModArticle extends SmartView
                                         'ids'     => &$_POST['fileid'],
                                         'fields'  => array('description' => $this->stripSlashesArray($_POST['filedesc']),
                                                            'title'       => $this->stripSlashesArray($_POST['filetitle']))));
+            
+            $this->addLogMessage( "Update files data" );
             $noRedirect = TRUE;
         }  
 
@@ -304,7 +335,10 @@ class ViewArticleModArticle extends SmartView
             $this->model->action('article','updateArticle',
                                  array('id_article' => (int)$this->current_id_article,
                                        'error'      => & $this->tplVar['error'],
-                                       'fields'     => $articleFields));                          
+                                       'fields'     => $articleFields));   
+                                       
+            $this->addLogMessage( "Update article data fields" );
+            $this->addLogEvent( 3 );
 
             if(isset($_POST['finishupdate']) && ($_POST['finishupdate']=='Submit'))
             {
@@ -492,7 +526,45 @@ class ViewArticleModArticle extends SmartView
         {
             $articleFields['ps'] = SmartCommonUtil::stripSlashes((string)$_POST['ps']);
         }               
-    }     
+    }  
+    
+    /**
+     * log events of this view
+     *
+     * for $type values see: /modules/user/actions/ActionUserLogAddEvent.php
+     *
+     * @param int $type 
+     */     
+    private function addLogEvent( $type )
+    {
+        // dont log
+        if($this->config['user']['use_log'] == 0)
+        {
+            return;
+        }
+        
+        $this->model->action('user','logAddEvent',
+                             array('type'    => $type,
+                                   'id_item' => (int)$this->current_id_article,
+                                   'module'  => 'article',
+                                   'view'    => 'modArticle',
+                                   'message' => $this->logMessage ));
+    }
+    /**
+     * add log message string
+     *
+     *
+     * @param string $message 
+     */  
+    private function addLogMessage( $message = '' )
+    {
+        // dont log
+        if($this->config['user']['use_log'] == 0)
+        {
+            return;
+        }
+        $this->logMessage .= $message."\n";
+    }
 }
 
 ?>

@@ -1,9 +1,16 @@
 <script language="JavaScript" type="text/JavaScript">
 <?php if($tpl['use_keywords']==1): ?>
-function keywordmap(){
-mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
-newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+  function keywordmap(){
+    mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+    newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
 <?php endif; ?>
+
+<?php if(isset($tpl['showLogLink'])): ?>
+  function showLogs(){
+    mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+    newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=user&view=showLogs&openerView=editArticle&openerModule=article&id_item=<?php echo $tpl['id_article']; ?>','',mm); }
+<?php endif; ?>
+
 // unlock a node and forward to the node with id x. use this for links
 function gotonode(f,x){
         f.gotonode.value=x;
@@ -111,9 +118,12 @@ function cancel_edit(f)
               <td width="34%" align="left" valign="top" class="font12bold">Status </td>
               <td width="32%" rowspan="2" align="right" valign="top" class="font12bold">
                 <ul>
+                  <?php if(isset($tpl['showLogLink'])): ?>
+                    <li><a href="javascript:showLogs();">Who modified this article?</a></li>
+                  <?php endif; ?>
                   <li><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $tpl['id_article']; ?>">Modify article content</a></li>
                   <?php if($tpl['article']['status'] >= 4): ?>
-                    <li><a href="<?php echo $tpl['publicWebController']; ?>?id_article=<?php echo $tpl['id_article']; ?>" target="_blank">View online</a>              </li>
+                    <li><a href="<?php echo $tpl['publicWebController']; ?>?id_article=<?php echo $tpl['id_article']; ?>" target="_blank">View online</a></li>
                   <?php endif; ?>
                 </ul>
               </td>
