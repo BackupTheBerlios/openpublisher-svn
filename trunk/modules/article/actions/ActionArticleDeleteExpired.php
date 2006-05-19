@@ -27,7 +27,7 @@ class ActionArticleDeleteExpired extends SmartAction
      */
     function perform( $data = FALSE )
     {        
-        $expireTime = date("Y-m-d H:i:s", $this->config['gmtTime'] - 86400);
+        $expireTime = date("Y-m-d H:i:s", $this->config['gmtTime'] - $this->config['recycler_time']);
     
         // get articles with status 'delete=0' and older than 1 day
         $sql = "
