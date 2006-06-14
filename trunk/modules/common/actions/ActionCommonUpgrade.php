@@ -136,6 +136,11 @@ class ActionCommonUpgrade extends SmartAction
         $this->config['op_version'] = '1.0';
         
         $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+                ADD `recycler_time` int(11) NOT NULL default 7200";
+               
+        $this->model->dba->query($sql);
+        
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
                 DROP `smart_version_num`";
                
         $this->model->dba->query($sql);
