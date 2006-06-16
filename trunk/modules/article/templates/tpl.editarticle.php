@@ -123,7 +123,7 @@ function cancel_edit(f)
                   <?php endif; ?>
                   <li><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $tpl['id_article']; ?>">Modify article content</a></li>
                   <?php if($tpl['article']['status'] >= 4): ?>
-                    <li><a href="<?php echo $tpl['publicWebController']; ?>?id_article=<?php echo $tpl['id_article']; ?>" target="_blank">View online</a></li>
+                    <li><a href="<?php echo $tpl['publicWebController']; ?>?id_article=<?php echo $tpl['id_article']; ?>">View online</a></li>
                   <?php endif; ?>
                 </ul>
               </td>
