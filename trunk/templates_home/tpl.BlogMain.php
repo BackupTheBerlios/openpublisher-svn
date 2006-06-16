@@ -50,7 +50,13 @@
   <div id="blogleft">
   <?php foreach($tpl['allArticles'] as $article): ?>
   <div id="blogmainarticle">
-    <h2 class="blogitemtitle"><a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></h2>  
+    <h2 class="blogitemtitle"><a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></h2>
+    
+    <!-- --- show edit link if user is logged --- -->
+    <?php if(isset($tpl['showEditLink'])): ?>
+      <div style="font-size: 1em;"><a href="admin.php?mod=article&view=editArticle&id_node=<?php echo $article['id_node'];  ?>&id_article=<?php echo $article['id_article'];  ?>&disableMainMenu=1">edit this blog posting</a></div>
+    <?php endif; ?>  
+    
     <?php echo $article['body']; ?>
     <div id="blogmaimarticlefooter">
       Category: <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $article['id_node']; ?>"><?php echo $article['node']['title']; ?></a><br>
