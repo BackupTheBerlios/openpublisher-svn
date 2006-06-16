@@ -140,7 +140,13 @@ class ViewNode extends SmartView
         {
             $this->tplVar['isUserLogged'] = TRUE;
         }
+        
         $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole'); 
+        
+        if( ($this->tplVar['isUserLogged'] == TRUE) && ($this->viewVar['loggedUserRole'] < 100) )
+        {
+            $this->tplVar['showEditLink'] = TRUE; 
+        }
     }
 
     /**

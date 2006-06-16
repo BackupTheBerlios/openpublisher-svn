@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewSimpleNode class
+ * SimpleNodeArticle class
  */
 
 class ViewSimpleNodeArticle extends SmartView
@@ -22,7 +22,7 @@ class ViewSimpleNodeArticle extends SmartView
     public $cacheExpire = 300;
     
     /**
-     * Execute the view of the "node" template
+     * Execute the view of the "simpleNodeArticle" template
      */
     function perform()
     {     
@@ -100,7 +100,12 @@ class ViewSimpleNodeArticle extends SmartView
         {
             $this->tplVar['isUserLogged'] = TRUE;
         }
-        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');     
+        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');   
+        
+        if( ($this->tplVar['isUserLogged'] == TRUE) && ($this->viewVar['loggedUserRole'] < 100) )
+        {
+            $this->tplVar['showEditLink'] = TRUE; 
+        } 
     }
 
     /**
@@ -122,6 +127,11 @@ class ViewSimpleNodeArticle extends SmartView
         {
             $this->current_id_article = (int)$_REQUEST['id_article'];
         }
+        else
+        {
+            $this->noIdArticle();
+            return;
+        }
 
         if(isset($this->current_id_node))
         {
@@ -140,6 +150,7 @@ class ViewSimpleNodeArticle extends SmartView
             if(!isset($node_article[0]['id_article']))
             {
                 $this->noIdArticle();
+                return;
             }
             
             $this->current_id_article = (int)$node_article[0]['id_article'];
@@ -225,7 +236,7 @@ class ViewSimpleNodeArticle extends SmartView
     private function noIdArticle()
     {
             $this->template          = 'error'; 
-            $this->tplVar['message'] = "The requested article isnt accessible";
+            $this->tplVar['message'] = "The requested content isnt accessible";
             // template var with charset used for the html pages
             $this->tplVar['charset'] = & $this->config['charset'];   
             

@@ -29,7 +29,14 @@
 <div id="main">
 
   <div id="mainleft"> 
-    <?php echo $tpl['text']['body']; ?>  
+  
+    <?php echo $tpl['text']['body']; ?>
+    
+    <!-- --- show edit link if user is logged --- -->
+    <?php if(isset($tpl['showEditLink'])): ?>
+        <div style="font-size: 1.2em;"><a href="admin.php?mod=misc&view=editText&id_text=1">edit content</a></div>
+    <?php endif; ?>  
+    
   </div>
 
   <div id="mainright">

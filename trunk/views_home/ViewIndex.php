@@ -75,7 +75,14 @@ class ViewIndex extends SmartView
         {
             $this->tplVar['isUserLogged'] = TRUE;
         }
-        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');     
+        
+        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');
+        
+        // set tpl var to show edit link if user is logged
+        if( ($this->tplVar['isUserLogged'] == TRUE) && ($this->viewVar['loggedUserRole'] < 100) )
+        {
+            $this->tplVar['showEditLink'] = TRUE; 
+        }
     }
 
     /**

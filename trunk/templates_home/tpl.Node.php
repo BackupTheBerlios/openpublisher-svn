@@ -47,6 +47,11 @@
     <hr class="hr" />
    </div>     
    <?php endif; ?>
+
+  <!-- --- show edit link if user is logged --- -->
+  <?php if(isset($tpl['showEditLink'])): ?>
+    <div style="float: right;font-size: 1em;"><a href="admin.php?mod=navigation&view=editNode&id_node=<?php echo $tpl['node']['id_node'];  ?>&disableMainMenu=1">edit this node</a></div>
+  <?php endif; ?>  
    
    <!-- print title and body of a navigation node -->
    <h1> <?php echo $tpl['node']['title'];  ?> </h1>
