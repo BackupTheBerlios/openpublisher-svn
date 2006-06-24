@@ -38,8 +38,7 @@ class ViewUserMain extends SmartView
         $this->tplVar['users'] = array();
         
         // assign template variable with users
-        $this->model->action('user', 
-                             'getUsers',
+        $this->model->action('user', 'getUsers',
                              array('result'         => & $this->tplVar['users'],
                                    'translate_role' => TRUE,
                                    'or_id_user'     => (int)$this->viewVar['loggedUserId'],
