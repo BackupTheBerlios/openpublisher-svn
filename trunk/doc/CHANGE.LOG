@@ -17,6 +17,7 @@ Smart3 Framework Change.log
   - server timezone in option module
   - default timezone in option module
   - user timezone in user module
+- users can be assigner to articles as authors
 
 0.2.6b
 ------
