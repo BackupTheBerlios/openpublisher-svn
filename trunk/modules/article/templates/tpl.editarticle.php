@@ -11,7 +11,7 @@
 
 <?php if(isset($tpl['showLogLink'])): ?>
   function showLogs(){
-    mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+    mm='scrollbars=1,toolbar=0,menubar=0,resizable=yes,width=500,height=450';
     newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=user&view=showLogs&openerView=editArticle&openerModule=article&id_item=<?php echo $tpl['id_article']; ?>','',mm); }
 <?php endif; ?>
 
