@@ -10,12 +10,14 @@
 // ---------------------------------------------
 
 /**
- * ActionArticleDeleteArticle class 
+ * ActionArticleDeleteUser class 
+ *
+ * Delete article user relations when an user or users were deleted
  *
  * USAGE:
  *
- * $model->action('article','deleteArticle',
- *                array('id_article'  => int))
+ * $model->action('article','deleteUser',
+ *                array('id_user'  => int or array))
  *
  */
  
