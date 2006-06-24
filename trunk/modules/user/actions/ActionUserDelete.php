@@ -71,6 +71,9 @@ class ActionUserDelete extends SmartAction
                    `id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);
+
+        // inform other modules that this user (id_user) was deleted 
+        $this->model->broadcast( 'deleteUser', array('id_user' => $data['id_user']) );
        
         return TRUE;
     }
