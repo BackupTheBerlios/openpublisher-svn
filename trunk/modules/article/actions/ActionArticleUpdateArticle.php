@@ -78,12 +78,15 @@ class ActionArticleUpdateArticle extends SmartAction
             {
                 continue;
             }
+            // Modify dates depended on gmt+X settings
             elseif(($key == 'pubdate') || ($key == 'articledate'))
             {
-                $this->dateToGmt( $val, $this->config['user_gmt'] );
+                $fields .= $comma."`".$key."`=DATE_SUB('{$this->model->dba->escape($val)}',INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR)";
             }
-            
-            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            else
+            {
+                $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            }
             $comma = ",";
         }
 
@@ -110,12 +113,10 @@ class ActionArticleUpdateArticle extends SmartAction
             }
             else
             {
-                $this->dateToGmt( $data['fields']['changedate'], $this->config['user_gmt'] );
-                
                 // update article changed status
                 $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_changedate
                            SET `id_article` = {$data['id_article']},
-                               `changedate` = '{$data['fields']['changedate']}',
+                               `changedate` = DATE_SUB('{$this->model->dba->escape($data['fields']['changedate'])}',INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR),
                                `status`     = {$data['fields']['changestatus']}";
 
                 $this->model->dba->query($sql);  
@@ -220,15 +221,6 @@ class ActionArticleUpdateArticle extends SmartAction
             }
         }          
         return TRUE;
-    }
-    
-    private function dateToGmt( & $_date, $timezone )
-    {
-        // convert date from gmt+0 to user timezone 
-        $this->model->action('common', 'gmtConverter',
-                             array('action'   => 'dateToGmt',
-                                   'timezone' => (int)$timezone,
-                                   'date'     => & $_date ));
     }
 }
 

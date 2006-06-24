@@ -75,7 +75,16 @@ class ActionArticleGetArticle extends SmartAction
             {
                 continue;
             }
-            $_fields .= $comma.'`'.$f.'`';
+            // Modify dates depended on gmt+X settings
+            if(($f == 'pubdate') || ($f == 'modifydate') || ($f == 'articledate'))
+            {
+                $_fields .= $comma."DATE_ADD(`{$f}`,INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR) AS `{$f}`";
+            }
+            else
+            {
+                $_fields .= $comma.'`'.$f.'`';
+            }
+
             $comma = ',';
         }
         
@@ -125,20 +134,6 @@ class ActionArticleGetArticle extends SmartAction
         }
         
         $data['result'] = $rs->fetchAssoc();
-
-        // adjust gmt+0 date to user date
-        if(isset($data['result']['pubdate']))
-        {
-            $this->gmtToUserGmt( $data['result']['pubdate'] );
-        }
-        if(isset($data['result']['modifydate']))
-        {
-            $this->gmtToUserGmt( $data['result']['modifydate'] );
-        }
-        if(isset($data['result']['articledate']))
-        {
-            $this->gmtToUserGmt( $data['result']['articledate'] );
-        }
 
         if(in_array('changedate',$data['fields']))
         {

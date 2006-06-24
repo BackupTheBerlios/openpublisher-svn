@@ -90,7 +90,15 @@ class ActionArticleGetArticles extends SmartAction
                 $get_num_comments = TRUE;
                 continue;
             }
-            $_fields .= $comma.'aa.`'.$f.'`';
+            // Modify dates depended on gmt+X settings
+            if(($f == 'pubdate') || ($f == 'modifydate') || ($f == 'articledate'))
+            {
+                $_fields .= $comma."DATE_ADD(aa.`{$f}`,INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR) AS `{$f}`";
+            }
+            else
+            {
+                $_fields .= $comma.'aa.`'.$f.'`';
+            }
             $comma = ',';
         }
         
@@ -244,20 +252,7 @@ class ActionArticleGetArticles extends SmartAction
             {
                 $row['num_comments'] = $this->getNumComments( (int)$row['id_article'] );
             }
-            
-            if(isset($row['pubdate']))
-            {
-                $this->gmtToUserGmt( $row['pubdate'] );
-            }
-            if(isset($row['modifydate']))
-            {
-                $this->gmtToUserGmt( $row['modifydate'] );
-            }
-            if(isset($row['articledate']))
-            {
-                $this->gmtToUserGmt( $row['articledate'] );
-            }
-            
+               
             $data['result'][] = $row;
         } 
     } 
@@ -529,20 +524,6 @@ class ActionArticleGetArticles extends SmartAction
         $row = $rs->fetchAssoc();
         
         return $row['num_rows'];
-    }
-    
-    private function gmtToUserGmt( & $_date )
-    {
-        $_data = array('action'   => 'gmtToDate',
-                       'date'     => & $_date );
-                       
-        if(isset($this->timezone))
-        {
-            $_data['timezone'] = $this->timezone;
-        }
-        
-        // convert date from gmt+0 to user timezone 
-        $this->model->action('common', 'gmtConverter', $_data);
     }
 }
 

@@ -65,7 +65,16 @@ class ActionArticleGetComments extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'ac.`'.$f.'`';
+            // Modify dates depended on gmt+X settings
+            if( $f == 'pubdate' )
+            {
+                $_fields .= $comma."DATE_ADD(ac.`{$f}`,INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR) AS `{$f}`";
+            }
+            else
+            {
+                $_fields .= $comma.'ac.`'.$f.'`';
+            }
+
             $comma = ',';
         }
         
@@ -85,7 +94,15 @@ class ActionArticleGetComments extends SmartAction
         
         if(isset($data['pubdate']))
         {
-            $sql_pubdate = " AND ac.`pubdate`{$data['pubdate'][0]}{$data['pubdate'][1]}";
+            if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
+            {
+                $_date = $this->config['gmtDate'];
+            }
+            else
+            {
+                $_date = $data['pubdate'][1];
+            }
+            $sql_pubdate = " AND ac.`pubdate`{$data['pubdate'][0]}'{$_date}'";
         }
         else
         {
@@ -157,13 +174,7 @@ class ActionArticleGetComments extends SmartAction
         $rs = $this->model->dba->query($sql);
         
         while($row = $rs->fetchAssoc())
-        {
-            // adjust gmt+0 date to user date
-            if(isset($row['pubdate']))
-            {
-                $this->gmtToUserGmt( $row['pubdate'] );
-            }
-            
+        {            
             $data['result'][] = $row;
         } 
     } 
@@ -327,14 +338,6 @@ class ActionArticleGetComments extends SmartAction
         
         return TRUE;
     }  
-    
-    private function gmtToUserGmt( & $_date )
-    {        
-        // convert date from gmt+0 to user timezone 
-        $this->model->action('common', 'gmtConverter',
-                             array('action'   => 'gmtToDate',
-                                   'date'     => & $_date ));
-    }
 }
 
 ?>

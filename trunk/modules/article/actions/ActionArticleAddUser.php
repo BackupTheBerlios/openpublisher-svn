@@ -28,8 +28,8 @@ class ActionArticleAddUser extends SmartAction
      */
     public function perform( $data = FALSE )
     {     
-        // return if id_key is still contected to this id_article 
-        if($this->isKey( $data['id_article'], $data['id_user'] ) == 1)
+        // return if id_user is associated to this id_article 
+        if($this->isUser( $data['id_article'], $data['id_user'] ) == 1)
         {
             return;
         }
@@ -69,7 +69,7 @@ class ActionArticleAddUser extends SmartAction
         return TRUE;
     }  
     /**
-     * check if id_user is contected to id_article
+     * check if id_user is associated to id_article
      *
      * @param int $id_article
      * @param int $id_user
