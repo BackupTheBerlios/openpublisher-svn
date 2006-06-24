@@ -149,7 +149,9 @@ function cancel_edit(f)
           </table></td>
       </tr>   
       <tr>
-        <td align="left" valign="top" class="font12bold">Navigation Node of this Article</td>
+        <td align="left" valign="top" class="font12bold">
+        <hr>
+        Navigation Node of this Article</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">
@@ -161,7 +163,9 @@ function cancel_edit(f)
       </select></td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font12bold">Publish Date</td>
+        <td align="left" valign="top" class="font12bold">
+        <hr>
+        Publish Date</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10"><table width="300" border="0" cellspacing="2" cellpadding="2">
@@ -203,7 +207,9 @@ function cancel_edit(f)
       </tr>
     <?php if($tpl['use_changedate']==1): ?>
       <tr>
-        <td align="left" valign="top" class="font12bold">Change Status Date</td>
+        <td align="left" valign="top" class="font12bold">
+        <hr>
+        Change Status Date</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><table width="372" border="0" cellspacing="2" cellpadding="2">
@@ -270,7 +276,9 @@ function cancel_edit(f)
     <?php endif; ?>
     <?php if($tpl['use_articledate']==1): ?>
       <tr>
-        <td align="left" valign="top" class="font12bold">Original Date</td>
+        <td align="left" valign="top" class="font12bold">
+        <hr>
+        Original Date</td>
       </tr>
       <tr>
         <td align="left" valign="top"><table width="300" border="0" cellspacing="2" cellpadding="2">
@@ -313,24 +321,11 @@ function cancel_edit(f)
           </td>
       </tr>
     <?php endif; ?>
-    <?php if($tpl['use_article_view']==1): ?>
-        <tr>
-        <td align="left" valign="top" class="font12bold"><a name="key"></a>Article related view (optionally)</td>
-      </tr> 
-      <tr>
-        <td align="left" valign="top" class="font12"> 
-          <select name="article_view"> 
-          <option value="0">none</option>          
-          <?php foreach($tpl['articlePublicViews'] as $view): ?>
-              <option value="<?php echo $view['id_view']; ?>" <?php if($tpl['article']['id_view'] == $view['id_view']) echo 'selected="selected"'; ?>><?php echo $view['name']; ?></option>
-          <?php endforeach; ?>
-          </select>
-      </td>
-      </tr>
-  <?php endif; ?> 
 
       <tr>
-        <td align="left" valign="top" class="font12bold"><a name="key"></a>Article Users</td>
+        <td align="left" valign="top" class="font12bold">
+        <hr>
+        <a name="key"></a>Article Users</td>
       </tr>
       <tr>
         <td align="right" valign="top" class="font12bold"><a href="javascript:usermap();">open user map</a></td>
@@ -348,7 +343,9 @@ function cancel_edit(f)
 
   <?php if($tpl['use_keywords']==1): ?>
       <tr>
-        <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
+        <td align="left" valign="top" class="font12bold">
+        <hr>
+        <a name="key"></a>Keywords</td>
       </tr>
       <tr>
         <td align="right" valign="top" class="font12bold"><a href="javascript:keywordmap();">open keyword map</a></td>
@@ -364,6 +361,25 @@ function cancel_edit(f)
       </td>
       </tr>
     <?php endif; ?>
+    
+    <?php if($tpl['use_article_view']==1): ?>
+        <tr>
+        <td align="left" valign="top" class="font12bold">
+        <hr>
+        <a name="key"></a>Article related view (optionally)</td>
+      </tr> 
+      <tr>
+        <td align="left" valign="top" class="font12"> 
+          <select name="article_view"> 
+          <option value="0">none</option>          
+          <?php foreach($tpl['articlePublicViews'] as $view): ?>
+              <option value="<?php echo $view['id_view']; ?>" <?php if($tpl['article']['id_view'] == $view['id_view']) echo 'selected="selected"'; ?>><?php echo $view['name']; ?></option>
+          <?php endforeach; ?>
+          </select>
+      </td>
+      </tr>
+  <?php endif; ?> 
+  
       <tr>
         <td align="left" valign="top">&nbsp;</td>
       </tr>
@@ -389,7 +405,9 @@ function cancel_edit(f)
 
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
       <tr>
-        <td align="left" valign="top" class="font12bold"><a name="key"></a>Article comments</td>
+        <td align="left" valign="top" class="font12bold">
+        <hr>
+        <a name="key"></a>Article comments</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10">
