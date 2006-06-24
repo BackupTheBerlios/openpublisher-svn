@@ -201,6 +201,21 @@ class ViewArticleEditArticle extends SmartView
        {
            $this->tplVar['showLogLink'] = 1;
        }
+
+       if(isset($_REQUEST['adduser']))
+       {
+           $this->addUser();
+       }
+       
+       // get user of this article
+       $this->tplVar['articleUsers'] = array();
+       $this->model->action('article','getArticleUsers', 
+                            array('result'     => & $this->tplVar['articleUsers'],
+                                  'id_article' => (int)$this->current_id_article,
+                                  'order'      => array('lastname','asc'),
+                                  'fields'     => array('id_user','role',
+                                                        'login','lastname',
+                                                        'name','email'))); 
     }  
 
    /**
@@ -220,6 +235,7 @@ class ViewArticleEditArticle extends SmartView
             }
 
             $this->deleteArticleKeywords();
+            $this->deleteArticleUsers();
             $this->updateArticle();
             $this->addLogEvent( 3 );
             
@@ -560,6 +576,20 @@ class ViewArticleEditArticle extends SmartView
                                    'id_article' => (int)$this->current_id_article));
         $this->addLogMessage( "Add article keyword: {$_REQUEST['id_key']}" );
     }  
+
+    /**
+     * reorder rank list when moving a node
+     *
+     * @param int $id_node
+     */      
+    private function addUser()
+    {
+        // get demanded article data
+        $this->model->action('article','addUser', 
+                             array('id_user'     => (int)$_REQUEST['id_user'],
+                                   'id_article'  => (int)$this->current_id_article));
+        $this->addLogMessage( "Add article user: {$_REQUEST['id_user']}" );
+    }  
     
     /**
      * reorder rank list when moving a node
@@ -623,6 +653,26 @@ class ViewArticleEditArticle extends SmartView
                                        'id_article' => (int)$this->current_id_article)); 
                                        
                 $this->addLogMessage( "Remove article keyword: {$id_key}" );
+            }
+        }
+    }
+    
+    /**
+     * remove article keyword relations
+     *
+     */     
+    private function deleteArticleUsers()
+    {
+        if(isset($_POST['id_user']) && is_array($_POST['id_user']))
+        {
+            foreach($_POST['id_user'] as $id_user)
+            {
+                // get navigation node branch of the current node
+                $this->model->action('article','removeUser', 
+                                 array('id_user'     => (int)$id_user,
+                                       'id_article'  => (int)$this->current_id_article)); 
+                                       
+                $this->addLogMessage( "Remove article user: {$id_user}" );
             }
         }
     }

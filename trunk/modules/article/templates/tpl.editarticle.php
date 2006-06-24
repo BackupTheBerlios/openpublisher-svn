@@ -1,9 +1,13 @@
 <script language="JavaScript" type="text/JavaScript">
 <?php if($tpl['use_keywords']==1): ?>
   function keywordmap(){
-    mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+    mm='scrollbars=1,toolbar=0,menubar=0,resizable=yes,width=500,height=450';
     newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
 <?php endif; ?>
+
+  function usermap(){
+    mm='scrollbars=1,toolbar=0,menubar=0,resizable=yes,width=500,height=450';
+    newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=user&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
 
 <?php if(isset($tpl['showLogLink'])): ?>
   function showLogs(){
@@ -323,7 +327,25 @@ function cancel_edit(f)
           </select>
       </td>
       </tr>
-  <?php endif; ?>  
+  <?php endif; ?> 
+
+      <tr>
+        <td align="left" valign="top" class="font12bold"><a name="key"></a>Article Users</td>
+      </tr>
+      <tr>
+        <td align="right" valign="top" class="font12bold"><a href="javascript:usermap();">open user map</a></td>
+      </tr>   
+      <tr>
+        <td align="left" valign="top" class="font12"> 
+          <?php foreach($tpl['articleUsers'] as $user): ?>
+            <input name="id_user[]" type="checkbox" value="<?php echo $user['id_user']; ?>"> <?php echo $user['lastname']; ?> <?php echo $user['name']; ?> (<a href="mailto:<?php echo $user['email']; ?>"><?php echo $user['login']; ?></a>)<br />
+      <?php endforeach; ?>
+      <?php if(is_array($tpl['articleUsers']) && (count($tpl['articleUsers'])>0)): ?>
+      <div><br />To remove users check the users and hit refresh or submit</div>
+      <?php endif; ?>
+      </td>
+      </tr>
+
   <?php if($tpl['use_keywords']==1): ?>
       <tr>
         <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
