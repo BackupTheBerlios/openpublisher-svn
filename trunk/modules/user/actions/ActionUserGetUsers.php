@@ -64,6 +64,16 @@ class ActionUserGetUsers extends ActionUser
             $role = "1=1";
         }
 
+        if(isset($data['id_user']))
+        {
+            $_id_user = implode(",", $data['id_user']);
+            $id_user  = " AND `id_user` IN({$_id_user})";
+        }
+        else
+        {
+            $id_user = "";
+        }
+
         if(isset($data['or_id_user']))
         {
             $or_id_user = " OR `id_user`={$data['or_id_user']}";
@@ -80,6 +90,7 @@ class ActionUserGetUsers extends ActionUser
                 {$this->config['dbTablePrefix']}user_user
             WHERE
                 {$role}
+                {$id_user}
                 {$or_id_user}
                 {$sql_order}";
 
