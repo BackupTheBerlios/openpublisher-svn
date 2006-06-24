@@ -34,7 +34,7 @@ class ActionArticleRemoveUser extends SmartAction
      */
     public function perform( $data = FALSE )
     {         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_keyword
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_user
                   WHERE
                    {$this->sqlArticle}
                    {$this->sqlUser}";
