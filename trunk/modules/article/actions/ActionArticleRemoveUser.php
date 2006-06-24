@@ -61,15 +61,32 @@ class ActionArticleRemoveUser extends SmartAction
         
         if(isset($data['id_user'])) 
         {
-            if(!is_int($data['id_user']))
+            if(!is_int($data['id_user']) && !is_array($data['id_user']))
             {
-                throw new SmartModelException("'id_user' isnt from type int");
+                throw new SmartModelException("'id_user' isnt from type int or array");
             }  
             if(isset($selcetedItem))
             {
                 $this->sqlUser = " AND ";
             }
-            $this->sqlUser .= "`id_user`={$data['id_user']}";
+            
+            if(is_array($data['id_user']))
+            {
+                if(count($data['id_user']) > 0)
+                {
+                    $_id_user = implode(",", $data['id_user']);
+                    $this->sqlUser .= "`id_user` IN({$_id_user})";
+                }
+                else
+                {
+                    throw new SmartModelException("'id_user' array is empty");
+                }
+            }
+            else
+            {
+                $this->sqlUser .= "`id_user`={$data['id_user']}";
+            }
+            
             $selcetedItem  = TRUE;
         }
 
