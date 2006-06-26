@@ -44,7 +44,7 @@
    
    <!-- --- show edit link if user is logged --- -->
    <?php if(isset($tpl['showEditLink'])): ?>
-     <div style="font-size: 1.2em;"><a href="admin.php?mod=article&view=editArticle&id_node=<?php echo $tpl['article']['id_node'];  ?>&id_article=<?php echo $tpl['article']['id_article'];  ?>&disableMainMenu=1">edit this article</a></div>
+     <div style="text-align: right;font-size: 1.2em;"><a href="admin.php?mod=article&view=editArticle&id_node=<?php echo $tpl['article']['id_node'];  ?>&id_article=<?php echo $tpl['article']['id_article'];  ?>&disableMainMenu=1">edit this article</a></div>
    <?php endif; ?>  
    
    <?php if(!empty($tpl['article']['subtitle'])): ?>
