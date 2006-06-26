@@ -67,6 +67,22 @@ class SmartXmlRpcView extends SmartObject
     public function perform()
     {
     }
+    
+    /**
+     * authentication
+     *
+     */
+    public function auth()
+    {
+    }
+
+    /**
+     * prepend filter chain
+     *
+     */
+    public function prependFilterChain()
+    {
+    }
 }
 
 ?>

@@ -15,7 +15,7 @@
  */
 
 // PEAR xml rpc server classes
-include_once( SMART_BASE_DIR . 'smart/includes/PEAR/XML/RPC/Server.php');
+include_once( SMART_BASE_DIR . 'smart/includes/PEAR/XML/Server.php');
 
 class SmartXmlRpcController extends SmartController
 {

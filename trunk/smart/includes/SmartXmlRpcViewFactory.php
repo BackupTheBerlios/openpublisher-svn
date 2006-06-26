@@ -114,13 +114,13 @@ class SmartXmlRpcViewFactory extends SmartViewFactory
         $view->viewData = $args[0];
         
         // run authentication
-        //$view->auth();
+        $view->auth();
             
         // run view prepended filters
-        //$view->prependFilterChain();
+        $view->prependFilterChain();
         
         // perform on the main job
-        //$view->perform();         
+        $view->perform();         
     } 
 }
 
