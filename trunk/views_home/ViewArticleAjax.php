@@ -1,12 +1,12 @@
 <?php
 // ----------------------------------------------------------------------
-// Smart3 PHP Framework
-// Copyright (c) 2004, 2005
-// by Armand Turpel < framework@smart3.org >
-// http://www.smart3.org/
+// Open Publisher CMS
+// Copyright (c) 2006
+// by Armand Turpel < cms@open-publisher.net >
+// http://www.open-publisher.net/
 // ----------------------------------------------------------------------
-// LICENSE GPL
-// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// LICENSE LGPL
+// http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------
 
 /**
@@ -57,18 +57,18 @@ class ViewArticleAjax extends SmartAjaxView
     {
         $error = FALSE;
         
-        if(preg_match("/[^0-9]/",$calculateObject->number1) || empty($calculateObject->number1) )
+        if(preg_match("/[^0-9]/",$calculateObject['number1']) || empty($calculateObject['number1']) )
         {
             $error = 'Field 1 is not numeric or empty! ';
         }
-        if(preg_match("/[^0-9]/",$calculateObject->number2) || empty($calculateObject->number2) )
+        if(preg_match("/[^0-9]/",$calculateObject['number2']) || empty($calculateObject['number2']) )
         {
             $error .= 'Field 2 is not numeric or empty!';
         }        
         
         if($error == FALSE)
         {
-            return $calculateObject->number1 + $calculateObject->number2;
+            return $calculateObject['number1'] + $calculateObject['number2'];
         }
         else
         {
@@ -88,7 +88,7 @@ class ViewArticleAjax extends SmartAjaxView
         // search articles                                                   
         $this->model->action('article','search',
                              array('result'     => & $searchResult, 
-                                   'search'     => (string)$searchObject->search,
+                                   'search'     => (string)$searchObject['search'],
                                    'status'     => array('=', 4),
                                    'nodeStatus' => array('>=', 2),
                                    'order'      => array('title', 'ASC'),
@@ -115,26 +115,7 @@ class ViewArticleAjax extends SmartAjaxView
         }
         
         return $searchResult;
-    }     
-    
-    /**
-     * authentication
-     * This methode is executed before any ajax methode.
-     * You may add some authentication stuff here
-     *
-     */
-    public function auth()
-    {
-    }
-
-    /**
-     * prepend filter chain
-     * This methode is executed before any ajax methode and after auth().
-     * You may add some filter stuff here
-     */
-    public function prependFilterChain()
-    {
-    }       
+    }          
 }
 
 ?>

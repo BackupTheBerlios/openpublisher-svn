@@ -1,12 +1,12 @@
 <?php
 // ----------------------------------------------------------------------
-// Smart3 PHP Framework
-// Copyright (c) 2004, 2005
-// by Armand Turpel < framework@smart3.org >
-// http://www.smart3.org/
+// Open Publisher CMS
+// Copyright (c) 2006
+// by Armand Turpel < cms@open-publisher.net >
+// http://www.open-publisher.net/
 // ----------------------------------------------------------------------
-// LICENSE GPL
-// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// LICENSE LGPL
+// http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------
 
 /**
@@ -57,8 +57,8 @@ class ViewBlogMain extends SmartView
                                    'status'  => array('>=',2),
                                    'fields'  => array('title','id_node'))); 
 
-        // id_node 53 is the top level node "Blog" means sector
-        // here we show all articles of this sector and all sub categories
+        // id_node 2 is the top level node "Blog". Means this node is a sector.
+        // Here we show all articles of this sector and all sub categories
         // 
         if($this->current_id_node == 2)
         {
@@ -248,7 +248,7 @@ class ViewBlogMain extends SmartView
                                         'link'     => 'http://www.smart3.org',
                                         'desc'     => 'test',
                                         'title'    => 'Smart3 php5 framework - BLOG'),
-                     'baseUrl'    => 'http://www.smart3.org/index.php?id_article='
+                     'baseUrl'    => 'http://www.open-publisher.net/index.php?id_article='
                      ) );
                                                        
     }

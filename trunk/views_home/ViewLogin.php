@@ -1,12 +1,12 @@
 <?php
 // ----------------------------------------------------------------------
-// Smart3 PHP Framework
-// Copyright (c) 2004, 2005
-// by Armand Turpel < framework@smart3.org >
-// http://www.smart3.org/
+// Open Publisher CMS
+// Copyright (c) 2006
+// by Armand Turpel < cms@open-publisher.net >
+// http://www.open-publisher.net/
 // ----------------------------------------------------------------------
-// LICENSE GPL
-// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// LICENSE LGPL
+// http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------
 
 /**

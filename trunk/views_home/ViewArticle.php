@@ -1,12 +1,12 @@
 <?php
 // ----------------------------------------------------------------------
-// Smart3 PHP Framework
-// Copyright (c) 2004, 2005
-// by Armand Turpel < framework@smart3.org >
-// http://www.smart3.org/
+// Open Publisher CMS
+// Copyright (c) 2006
+// by Armand Turpel < cms@open-publisher.net >
+// http://www.open-publisher.net/
 // ----------------------------------------------------------------------
-// LICENSE GPL
-// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// LICENSE LGPL
+// http://www.gnu.org/licenses/lgpl.html
 // ----------------------------------------------------------------------
 
 /**
@@ -40,7 +40,7 @@ class ViewArticle extends SmartView
 
         // We need an other template for the ajax demonstration (german/english article)
         // "Smart3 and Ajax" article
-        if(($this->current_id_article == 50) || ($this->current_id_article == 51))
+        if($this->current_id_article == 7)
         {
             $this->template = 'ArticleAjax';
         }
@@ -54,6 +54,7 @@ class ViewArticle extends SmartView
                                    'fields'  => array('id_article','id_node','title',
                                                       'header','overtitle','media_folder',
                                                       'subtitle','body','ps',
+                                                      'pubdate','modifydate',
                                                       'allow_comment','close_comment') ));  
           
         // get node title and id of the article node
