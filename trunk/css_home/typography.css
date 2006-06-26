@@ -130,6 +130,13 @@ span.smart_pager {
 	font-weight: bold;
 }
 
+.date {
+	font-size: 0.9em;
+	color: #3399CC;
+        margin: 0px;
+        padding: 0px;
+}
+
 /****  Article Comment ****/
 dl.comment{
         width: 550px;
@@ -176,4 +183,12 @@ dl.comment{
 }
 #commentformelements a:link, a:hover, a:visited {
         color: #666666;
+}
+/****  RPC Articles ****/
+dl.rpcarticles{
+        width: 250px;
+        margin-left: 10px;
+}
+dl.rpcarticles dd{
+        font-size: 1.2em;
 }
