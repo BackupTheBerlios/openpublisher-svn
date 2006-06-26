@@ -6,7 +6,20 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>SMART3 PHP5 Framework</title>
+
+<!-- --- AJAX --- -->
+<script type='text/javascript' src='<?php echo SMART_RELATIVE_PATH; ?>ajaxserver.php?client=all&amp;stub=all&amp;view=articleAjax'></script>
+<script type='text/javascript' src='<?php echo SMART_RELATIVE_PATH; ?>templates_home/ArticleAjax.js'></script>
+
+<script language="JavaScript" type="text/JavaScript">
+    function showimage(theURL,widthx,heightx){
+        w = widthx+20;
+        h = heightx+100;
+        newwin= window.open(theURL,'image','width='+w+',height='+h+',dependent=no,directories=no,scrollbars=no,toolbar=no,menubar=no,location=no,resizable=yes,left=0,top=0,screenX=0,screenY=0'); 
+} 
+</script>
+
+<title>SMART3 PHP5 Framework - Ajax</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>" />
 <meta name="robots" content="index, follow" />
 
@@ -16,14 +29,7 @@
 
 <style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['cssFolder']; ?>base.css";</style>
 <style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['cssFolder']; ?>typography.css";</style>
-
-<script language="JavaScript" type="text/JavaScript">
-    function showimage(theURL,widthx,heightx){
-        w = widthx+20;
-        h = heightx+100;
-        newwin= window.open(theURL,'image','width='+w+',height='+h+',dependent=no,directories=no,scrollbars=no,toolbar=no,menubar=no,location=no,resizable=yes,left=0,top=0,screenX=0,screenY=0'); 
-} 
-</script>
+<style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['cssFolder']; ?>search.css";</style>
 
 </head>
 
@@ -49,23 +55,31 @@
       <div class="overtitle"><?php echo $tpl['article']['overtitle'];  ?></div>
    <?php endif; ?>
    <h3><?php echo $tpl['article']['title'];  ?></h3>
-   
-   <?php if(!empty($tpl['article']['subtitle'])): ?>
-      <div class="subtitle"><?php echo $tpl['article']['subtitle'];  ?></div>
-   <?php endif; ?>
-   
-   <div class="date">Publish date: <?php echo $tpl['article']['pubdate']; ?></div>
-   <div class="date">Modify date:  <?php echo $tpl['article']['modifydate']; ?></div>
-
+  
    <!-- --- show edit link if user is logged --- -->
    <?php if(isset($tpl['showEditLink'])): ?>
      <div style="text-align: right;font-size: 1.2em;"><a href="admin.php?mod=article&view=editArticle&id_node=<?php echo $tpl['article']['id_node'];  ?>&id_article=<?php echo $tpl['article']['id_article'];  ?>&disableMainMenu=1">edit this article</a></div>
    <?php endif; ?>  
    
+   <?php if(!empty($tpl['article']['subtitle'])): ?>
+      <div class="subtitle"><?php echo $tpl['article']['subtitle'];  ?></div>
+   <?php endif; ?>
    <?php if(!empty($tpl['article']['header'])): ?>
       <div class="header"><?php echo $tpl['article']['header'];  ?></div>
    <?php endif; ?>
    <div class="body"><?php echo $tpl['article']['body'];  ?></div>
+   
+   <!-- ########### Show result from RPC Call ############ -->
+   
+   <dl class="rpcarticles">
+   <?php foreach($tpl['rpcArticles'] as $article): ?>
+      <dd>Date: <?php echo $article['date']; ?></dd>
+      <dd>Title: <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></dd>
+   <?php endforeach; ?>
+   </dl>
+   
+   <!-- ########### END Show result from RPC Call ############ -->  
+             
    <?php if(!empty($tpl['article']['ps'])): ?>
       <div class="ps"><?php echo $tpl['article']['ps'];  ?></div>
    <?php endif; ?>
@@ -176,3 +190,4 @@
 
 </body>
 </html>
+

@@ -64,7 +64,10 @@
      <dd>
        <ul>
          <?php foreach($tpl['nodeArticles'] as $article): ?>
-           <li class="li"><a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></li>
+           <li class="li">
+             <div class="date">Publish date: <?php echo $article['pubdate']; ?></div>
+             <div class="date">Modify date:  <?php echo $article['modifydate']; ?></div>
+             <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></li>
          <?php endforeach; ?>
        </ul>
      </dd>

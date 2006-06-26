@@ -106,7 +106,7 @@ class ViewArticleRPC extends SmartView
                                    'query'       => '?view=article',
                                    'authUser'    => 'test',
                                    'authPasswd'  => 'test',
-                                   'numArticles' => 5) );                       
+                                   'numArticles' => 10) );                       
 
         // if there are article related keywords, 
         if(count($keywords) > 0)

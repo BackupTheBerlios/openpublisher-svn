@@ -6,7 +6,20 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>SMART3 PHP5 Framework</title>
+
+<!-- --- AJAX --- -->
+<script type='text/javascript' src='<?php echo SMART_RELATIVE_PATH; ?>ajaxserver.php?client=all&amp;stub=all&amp;view=articleAjax'></script>
+<script type='text/javascript' src='<?php echo SMART_RELATIVE_PATH; ?>templates_home/ArticleAjax.js'></script>
+
+<script language="JavaScript" type="text/JavaScript">
+    function showimage(theURL,widthx,heightx){
+        w = widthx+20;
+        h = heightx+100;
+        newwin= window.open(theURL,'image','width='+w+',height='+h+',dependent=no,directories=no,scrollbars=no,toolbar=no,menubar=no,location=no,resizable=yes,left=0,top=0,screenX=0,screenY=0'); 
+} 
+</script>
+
+<title>SMART3 PHP5 Framework - Ajax</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>" />
 <meta name="robots" content="index, follow" />
 
@@ -16,14 +29,7 @@
 
 <style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['cssFolder']; ?>base.css";</style>
 <style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['cssFolder']; ?>typography.css";</style>
-
-<script language="JavaScript" type="text/JavaScript">
-    function showimage(theURL,widthx,heightx){
-        w = widthx+20;
-        h = heightx+100;
-        newwin= window.open(theURL,'image','width='+w+',height='+h+',dependent=no,directories=no,scrollbars=no,toolbar=no,menubar=no,location=no,resizable=yes,left=0,top=0,screenX=0,screenY=0'); 
-} 
-</script>
+<style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['cssFolder']; ?>search.css";</style>
 
 </head>
 
@@ -49,23 +55,47 @@
       <div class="overtitle"><?php echo $tpl['article']['overtitle'];  ?></div>
    <?php endif; ?>
    <h3><?php echo $tpl['article']['title'];  ?></h3>
-   
-   <?php if(!empty($tpl['article']['subtitle'])): ?>
-      <div class="subtitle"><?php echo $tpl['article']['subtitle'];  ?></div>
-   <?php endif; ?>
-   
-   <div class="date">Publish date: <?php echo $tpl['article']['pubdate']; ?></div>
-   <div class="date">Modify date:  <?php echo $tpl['article']['modifydate']; ?></div>
-
+  
    <!-- --- show edit link if user is logged --- -->
    <?php if(isset($tpl['showEditLink'])): ?>
      <div style="text-align: right;font-size: 1.2em;"><a href="admin.php?mod=article&view=editArticle&id_node=<?php echo $tpl['article']['id_node'];  ?>&id_article=<?php echo $tpl['article']['id_article'];  ?>&disableMainMenu=1">edit this article</a></div>
    <?php endif; ?>  
    
+   <?php if(!empty($tpl['article']['subtitle'])): ?>
+      <div class="subtitle"><?php echo $tpl['article']['subtitle'];  ?></div>
+   <?php endif; ?>
    <?php if(!empty($tpl['article']['header'])): ?>
       <div class="header"><?php echo $tpl['article']['header'];  ?></div>
    <?php endif; ?>
    <div class="body"><?php echo $tpl['article']['body'];  ?></div>
+   
+             <!-- ########### AJAX Examples HTML Code ############ -->
+             
+             <!-- AJAX  simple text -->
+             <input type="button" name="simpletext" value="show text" onclick="remoteTest.simpleText(); return false;">
+             <div id="simpletext"></div>             
+             <p>&nbsp;</p>
+             
+             <!-- AJAX  show alert box -->
+             <input type="button" name="showalertbox" value="show alert box" onclick="remoteTest.showAlertBox(); return false;">
+             <p>&nbsp;</p>
+             
+             <!-- AJAX  calculator -->
+             <h4>Calculator</h4>
+             <input name="number1" id="number1" type="text" size="8" maxlength="8">
+             +
+             <input name="number2" id="number2" type="text" size="8" maxlength="8">
+             <input type="button" name="calculate" value="=" onclick="doCalculation(); return false;">
+             <span id="result"></span>    
+             <p></p>
+             
+             <!-- AJAX  article search -->
+             <h4>Article search</h4>
+             <input name="articlesearch" id="articlesearch" type="text" size="35" maxlength="35">
+             <input type="button" name="dosearch"  id="dosearch" value="search" onclick="doSearch(); return false;">
+             <div id="search"></div>                    
+             <!-- ########### END AJAX Examples HTML Code ############ -->  
+             
    <?php if(!empty($tpl['article']['ps'])): ?>
       <div class="ps"><?php echo $tpl['article']['ps'];  ?></div>
    <?php endif; ?>
@@ -176,3 +206,4 @@
 
 </body>
 </html>
+
