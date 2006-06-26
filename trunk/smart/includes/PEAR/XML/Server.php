@@ -32,7 +32,7 @@
  * @author     Martin Jansen <mj@php.net>
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1999-2001 Edd Dumbill, 2001-2006 The PHP Group
- * @version    CVS: $Id: Server.php,v 1.35 2006/06/11 00:25:17 danielc Exp $
+ * @version    CVS: $Id: Server.php,v 1.36 2006/06/21 12:17:27 danielc Exp $
  * @link       http://pear.php.net/package/XML_RPC
  */
 
@@ -270,7 +270,7 @@ function XML_RPC_Server_debugmsg($m)
  * @author     Martin Jansen <mj@php.net>
  * @author     Daniel Convissor <danielc@php.net>
  * @copyright  1999-2001 Edd Dumbill, 2001-2006 The PHP Group
- * @version    Release: 1.5.0RC1
+ * @version    Release: 1.5.0RC2
  * @link       http://pear.php.net/package/XML_RPC
  */
 class XML_RPC_Server
@@ -426,6 +426,10 @@ class XML_RPC_Server
                               . $this->encoding . '"?>' . "\n"
                               . $this->serializeDebug()
                               . $r->serialize();
+        if (function_exists('mb_convert_encoding')) {
+            $this->server_payload = mb_convert_encoding($this->server_payload,
+                                                        $this->encoding);
+        }
     }
 
     /**
