@@ -216,7 +216,7 @@ class ActionArticleSetup extends SmartAction
                     3,
                     '0.4',
                     1,
-                    40,
+                    60,
                     'DATE: 28.12.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
         $this->model->dba->query($sql);            
     } 

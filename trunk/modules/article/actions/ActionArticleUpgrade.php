@@ -162,6 +162,14 @@ class ActionArticleUpgrade extends SmartAction
                    KEY `id_user`    (`id_user`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
+        
+        $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+                    SET
+                        `perm`=60
+                    WHERE
+                        `id_module`={$this->config['module']['article']['id_module']}";
+
+        $this->model->dba->query($sql);     
     }
     
     /**

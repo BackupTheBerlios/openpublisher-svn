@@ -319,18 +319,25 @@ class ViewArticleEditArticle extends SmartView
      /**
      * has the logged user the rights to modify article data?
      * at least 'edit' (40) rights are required
+     * or author (60) is assigned to this article
      *
+     * @return bool
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
+        if($this->viewVar['loggedUserRole'] < 60 )
         {
-            return TRUE;
+            return true;
         }
-        else
+        elseif(($this->viewVar['loggedUserRole'] >= 60) &&
+               ($this->viewVar['loggedUserRole'] < 100))
         {
-            return FALSE;
+            return $model->action('article','checkUserRights',
+                                        array('id_article' => (int)$this->current_id_article,
+                                              'id_user'    => (int)$this->viewVar['loggedUserId']));
         }
+        
+        return false;
     }
  
     /**
