@@ -413,22 +413,31 @@ class ViewArticleModArticle extends SmartView
         
         return TRUE;
     }
+    
      /**
-     * has the logged the rights to modify?
-     * at least edit (40) rights are required
+     * has the logged user the rights to modify article data?
+     * at least 'edit' (40) rights are required
+     * or author (60) is assigned to this article
      *
+     * @return bool
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
+        if($this->viewVar['loggedUserRole'] < 60 )
         {
-            return TRUE;
+            return $this->allowModify = true;
         }
-        else
+        elseif(($this->viewVar['loggedUserRole'] >= 60) &&
+               ($this->viewVar['loggedUserRole'] < 100))
         {
-            return FALSE;
+            return $this->allowModify = $this->model->action('article','checkUserRights',
+                                        array('id_article' => (int)$_REQUEST['id_article'],
+                                              'id_user'    => (int)$this->viewVar['loggedUserId']));
         }
+        
+        return $this->allowModify = false;
     }
+    
     /**
      * Convert strings so that they can be safely included in html forms
      *

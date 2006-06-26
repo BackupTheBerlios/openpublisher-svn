@@ -99,6 +99,9 @@ class ViewArticleMain extends SmartView
                                    'fields'  => array('title','id_article','status',
                                                       'pubdate','modifydate')));                                   
 
+        // if author is logged check if he has access to edit articles
+        $this->assignArticleRights();
+
         // create article pager links
         $this->model->action('article','pager', 
                              array('result'     => & $this->tplVar['pager'],
@@ -243,20 +246,43 @@ class ViewArticleMain extends SmartView
         // The url passed to the pager action
         $this->pagerUrl = SMART_CONTROLLER.'?mod=article&id_node='.$this->current_id_node;    
     }
+    
      /**
-     * has the logged the rights to modify?
-     * at least edit (40) rights are required
+     * if author (60) is logged assign rights to edit articles
+     *
+     */      
+    private function assignArticleRights()
+    {
+        foreach($this->tplVar['articles'] as &$article)
+        {
+            // if author is logged check if he has access to edit articles
+            if($this->viewVar['loggedUserRole'] < 60 )
+            {
+                $article['hasAccess'] = true;
+                continue;
+            }
+            $article['hasAccess'] = $this->model->action('article','checkUserRights',
+                                        array('id_article' => (int)$article['id_article'],
+                                              'id_user'    => (int)$this->viewVar['loggedUserId']));
+
+             
+        }
+    }    
+    
+     /**
+     * has the logged user the rights to modify?
+     * at least edit (60) rights are required
      *
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
+        if($this->viewVar['loggedUserRole'] < 100 )
         {
-            return TRUE;
+            return true;
         }
         else
         {
-            return FALSE;
+            return false;
         }
     }
 }

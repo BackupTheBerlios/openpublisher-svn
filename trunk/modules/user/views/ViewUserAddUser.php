@@ -121,6 +121,7 @@ class ViewUserAddUser extends SmartView
         $roles = array('10'  => 'Superuser',
                        '20'  => 'Administrator',
                        '40'  => 'Editor',
+                       '60'  => 'Author',
                        '100' => 'Webuser'); 
         
         $this->tplVar['form_roles'] = array();

@@ -55,8 +55,8 @@ class ActionArticleCheckUserRights extends SmartAction
             LIMIT 1";
 
         $rs = $this->model->dba->query($sql);
-        
-        $row = $rs->fetchAssoc())
+
+        $row = $rs->fetchAssoc();
         
         if($row['numusers'] == 0)
         {

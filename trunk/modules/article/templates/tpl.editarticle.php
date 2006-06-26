@@ -329,14 +329,19 @@ function cancel_edit(f)
       </tr>
       <tr>
         <td align="right" valign="top" class="font12bold"><a href="javascript:usermap();">open user map</a></td>
-      </tr>   
+      </tr>  
       <tr>
         <td align="left" valign="top" class="font12"> 
           <?php foreach($tpl['articleUsers'] as $user): ?>
-            <input name="id_user[]" type="checkbox" value="<?php echo $user['id_user']; ?>"> <?php echo $user['lastname']; ?> <?php echo $user['name']; ?> (<a href="mailto:<?php echo $user['email']; ?>"><?php echo $user['login']; ?></a>)<br />
+            <?php if($tpl['userRole']<60): ?>
+              <input name="id_user[]" type="checkbox" value="<?php echo $user['id_user']; ?>"> 
+            <?php endif; ?>  
+            <?php echo $user['lastname']; ?> <?php echo $user['name']; ?> (<a href="mailto:<?php echo $user['email']; ?>"><?php echo $user['login']; ?></a>)<br /> 
       <?php endforeach; ?>
       <?php if(is_array($tpl['articleUsers']) && (count($tpl['articleUsers'])>0)): ?>
-      <div><br />To remove users check the users and hit refresh or submit</div>
+      <?php if($tpl['userRole']<60): ?>
+        <div><br />To remove users check the users and hit refresh or submit</div>
+      <?php endif; ?>
       <?php endif; ?>
       </td>
       </tr>

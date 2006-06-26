@@ -70,6 +70,14 @@ class ViewArticleAddArticle extends SmartView
                                          array('job'        => 'lock',
                                                'id_article' => (int)$new_id_article,
                                                'by_id_user' => (int)$this->viewVar['loggedUserId']) );  
+
+                    if($this->viewVar['loggedUserRole'] >= 60)
+                    {
+                        // get demanded article data
+                        $this->model->action('article','addUser', 
+                                             array('id_user'     => (int)$this->viewVar['loggedUserId'],
+                                                   'id_article'  => (int)$new_id_article));
+                    }
                     
                     // goto modarticle view
                     @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=article&view=modArticle&id_node='.$id_node.'&id_article='.$new_id_article);

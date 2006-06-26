@@ -43,7 +43,7 @@ span.search_pager {
            <?php elseif($node['status']==2): ?>
               <img src="./modules/common/media/pics/active.png" width="21" height="21">
            <?php elseif($node['status']==3): ?>
-              <img src="./modules/common/media/pics/restricted.png" width="21" height="21">			  
+              <img src="./modules/common/media/pics/restricted.png" width="21" height="21">       
            <?php endif; ?>    
     </td>
         <td width="98%" align="left" valign="top" class="font12">
@@ -98,8 +98,14 @@ span.search_pager {
                     <div class="font10">
            Publish Date: <?php echo $article['pubdate']; ?><br>
            Last modified: <?php echo $article['modifydate']; ?><br>
-          </div>    
-      <?php if(($tpl['showArticle']==TRUE)&&($article['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&disableMainMenu=1"><?php echo $article['title']; ?></a><?php else: ?><?php echo $article['title']; ?><?php endif; ?>
+          </div>
+      <?php if(($tpl['showArticle']==true)&&
+               ($article['lock']==false)&&
+               ($article['hasAccess']==true)): ?>
+        <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&disableMainMenu=1"><?php echo $article['title']; ?></a>
+      <?php else: ?>
+        <?php echo $article['title']; ?>
+      <?php endif; ?>
       <?php if(!empty($article['description'])): ?>
       <div class="font10"><?php echo $article['description']; ?></div>
       <?php endif; ?>

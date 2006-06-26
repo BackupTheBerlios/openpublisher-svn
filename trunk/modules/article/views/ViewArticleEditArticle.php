@@ -327,17 +327,17 @@ class ViewArticleEditArticle extends SmartView
     {      
         if($this->viewVar['loggedUserRole'] < 60 )
         {
-            return true;
+            return $this->allowModify = true;
         }
         elseif(($this->viewVar['loggedUserRole'] >= 60) &&
                ($this->viewVar['loggedUserRole'] < 100))
         {
-            return $model->action('article','checkUserRights',
-                                        array('id_article' => (int)$this->current_id_article,
+            return $this->allowModify = $this->model->action('article','checkUserRights',
+                                        array('id_article' => (int)$_REQUEST['id_article'],
                                               'id_user'    => (int)$this->viewVar['loggedUserId']));
         }
         
-        return false;
+        return $this->allowModify = false;
     }
  
     /**
@@ -591,6 +591,11 @@ class ViewArticleEditArticle extends SmartView
      */      
     private function addUser()
     {
+        if($this->allowModify == false)
+        {
+            return;
+        }
+        
         // get demanded article data
         $this->model->action('article','addUser', 
                              array('id_user'     => (int)$_REQUEST['id_user'],
@@ -665,11 +670,17 @@ class ViewArticleEditArticle extends SmartView
     }
     
     /**
-     * remove article keyword relations
+     * remove article users relations
      *
      */     
     private function deleteArticleUsers()
     {
+        // authors have no rights to remove article users
+        if($this->viewVar['loggedUserRole'] >= 60)
+        {
+            return;
+        }
+        
         if(isset($_POST['id_user']) && is_array($_POST['id_user']))
         {
             foreach($_POST['id_user'] as $id_user)

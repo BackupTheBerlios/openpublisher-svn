@@ -38,7 +38,7 @@ class ViewUserIndex extends SmartView
     function perform()
     {
         // set template var to show user options link
-        // only on user main page and if the user role is at least an "editor"
+        // only on user main page and if the user role is at least an "administrator"
         if(isset($_REQUEST['view']) || ($this->viewVar['loggedUserRole'] > 20))
         {
             $this->tplVar['show_options_link'] = FALSE;
