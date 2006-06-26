@@ -81,7 +81,7 @@ class ActionLinkSetup extends SmartAction
                     6,
                     '0.1',
                     1,
-                    40,
+                    60,
                     'DATE: 23.8.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
         $this->model->dba->query($sql);            
     } 
