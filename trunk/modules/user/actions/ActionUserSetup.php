@@ -169,7 +169,7 @@ class ActionUserSetup extends SmartAction
         $sql = "INSERT INTO {$data['dbtablesprefix']}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
-                   ('user','User Management',8,'0.2',1,40,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
+                   ('user','User Management',8,'0.2',1,60,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
         
         $this->model->dba->query($sql);         
     } 
