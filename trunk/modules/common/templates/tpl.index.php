@@ -11,14 +11,14 @@
     font-weight: bold;
 }
 .style7 {
-	font-size: 12px;
-	color: #FFCC00;
-	font-weight: bold;
+  font-size: 12px;
+  color: #FFCC00;
+  font-weight: bold;
 }
 .style6 {
-	font-size: 16px;
-	color: #FF6633;
-	font-weight: bold;
+  font-size: 16px;
+  color: #FF6633;
+  font-weight: bold;
 }
 .style8 {color: #0033CC}
 -->
@@ -68,6 +68,7 @@ function subok(s){
             <form action="index.php" method="post">
                 GoTo &gt;
                 <select name="mod" class="topselect" onChange="go('<?php echo $tpl['adminWebController']; ?>?mod='+this.form.mod.options[this.form.mod.options.selectedIndex].value)"<?php if($tpl['disableMainMenu']==TRUE) echo ' disabled="disabled"'; ?>>
+                 <option value=''></option>
                  <?php foreach($tpl['moduleList'] as $key => $val): ?>
                     <?php if(($val['visibility'] == TRUE)&&($tpl['userRole'] <= $val['perm'])): ?>
                     <option value='<?php echo $key; ?>'<?php if($tpl['requestedModule'] == $key) echo " selected='selected'"; ?>><?php echo $val['alias']; ?></option>
