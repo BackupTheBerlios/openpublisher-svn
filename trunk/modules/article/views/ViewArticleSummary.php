@@ -63,7 +63,10 @@ class ViewArticleSummary extends SmartView
                                  array('result'  => & $article['node'],
                                        'id_node' => (int)$article['id_node'],
                                        'fields'  => array('title','id_node')));
-            $this->getLock( $article );                            
+            $this->getLock( $article );    
+            
+            // if author is logged check if he has access to edit articles
+            $this->assignArticleRights( $article );
         }
         
         // get last modified articles                                                    
@@ -93,6 +96,9 @@ class ViewArticleSummary extends SmartView
                                        'id_node' => (int)$article['id_node'],
                                        'fields'  => array('title','id_node')));
             $this->getLock( $article );
+            
+            // if author is logged check if he has access to edit articles
+            $this->assignArticleRights( $article );
         }                   
     }  
 
@@ -127,6 +133,41 @@ class ViewArticleSummary extends SmartView
         // template array variables
         $this->tplVar['art_pubdate']    = array();
         $this->tplVar['art_modifydate'] = array();
+    }
+    
+     /**
+     * if author (60) is logged assign rights to edit articles
+     *
+     * @param array $article
+     */      
+    private function assignArticleRights( & $article )
+    {
+        // if author is logged check if he has access to edit articles
+        if($this->viewVar['loggedUserRole'] < 60 )
+        {
+            $article['hasAccess'] = true;
+            return;
+        }
+        $article['hasAccess'] = $this->model->action('article','checkUserRights',
+                                    array('id_article' => (int)$article['id_article'],
+                                          'id_user'    => (int)$this->viewVar['loggedUserId']));
+    }    
+    
+     /**
+     * has the logged user the rights to modify?
+     * at least edit (60) rights are required
+     *
+     */      
+    private function allowModify()
+    {      
+        if($this->viewVar['loggedUserRole'] < 100 )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 

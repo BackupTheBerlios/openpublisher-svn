@@ -40,7 +40,9 @@
                  <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
             <?php endforeach; ?>
       <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $art_pubdate['node']['id_node']; ?>"><?php echo $art_pubdate['node']['title']; ?></a></div>             
-      <?php if($art_pubdate['lock']==FALSE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $art_pubdate['id_node']; ?>&id_article=<?php echo $art_pubdate['id_article']; ?>"><?php echo $art_pubdate['title']; ?></a><?php else: ?><?php echo $art_pubdate['title']; ?><?php endif; ?>   
+      <?php if(($art_pubdate['lock']==FALSE)&&($art_pubdate['hasAccess']==true)): ?>
+        <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $art_pubdate['id_node']; ?>&id_article=<?php echo $art_pubdate['id_article']; ?>"><?php echo $art_pubdate['title']; ?></a><?php else: ?><?php echo $art_pubdate['title']; ?>
+      <?php endif; ?>   
     </td>
       </tr>
     </table>
@@ -79,7 +81,9 @@
                  <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
             <?php endforeach; ?>
       <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $art_modifydate['node']['id_node']; ?>"><?php echo $art_modifydate['node']['title']; ?></a> </div>    
-      <?php if($art_modifydate['lock']==FALSE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $art_modifydate['id_node']; ?>&id_article=<?php echo $art_modifydate['id_article']; ?>"><?php echo $art_modifydate['title']; ?></a><?php else: ?><?php echo $art_modifydate['title']; ?><?php endif; ?>    
+      <?php if(($art_modifydate['lock']==FALSE)&&($art_modifydate['hasAccess']==true)): ?>
+          <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $art_modifydate['id_node']; ?>&id_article=<?php echo $art_modifydate['id_article']; ?>"><?php echo $art_modifydate['title']; ?></a><?php else: ?><?php echo $art_modifydate['title']; ?>
+      <?php endif; ?>    
     </td>
       </tr>
     </table>
