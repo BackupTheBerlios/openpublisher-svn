@@ -5,7 +5,7 @@ parent.opener.location.href =link; }
 <style type="text/css">
 <!--
 .branch {
-	font-size: 10px;	
+  font-size: 10px;  
 }
 .article {
   font-size: 12px;
@@ -13,18 +13,18 @@ parent.opener.location.href =link; }
   color: #0000CC;
 }  
 a.search_pager {
-	font-size: 14px;
+  font-size: 14px;
 }
 span.search_pager {
-	font-size: 14px;
-	font-weight: bold;
+  font-size: 14px;
+  font-weight: bold;
 }
 a.smart_pager {
-	font-size: 10px;
+  font-size: 10px;
 }
 span.smart_pager {
-	font-size: 10px;
-	font-weight: bold;
+  font-size: 10px;
+  font-weight: bold;
 }
 -->
 </style>
@@ -56,7 +56,7 @@ span.smart_pager {
           <!-- show search result -->
           <?php if(count($tpl['articles']) > 0): ?>
           <table width="90%"  border="0" cellpadding="0" cellspacing="0">
-            <tr>			
+            <tr>      
               <td width="100%" height="161" align="left" valign="top">
                 <ul class="subnodeul">
                   <?php foreach($tpl['articles'] as $article): ?>
@@ -65,14 +65,18 @@ span.smart_pager {
                       <?php  foreach($article['nodeBranch'] as $bnode): ?>
                       <a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>&article_page=1');"><?php echo $bnode['title']; ?></a> /
                       <?php endforeach; ?>
-					<a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $article['node']['id_node']; ?>&article_page=1');"><?php echo $article['node']['title']; ?></a> </div>
+          <a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $article['node']['id_node']; ?>&article_page=1');"><?php echo $article['node']['title']; ?></a> </div>
                     <div class="branch">
-					 Publish Date: <?php echo $article['pubdate']; ?><br>
-					 Last modified: <?php echo $article['modifydate']; ?><br>
-					</div>
+           Publish Date: <?php echo $article['pubdate']; ?><br>
+           Last modified: <?php echo $article['modifydate']; ?><br>
+          </div>
+                 <?php if($article['hasAccess']==true): ?>
                     <div class="article"><a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $article['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>');"><?php echo $article['title']; ?></a></div>
-                      <div class="branch">status: 
-					   <?php if($article['status']==0): ?>
+                 <?php else: ?>
+                    <div class="article"><?php echo $article['title']; ?></div>
+                 <?php endif; ?>
+                  <div class="branch">status: 
+             <?php if($article['status']==0): ?>
                           delete
                        <?php elseif($article['status']==1): ?>
                           cancel
@@ -83,9 +87,9 @@ span.smart_pager {
                       <?php elseif($article['status']==4): ?>
                           publish
                       <?php elseif($article['status']==5): ?>
-                          restrict	  	  	  	  
-                      <?php endif; ?>					
-					</div>
+                          restrict                
+                      <?php endif; ?>         
+          </div>
                     <br>
                   </li>
                   <?php endforeach; ?>
@@ -111,10 +115,10 @@ span.smart_pager {
 </td>
     <td width="26%" align="left" valign="top" class="font10bold">
       <form accept-charset="<?php echo $tpl['charset']; ?>" name="searchform" method="post" action="<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=article&view=search">
-	    <input name="search" type="text" id="search" size="25" maxlength="255" class="topselect">
-	    <br>
-		 <input name="searchbutton" type="submit" value="search" class="topselect">
-	  </form>
+      <input name="search" type="text" id="search" size="25" maxlength="255" class="topselect">
+      <br>
+     <input name="searchbutton" type="submit" value="search" class="topselect">
+    </form>
       </td>
   </tr>
 </table>
