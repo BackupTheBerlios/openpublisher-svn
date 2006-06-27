@@ -180,6 +180,10 @@ class ViewLinkEditLink extends SmartView
             
         if($_POST['delete_link'] == '1')
         {
+            if($this->viewVar['loggedUserRole'] >= 60 )
+            {
+                return;
+            }
             $this->unlockLink();
             $this->deleteLink( $_POST['id_link'], $_POST['id_node'] );
             $this->redirect( $_POST['id_node'] );
@@ -268,7 +272,7 @@ class ViewLinkEditLink extends SmartView
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
+        if($this->viewVar['loggedUserRole'] < 100 )
         {
             return TRUE;
         }
