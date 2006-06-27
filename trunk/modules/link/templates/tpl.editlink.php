@@ -120,11 +120,13 @@ function cancel_edit(f)
       <tr>
         <td align="left" valign="top" class="font10bold"><textarea name="description" cols="90" rows="5" id="description"><?php echo $tpl['link']['description']; ?></textarea></td>
       </tr>
+      <?php if($tpl['userRole']<60): ?>
       <tr>
         <td align="left" valign="top" class="font9"> 
           <div align="right"><input name="delete" type="button" id="delete" value="Delete this link" onclick="deletelink(this.form, 'Delete this link?');" class="button">
           </div></td>
       </tr>
+      <?php endif; ?>
   <?php if($tpl['use_keywords']==1): ?>
         <tr>
         <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>

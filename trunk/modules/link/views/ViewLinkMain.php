@@ -132,7 +132,7 @@ class ViewLinkMain extends SmartView
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
+        if($this->viewVar['loggedUserRole'] < 100 )
         {
             return TRUE;
         }
