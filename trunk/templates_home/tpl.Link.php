@@ -43,6 +43,10 @@
       <div id="linkmainarticle">
         <h2 class="linkitemtitle"><a href="<?php echo $link['url']; ?>"><?php echo $link['title']; ?></a></h2>  
         <?php echo $link['description']; ?>
+        <!-- --- show edit link if user is logged --- -->
+        <?php if(isset($tpl['showEditLink'])): ?>
+          <div style="text-align: right;font-size: 1.2em;"><a href="admin.php?mod=link&view=editLink&id_node=<?php echo $link['id_node'];  ?>&id_link=<?php echo $link['id_link'];  ?>&disableMainMenu=1">edit this link</a></div>
+        <?php endif; ?>  
       </div>
     <?php endforeach; ?>
   </div>

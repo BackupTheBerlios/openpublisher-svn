@@ -62,7 +62,8 @@ class ViewLink extends SmartView
                              array('result'  => & $this->tplVar['links'],
                                    'id_node' => (int)$this->current_id_node,
                                    'status'  => array('=','2'),
-                                   'fields'  => array('title','url','description')));   
+                                   'fields'  => array('id_link','id_node',
+                                                      'title','url','description')));   
     }
 
     /**
@@ -81,7 +82,12 @@ class ViewLink extends SmartView
         {
             $this->tplVar['isUserLogged'] = TRUE;
         }
-        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole'); 
+        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');
+        
+        if( ($this->tplVar['isUserLogged'] == TRUE) && ($this->viewVar['loggedUserRole'] < 100) )
+        {
+            $this->tplVar['showEditLink'] = TRUE; 
+        }
     }
 
     /**
