@@ -33,7 +33,7 @@ class ActionSetupInsertSampleContent extends SmartAction
             {
                 if(preg_match("/^INSERT/",$line))
                 {
-                    if("smart_" != $data['prefix'])
+                    if("op_" != $data['prefix'])
                     {
                         $line = str_replace("INSERT INTO `op_","INSERT INTO `".$data['prefix'],$line);
                     }
