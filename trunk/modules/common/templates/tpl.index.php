@@ -54,7 +54,7 @@ function subok(s){
         <tr>
           <td width="26%" align="left" valign="top"><table width="100%"  border="0" align="left" cellpadding="2" cellspacing="2">
             <tr>
-              <td width="100%" height="50" align="left" valign="top" class="style6">Open Publisher  <span class="style7">Ver.: 0.9</span></td>
+              <td width="100%" height="50" align="left" valign="top" class="style6">Open Publisher  <span class="style7">Ver.: 1.0a</span></td>
               </tr>
           </table></td>
           <td width="24%" align="right" valign="top" class="font10"> <br />

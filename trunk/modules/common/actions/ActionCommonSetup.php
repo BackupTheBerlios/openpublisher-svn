@@ -96,7 +96,7 @@ class ActionCommonSetup extends SmartAction
                  (`op_version`,`charset`, `templates_folder`, `css_folder`, 
                   `views_folder`,`rejected_files`)
                 VALUES
-                 ('1.0','{$data['charset']}', 'templates_home/', 'css_home/',
+                 ('1.0a','{$data['charset']}', 'templates_home/', 'css_home/',
                   'views_home/', '.php,.php3,.php4,.php5,.phps,.pl,.py')";
         $this->model->dba->query($sql);
 

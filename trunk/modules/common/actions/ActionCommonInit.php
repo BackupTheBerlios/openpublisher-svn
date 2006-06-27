@@ -36,7 +36,7 @@ class ActionCommonInit extends SmartAction
     /**
      * Open Publisher Version
      */
-    const OPEN_PUBLISHER_VERSION = '1.0';   
+    const OPEN_PUBLISHER_VERSION = '1.0a';   
     
     /**
      * Common Module Version
