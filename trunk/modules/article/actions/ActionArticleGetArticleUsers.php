@@ -10,10 +10,10 @@
 // ---------------------------------------------
 
 /**
- * ActionArticleGetArticles class 
+ * ActionArticleGetArticleUsers class 
  * USAGE:
  *
- * $model->action('article','getArticles',
+ * $model->action('article','getArticleUsers',
  *                array('result'      => & array,
  *                      'status'      => array('>|<|=|>=|<=|!=',1|2|3|4|5), // optional
  *                      'node_status' => array('>|<|=|>=|<=|!=',1|2|3), // optional

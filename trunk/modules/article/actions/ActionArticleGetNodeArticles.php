@@ -36,11 +36,15 @@ class ActionArticleGetNodeArticles extends SmartAction
      * Allowed sql caching
      */
     protected $sqlCache = 'SQL_CACHE';
+    /**
+     * Set get authors default
+     */    
+    protected $getAuthors = false;
     
     /**
      * Allowed article fields and its type
      */
-    protected $tblFields_article = array('id_article'   => 'Int',
+    protected $tblFields_article = array('id_article'   => 'Int', // required
                                          'id_node'      => 'Int',
                                          'status'       => 'Int',
                                          'rank'         => 'Int',
@@ -68,11 +72,25 @@ class ActionArticleGetNodeArticles extends SmartAction
      */
     public function perform( $data = FALSE )
     {
+        // we need Id_article field
+        if(!in_array('id_article', $data['fields'] ))
+        {
+            $data['fields'][] = 'id_article';
+        }
+        
         $comma = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
-        {
-            $_fields .= $comma.'`'.$f.'`';
+        {            
+            // Modify dates depended on gmt+X settings
+            if(($f == 'pubdate') || ($f == 'modifydate') || ($f == 'articledate'))
+            {
+                $_fields .= $comma."DATE_ADD(`{$f}`,INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR) AS `{$f}`";
+            }
+            else
+            {
+                $_fields .= $comma.'`'.$f.'`';
+            }
             $comma = ',';
         }
         
@@ -148,18 +166,10 @@ class ActionArticleGetNodeArticles extends SmartAction
         $rs = $this->model->dba->query($sql);
         
         while($row = $rs->fetchAssoc())
-        {
-            if(isset($row['pubdate']))
+        {            
+            if(isset($data['author']))
             {
-                $this->gmtToUserGmt( $row['pubdate'] );
-            }
-            if(isset($row['modifydate']))
-            {
-                $this->gmtToUserGmt( $row['modifydate'] );
-            }
-            if(isset($row['articledate']))
-            {
-                $this->gmtToUserGmt( $row['articledate'] );
+                $row['authors'] = $this->getAuthors( $row['id_article'], $data );
             }
             
             $data['result'][] = $row;
@@ -313,13 +323,25 @@ class ActionArticleGetNodeArticles extends SmartAction
         
         return TRUE;
     }  
-    
-    private function gmtToUserGmt( & $_date )
-    {   
-        // convert date from gmt+0 to user timezone 
-        $this->model->action('common', 'gmtConverter',
-                             array('action'   => 'gmtToDate',
-                                   'date'     => & $_date ));
+    /**
+     * get article users
+     *
+     * @param int $id_article
+     * @param array $data
+     * @return array
+     */       
+    private function getAuthors( $id_article, & $data )
+    {
+        $result = array();
+        
+        $this->model->action('article','getArticleUsers',
+                 array('result'     => & $result,
+                       'id_article' => (int)$id_article,
+                       'status'     => &$data['author']['status'], 
+                       'order'      => &$data['author']['order'],
+                       'fields'     => &$data['author']['fields'] ));
+        
+        return $result;
     }
 }
 

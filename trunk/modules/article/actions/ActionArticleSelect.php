@@ -58,11 +58,25 @@ class ActionArticleSelect extends SmartAction
      */
     function perform( $data = FALSE )
     {
+        // we need Id_article field
+        if(!in_array('id_article', $data['fields'] ))
+        {
+            $data['fields'][] = 'id_article';
+        }
+        
         $comma = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'`'.$f.'`';
+            // Modify dates depended on gmt+X settings
+            if(($f == 'pubdate') || ($f == 'modifydate') || ($f == 'articledate'))
+            {
+                $_fields .= $comma."DATE_ADD(`{$f}`,INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR) AS `{$f}`";
+            }
+            else
+            {
+                $_fields .= $comma.'`'.$f.'`';
+            }
             $comma = ',';
         }
         
@@ -150,6 +164,10 @@ class ActionArticleSelect extends SmartAction
         
         while($row = $rs->fetchAssoc())
         {
+            if(isset($data['author']))
+            {
+                $row['authors'] = $this->getAuthors( $row['id_article'], $data );
+            }
             $data['result'][] = $row;
         } 
     } 
@@ -298,6 +316,26 @@ class ActionArticleSelect extends SmartAction
         }
         
         return TRUE;
+    }
+    /**
+     * get article users
+     *
+     * @param int $id_article
+     * @param array $data
+     * @return array
+     */       
+    private function getAuthors( $id_article, & $data )
+    {
+        $result = array();
+        
+        $this->model->action('article','getArticleUsers',
+                 array('result'     => & $result,
+                       'id_article' => (int)$id_article,
+                       'status'     => &$data['author']['status'], 
+                       'order'      => &$data['author']['order'],
+                       'fields'     => &$data['author']['fields'] ));
+        
+        return $result;
     }
 }
 

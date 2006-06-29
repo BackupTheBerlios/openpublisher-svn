@@ -63,11 +63,26 @@ class ActionArticleSearch extends SmartAction
      */
     function perform( $data = FALSE )
     {
+        // we need Id_article field
+        if(!in_array('id_article', $data['fields'] ))
+        {
+            $data['fields'][] = 'id_article';
+        }
+        
         $comma = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'a.`'.$f.'`';
+            // Modify dates depended on gmt+X settings
+            if(($f == 'pubdate') || ($f == 'modifydate') || ($f == 'articledate'))
+            {
+                $_fields .= $comma."DATE_ADD(a.`{$f}`,INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR) AS `{$f}`";
+            }
+            else
+            {
+                $_fields .= $comma.'a.`'.$f.'`';
+            }
+
             $comma = ',';
         }
         
@@ -155,17 +170,9 @@ class ActionArticleSearch extends SmartAction
         
         while($row = $rs->fetchAssoc())
         {
-            if(isset($row['pubdate']))
+            if(isset($data['author']))
             {
-                $this->gmtToUserGmt( $row['pubdate'] );
-            }
-            if(isset($row['modifydate']))
-            {
-                $this->gmtToUserGmt( $row['modifydate'] );
-            }
-            if(isset($row['articledate']))
-            {
-                $this->gmtToUserGmt( $row['articledate'] );
+                $row['authors'] = $this->getAuthors( $row['id_article'], $data );
             }
             
             $data['result'][] = $row;
@@ -325,13 +332,25 @@ class ActionArticleSearch extends SmartAction
         return TRUE;
     }
     
-    private function gmtToUserGmt( & $_date )
+    /**
+     * get article users
+     *
+     * @param int $id_article
+     * @param array $data
+     * @return array
+     */       
+    private function getAuthors( $id_article, & $data )
     {
-        $_data = array('action'   => 'gmtToDate',
-                       'date'     => & $_date );
-      
-        // convert date from gmt+0 to user timezone 
-        $this->model->action('common', 'gmtConverter', $_data);
+        $result = array();
+        
+        $this->model->action('article','getArticleUsers',
+                 array('result'     => & $result,
+                       'id_article' => (int)$id_article,
+                       'status'     => &$data['author']['status'], 
+                       'order'      => &$data['author']['order'],
+                       'fields'     => &$data['author']['fields'] ));
+        
+        return $result;
     }
 }
 
