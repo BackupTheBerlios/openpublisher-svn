@@ -59,7 +59,9 @@ class ActionArticleAddArticle extends SmartAction
                                          'ps'           => 'String',
                                          'fulltextbody' => 'String',
                                          'format'       => 'Int',
-                                         'media_folder' => 'String');
+                                         'media_folder' => 'String',
+                                         'allow_comment' => 'Int',
+                                         'close_comment' => 'Int');
                                          
     /**
      * Add article
