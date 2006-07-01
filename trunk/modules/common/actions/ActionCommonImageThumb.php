@@ -49,6 +49,8 @@ class ActionCommonImageThumb extends SmartAction
                 break;
             case 3:
                 $this->resizePNG( $data['imgSource'], $destImage, $data['imgDestWidth'] );
+            default:
+                return false;
         }
         
         if(isset($data['info']))
@@ -125,7 +127,11 @@ class ActionCommonImageThumb extends SmartAction
             $data['error'][] = "Image destination folder isnt writeable. Please contact the administrator";
         }        
         
-        $this->getImageInfo($data['imgSource']);
+        if(false == $this->getImageInfo($data['imgSource']))
+        {
+            $data['error'][] = "Cant recognize image type or file is damaged in: {$data['imgSource']}";
+            return false;
+        }
         
         if(!isset($this->allowedImageTypes[$this->imgSourceType]))
         {
@@ -142,7 +148,10 @@ class ActionCommonImageThumb extends SmartAction
 
     private function getImageInfo( &$image )
     {
-        $img_info = getimagesize($image);
+        if(!$img_info = getimagesize($image))
+        {
+            return false;
+        }
         $this->imgSourceWidth  = $img_info[0];
         $this->imgSourceHeight = $img_info[1];
         $this->imgSourceType   = $img_info[2];
