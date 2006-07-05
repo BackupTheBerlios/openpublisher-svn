@@ -37,8 +37,8 @@ class ActionArticleSelect extends SmartAction
                                          'id_node'      => 'Int',
                                          'status'       => 'Int',
                                          'rank'         => 'Int',
-                                         'articledate'  => 'String',
                                          'pubdate'      => 'String',
+                                         'articledate'  => 'String',
                                          'modifydate'   => 'String',
                                          'lang'         => 'String',
                                          'title'        => 'String',
@@ -50,7 +50,10 @@ class ActionArticleSelect extends SmartAction
                                          'ps'           => 'String',
                                          'format'       => 'Int',
                                          'logo'         => 'String',
-                                         'media_folder' => 'String');
+                                         'media_folder' => 'String',
+                                         'num_comments' => 'Int',
+                                         'allow_comment' => 'Int',
+                                         'close_comment' => 'Int');
     /**
      * get article data
      *
@@ -68,6 +71,12 @@ class ActionArticleSelect extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
+            if($f == 'num_comments')
+            {
+                $get_num_comments = TRUE;
+                continue;
+            }
+            
             // Modify dates depended on gmt+X settings
             if(($f == 'pubdate') || ($f == 'modifydate') || ($f == 'articledate'))
             {
@@ -90,7 +99,7 @@ class ActionArticleSelect extends SmartAction
             $sql_status = " AND `status`{$data['status'][0]}{$data['status'][1]}";
         }
 
-        if(isset($data['pubdate']))
+        if(isset($data['id_article']))
         {
             $pubdate1 = $this->model->dba->escape($data['pubdate'][1]);
             $sql_pubdate = " AND `pubdate`{$data['pubdate'][0]}'{$pubdate1}'";
@@ -101,24 +110,84 @@ class ActionArticleSelect extends SmartAction
             }
         }
 
+        if(isset($data['pubdate']))
+        {
+            if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
+            {
+                $_pdate = $this->config['gmtDate'];
+            }
+            else
+            {
+                $_pdate = $data['pubdate'][1];
+            }
+            $pubdate1 = $this->model->dba->escape($_pdate);
+            $sql_pubdate = " AND `pubdate`{$data['pubdate'][0]}'{$pubdate1}'";
+            
+            if(isset($data['pubdate'][2]))
+            {
+                if($data['pubdate'][3] == "CURRENT_TIMESTAMP")
+                {
+                    $_p2date = $this->config['gmtDate'];
+                }
+                else
+                {
+                    $_p2date = $data['pubdate'][3];
+                }
+                $pubdate2 = $this->model->dba->escape($_p2date);
+                $sql_pubdate .= " AND `pubdate`{$data['pubdate'][2]}'{$pubdate2}'";            
+            }
+        }
+
         if(isset($data['modifydate']))
         {
+            if($data['modifydate'][1] == "CURRENT_TIMESTAMP")
+            {
+                $_mdate = $this->config['gmtDate'];
+            }
+            else
+            {
+                $_mdate = $data['modifydate'][1];
+            }
             $modifydate1 = $this->model->dba->escape($data['modifydate'][1]);
             $sql_modifydate = " AND `modifydate`{$data['modifydate'][0]}'{$modifydate1}'";
             if(isset($data['modifydate'][2]))
             {
-                $modifydate2 = $this->model->dba->escape($data['modifydate'][3]);
+                if($data['modifydate'][3] == "CURRENT_TIMESTAMP")
+                {
+                    $_m2date = $this->config['gmtDate'];
+                }
+                else
+                {
+                    $_m2date = $data['modifydate'][3];
+                }
+                $modifydate2 = $this->model->dba->escape($_m2date);
                 $sql_modifydate .= " AND `modifydate`{$data['modifydate'][2]}{$modifydate2}";            
             }
         }
 
         if(isset($data['articledate']))
         {
-            $articledate1 = $this->model->dba->escape($data['articledate'][1]);
+            if($data['articledate'][1] == "CURRENT_TIMESTAMP")
+            {
+                $_adate = $this->config['gmtDate'];
+            }
+            else
+            {
+                $_adate = $data['articledate'][1];
+            }
+            $articledate1 = $this->model->dba->escape($_adate);
             $sql_articledate = " AND `articledate`{$data['articledate'][0]}'{$articledate1}'";
             if(isset($data['articledate'][2]))
             {
-                $articledate2 = $this->model->dba->escape($data['articledate'][3]);
+                if($data['articledate'][3] == "CURRENT_TIMESTAMP")
+                {
+                    $_a2date = $this->config['gmtDate'];
+                }
+                else
+                {
+                    $_a2date = $data['articledate'][3];
+                }
+                $articledate2 = $this->model->dba->escape($_a2date);
                 $sql_articledate .= " AND `articledate`{$data['articledate'][2]}{$articledate2}";            
             }
         }
@@ -164,6 +233,11 @@ class ActionArticleSelect extends SmartAction
         
         while($row = $rs->fetchAssoc())
         {
+            if($get_num_comments == TRUE)
+            {
+                $row['num_comments'] = $this->getNumComments( (int)$row['id_article'] );
+            }
+            
             if(isset($data['author']))
             {
                 $row['authors'] = $this->getAuthors( $row['id_article'], $data );

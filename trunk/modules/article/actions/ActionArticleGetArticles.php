@@ -167,6 +167,16 @@ class ActionArticleGetArticles extends SmartAction
             $sql_exclude_sector = "";
         }
         
+        if(isset($data['exclude_article']))
+        {
+            $exclude_article = implode(",", $data['exclude_article']);
+            $sql_exclude_article = " AND aa.`id_article` NOT IN({$exclude_article})";
+        }
+        else
+        {
+            $sql_exclude_article = "";
+        }
+        
         if(isset($data['order']))
         {
             if(preg_match("/rand/i",$data['order'][0]))
@@ -182,6 +192,16 @@ class ActionArticleGetArticles extends SmartAction
         {
             $sql_order = "ORDER BY aa.`title` ASC";
         }        
+
+        if(isset($data['id_article']))
+        {
+            $id_article = implode(",", $data['id_article']);
+            $sql_where .= " AND aa.`id_article` IN({$id_article})";
+        }
+        else
+        {
+            $sql_where .= "";
+        }
 
         if(isset($data['id_node']))
         {
@@ -239,6 +259,7 @@ class ActionArticleGetArticles extends SmartAction
                 {$sql_exclude}
                 {$sql_exclude_node}
                 {$sql_exclude_sector}
+                {$sql_exclude_article}
                 {$sql_pubdate}
                 {$sql_modifydate}
                 {$sql_order}
@@ -251,6 +272,11 @@ class ActionArticleGetArticles extends SmartAction
             if($get_num_comments == TRUE)
             {
                 $row['num_comments'] = $this->getNumComments( (int)$row['id_article'] );
+            }
+            
+            if(isset($data['author']))
+            {
+                $row['authors'] = $this->getAuthors( $row['id_article'], $data );
             }
                
             $data['result'][] = $row;
@@ -524,6 +550,27 @@ class ActionArticleGetArticles extends SmartAction
         $row = $rs->fetchAssoc();
         
         return $row['num_rows'];
+    }
+    
+    /**
+     * get article users
+     *
+     * @param int $id_article
+     * @param array $data
+     * @return array
+     */       
+    private function getAuthors( $id_article, & $data )
+    {
+        $result = array();
+        
+        $this->model->action('article','getArticleUsers',
+                 array('result'     => & $result,
+                       'id_article' => (int)$id_article,
+                       'status'     => &$data['author']['status'], 
+                       'order'      => &$data['author']['order'],
+                       'fields'     => &$data['author']['fields'] ));
+        
+        return $result;
     }
 }
 
