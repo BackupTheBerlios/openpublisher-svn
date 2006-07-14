@@ -139,7 +139,8 @@ class ActionArticleGetArticle extends SmartAction
         {
             $sql = "
                 SELECT
-                    `changedate`,`status` AS `changestatus`
+                    DATE_ADD(`changedate`,INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR) AS `changedate`,
+					`status` AS `changestatus`
                 FROM
                     {$this->config['dbTablePrefix']}article_changedate
                 WHERE
@@ -286,14 +287,6 @@ class ActionArticleGetArticle extends SmartAction
         }
 
         return TRUE;
-    }
-    
-    private function gmtToUserGmt( & $_date )
-    {
-        // convert date from gmt+0 to user timezone 
-        $this->model->action('common', 'gmtConverter',
-                             array('action'   => 'gmtToDate',
-                                   'date'     => & $_date ));
     }
 }
 

@@ -53,6 +53,8 @@ class ActionArticleDeleteExpired extends SmartAction
         {
             $this->model->action('article','deleteArticle',
                             array('id_article'  => (int)$row['id_article']));  
+            
+			$this->model->broadcast('modArticleDeleteRelations', array('id_article' => (int)$row['id_article']));
         }      
     } 
 }

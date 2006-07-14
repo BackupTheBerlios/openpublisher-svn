@@ -75,8 +75,21 @@ class ActionArticleAddArticle extends SmartAction
         
         foreach($data['fields'] as $key => $val)
         {
+            if(($key == 'changedate') || ($key == 'changestatus'))
+            {
+                continue;
+            }
+            // Modify dates depended on gmt+X settings
+            elseif(($key == 'pubdate') || ($key == 'articledate'))
+            {
+                $quest .= "{$comma}DATE_SUB('{$this->model->dba->escape($val)}',INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR)";
+            }
+            else
+            {
+                $quest .= $comma."'".$this->model->dba->escape($val)."'";
+            }
+            
             $fields .= $comma."`".$key."`";
-            $quest  .= $comma."'".$this->model->dba->escape($val)."'";
             $comma   = ",";
         }        
          

@@ -67,6 +67,7 @@ class ActionArticleSelect extends SmartAction
             $data['fields'][] = 'id_article';
         }
         
+        $get_num_comments = false;
         $comma = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
