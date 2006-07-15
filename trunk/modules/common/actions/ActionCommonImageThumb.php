@@ -130,7 +130,6 @@ class ActionCommonImageThumb extends SmartAction
         if(false == $this->getImageInfo($data['imgSource']))
         {
             $data['error'][] = "Cant recognize image type or file is damaged in: {$data['imgSource']}";
-            return false;
         }
         
         if(!isset($this->allowedImageTypes[$this->imgSourceType]))
@@ -152,11 +151,14 @@ class ActionCommonImageThumb extends SmartAction
         {
             return false;
         }
+
         $this->imgSourceWidth  = $img_info[0];
         $this->imgSourceHeight = $img_info[1];
         $this->imgSourceType   = $img_info[2];
         $this->imgSourceMime   = $img_info['mime'];
         $this->imgSourceSize   = filesize($image);
+        
+        return true;
     }
     
     private function resizeJEPG( $jepgFile, $newImageFile, $destWidth )
