@@ -92,6 +92,8 @@ class ActionCommonSetup extends SmartAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
+
+
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
                  (`op_version`,`charset`, `templates_folder`, `css_folder`, 
                   `views_folder`,`rejected_files`)
@@ -109,6 +111,7 @@ class ActionCommonSetup extends SmartAction
                  `visibility`  tinyint(1) NOT NULL default 0,
                  `perm`        tinyint(3) NOT NULL default 0,
                  `release`     text NOT NULL default '',
+                 `config`      text NOT NULL default '',
                  PRIMARY KEY   (`id_module`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
