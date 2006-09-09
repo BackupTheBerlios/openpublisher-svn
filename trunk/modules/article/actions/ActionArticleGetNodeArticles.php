@@ -102,23 +102,41 @@ class ActionArticleGetNodeArticles extends SmartAction
         {
             $sql_where = "";
         }
-        
+
         if(isset($data['pubdate']))
         {
             if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_date = $this->config['gmtDate'];
+                $_pdate = $this->config['gmtDate'];
             }
             else
             {
-                $_date = $data['pubdate'][1];
+                $_pdate = $data['pubdate'][1];
             }
 
-            $sql_pubdate = " AND `pubdate`{$data['pubdate'][0]}'{$_date}'";
+            $sql_pubdate = " AND `pubdate`{$data['pubdate'][0]}'{$_pdate}'";
         }
         else
         {
             $sql_pubdate = "";
+        }  
+        
+        if(isset($data['modifydate']))
+        {
+            if($data['modifydate'][1] == "CURRENT_TIMESTAMP")
+            {
+                $_mdate = $this->config['gmtDate'];
+            }
+            else
+            {
+                $_mdate = $data['modifydate'][1];
+            }
+
+            $sql_modifydate = " AND `modifydate`{$data['modifydate'][0]}'{$_mdate}'";
+        }
+        else
+        {
+            $sql_modifydate = "";
         }  
         
         if(isset($data['order']))
@@ -160,6 +178,7 @@ class ActionArticleGetNodeArticles extends SmartAction
                 `id_node`={$data['id_node']}
                 {$sql_where} 
                 {$sql_pubdate}
+                {$sql_modifydate}
                 {$sql_order}
                 {$sql_limit}";
 
@@ -307,6 +326,26 @@ class ActionArticleGetNodeArticles extends SmartAction
                 if(!isset($data['pubdate'][1]) || !preg_match("/^CURRENT_TIMESTAMP$/i",$data['pubdate'][1]))
                 {
                     throw new SmartModelException('Wrong "pubdate" array[1] value: '.$data['pubdate'][1]); 
+                }
+            }
+        }
+        
+        if(isset($data['mofifydate']))
+        {
+            if(!is_array($data['mofifydate']))
+            {
+                throw new SmartModelException('"mofifydate" isnt an array'); 
+            }
+            else
+            {
+                if(!preg_match("/>|<|=|>=|<=|!=/",$data['mofifydate'][0]))
+                {
+                    throw new SmartModelException('Wrong "mofifydate" array[0] value: '.$data['mofifydate'][0]); 
+                }
+
+                if(!isset($data['mofifydate'][1]) || !preg_match("/^CURRENT_TIMESTAMP$/i",$data['mofifydate'][1]))
+                {
+                    throw new SmartModelException('Wrong "mofifydate" array[1] value: '.$data['mofifydate'][1]); 
                 }
             }
         }
