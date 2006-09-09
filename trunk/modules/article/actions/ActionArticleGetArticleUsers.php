@@ -31,9 +31,9 @@
  *                                         'format','media_folder') ));
  *
  */
+include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUser.php');
 
-
-class ActionArticleGetArticleUsers extends SmartAction
+class ActionArticleGetArticleUsers extends ActionUser
 {
     /**
      * get data of all users
@@ -42,43 +42,70 @@ class ActionArticleGetArticleUsers extends SmartAction
      */
     public function perform( $data = FALSE )
     {
+        $comma = '';
+        $_fields = '';
+        foreach ($data['fields'] as $f)
+        {
+            $_fields .= $comma.'uu.`'.$f.'`';
+            $comma = ',';
+        }
+
+        if(isset($data['order']))
+        {
+            $sql_order = " ORDER BY {$data['order'][0]} {$data['order'][1]}";
+        }
+        else
+        {
+            $sql_order = " ORDER BY `role` ASC, `login` ASC";
+        }          
+
+        $role = "";
+        if(isset($data['role']))
+        {
+            $role = " AND \n `role` {$data['role'][0]} {$data['role'][1]}";
+        }
+        
         $sql = "
-            SELECT
-                `id_user`
+            SELECT SQL_CACHE
+                {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_user
+                {$this->config['dbTablePrefix']}user_user AS uu,
+                {$this->config['dbTablePrefix']}article_user AS au
             WHERE
-                `id_article`={$data['id_article']}";
+                au.`id_article`={$data['id_article']}
+            AND
+                uu.`id_user`=au.`id_user`
+                {$role}
+                {$sql_order}";
 
         $rs = $this->model->dba->query($sql);
         
-        $id_users = array();
         while($row = $rs->fetchAssoc())
         {            
-            $id_users[] = $row['id_user'];    
+            if(isset($data['translate_role']) && isset($row['role']))
+            {
+                $row['role_t'] = $this->userRole[$row['role']];    
+            }
+            
+            $data['result'][] = $row;
         } 
-
-        // return if no user found
-        if( count($id_users) == 0 )
-        {
-            return;
-        }
-
-        $_user_fields =  array('result'         => & $data['result'],
-                               'translate_role' => TRUE,
-                               'id_user'        => & $id_users,
-                               'fields'         => $data['fields']);
-        
-        if(isset($data['order']))
-        {
-            $_user_fields['order'] = $data['order'];
-        }
-        
-        $this->model->action('user', 'getUsers', $_user_fields);  
     } 
     
     public function validate( $data = FALSE )
     {
+        foreach($data['fields'] as $key)
+        {
+            if(!isset($this->tblFields_user[$key]))
+            {
+                throw new SmartModelException("Field '".$key."' dosent exists!");
+            }
+        }
+
+        if(!isset($data['id_article']) || !is_int($data['id_article']))
+        {
+            throw new SmartModelException("'id_article' isnt set or isnt from type int");
+        }
+
         if(!isset($data['result']))
         {
             throw new SmartModelException("'result' isnt set");
@@ -88,16 +115,65 @@ class ActionArticleGetArticleUsers extends SmartAction
             throw new SmartModelException("'result' isnt from type array");
         }
 
-        if(!isset($data['id_article']) || !is_int($data['id_article']))
+        if(isset($data['or_id_user']) && !is_int($data['or_id_user']))
         {
-            throw new SmartModelException("'id_article' isnt set or isnt from type int");
+            throw new SmartModelException("'or_id_user' isnt from type int");
         }
 
-        if( !isset($data['fields']) )
+        if(isset($data['role']))
         {
-            throw new SmartModelException("'fields' isnt set");
+            if(!is_array($data['role']))
+            {
+                throw new SmartModelException('"role" action array instruction isnt an array'); 
+            }
+            else
+            {
+                if(!preg_match("/=|<|>|>=|<=/",$data['role'][0]))
+                {
+                    throw new SmartModelException('Wrong "role" array[0] value: '.$data['role'][0]); 
+                }
+
+                if(isset($data['role'][1]))
+                {
+                    // check allowed role values
+                    if(!isset($this->userRole[$data['role'][1]]))
+                    {
+                        throw new SmartModelException('Wrong "role" array[1] value: '.$data['role'][1]); 
+                    }
+                }
+                else
+                {
+                    throw new SmartModelException('"role" array[1] value isnt set.'); 
+                }
+            }
         }
-        
+
+        if(isset($data['order']))
+        {
+            if(!is_array($data['order']))
+            {
+                throw new SmartModelException('"order" action array instruction isnt an array'); 
+            }
+            else
+            {
+                if(!preg_match("/name|lastname|login|role|status/",$data['order'][0]))
+                {
+                    throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
+                }
+
+                if(isset($data['order'][1]))
+                {
+                    if(!preg_match("/asc|desc/i",$data['order'][1]))
+                    {
+                        throw new SmartModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
+                    }
+                }
+                else
+                {
+                    $data['order'][1] = 'ASC';
+                }
+            }
+        }
         return TRUE;
     }
 }

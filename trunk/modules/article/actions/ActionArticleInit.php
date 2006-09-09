@@ -32,8 +32,9 @@ class ActionArticleInit extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $this->checkModuleVersion();
         $this->loadConfig();
+        $this->checkModuleVersion();
+        
         $this->model->action('article','changedateStatus');
         
         // delete expired articles
