@@ -25,6 +25,8 @@ class DbMysql
     protected $dbsocket;
     protected $dbflags;
     private   $dbh = NULL;
+    public    $debug = false;
+    public    $stat = array();
 
     public function __construct($dbhost, $user, $pass, $dbname, $dbport = FALSE, $dbsocket = FALSE, $dbflags = FALSE) 
     {
@@ -69,6 +71,11 @@ class DbMysql
 
     public function query( $query, $mode = MYSQLI_STORE_RESULT ) 
     {
+        if($this->debug == true)
+        {
+            $this->stat['query'][] = $query;
+        }
+        
         $result = $this->dbh->query($query, $mode); 
 
         if(FALSE === $result) 

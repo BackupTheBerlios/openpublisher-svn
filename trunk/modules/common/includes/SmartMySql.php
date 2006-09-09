@@ -25,7 +25,9 @@ class DbMysql
     protected $dbsocket;
     protected $dbflags;
     private   $dbh = NULL;
-
+    public    $debug = false;
+    public    $stat = array();
+    
     public function __construct($dbhost, $user, $pass, $dbname, $dbport = FALSE, $dbsocket = FALSE, $dbflags = FALSE) 
     {
         $this->user     = $user;
@@ -70,6 +72,11 @@ class DbMysql
 
     public function query( $query, $mode = '' ) 
     {
+        if($this->debug == true)
+        {
+            $this->stat['query'][] = $query;
+        }
+        
         $result = mysql_query($query, $this->dbh); 
 
         if(FALSE === $result) 

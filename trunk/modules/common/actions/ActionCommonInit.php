@@ -76,6 +76,9 @@ class ActionCommonInit extends SmartAction
         {
             $this->model->dba = new DbMysql( $db['dbhost']  ,$db['dbuser'],
                                              $db['dbpasswd'],$db['dbname'] );
+
+            // enable debugging of sql queries
+            $this->model->dba->debug = $this->config['debug']; 
                                               
             //$dbaOptions = array(MYSQLI_OPT_CONNECT_TIMEOUT => 5);
             $this->model->dba->connect();  
@@ -87,6 +90,9 @@ class ActionCommonInit extends SmartAction
             throw new SmartModelException;
         }
 
+        // load global config variables of the common module   
+        $this->loadConfig(); 
+
         // load module descriptions into config array   
         $this->loadModulesInfo();         
         
@@ -95,9 +101,6 @@ class ActionCommonInit extends SmartAction
        
         // set session handler
         $this->model->sessionHandler = new SmartSessionHandler( $this->model->dba, $this->config['dbTablePrefix'] );
-
-        // load global config variables of the common module   
-        $this->loadConfig(); 
 
         // init and start session
         $this->startSession();
