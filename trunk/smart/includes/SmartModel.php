@@ -39,6 +39,12 @@ class SmartModel extends SmartObject
      * @var array $config
      */  
     public $config;
+    
+    /**
+     * Mdbug object
+     * @var object $smartDebug
+     */  
+    public $smartDebug;
 
     /**
      * Session
@@ -57,9 +63,11 @@ class SmartModel extends SmartObject
      * 
      * @param array $config Main Smart config array
      */
-    public function __construct( & $config )
+    public function __construct( & $config, & $debug )
     {
         $this->config = & $config;
+        $this->smartDebug = & $debug;
+        $this->smartDebug->model = & $this;
     }
 
     /**

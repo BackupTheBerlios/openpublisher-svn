@@ -151,7 +151,7 @@
        <h2>Article comment preview: </h2>
        <dl class="comment">
          <dd class="commentheader">
-           Posted by <?php echo $comment['author']; ?> 
+           Posted by <?php echo $tpl['commentPreview']['author']; ?> 
            <?php if(!empty($tpl['commentPreview']['url'])): ?>
              / <a href="<?php echo $tpl['commentPreview']['url']; ?>">site</a>
            <?php  endif; ?>

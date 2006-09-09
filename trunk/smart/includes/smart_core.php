@@ -169,8 +169,24 @@ $SmartConfig['error_reporting'] = E_ALL;
 
 /**
  * Set debug mode.
+ * Set to false in a production environement
  */
-$SmartConfig['debug'] = TRUE; 
+$SmartConfig['debug'] = true; 
+
+/**
+ * How to show debug messages
+ * 'append' 'newWindow' 'log'
+ */
+$SmartConfig['debugShowMessageType'] = false; 
+
+ /**
+ * get numbers of sql queries.
+ */
+$SmartConfig['debugGetNumQueries'] = true;
+/**
+ * get sql queries.
+ */
+$SmartConfig['debugGetQueries']    = false;
 
 /**
  * Rights for media folders and files
@@ -242,5 +258,15 @@ include_once( SMART_BASE_DIR . 'smart/includes/SmartCache.php' );
 
 // pass the config array to the controller
 SmartController::setConfig( $SmartConfig );
+
+// include debug class
+//
+if($SmartConfig['debug'] == true)
+{
+    include_once( SMART_BASE_DIR . 'smart/includes/SmartDebug.php' );
+    $smartDebug = new SmartDebug();
+    $smartDebug->config = & $SmartConfig;
+    SmartController::setDebug( $smartDebug );
+}
 
 ?>

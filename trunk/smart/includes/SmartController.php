@@ -43,6 +43,13 @@ class SmartController extends SmartObject
      * @var array $config
      */        
     private static $smartConfig;
+    
+    /**
+     * Smart debug object
+     *
+     * @var object $smartDebug
+     */
+    public static $smartDebug = object;
 
     /**
      * Controller construct
@@ -58,7 +65,10 @@ class SmartController extends SmartObject
         {   
             // set reference to the config array
             $this->config = & self::$smartConfig;
-
+            
+            // set reference to the config array
+            $this->smartDebug = & self::$smartDebug;
+            
             // display php errors
             ini_set('display_errors', $this->config['debug']);
 
@@ -73,7 +83,7 @@ class SmartController extends SmartObject
             $SmartContainer = new SmartContainer( $this->config );
 
             // create smart model instance
-            $this->model = new SmartModel( $this->config );          
+            $this->model = new SmartModel( $this->config, $this->smartDebug );          
 
             // create user-defined error handler
             new SmartErrorHandler( $this->config );
@@ -169,6 +179,16 @@ class SmartController extends SmartObject
     public static function setConfig( &$config )
     {
         self::$smartConfig = & $config;
+    }
+    
+    /**
+     * Set debug object
+     *
+     * @param object $debug 
+     */
+    public static function setDebug( & $debug )
+    {
+        self::$smartDebug = & $debug;
     }
 
     /**

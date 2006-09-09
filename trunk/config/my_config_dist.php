@@ -162,7 +162,22 @@ $SmartConfig['error_reporting'] = E_ALL;
  * Set debug mode.
  * Set to false in a production environement
  */
-$SmartConfig['debug'] = TRUE; 
+$SmartConfig['debug'] = true; 
+
+/**
+ * How to show debug messages
+ * 'append' 'newWindow' 'log'
+ */
+$SmartConfig['debugShowMessageType'] = 'newWindow'; 
+
+ /**
+ * get numbers of sql queries.
+ */
+$SmartConfig['debugGetNumQueries'] = true;
+/**
+ * get sql queries.
+ */
+$SmartConfig['debugGetQueries']    = false;
 
 /**
  * Rights for media folders and files

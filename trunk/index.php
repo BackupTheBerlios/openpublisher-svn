@@ -76,4 +76,14 @@ $smartController = SmartController::newInstance('SmartWebController');
 
 $smartController->dispatch();
 
+// Debug
+if ($smartController->config['debug'] == true)
+{
+    $debugLocation = array("file" => __FILE__,
+                           "line" => __LINE__);
+    $smartDebug->setDebugPoint( 'end', $debugLocation );
+    
+    $smartDebug->smartVarDump( $smartController->config['debugShowMessageType'] );
+}
+
 ?>
