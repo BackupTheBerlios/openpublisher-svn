@@ -13,7 +13,7 @@
  * ViewError class
  */
 
-class ViewCommonError extends SmartView
+class ViewCommonError extends JapaControllerAbstractPage
 {
      /**
      * Template of this view

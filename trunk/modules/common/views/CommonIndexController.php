@@ -10,11 +10,11 @@
 // ---------------------------------------------
 
 /**
- * ViewCommonIndex class
+ * CommonIndexController class
  *
  */
 
-class ViewCommonIndex extends SmartView
+class CommonIndexController extends JapaControllerAbstractPage
 {
      /**
      * Login Module to load
@@ -27,12 +27,6 @@ class ViewCommonIndex extends SmartView
      * @var mixed $loginView
      */
     private $loginView = FALSE;
-    
-     /**
-     * Default template for this view
-     * @var string $template
-     */
-    public $template = 'index';
     
     /**
      * Execute the main view
