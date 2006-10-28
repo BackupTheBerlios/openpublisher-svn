@@ -14,7 +14,7 @@
  *
  */
  
-class ViewMiscEditText extends SmartView
+class ViewMiscEditText extends JapaControllerAbstractPage
 {
    /**
      * template for this view

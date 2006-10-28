@@ -14,7 +14,7 @@
  *
  */
  
-class ViewLinkIndex extends SmartView
+class ViewLinkIndex extends JapaControllerAbstractPage
 {
      /**
      * Default template for this view

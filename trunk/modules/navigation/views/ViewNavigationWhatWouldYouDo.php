@@ -14,7 +14,7 @@
  *
  */
 
-class ViewNavigationWhatWouldYouDo extends SmartView
+class ViewNavigationWhatWouldYouDo extends JapaControllerAbstractPage
 {
      /**
      * Template for this view

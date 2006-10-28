@@ -14,7 +14,7 @@
  *
  */
  
-class ViewUserShowLogs extends SmartView
+class ViewUserShowLogs extends JapaControllerAbstractPage
 {
    /**
      * Default template for this view

@@ -14,7 +14,7 @@
  *
  */
  
-class ViewUserMap extends SmartView
+class ViewUserMap extends JapaControllerAbstractPage
 {
    /**
      * Default template for this view

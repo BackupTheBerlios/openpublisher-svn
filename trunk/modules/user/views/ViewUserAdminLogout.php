@@ -14,7 +14,7 @@
  *
  */
 
-class ViewUserAdminLogout extends SmartView
+class ViewUserAdminLogout extends JapaControllerAbstractPage
 {    
     /**
      * Destroy current session and reload the admin controller

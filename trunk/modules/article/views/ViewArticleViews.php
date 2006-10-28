@@ -14,7 +14,7 @@
  *
  */
  
-class ViewArticleViews extends SmartView
+class ViewArticleViews extends JapaControllerAbstractPage
 {
    /**
      * Default template for this view

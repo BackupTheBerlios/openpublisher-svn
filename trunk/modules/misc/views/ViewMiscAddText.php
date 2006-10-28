@@ -14,7 +14,7 @@
  *
  */
  
-class ViewMiscAddText extends SmartView
+class ViewMiscAddText extends JapaControllerAbstractPage
 {
    /**
      * Default template for this view

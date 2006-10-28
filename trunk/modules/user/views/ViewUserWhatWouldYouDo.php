@@ -14,7 +14,7 @@
  *
  */
 
-class ViewUserWhatWouldYouDo extends SmartView
+class ViewUserWhatWouldYouDo extends JapaControllerAbstractPage
 {
      /**
      * Template for this view

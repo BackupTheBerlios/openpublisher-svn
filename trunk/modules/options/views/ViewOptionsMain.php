@@ -14,7 +14,7 @@
  *
  */
  
-class ViewOptionsMain extends SmartView
+class ViewOptionsMain extends JapaControllerAbstractPage
 {
      /**
      * Default template for this view

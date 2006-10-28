@@ -14,7 +14,7 @@
  *
  */
  
-class ViewNavigationAddNode extends SmartView
+class ViewNavigationAddNode extends JapaControllerAbstractPage
 {
    /**
      * Default template for this view

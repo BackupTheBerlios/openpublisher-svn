@@ -14,7 +14,7 @@
  *
  */
  
-class ViewNavigationMain extends SmartView
+class ViewNavigationMain extends JapaControllerAbstractPage
 {
    /**
      * template for this view

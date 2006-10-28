@@ -14,7 +14,7 @@
  *
  */
 
-class ViewDefaultSystemInfo extends SmartView
+class ViewDefaultSystemInfo extends JapaControllerAbstractPage
 {
      /**
      * Template for this view

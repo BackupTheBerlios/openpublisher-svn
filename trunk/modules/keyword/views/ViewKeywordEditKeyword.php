@@ -14,7 +14,7 @@
  *
  */
  
-class ViewKeywordEditKeyword extends SmartView
+class ViewKeywordEditKeyword extends JapaControllerAbstractPage
 {
    /**
      * template for this view

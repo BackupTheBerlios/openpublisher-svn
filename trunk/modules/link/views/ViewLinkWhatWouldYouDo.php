@@ -14,7 +14,7 @@
  *
  */
 
-class ViewLinkWhatWouldYouDo extends SmartView
+class ViewLinkWhatWouldYouDo extends JapaControllerAbstractPage
 {
      /**
      * Template for this view

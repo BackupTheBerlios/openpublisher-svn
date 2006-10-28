@@ -14,7 +14,7 @@
  *
  */
 
-class ViewMiscMain extends SmartView
+class ViewMiscMain extends JapaControllerAbstractPage
 {
      /**
      * Template for this view

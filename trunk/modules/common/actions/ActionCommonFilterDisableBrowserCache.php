@@ -1,13 +1,13 @@
 <?php
-// ---------------------------------------------
-// Open Publisher CMS
-// Copyright (c) 2006
-// by Armand Turpel < cms@open-publisher.net >
-// http://www.open-publisher.net/
-// ---------------------------------------------
-// LICENSE LGPL
-// http://www.gnu.org/licenses/lgpl.html
-// ---------------------------------------------
+// ----------------------------------------------------------------------
+// Japa PHP Framework
+// Copyright (c)  Armand Turpel < armand.turpel@open-publisher.net >2004, 2005
+
+
+// ----------------------------------------------------------------------
+// LICENSE GPL
+// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// ----------------------------------------------------------------------
 
 /**
  * ActionCommonFilterDisableBrowserCache
@@ -17,14 +17,14 @@
  *
  */
 
-class ActionCommonFilterDisableBrowserCache extends SmartAction
+class ActionCommonFilterDisableBrowserCache extends JapaAction
 {
     /**
      * Add http headers to disable browser caching
      *
      * @param mixed $data
      */
-    public function perform( $data = FALSE )
+    public function perform( $data = false )
     {
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -38,9 +38,9 @@ class ActionCommonFilterDisableBrowserCache extends SmartAction
     /**
      * Validate data passed to this action
      */
-    public function validate( $data = FALSE )
+    public function validate( $data = false )
     {
-        return TRUE;
+        return true;
     }    
 }
 

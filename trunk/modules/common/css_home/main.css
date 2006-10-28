@@ -1,0 +1,105 @@
+body,td,th {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+body {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+.headerdesc {
+    font-size: 14px;
+    color: #CCCCCC;
+    font-weight: bold;
+}
+.itemnormalbold {
+    font-size: 14px;
+    font-weight: bold;
+}
+.itemnormal {font-size: 14px}
+.itemsmall {font-size: 10px}
+.itemerror {
+    font-size: 12px;
+    font-weight: bold;
+    color: #FF0000;
+}
+.font10 {font-size: 10px}
+.font10bold {
+    font-size: 10px;
+    font-weight: bold;
+}
+.font14 {font-size: 14px}
+.font14bold {
+    font-size: 14px;
+    font-weight: bold;
+}
+.font16 {font-size: 16px}
+.font16bold {
+    font-size: 16px;
+    font-weight: bold;
+}
+.font9 {font-size: 9px}
+.font9bold {
+    font-size: 9px;
+    font-weight: bold;
+}
+.font12bold {
+	font-size: 12px;
+	font-weight: bold;
+}
+.font12 {
+	font-size: 12px;
+}
+.moduleheader {
+        height: 25px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #0033CC;
+	background-color: #D6D6D6;
+	background-position: left center;
+	letter-spacing: 1px;
+	text-indent: 5px;
+	word-spacing: 2px;
+}
+.indent5 {
+	margin: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+}
+.modulebar {
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #0000CC;
+}
+.moduleheader2 {
+	font-size: 12px;
+	font-weight: bold;
+	color: #666666;
+	text-align: left;
+	text-indent: 5px;
+	vertical-align: middle;
+	border: 1px solid #0000CC;
+	background-color: #FFFFFF;
+}
+.treeselectbox {
+	font-size: 13px;
+	color: #000066;
+}.unlockbutton {
+	font-size: 10px;
+	font-weight: bold;
+	color: #990000;
+	background-color: #CCCCCC;
+}
+.button {
+	font-size: 12px;
+	font-weight: bold;
+	color: #990000;
+}

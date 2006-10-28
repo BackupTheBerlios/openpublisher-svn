@@ -14,7 +14,7 @@
  *
  */
  
-class ViewUserEditUser extends SmartView
+class ViewUserEditUser extends JapaControllerAbstractPage
 {
      /**
      * Template for this view

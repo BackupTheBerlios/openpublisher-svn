@@ -14,7 +14,7 @@
  *
  */
  
-class ViewNavigationEditNode extends SmartView
+class ViewNavigationEditNode extends JapaControllerAbstractPage
 {
    /**
      * template for this view

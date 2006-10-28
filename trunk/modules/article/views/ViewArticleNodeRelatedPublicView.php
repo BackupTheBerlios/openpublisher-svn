@@ -14,7 +14,7 @@
  *
  */
 
-class ViewArticleNodeRelatedPublicView extends SmartView
+class ViewArticleNodeRelatedPublicView extends JapaControllerAbstractPage
 {
      /**
      * Template for this view

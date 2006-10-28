@@ -14,7 +14,7 @@
  *
  */
  
-class ViewKeywordMap extends SmartView
+class ViewKeywordMap extends JapaControllerAbstractPage
 {
    /**
      * Default template for this view

@@ -14,7 +14,7 @@
  *
  */
  
-class ViewLinkAddLink extends SmartView
+class ViewLinkAddLink extends JapaControllerAbstractPage
 {
    /**
      * Default template for this view

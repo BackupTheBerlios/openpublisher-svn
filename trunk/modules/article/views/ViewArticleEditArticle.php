@@ -22,7 +22,7 @@
  *
  */
  
-class ViewArticleEditArticle extends SmartView
+class ViewArticleEditArticle extends JapaControllerAbstractPage
 {
    /**
      * template for this view

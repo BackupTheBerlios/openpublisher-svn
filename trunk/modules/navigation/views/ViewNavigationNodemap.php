@@ -14,7 +14,7 @@
  *
  */
  
-class ViewNavigationNodemap extends SmartView
+class ViewNavigationNodemap extends JapaControllerAbstractPage
 {
    /**
      * Default template for this view
