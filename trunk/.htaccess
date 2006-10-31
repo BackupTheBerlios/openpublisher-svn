@@ -1,0 +1,11 @@
+RewriteEngine on
+
+# May you have to change the path to japa
+# if it dosent work
+
+#RewriteBase /japa/
+
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^(.*)$ index.php
+

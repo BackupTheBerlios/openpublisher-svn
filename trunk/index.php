@@ -1,89 +1,43 @@
 <?php
 // ----------------------------------------------------------------------
-// Smart3 PHP Framework
-// Copyright (c) 2004, 2005, 2006
-// by Armand Turpel < framework@smart3.org >
-// http://www.smart3.org/
+// Japa PHP Framework
+// Copyright (c)  Armand Turpel < armand.turpel@open-publisher.net >
 // ----------------------------------------------------------------------
 // GNU LESSER GENERAL PUBLIC LICENSE
 // To read the license please visit http://www.gnu.org/licenses/lgpl.txt
 // ----------------------------------------------------------------------
 
-/*
- * The Front Controller for html web applications
- *
- */
+// bootstrap file
 
-/*
- * Front Controller File Name (this file)
- */
-if(!defined( 'SMART_CONTROLLER' ))
-{
-   define('SMART_CONTROLLER', 'index.php'); 
-}
 
-/*
- * Relative path to SMART3. Example: 'test/'
- */
-if(!defined( 'SMART_RELATIVE_PATH' ))
-{
-   define('SMART_RELATIVE_PATH', './'); 
-}
-
-/*
- * Force to use the views folder, independed of the sys config settings.
- */
-/*
-if(!defined( 'SMART_VIEW_FOLDER' ))
-{
-   define('SMART_VIEW_FOLDER', 'views_default/'); 
-}
-*/
-
-/*
- * Force to use the template folder, independed of the sys config settings.
- */
-/*
-if(!defined( 'SMART_TPL_FOLDER' ))
-{
-   define('SMART_TPL_FOLDER', 'templates_default/'); 
-}
-*/
-
-/* #################################################### */
-/* ######### Dont change any thing below !!! ########## */
-/* #################################################### */
-
-/* 
- * Secure include of files from this script
- */
-if(!defined( 'SMART_SECURE_INCLUDE' ))
-{
-    define('SMART_SECURE_INCLUDE', 1);
-}
-
-// Define the absolute path to SMART3
+// Define the absolute path to JAPA
 //
-define('SMART_BASE_DIR', dirname(__FILE__) . '/');
+define('JAPA_BASE_DIR', dirname(__FILE__) . '/');
 
-// Include the system core file. use this for debuging
-include( SMART_BASE_DIR . 'smart/includes/smart_core.php' );
+// Define the absolute path to the JAPA library folder
+//
+define('JAPA_LIBRARY_DIR', JAPA_BASE_DIR . 'library/');
 
-// Include the system core file. use this for production in order to the previous include
-// include( SMART_BASE_DIR . 'smart/includes/smart_all_in_one.php' );
+// Define the absolute path to the JAPA application folder
+//
+define('JAPA_APPLICATION_DIR', JAPA_BASE_DIR . 'application/');
 
-$smartController = SmartController::newInstance('SmartWebController');
+// Define the absolute path to the JAPA modules folder
+//
+define('JAPA_MODULES_DIR', JAPA_BASE_DIR . 'modules/');
 
-$smartController->dispatch();
+// Define the relative path to the JAPA public folder
+//
+define('JAPA_PUBLIC_DIR', './public/');
 
-// Debug
-if ($smartController->config['debug'] == true)
-{
-    $debugLocation = array("file" => __FILE__,
-                           "line" => __LINE__);
-    $smartDebug->setDebugPoint( 'end', $debugLocation );
-    
-    $smartDebug->smartVarDump( $smartController->config['debugShowMessageType'] );
-}
+// Include the system core file. 
+include( JAPA_LIBRARY_DIR . 'japa/japa_core.php' );
+
+// router which handles url rewrites
+$japaRouter     = JapaRouter::newInstance( $JapaConfig, 'web' );
+
+$japaController = JapaController::newInstance( $japaRouter );
+
+$japaController->dispatch();
 
 ?>
