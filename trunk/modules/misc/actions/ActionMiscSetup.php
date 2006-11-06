@@ -14,7 +14,7 @@
  *
  */
  
-class ActionMiscSetup extends SmartAction
+class ActionMiscSetup extends JapaAction
 {
     /**
      * Run setup process of this module

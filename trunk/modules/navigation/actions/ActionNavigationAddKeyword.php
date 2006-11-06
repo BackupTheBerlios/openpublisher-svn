@@ -22,7 +22,7 @@
 
 
 
-class ActionNavigationAddKeyword extends SmartAction
+class ActionNavigationAddKeyword extends JapaAction
 {                                           
     /**
      * Add keyword

@@ -29,9 +29,9 @@
  *
  *
  */
-include_once(SMART_BASE_DIR . 'modules/common/includes/SmartPager.php');
+include_once(JAPA_BASE_DIR . 'modules/common/includes/SmartPager.php');
  
-class ActionArticlePager extends SmartAction
+class ActionArticlePager extends JapaAction
 {
     /**
      * Allowed sql caching

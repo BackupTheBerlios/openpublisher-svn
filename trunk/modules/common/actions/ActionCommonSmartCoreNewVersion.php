@@ -20,7 +20,7 @@
  *
  */
 
-class ActionCommonSmartCoreNewVersion extends SmartAction
+class ActionCommonSmartCoreNewVersion extends JapaAction
 {
     /**
      * perform

@@ -15,7 +15,7 @@
  */
  * 
  */
-class ActionCommonSetFileRights extends SmartAction
+class ActionCommonSetFileRights extends JapaAction
 {
     /**
      * Perform on the action call
@@ -27,7 +27,7 @@ class ActionCommonSetFileRights extends SmartAction
         // Here we assign a variable with some content
         // The action caller has to evaluate its content
         //
-       //$this->chmod_R(SMART_BASE_DIR . 'modules/common/includes/media', 0777); 
+       //$this->chmod_R(JAPA_BASE_DIR . 'modules/common/includes/media', 0777); 
     }
     
     /**

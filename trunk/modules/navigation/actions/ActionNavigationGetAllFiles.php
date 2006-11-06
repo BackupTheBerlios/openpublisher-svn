@@ -23,7 +23,7 @@
  *
  */
  
-class ActionNavigationGetAllFiles extends SmartAction
+class ActionNavigationGetAllFiles extends JapaAction
 {
     private $tblFields_pic = array('id_file' => TRUE,
                                    'id_node' => TRUE,

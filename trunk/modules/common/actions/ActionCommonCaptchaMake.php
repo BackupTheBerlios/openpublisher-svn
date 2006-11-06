@@ -24,9 +24,9 @@
 
 // captcha class
 //
-include_once( SMART_BASE_DIR .'modules/common/includes/class.captcha.php' );
+include_once( JAPA_BASE_DIR .'modules/common/includes/class.captcha.php' );
 
-class ActionCommonCaptchaMake extends SmartAction
+class ActionCommonCaptchaMake extends JapaAction
 {
     /**
      * Create capcha picture and public key
@@ -39,15 +39,15 @@ class ActionCommonCaptchaMake extends SmartAction
         $captcha_privat_key = md5(implode('',file($data['configPath'].'dbConnect.php')));
         
         // The ttf font to create turing chars images
-        $captcha_ttf_font = SMART_BASE_DIR .'modules/common/includes/ttf_font/activa.ttf';
+        $captcha_ttf_font = JAPA_BASE_DIR .'modules/common/includes/ttf_font/activa.ttf';
     
         // Relative folder of captcha pictures
-        $captcha_pictures_folder = SMART_RELATIVE_PATH . 'data/common/captcha';
+        $captcha_pictures_folder = JAPA_PUBLIC_DIR . 'data/common/captcha';
     
         // Type of turing chars
         $captcha_char_type = 'num'; // or 'hex' 
 
-        $captcha = new captcha( $captcha_privat_key, SMART_BASE_DIR, $captcha_ttf_font, $captcha_pictures_folder, $captcha_char_type );
+        $captcha = new captcha( $captcha_privat_key, JAPA_BASE_DIR, $captcha_ttf_font, $captcha_pictures_folder, $captcha_char_type );
    
         $captcha->captcha_picture_expire = 300;
         $captcha->width = 120;
@@ -55,7 +55,7 @@ class ActionCommonCaptchaMake extends SmartAction
         $captcha->shadow = FALSE;    
 
         $data['captcha_pic'] = $captcha->make_captcha();
-        //@chmod(SMART_BASE_DIR . $_captcha_pic, 0775);
+        //@chmod(JAPA_BASE_DIR . $_captcha_pic, 0775);
         $data['public_key']  = $captcha->public_key;
 
         return TRUE;

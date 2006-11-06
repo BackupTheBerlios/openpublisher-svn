@@ -22,7 +22,7 @@
 
 
 
-class ActionMiscAddKeyword extends SmartAction
+class ActionMiscAddKeyword extends JapaAction
 {                                           
     /**
      * Add keyword

@@ -25,7 +25,7 @@
  *
  */
  
-class ActionMiscUpdateText extends SmartAction
+class ActionMiscUpdateText extends JapaAction
 {
     /**
      * Fields and the format of each of the db table

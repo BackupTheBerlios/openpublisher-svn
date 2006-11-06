@@ -27,7 +27,7 @@
  *
  */
  
-class ActionArticleGetArticle extends SmartAction
+class ActionArticleGetArticle extends JapaAction
 {
     /**
      * Allowed sql caching

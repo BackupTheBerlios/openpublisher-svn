@@ -20,7 +20,7 @@
  */
 
 
-class ActionArticleCountArticlePerUser extends SmartAction
+class ActionArticleCountArticlePerUser extends JapaAction
 {
     /**
      * Allowed sql caching

@@ -1,7 +1,7 @@
 <script language="JavaScript" type="text/JavaScript">
 function nodemap(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
-newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navigation&view=nodemap&openerModule=link','',mm); }
+newwindow= window.open('<?php echo JAPA_CONTROLLER; ?>?nodecoration=1&mod=navigation&view=nodemap&openerModule=link','',mm); }
 </script>
 <style type="text/css">
 <!--
@@ -14,9 +14,9 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
   <tr>
     <td width="89%" align="left" valign="top">
   <div class="font12 indent5">
-  <a href="<?php echo SMART_CONTROLLER; ?>?mod=link">Top</a>
+  <a href="<?php echo JAPA_CONTROLLER; ?>?mod=link">Top</a>
   <?php foreach($tpl['branch'] as $node): ?>
-   / <a href="<?php echo SMART_CONTROLLER; ?>?mod=link&id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a>
+   / <a href="<?php echo JAPA_CONTROLLER; ?>?mod=link&id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a>
   <?php endforeach; ?>
   <?php if($tpl['id_node']!=0): ?>
      <span class="font12bold"> / <?php echo $tpl['node']['title']; ?></span>
@@ -37,7 +37,7 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
            <?php endif; ?>    
     </td>
         <td width="98%" align="left" valign="top" class="font12">
-          <?php echo '<a href="'.SMART_CONTROLLER.'?mod=link&id_node='.$node['id_node'].'">'.$node['title'].'</a>'; ?>
+          <?php echo '<a href="'.JAPA_CONTROLLER.'?mod=link&id_node='.$node['id_node'].'">'.$node['title'].'</a>'; ?>
         </td>
       </tr>
     </table>
@@ -60,7 +60,7 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
     <?php endif; ?>
     </td>
         <td width="1%" align="left" valign="top" class="font9">
-    <?php if(($tpl['showLink']==TRUE)&&($link['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=link&view=editLink&id_node=<?php echo $tpl['id_node']; ?>&id_link=<?php echo $link['id_link']; ?>&disableMainMenu=1">edit</a><?php else: ?>edit<?php endif; ?>&nbsp;</td>
+    <?php if(($tpl['showLink']==TRUE)&&($link['lock']==FALSE)): ?><a href="<?php echo JAPA_CONTROLLER; ?>?mod=link&view=editLink&id_node=<?php echo $tpl['id_node']; ?>&id_link=<?php echo $link['id_link']; ?>&disableMainMenu=1">edit</a><?php else: ?>edit<?php endif; ?>&nbsp;</td>
           <td width="98%" align="left" valign="top" class="itemnormal">
                 <?php echo '<a href="'.$link['url'].'" target="_blank">'.$link['title'].'</a>'; ?>
         <?php if(!empty($link['description'])): ?>
@@ -76,7 +76,7 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
     </td>
     <td width="11%" align="center" valign="top" class="font12">
     <?php if(($tpl['showLink']==TRUE)&&($tpl['showAddLink']==TRUE)): ?>
-       <a href="<?php echo SMART_CONTROLLER; ?>?mod=link&view=addLink&id_node=<?php echo $tpl['id_node']; ?>">add link</a>
+       <a href="<?php echo JAPA_CONTROLLER; ?>?mod=link&view=addLink&id_node=<?php echo $tpl['id_node']; ?>">add link</a>
     <?php endif; ?>
     <p><a href="javascript:nodemap();">NodesMap</a></p></td>
   </tr>

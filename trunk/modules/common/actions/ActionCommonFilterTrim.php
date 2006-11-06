@@ -18,7 +18,7 @@
  *
  */
 
-class ActionCommonFilterTrim extends SmartAction
+class ActionCommonFilterTrim extends JapaAction
 {
     /**
      * Add http headers to disable browser caching

@@ -32,7 +32,7 @@
  *                      'use_files'       => 'Int') )
  */
  
-class ActionArticleUpdateConfigOptions extends SmartAction
+class ActionArticleUpdateConfigOptions extends JapaAction
 {
     protected $tblFields_config = 
                       array('thumb_width'     => 'Int',

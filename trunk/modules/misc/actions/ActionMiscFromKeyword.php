@@ -31,7 +31,7 @@
  */
 
  
-class ActionMiscFromKeyword extends SmartAction
+class ActionMiscFromKeyword extends JapaAction
 {
     /**
      * Allowed sql caching

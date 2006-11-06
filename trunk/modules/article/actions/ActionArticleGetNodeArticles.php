@@ -30,7 +30,7 @@
  */
 
  
-class ActionArticleGetNodeArticles extends SmartAction
+class ActionArticleGetNodeArticles extends JapaAction
 {
     /**
      * Allowed sql caching

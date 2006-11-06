@@ -27,7 +27,7 @@
 
 
 
-class ActionArticleAddComment extends SmartAction
+class ActionArticleAddComment extends JapaAction
 {  
     /**
      * Allowed article fields and its type

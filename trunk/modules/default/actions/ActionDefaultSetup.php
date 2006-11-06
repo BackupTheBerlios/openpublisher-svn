@@ -14,7 +14,7 @@
  *
  */
  
-class ActionDefaultSetup extends SmartAction
+class ActionDefaultSetup extends JapaAction
 {
     /**
      * Run setup process of this module

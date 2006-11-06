@@ -14,7 +14,7 @@
  *
  */
  
-class ActionCommonSetup extends SmartAction
+class ActionCommonSetup extends JapaAction
 {
     /**
      * Run setup process of this module

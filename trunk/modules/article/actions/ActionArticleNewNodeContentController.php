@@ -23,7 +23,7 @@
  *
  */
  
-class ActionArticleNewNodeContentView extends SmartAction
+class ActionArticleNewNodeContentView extends JapaAction
 {
     /**
      *

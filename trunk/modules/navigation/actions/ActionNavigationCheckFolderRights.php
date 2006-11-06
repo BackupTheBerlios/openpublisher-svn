@@ -17,7 +17,7 @@
  * $model->action('navigation','checkFolderRights', array('error' => & array() )); 
  */
  
-class ActionNavigationCheckFolderRights extends SmartAction
+class ActionNavigationCheckFolderRights extends JapaAction
 {
     /**
      * check if folders are writeable by php scripts
@@ -25,7 +25,7 @@ class ActionNavigationCheckFolderRights extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $navigation_folder = SMART_BASE_DIR . 'data/navigation';
+        $navigation_folder = JAPA_BASE_DIR . 'data/navigation';
         if(!is_writeable($navigation_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$navigation_folder;    

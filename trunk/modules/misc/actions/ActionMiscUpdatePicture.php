@@ -13,7 +13,7 @@
  * ActionMiscUpdatePicture class 
  *
  */
-class ActionMiscUpdatePicture extends SmartAction
+class ActionMiscUpdatePicture extends JapaAction
 {
     /**
      * update/delete node picture from db table

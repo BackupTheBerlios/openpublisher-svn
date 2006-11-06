@@ -163,7 +163,7 @@ class ViewArticleSearch extends JapaControllerAbstractPage
         } 
         
         // The url passed to the pager action
-        $this->pagerUrl = SMART_CONTROLLER.'?nodecoration=1&mod=article&view=search&search='.$this->pagerUrlSearchString;    
+        $this->pagerUrl = JAPA_CONTROLLER.'?nodecoration=1&mod=article&view=search&search='.$this->pagerUrlSearchString;    
              
         // set article order
         if(isset($_POST['order']))

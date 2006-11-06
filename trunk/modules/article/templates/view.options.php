@@ -1,6 +1,6 @@
 <script language="JavaScript" type="text/JavaScript">
 </script>
-<form name="options" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=options">
+<form name="options" method="post" action="<?php echo JAPA_CONTROLLER; ?>?mod=article&view=options">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" class="moduleheader2">Article module options</td>
@@ -115,7 +115,7 @@
         <td><input type="submit" name="updateOptions" value="update"></td>
       </tr>
     </table></td>
-    <td width="26%" align="left" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article">back to article module</a>
+    <td width="26%" align="left" valign="top" class="font10bold"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=article">back to article module</a>
     <?php if(count($tpl['error'])>0):  ?><br>
     <br>
       <?php foreach($tpl['error'] as $error): ?>

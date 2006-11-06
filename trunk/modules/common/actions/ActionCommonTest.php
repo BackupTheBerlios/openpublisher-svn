@@ -33,7 +33,7 @@
  * be done by the validate methode??
  * 
  */
-class ActionCommonTest extends SmartAction
+class ActionCommonTest extends JapaAction
 {
     /**
      * Perform on the action call
@@ -90,7 +90,7 @@ class ActionCommonTest extends SmartAction
         //
         if( !is_int($data['article_id']) )
         {
-            throw new SmartModelException("No valide Article ID", SMART_ACTION_ERROR);
+            throw new SmartModelException("No valide Article ID", JAPA_ACTION_ERROR);
         }
         
         *

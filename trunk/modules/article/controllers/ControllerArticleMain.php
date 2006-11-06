@@ -244,7 +244,7 @@ class ViewArticleMain extends JapaControllerAbstractPage
         } 
         
         // The url passed to the pager action
-        $this->pagerUrl = SMART_CONTROLLER.'?mod=article&id_node='.$this->current_id_node;    
+        $this->pagerUrl = JAPA_CONTROLLER.'?mod=article&id_node='.$this->current_id_node;    
     }
     
      /**

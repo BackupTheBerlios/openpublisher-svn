@@ -1,4 +1,4 @@
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
+<?php if (!defined('JAPA_SECURE_INCLUDE')) exit; ?>
 <?php if($tpl['showHeaderFooter'] == TRUE): ?>
 <?php if($tpl['isUserLogged'] == TRUE): ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

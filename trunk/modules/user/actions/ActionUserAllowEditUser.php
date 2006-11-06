@@ -19,7 +19,7 @@
   *
  */
  
-class ActionUserAllowEditUser extends SmartAction
+class ActionUserAllowEditUser extends JapaAction
 {
     /**
      * Check if the logged user have rights to edit data 

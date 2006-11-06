@@ -1,4 +1,4 @@
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
+<?php if (!defined('JAPA_SECURE_INCLUDE')) exit; ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td class="moduleheader">Misc Content Management</td>

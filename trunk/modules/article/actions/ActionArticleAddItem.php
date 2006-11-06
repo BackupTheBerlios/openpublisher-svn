@@ -20,7 +20,7 @@
  *                      'id_article'  => int))
  *
  */
-include_once(SMART_BASE_DIR . 'modules/article/includes/ActionArticleFileUploadBase.php');
+include_once(JAPA_BASE_DIR . 'modules/article/includes/ActionArticleFileUploadBase.php');
 
 class ActionArticleAddItem extends ActionArticleFileUploadBase
 {
@@ -157,7 +157,7 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
     {
         $rank = $this->getNewLastRank( $data['id_article'], 'article_media_file' );
 
-        $_file = SMART_BASE_DIR . "data/article/" . $media_folder . '/' . $file_info['file_name'];
+        $_file = JAPA_BASE_DIR . "data/article/" . $media_folder . '/' . $file_info['file_name'];
         
         // get mime type
         $type = '';
@@ -192,8 +192,8 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
      */       
     private function addPicture( &$data, &$media_folder, &$file_info )
     {
-        $image_source = SMART_BASE_DIR . "data/article/" . $media_folder . '/' . $file_info['file_name'];
-        $image_dest_folder   = SMART_BASE_DIR . "data/article/" . $media_folder . '/thumb';
+        $image_source = JAPA_BASE_DIR . "data/article/" . $media_folder . '/' . $file_info['file_name'];
+        $image_dest_folder   = JAPA_BASE_DIR . "data/article/" . $media_folder . '/thumb';
         
         $pic_info = array();
         
@@ -273,7 +273,7 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
      */    
     private function getMime( &$file )
     {
-        include_once(SMART_BASE_DIR.'modules/common/includes/SmartCommonFileMime.php');
+        include_once(JAPA_BASE_DIR.'modules/common/includes/SmartCommonFileMime.php');
         return SmartCommonFileMime::getMime($file);
     }     
     /**

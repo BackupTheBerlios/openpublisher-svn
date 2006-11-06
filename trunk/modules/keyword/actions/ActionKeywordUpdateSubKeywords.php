@@ -23,7 +23,7 @@
  *
  */
  
-class ActionKeywordUpdateSubKeywords extends SmartAction
+class ActionKeywordUpdateSubKeywords extends JapaAction
 {
     /**
      * Fields and the format of each of the db table keyword 

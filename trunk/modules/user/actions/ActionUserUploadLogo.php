@@ -13,7 +13,7 @@
  * ActionUserUploadLogo class 
  *
  */
-include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUserFileUploadBase.php');
+include_once(JAPA_BASE_DIR . 'modules/user/includes/ActionUserFileUploadBase.php');
 
 class ActionUserUploadLogo extends ActionUserFileUploadBase
 {

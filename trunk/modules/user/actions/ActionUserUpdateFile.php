@@ -18,7 +18,7 @@
  *                      'id_file' => int,
  *                      'id_user' => int))
  */
-class ActionUserUpdateFile extends SmartAction
+class ActionUserUpdateFile extends JapaAction
 {
     /**
      * update/delete user picture from db table

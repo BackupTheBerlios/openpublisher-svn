@@ -22,7 +22,7 @@
  *
  */
  
-class ActionMiscRemoveKeyword extends SmartAction
+class ActionMiscRemoveKeyword extends JapaAction
 {
     private $sqlText = '';
     private $sqlKey     = '';

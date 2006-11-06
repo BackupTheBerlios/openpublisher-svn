@@ -1,6 +1,6 @@
 <script language="JavaScript" type="text/JavaScript">
 </script>
-<form accept-charset="<?php echo $tpl['charset']; ?>" name="addnode" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=addNode&id_node=<?php echo $tpl['id_node']; ?>">
+<form accept-charset="<?php echo $tpl['charset']; ?>" name="addnode" method="post" action="<?php echo JAPA_CONTROLLER; ?>?mod=navigation&view=addNode&id_node=<?php echo $tpl['id_node']; ?>">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" class="moduleheader2">Add Navigation Node </td>
@@ -23,7 +23,7 @@
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node=<?php echo $tpl['id_node']; ?>">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=navigation&id_node=<?php echo $tpl['id_node']; ?>">back</a></td>
   </tr>
 </table>
 </form>

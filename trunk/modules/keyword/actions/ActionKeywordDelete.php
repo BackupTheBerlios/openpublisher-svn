@@ -19,7 +19,7 @@
  *
  */
  
-class ActionKeywordDelete extends SmartAction
+class ActionKeywordDelete extends JapaAction
 {
     /**
      * delete keyword and subkeywords

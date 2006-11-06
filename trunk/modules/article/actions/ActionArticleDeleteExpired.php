@@ -17,7 +17,7 @@
  *
  */
  
-class ActionArticleDeleteExpired extends SmartAction
+class ActionArticleDeleteExpired extends JapaAction
 {
     /**
      * delete article with status 0=delete which the last update is 

@@ -32,7 +32,7 @@ include_once 'Text/Diff.php';
 //include_once 'Text/Diff/Renderer.php';
 include_once 'Text/Diff/Renderer/inline.php';
 
-class ActionArticleCreateDiff extends SmartAction
+class ActionArticleCreateDiff extends JapaAction
 {
     /**
      * Allowed article fields and its type

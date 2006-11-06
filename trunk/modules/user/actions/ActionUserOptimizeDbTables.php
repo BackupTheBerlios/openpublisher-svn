@@ -16,7 +16,7 @@
  * $model->action('user','optimizeDbTables')
  */
  
-class ActionUserOptimizeDbTables extends SmartAction
+class ActionUserOptimizeDbTables extends JapaAction
 {                                      
     /**
      * optimize user module DB tables

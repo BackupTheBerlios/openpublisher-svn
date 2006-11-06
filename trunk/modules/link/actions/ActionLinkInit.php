@@ -19,7 +19,7 @@
  *
  */
 
-class ActionLinkInit extends SmartAction
+class ActionLinkInit extends JapaAction
 {
     /**
      * Navigation Module Version
@@ -69,7 +69,12 @@ class ActionLinkInit extends SmartAction
         {
             $this->config['link'][$key] = $val; 
         }
-    }         
+    }
+    
+    public function validate( $data = false )
+    {
+        return true;
+    }       
 }
 
 ?>

@@ -21,7 +21,7 @@
  * $model->action( 'link', 'unlockAll' );
  *
  */
-class ActionLinkUnlockAll extends SmartAction
+class ActionLinkUnlockAll extends JapaAction
 {
     /**
      * unlock all articles

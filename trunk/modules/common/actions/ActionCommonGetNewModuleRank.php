@@ -17,7 +17,7 @@
  * $model->action('common','getNewModuleRank');
  */
 
-class ActionCommonGetNewModuleRank extends SmartAction
+class ActionCommonGetNewModuleRank extends JapaAction
 {
     /**
      * get last rank of articles of a given id_node

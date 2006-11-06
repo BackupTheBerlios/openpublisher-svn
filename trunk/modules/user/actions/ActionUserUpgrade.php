@@ -18,7 +18,7 @@
  *
  */
 
-class ActionUserUpgrade extends SmartAction
+class ActionUserUpgrade extends JapaAction
 {
     /**
      * Do upgrade

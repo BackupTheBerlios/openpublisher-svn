@@ -18,7 +18,7 @@
  *
  */
  
-class ActionArticleGetArticlesRPC extends SmartAction
+class ActionArticleGetArticlesRPC extends JapaAction
 {   
     /**
      * get node status

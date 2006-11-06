@@ -20,13 +20,13 @@ class CommonIndexController extends JapaControllerAbstractPage
      * Login Module to load
      * @var mixed $loginModule
      */
-    private $loginModule = FALSE;
+    private $loginModule = false;
 
      /**
      * Login View to load
      * @var mixed $loginView
      */
-    private $loginView = FALSE;
+    private $loginController = false;
     
     /**
      * Execute the main view
@@ -34,57 +34,15 @@ class CommonIndexController extends JapaControllerAbstractPage
      */
     public function perform()
     {
-        // Set the module which takes the login part
-        if($this->loginModule != FALSE)
-        {
-            $module = $this->loginModule; 
-        }
-        // if no request set default module
-        elseif(!isset($_REQUEST['mod']))
-        {
-            $module = $this->config['default_module'];    
-        }
-        else
-        {
-            $module = $_REQUEST['mod'];    
-        }
-
-        // Set the view which takes the login part
-        if($this->loginView != FALSE)
-        {
-            $view = $this->loginView; 
-        }        
-        // if no request set default view
-        elseif(!isset($_REQUEST['view']))
-        {
-            $view = 'main';    
-        }    
-        else
-        {
-            $view = $_REQUEST['view'];    
-        }
-        
         // disable main menu ?
-        if(isset($_REQUEST['disableMainMenu']))
+        if(false !== $this->router->getVar('disableMainMenu'))
         {
-            $this->tplVar['disableMainMenu'] = TRUE;   
+            $this->tplVar['disableMainMenu'] = true;   
         } 
         else
         {
-            $this->tplVar['disableMainMenu'] = FALSE;   
+            $this->tplVar['disableMainMenu'] = false;   
         }
-        
-        // assign the template root view variable
-        $this->tplVar['moduleRootView'] = ucfirst($module).'Index';
-        
-        // assign the template child view variable
-        $this->tplVar['moduleChildView'] = ucfirst($module).ucfirst($view);
-       
-        // validate module root view name
-        $this->validateViewName( $this->tplVar['moduleRootView'], $module, 'index' ); 
-        
-        // validate module child view name
-        $this->validateViewName( $this->tplVar['moduleChildView'], $module, $view ); 
         
         // assign some template variables
         $this->tplVar['smartVersionNumber'] = $this->config['smart_version'];
@@ -98,14 +56,25 @@ class CommonIndexController extends JapaControllerAbstractPage
         
         // assign template var to show the admin header and footer
         // some views dosent need it
-        if(isset($_REQUEST['nodecoration']))
+        if(false !== $this->router->getVar('nodecoration'))
         {
-            $this->tplVar['showHeaderFooter'] = FALSE;
+            $this->tplVar['showHeaderFooter'] = false;
         }
         else
         {
-            $this->tplVar['showHeaderFooter'] = TRUE;
+            $this->tplVar['showHeaderFooter'] = true;
         }       
+        
+        // get url base
+        $this->viewVar['url_base'] = $this->config['url_base']; 
+        
+        // get requested module controller name
+        $module_controller = $this->getRequestedModuleController();
+        // execute the requested module controller and assign template variable
+        // with the result.
+        // here we load the requested modul controller output
+        // into a view variable
+        $this->viewVar['module_controller'] = $this->controllerLoader->$module_controller();  
     }  
 
     /**
@@ -120,9 +89,9 @@ class CommonIndexController extends JapaControllerAbstractPage
             throw new SmartViewException('Wrong view fromat: ' . $moduleView);
         }
 
-        if(!@file_exists(SMART_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php'))
+        if(!@file_exists(JAPA_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php'))
         {
-            throw new SmartViewException('View dosent exists: ' . SMART_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php');
+            throw new SmartViewException('View dosent exists: ' . JAPA_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php');
         }
     }
     
@@ -168,7 +137,7 @@ class CommonIndexController extends JapaControllerAbstractPage
         else
         {
             // set template variable
-            $this->tplVar['isUserLogged'] = TRUE;
+            $this->tplVar['isUserLogged'] = true;
             $this->tplVar['userRole'] = $this->model->config['loggedUserRole'];
         }    
     }
@@ -180,9 +149,46 @@ class CommonIndexController extends JapaControllerAbstractPage
     private function setLoginTarget()
     {
         $this->loginModule = 'user';
-        $this->loginView   = 'login';
+        $this->loginController   = 'login';
         // set template variable
-        $this->tplVar['isUserLogged'] = FALSE;
+        $this->tplVar['isUserLogged'] = false;
+    }
+    
+    /**
+     * get requested module controller name
+     *
+     * @return string
+     */
+    public function getRequestedModuleController()
+    {
+        // Set the module which takes the login part
+        if($this->loginModule != false)
+        {
+            $module_request = $this->loginModule; 
+        }
+        // check if there is a module request
+        elseif( false === ($module_request = $this->router->getVar('mod')) )
+        {
+            $module_request = $this->config['default_module'];
+        }
+
+        if($this->loginModule != false)
+        {
+            $controller_request = $this->loginController;
+        }
+        // check if there is a controller request
+        if( false !== ($controller_request = $this->router->getVar('cntr')) )
+        {
+            $controller_request = ucfirst($controller_request);
+        } 
+        // else set the index controller name
+        else
+        {
+            $controller_request = 'Index';
+        }
+
+        // build the whole module controller name
+        return ucfirst($module_request) . $controller_request;                    
     }
 }
 

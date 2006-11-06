@@ -1,6 +1,6 @@
 <script language="JavaScript" type="text/JavaScript">
 </script>
-<form name="options" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=options">
+<form name="options" method="post" action="<?php echo JAPA_CONTROLLER; ?>?mod=article&view=options">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" class="moduleheader2">Articles Summary</td>
@@ -37,11 +37,11 @@
       </div>
           <div class="font10">
             <?php  foreach($art_pubdate['nodeBranch'] as $bnode): ?>
-                 <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+                 <a href="<?php echo JAPA_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
             <?php endforeach; ?>
-      <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $art_pubdate['node']['id_node']; ?>"><?php echo $art_pubdate['node']['title']; ?></a></div>             
+      <a href="<?php echo JAPA_CONTROLLER; ?>?mod=article&id_node=<?php echo $art_pubdate['node']['id_node']; ?>"><?php echo $art_pubdate['node']['title']; ?></a></div>             
       <?php if(($art_pubdate['lock']==FALSE)&&($art_pubdate['hasAccess']==true)): ?>
-        <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $art_pubdate['id_node']; ?>&id_article=<?php echo $art_pubdate['id_article']; ?>"><?php echo $art_pubdate['title']; ?></a><?php else: ?><?php echo $art_pubdate['title']; ?>
+        <a href="<?php echo JAPA_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $art_pubdate['id_node']; ?>&id_article=<?php echo $art_pubdate['id_article']; ?>"><?php echo $art_pubdate['title']; ?></a><?php else: ?><?php echo $art_pubdate['title']; ?>
       <?php endif; ?>   
     </td>
       </tr>
@@ -78,11 +78,11 @@
       </div>
           <div class="font10">
             <?php  foreach($art_modifydate['nodeBranch'] as $bnode): ?>
-                 <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+                 <a href="<?php echo JAPA_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
             <?php endforeach; ?>
-      <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $art_modifydate['node']['id_node']; ?>"><?php echo $art_modifydate['node']['title']; ?></a> </div>    
+      <a href="<?php echo JAPA_CONTROLLER; ?>?mod=article&id_node=<?php echo $art_modifydate['node']['id_node']; ?>"><?php echo $art_modifydate['node']['title']; ?></a> </div>    
       <?php if(($art_modifydate['lock']==FALSE)&&($art_modifydate['hasAccess']==true)): ?>
-          <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $art_modifydate['id_node']; ?>&id_article=<?php echo $art_modifydate['id_article']; ?>"><?php echo $art_modifydate['title']; ?></a><?php else: ?><?php echo $art_modifydate['title']; ?>
+          <a href="<?php echo JAPA_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $art_modifydate['id_node']; ?>&id_article=<?php echo $art_modifydate['id_article']; ?>"><?php echo $art_modifydate['title']; ?></a><?php else: ?><?php echo $art_modifydate['title']; ?>
       <?php endif; ?>    
     </td>
       </tr>
@@ -90,7 +90,7 @@
   <?php endforeach; ?>
   <?php endif; ?>  
 </td>
-    <td width="26%" align="left" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article">back to article module</a>   </td>
+    <td width="26%" align="left" valign="top" class="font10bold"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=article">back to article module</a>   </td>
   </tr>
 </table>
 </form>

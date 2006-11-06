@@ -28,7 +28,7 @@
  *
  */
  
-class ActionArticleSelect extends SmartAction
+class ActionArticleSelect extends JapaAction
 {
     /**
      * Allowed article fields and its type

@@ -28,7 +28,7 @@
  *
  */
  
-class ActionLinkSearch extends SmartAction
+class ActionLinkSearch extends JapaAction
 {
     /**
      * Allowed article fields and its type

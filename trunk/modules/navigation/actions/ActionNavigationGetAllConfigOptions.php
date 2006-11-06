@@ -18,7 +18,7 @@
  *                array('result' => & array));
  */
  
-class ActionNavigationGetAllConfigOptions extends SmartAction
+class ActionNavigationGetAllConfigOptions extends JapaAction
 {
     /**
      * get all navigation module config options

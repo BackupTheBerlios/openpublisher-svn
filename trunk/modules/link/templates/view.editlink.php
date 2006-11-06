@@ -2,7 +2,7 @@
 <!--
 function keywordmap(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
-newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=link&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+newwindow= window.open('<?php echo JAPA_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=link&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
 
 function deletelink(f, mes)
 {
@@ -46,7 +46,7 @@ function cancel_edit(f)
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=link&view=editLink" method="post" enctype="multipart/form-data" name="editlink" id="editlink">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo JAPA_CONTROLLER; ?>?mod=link&view=editLink" method="post" enctype="multipart/form-data" name="editlink" id="editlink">
 <input name="gotonode" type="hidden" value="">
 <input name="modifylinkdata" type="hidden" value="true">
 <input name="disableMainMenu" type="hidden" value="<?php echo $tpl['disableMainMenu']; ?>">

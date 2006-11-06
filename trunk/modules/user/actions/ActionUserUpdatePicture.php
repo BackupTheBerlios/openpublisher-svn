@@ -13,7 +13,7 @@
  * ActionUpdatePicture class 
  *
  */
-class ActionUserUpdatePicture extends SmartAction
+class ActionUserUpdatePicture extends JapaAction
 {
     /**
      * update/delete user picture from db table

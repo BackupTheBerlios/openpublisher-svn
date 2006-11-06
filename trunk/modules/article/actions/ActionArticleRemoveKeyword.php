@@ -22,7 +22,7 @@
  *
  */
  
-class ActionArticleRemoveKeyword extends SmartAction
+class ActionArticleRemoveKeyword extends JapaAction
 {
     private $sqlArticle = '';
     private $sqlKey     = '';

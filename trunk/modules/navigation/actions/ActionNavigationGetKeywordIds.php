@@ -24,7 +24,7 @@
  * 
  */
 
-class ActionNavigationGetKeywordIds extends SmartAction
+class ActionNavigationGetKeywordIds extends JapaAction
 {                                           
     /**
      * get article related keywords

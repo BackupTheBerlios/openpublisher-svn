@@ -1,4 +1,4 @@
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
+<?php if (!defined('JAPA_SECURE_INCLUDE')) exit; ?>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="89%" align="left" valign="top">
@@ -15,7 +15,7 @@
     </td>
         <td width="99%" align="left" valign="top" class="itemnormal">
           <?php if($texte['lock']==FALSE): ?>
-                <?php echo '<a href="'.SMART_CONTROLLER.'?mod=misc&view=editText&id_text='.$texte['id_text'].'">'.$texte['title'].'</a>'; ?>
+                <?php echo '<a href="'.JAPA_CONTROLLER.'?mod=misc&view=editText&id_text='.$texte['id_text'].'">'.$texte['title'].'</a>'; ?>
                  <?php if(!empty($texte['description'])): ?>
             <div class="font10"><?php echo $texte['description'] ?></div>
          <?php endif; ?>
@@ -33,6 +33,6 @@
   <?php endif; ?>
 </td>
     <td width="11%" align="center" valign="top" class="font12">
-  <?php if($tpl['showLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=misc&view=addText">add text</a><?php else: ?>&nbsp;<?php endif; ?></td>
+  <?php if($tpl['showLink']==TRUE): ?><a href="<?php echo JAPA_CONTROLLER; ?>?mod=misc&view=addText">add text</a><?php else: ?>&nbsp;<?php endif; ?></td>
   </tr>
 </table>

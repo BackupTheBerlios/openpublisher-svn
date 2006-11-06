@@ -59,7 +59,7 @@
  *                      'id_link => (int)link ID that locks));  
  *
  */
-class ActionLinkLock extends SmartAction
+class ActionLinkLock extends JapaAction
 {
     /**
      * User lock actions

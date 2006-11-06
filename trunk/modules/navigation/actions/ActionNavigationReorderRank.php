@@ -18,7 +18,7 @@
  *
  */
 
-class ActionNavigationReorderRank extends SmartAction
+class ActionNavigationReorderRank extends JapaAction
 {
     /**
      * reorder child navigation nodes of an id_parent

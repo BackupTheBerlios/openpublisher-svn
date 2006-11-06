@@ -19,7 +19,7 @@
  * 
  */
  
-class ActionUserDelete extends SmartAction
+class ActionUserDelete extends JapaAction
 {
     /**
      * delete user
@@ -63,7 +63,7 @@ class ActionUserDelete extends SmartAction
         if(isset($row['media_folder']) && !empty($row['media_folder']))
         {
             // delete user data media folder
-            SmartCommonUtil::deleteDirTree( SMART_BASE_DIR.'data/user/'.$row['media_folder'] );
+            SmartCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/user/'.$row['media_folder'] );
         }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_user

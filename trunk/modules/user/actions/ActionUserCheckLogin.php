@@ -25,7 +25,7 @@
  *
  */
 
-class ActionUserCheckLogin extends SmartAction
+class ActionUserCheckLogin extends JapaAction
 {
     /**
      * Check login

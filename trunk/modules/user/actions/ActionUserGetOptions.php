@@ -20,7 +20,7 @@
  *
  */
  
-class ActionUserGetOptions extends SmartAction
+class ActionUserGetOptions extends JapaAction
 {
     /**
      * get all user module options

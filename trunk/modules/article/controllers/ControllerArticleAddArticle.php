@@ -80,7 +80,7 @@ class ViewArticleAddArticle extends JapaControllerAbstractPage
                     }
                     
                     // goto modarticle view
-                    @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=article&view=modArticle&id_node='.$id_node.'&id_article='.$new_id_article);
+                    @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=article&view=modArticle&id_node='.$id_node.'&id_article='.$new_id_article);
                     exit;
                 }
             }

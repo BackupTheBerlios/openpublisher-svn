@@ -23,7 +23,7 @@
  *
  */
  
-class ActionArticleGetPicture extends SmartAction
+class ActionArticleGetPicture extends JapaAction
 {
     private $tblFields_pic = array('id_article'   => TRUE,
                                    'id_pic'       => TRUE,

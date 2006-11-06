@@ -13,7 +13,7 @@
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" name="addarticle" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=addArticle&id_node=<?php echo $tpl['id_node']; ?>">
+<form accept-charset="<?php echo $tpl['charset']; ?>" name="addarticle" method="post" action="<?php echo JAPA_CONTROLLER; ?>?mod=article&view=addArticle&id_node=<?php echo $tpl['id_node']; ?>">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" class="moduleheader2">Add Article</td>
@@ -50,7 +50,7 @@
       </tr>
     </table>
     </td>
-    <td width="27%" align="left" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $tpl['id_node']; ?>">cancel</a></td>
+    <td width="27%" align="left" valign="top" class="font10bold"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=article&id_node=<?php echo $tpl['id_node']; ?>">cancel</a></td>
   </tr>
 </table>
 </form>

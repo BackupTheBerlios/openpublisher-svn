@@ -23,7 +23,7 @@
  *
  */
  
-class ActionUserGetAllThumbs extends SmartAction
+class ActionUserGetAllThumbs extends JapaAction
 {
     // allowed fields
     private $tblFields_pic = array('id_pic' => TRUE,

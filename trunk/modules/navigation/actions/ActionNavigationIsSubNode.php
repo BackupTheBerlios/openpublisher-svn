@@ -22,7 +22,7 @@
  *
  */
  
-class ActionNavigationIsSubNode extends SmartAction
+class ActionNavigationIsSubNode extends JapaAction
 {
     /**
      * check if node $data['id_node1'] is a subnode of node $data['id_node2']

@@ -19,7 +19,7 @@
  *                      'id_file' => int))
  */
 
-class ActionNavigationDeleteItem extends SmartAction
+class ActionNavigationDeleteItem extends JapaAction
 {
     /**
      * Delete node picture or file
@@ -93,11 +93,11 @@ class ActionNavigationDeleteItem extends SmartAction
         $this->idNode = $pic['id_node'];
         $this->mediaFolder = &$node['media_folder'];
 
-        if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/'.$pic['file']))
+        if(!@unlink(JAPA_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/'.$pic['file']))
         {
            trigger_error('Cant delete user logo: data/navigation/'.$node['media_folder'].'/'.$pic['file'], E_USER_WARNING);
         }
-        if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/thumb/'.$pic['file']))
+        if(!@unlink(JAPA_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/thumb/'.$pic['file']))
         {
            trigger_error('Cant delete user logo: data/navigation/'.$node['media_folder'].'/thumb/'.$pic['file'], E_USER_WARNING);
         }    
@@ -132,7 +132,7 @@ class ActionNavigationDeleteItem extends SmartAction
         $this->idNode = $file['id_node'];
         $this->mediaFolder = &$node['media_folder'];
 
-        if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/'.$file['file']))
+        if(!@unlink(JAPA_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/'.$file['file']))
         {
            trigger_error('Cant delete user logo: data/navigation/'.$node['media_folder'].'/'.$file['file'], E_USER_WARNING);
         }   
@@ -149,7 +149,7 @@ class ActionNavigationDeleteItem extends SmartAction
      */  
     private function removeEmptyDirectory()
     {
-        $dir = SMART_BASE_DIR . 'data/navigation/' . $this->mediaFolder;
+        $dir = JAPA_BASE_DIR . 'data/navigation/' . $this->mediaFolder;
         
         if(TRUE == $this->isDirEmpty( $dir ))
         {

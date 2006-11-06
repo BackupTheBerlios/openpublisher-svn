@@ -18,7 +18,7 @@
  *
  */
  
-class ActionNavigationGetNodeStatus extends SmartAction
+class ActionNavigationGetNodeStatus extends JapaAction
 {   
     /**
      * get node status

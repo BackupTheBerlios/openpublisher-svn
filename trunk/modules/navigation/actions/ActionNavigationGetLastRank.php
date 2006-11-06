@@ -19,7 +19,7 @@
  *                      'result'    => & int));
  */
 
-class ActionNavigationGetLastRank extends SmartAction
+class ActionNavigationGetLastRank extends JapaAction
 {
     /**
      * get last rank of navigation child nodes of a given id_parent

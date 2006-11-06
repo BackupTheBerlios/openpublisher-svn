@@ -23,7 +23,7 @@
  *
  */
 
-class ActionCommonImageThumb extends SmartAction
+class ActionCommonImageThumb extends JapaAction
 {
     private $allowedImageTypes = array(1 => 'GIF',
                                        2 => 'JPEG',

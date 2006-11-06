@@ -18,7 +18,7 @@
  *
  */
 
-class ActionCommonBoxNet extends SmartAction
+class ActionCommonBoxNet extends JapaAction
 {
 
     /**

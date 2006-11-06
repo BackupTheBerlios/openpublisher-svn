@@ -1,6 +1,6 @@
 <script language="JavaScript" type="text/JavaScript">
 </script>
-<form name="addnode" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=views">
+<form name="addnode" method="post" action="<?php echo JAPA_CONTROLLER; ?>?mod=article&view=views">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" class="moduleheader2">Register article related views</td>
@@ -49,7 +49,7 @@
           </table></td>
         </tr>
       </table></td>
-    <td width="26%" align="left" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article">back to main article module</a></td>
+    <td width="26%" align="left" valign="top" class="font10bold"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=article">back to main article module</a></td>
   </tr>
 </table>
 </form>

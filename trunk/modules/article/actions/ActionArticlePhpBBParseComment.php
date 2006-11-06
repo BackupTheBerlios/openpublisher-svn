@@ -19,11 +19,11 @@
  */
 
 // needed for error checking
-require_once SMART_BASE_DIR . 'smart/includes/PEAR/PEAR.php';
+require_once JAPA_BASE_DIR . 'smart/includes/PEAR/PEAR.php';
 // base class
-require_once SMART_BASE_DIR . 'modules/common/includes/PEAR/Text/BBCodeParser.php';
+require_once JAPA_BASE_DIR . 'modules/common/includes/PEAR/Text/BBCodeParser.php';
 
-class ActionArticlePhpBBParseComment extends SmartAction
+class ActionArticlePhpBBParseComment extends JapaAction
 {
     /**
      * phpBB parser
@@ -36,7 +36,7 @@ class ActionArticlePhpBBParseComment extends SmartAction
     {
         if( !isset($this->model->phpBBParser) || !is_object($this->model->phpBBParser) )
         {
-            $options = HTML_BBCodeParser::parseIniFile(SMART_BASE_DIR . 'modules/common/includes/PEAR/Text/BBCodeParser_V2.ini');
+            $options = HTML_BBCodeParser::parseIniFile(JAPA_BASE_DIR . 'modules/common/includes/PEAR/Text/BBCodeParser_V2.ini');
             // set system charset
             $options['format']['Xhtml']['charset'] = $this->config['charset'];
             $this->model->phpBBParser = new HTML_BBCodeParser($options);

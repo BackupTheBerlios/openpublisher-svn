@@ -61,7 +61,7 @@ function subok(s){
     <div class="error"><?php echo $err; ?><br><br></div>
   <?php endforeach; ?>
 <?php endif; ?>
-<form name="setup" id="setup" method="post" action="<?php echo SMART_CONTROLLER; ?>">
+<form name="setup" id="setup" method="post" action="<?php echo JAPA_CONTROLLER; ?>">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td align="center" valign="middle" bgcolor="#3366CC"><span class="title">Open Publisher Project Setup</span></td>

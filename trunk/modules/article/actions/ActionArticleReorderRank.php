@@ -18,7 +18,7 @@
  *
  */
 
-class ActionArticleReorderRank extends SmartAction
+class ActionArticleReorderRank extends JapaAction
 {
     /**
      * reorder article ranks of an id_node

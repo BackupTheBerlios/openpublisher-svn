@@ -59,7 +59,7 @@
  *                      'id_node => (int)node ID that locks));  
  *
  */
-class ActionNavigationLock extends SmartAction
+class ActionNavigationLock extends JapaAction
 {
     /**
      * User lock actions

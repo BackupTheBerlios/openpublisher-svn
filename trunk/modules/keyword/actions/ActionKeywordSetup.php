@@ -14,7 +14,7 @@
  *
  */
  
-class ActionKeywordSetup extends SmartAction
+class ActionKeywordSetup extends JapaAction
 {
     /**
      * Run setup process of this module

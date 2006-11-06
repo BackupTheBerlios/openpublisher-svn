@@ -22,7 +22,7 @@
  *
  */
  
-class ActionNavigationRemoveKeyword extends SmartAction
+class ActionNavigationRemoveKeyword extends JapaAction
 {
     private $sqlNode = '';
     private $sqlKey  = '';

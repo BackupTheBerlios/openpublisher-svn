@@ -23,7 +23,7 @@
  *
  */
  
-class ActionMiscGetFile extends SmartAction
+class ActionMiscGetFile extends JapaAction
 {
     private $tblFields_pic = array('id_text' => TRUE,
                                    'id_file'  => TRUE,

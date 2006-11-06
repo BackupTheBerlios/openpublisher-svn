@@ -17,7 +17,7 @@
  * $model->action('article','checkFolderRights', array('error' => & array() )); 
  */
  
-class ActionArticleCheckFolderRights extends SmartAction
+class ActionArticleCheckFolderRights extends JapaAction
 {
     /**
      * check if folders are writeable by php scripts
@@ -25,12 +25,12 @@ class ActionArticleCheckFolderRights extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $article_folder = SMART_BASE_DIR . 'data/article';
+        $article_folder = JAPA_BASE_DIR . 'data/article';
         if(!is_writeable($article_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$article_folder;    
         }    
-        $rss_folder = SMART_BASE_DIR . 'data/article/rss';
+        $rss_folder = JAPA_BASE_DIR . 'data/article/rss';
         if(!is_writeable($rss_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$rss_folder;    

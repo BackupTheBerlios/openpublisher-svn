@@ -18,7 +18,7 @@
  *                      'id_file' => int,
  *                      'id_text' => int))
  */
-class ActionMiscUpdateFile extends SmartAction
+class ActionMiscUpdateFile extends JapaAction
 {
     /**
      * update/delete node picture from db table

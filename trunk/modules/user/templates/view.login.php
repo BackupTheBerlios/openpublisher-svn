@@ -52,7 +52,7 @@
 -->
 </style>
 <br />
-<form name="form1" method="post" action="<?php echo SMART_CONTROLLER; ?>">
+<form name="form1" method="post" action="<?php echo JAPA_CONTROLLER; ?>">
   <table width="32%" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
     <tr align="center" valign="middle">
       <td colspan="2" class="logintitle">Login</td>

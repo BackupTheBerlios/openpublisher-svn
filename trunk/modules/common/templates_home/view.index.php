@@ -1,5 +1,5 @@
 <!-- prevent direct call -->
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
+<?php if (!defined('JAPA_SECURE_INCLUDE')) exit; ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>" />
 <meta name="robots" content="noindex, nofollow" />
 
-<style type="text/css">@import"<?php echo SMART_RELATIVE_PATH; ?><?php echo $tpl['adminCssFolder']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $tpl['adminCssFolder']; ?>base.css";</style>
 
 <title>Open Publisher - Admin</title>
 

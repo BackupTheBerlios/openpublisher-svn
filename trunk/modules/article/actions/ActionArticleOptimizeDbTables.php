@@ -16,7 +16,7 @@
  * $model->action('article','optimizeDbTables')
  */
  
-class ActionArticleOptimizeDbTables extends SmartAction
+class ActionArticleOptimizeDbTables extends JapaAction
 {                                      
     /**
      * optimize article module DB tables

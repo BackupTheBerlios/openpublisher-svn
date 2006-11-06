@@ -22,7 +22,7 @@
                                           'description' => 'String')));
  */
 
-class ActionKeywordUpdate extends SmartAction
+class ActionKeywordUpdate extends JapaAction
 {
     /**
      * Fields and the format of each of the db table keyword 

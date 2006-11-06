@@ -3,7 +3,7 @@
     <td colspan="2" align="left" valign="top" class="moduleheader2">System Info</td>
     </tr>
   <tr>
-    <td colspan="2" align="right" valign="top" class="font10"><a href="<?php echo SMART_CONTROLLER; ?>?mod=default">back to main module</a></td>
+    <td colspan="2" align="right" valign="top" class="font10"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=default">back to main module</a></td>
   </tr>
   <tr>
     <td align="left" valign="top" class="font12"><strong>PHP Version:</strong> <?php echo $tpl['phpVersion']; ?></td>
@@ -33,4 +33,4 @@
     <td>&nbsp;</td>
   </tr>
 </table>
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
+<?php if (!defined('JAPA_SECURE_INCLUDE')) exit; ?>

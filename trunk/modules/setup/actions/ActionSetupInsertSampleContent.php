@@ -17,7 +17,7 @@
  *                array('prefix' => string))     // DBtablePrefix
  *
  */
-class ActionSetupInsertSampleContent extends SmartAction
+class ActionSetupInsertSampleContent extends JapaAction
 {                            
     /**
      * insert sample data
@@ -26,9 +26,9 @@ class ActionSetupInsertSampleContent extends SmartAction
      */
     function perform( $data = FALSE )
     { 
-        if(is_readable(SMART_BASE_DIR."modules/setup/sample_content/example.sql"))
+        if(is_readable(JAPA_BASE_DIR."modules/setup/sample_content/example.sql"))
         {
-            $file_c = file(SMART_BASE_DIR."modules/setup/sample_content/example.sql");
+            $file_c = file(JAPA_BASE_DIR."modules/setup/sample_content/example.sql");
             foreach($file_c as $line)
             {
                 if(preg_match("/^INSERT/",$line))

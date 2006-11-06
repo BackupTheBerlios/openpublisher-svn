@@ -36,7 +36,7 @@
                                               'media_folder' => 'String')))
  */
  
-class ActionArticleUpdateComment extends SmartAction
+class ActionArticleUpdateComment extends JapaAction
 {
     /**
      * Allowed article fields and its type

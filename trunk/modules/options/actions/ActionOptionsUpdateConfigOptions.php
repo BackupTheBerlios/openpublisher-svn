@@ -14,7 +14,7 @@
  *
  */
  
-class ActionOptionsUpdateConfigOptions extends SmartAction
+class ActionOptionsUpdateConfigOptions extends JapaAction
 {
     protected $tblFields_config = 
                       array('site_url'            => 'String',

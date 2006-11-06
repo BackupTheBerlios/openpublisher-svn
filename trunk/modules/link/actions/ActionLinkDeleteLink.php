@@ -19,7 +19,7 @@
  *
  */
  
-class ActionLinkDeleteLink extends SmartAction
+class ActionLinkDeleteLink extends JapaAction
 {
     /**
      * delete link and relations

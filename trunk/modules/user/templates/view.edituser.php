@@ -1,6 +1,6 @@
 <?php if($tpl['format']==2): ?>
 <!-- tinyMCE -->
-<script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
+<script language="javascript" type="text/javascript" src="<?php echo JAPA_PUBLIC_DIR; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
@@ -8,7 +8,7 @@
     remove_script_host : false,
     relative_urls : true,
     mode : "exact",
-    content_css : "<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/content.css",
+    content_css : "<?php echo JAPA_PUBLIC_DIR; ?>modules/common/media/content.css",
     theme_advanced_containers_default_align : "left",
     theme_advanced_styles : "Font Size 8=f8;Font Size 10=f10;Font Size 12=f12;Font Size 14=f14;Font Size 16=f16;Font Size 18=f18;Font Size 20=f20;Forecolor=forecolor;Backcolor=backcolor;Quote=quote;",
     elements : "description",
@@ -186,7 +186,7 @@ function MM_swapImage() { //v3.0
 
 
 
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=editUser" method="post" enctype="multipart/form-data" id="edituser" name="edituser">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo JAPA_CONTROLLER; ?>?mod=user&view=editUser" method="post" enctype="multipart/form-data" id="edituser" name="edituser">
 <input name="id_user" type="hidden" id="id_user" value="<?php echo $tpl['id_user']; ?>">
 <input name="deleteuser" type="hidden" id="deleteuser" value="">
 <input name="canceledit" type="hidden" id="canceledit" value="">
@@ -364,7 +364,7 @@ function MM_swapImage() { //v3.0
         <input name="uploadlogo" type="hidden" value="">
         <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
         <?php else: ?>
-      <img name="userlogo" src="<?php echo SMART_RELATIVE_PATH.'data/user/'.$tpl['user']['media_folder'].'/'.$tpl['user']['logo']; ?>" alt="User Logo" width="150">
+      <img name="userlogo" src="<?php echo JAPA_PUBLIC_DIR.'data/user/'.$tpl['user']['media_folder'].'/'.$tpl['user']['logo']; ?>" alt="User Logo" width="150">
         <br>
         <input name="deletelogo" type="hidden" value="">
         <input type="button" name="eraselogo" value="delete" onclick="dellogo(this.form, 'Delete user logo Picture?');">

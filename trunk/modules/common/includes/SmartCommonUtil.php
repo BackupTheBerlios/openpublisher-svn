@@ -23,7 +23,7 @@ class SmartCommonUtil
      */ 
     public static function addSlashes( $var )
     {
-        if ( SMART_MAGIC_QUOTES == 0 )
+        if ( JAPA_MAGIC_QUOTES == 0 )
         {   
             return addslashes($var);
         }
@@ -40,7 +40,7 @@ class SmartCommonUtil
      */ 
     public static function stripSlashes( $var )
     {
-        if ( SMART_MAGIC_QUOTES == 0 )
+        if ( JAPA_MAGIC_QUOTES == 0 )
         {   
             return $var;
         }

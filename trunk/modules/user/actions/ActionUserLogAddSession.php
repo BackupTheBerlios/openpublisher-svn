@@ -24,7 +24,7 @@
  */
 
  
-class ActionUserLogAddSession extends SmartAction
+class ActionUserLogAddSession extends JapaAction
 {
     private $tblFields = array('id_user' => 'Int',
                                'ip'      => 'String',

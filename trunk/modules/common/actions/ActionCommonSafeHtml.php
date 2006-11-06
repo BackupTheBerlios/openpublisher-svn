@@ -17,7 +17,7 @@
 /**
  * 
  */
-class ActionCommonSafeHtml extends SmartAction
+class ActionCommonSafeHtml extends JapaAction
 {
     /**
      * strip bad code from string
@@ -28,8 +28,8 @@ class ActionCommonSafeHtml extends SmartAction
     {
         if(!defined('XML_HTMLSAX3'))
         {
-            define('XML_HTMLSAX3', SMART_BASE_DIR . 'modules/common/includes/safehtml/');
-            include_once(SMART_BASE_DIR . 'modules/common/includes/safehtml/safehtml.php');
+            define('XML_HTMLSAX3', JAPA_BASE_DIR . 'modules/common/includes/safehtml/');
+            include_once(JAPA_BASE_DIR . 'modules/common/includes/safehtml/safehtml.php');
         }
         
         $this->model->safehtml = new safehtml();

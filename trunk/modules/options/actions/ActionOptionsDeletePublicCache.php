@@ -14,7 +14,7 @@
  *
  */
  
-class ActionOptionsDeletePublicCache extends SmartAction
+class ActionOptionsDeletePublicCache extends JapaAction
 {
    /**
      * delete all cached files
@@ -24,7 +24,7 @@ class ActionOptionsDeletePublicCache extends SmartAction
      */
     function perform( $data = FALSE )
     {
-        $cache_dir = SMART_BASE_DIR . 'cache' ;
+        $cache_dir = JAPA_BASE_DIR . 'cache' ;
           
         if ( (($handle = @opendir( $cache_dir ))) != FALSE )
         {

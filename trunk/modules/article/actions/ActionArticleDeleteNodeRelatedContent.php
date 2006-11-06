@@ -23,7 +23,7 @@
  *
  */
  
-class ActionArticleDeleteNodeRelatedContent extends SmartAction
+class ActionArticleDeleteNodeRelatedContent extends JapaAction
 {
     /**
      * delete navigation node related articles

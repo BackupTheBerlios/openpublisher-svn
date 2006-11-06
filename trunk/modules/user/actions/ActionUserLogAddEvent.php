@@ -33,7 +33,7 @@
  */
 
  
-class ActionUserLogAddEvent extends SmartAction
+class ActionUserLogAddEvent extends JapaAction
 {
     private $tblFields = array('module'  => 'String',
                                'type'    => 'Int',

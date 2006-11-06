@@ -26,7 +26,7 @@
  *
  */
  
-class ActionNavigationSearch extends SmartAction
+class ActionNavigationSearch extends JapaAction
 {
     /**
      * Allowed sql caching

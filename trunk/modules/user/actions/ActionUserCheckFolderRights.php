@@ -17,7 +17,7 @@
  * $model->action('user','checkFolderRights', array('error' => & array() )); 
  */
  
-class ActionUserCheckFolderRights extends SmartAction
+class ActionUserCheckFolderRights extends JapaAction
 {
     /**
      * check if folders are writeable by php scripts
@@ -25,7 +25,7 @@ class ActionUserCheckFolderRights extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $user_folder = SMART_BASE_DIR . 'data/user';
+        $user_folder = JAPA_BASE_DIR . 'data/user';
         if(!is_writeable($user_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$user_folder;    

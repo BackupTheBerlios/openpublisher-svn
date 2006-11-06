@@ -24,7 +24,7 @@
  *
  */
  
-class ActionUserGetAllFiles extends SmartAction
+class ActionUserGetAllFiles extends JapaAction
 {
     // allowed fields
     private $tblFields_pic = array('id_file' => TRUE,

@@ -18,7 +18,7 @@
  *
  */
  
-class ActionArticleGetStatus extends SmartAction
+class ActionArticleGetStatus extends JapaAction
 {   
     /**
      * get node status

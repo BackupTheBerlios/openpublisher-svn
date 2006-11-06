@@ -1,4 +1,4 @@
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
+<?php if (!defined('JAPA_SECURE_INCLUDE')) exit; ?>
 <?php if($tpl['isUserLogged'] == TRUE): ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -6,7 +6,7 @@
   </tr>
   <?php if($tpl['show_options_link']==TRUE): ?>
   <tr>
-    <td height="20" align="right" valign="top"><a href="<?php echo SMART_CONTROLLER; ?>?mod=user&view=options"><font size="2">options</font></a> &nbsp;&nbsp;</td>
+    <td height="20" align="right" valign="top"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=user&view=options"><font size="2">options</font></a> &nbsp;&nbsp;</td>
   </tr>
   <tr>
     <td height="20" align="right" valign="top">&nbsp;</td>

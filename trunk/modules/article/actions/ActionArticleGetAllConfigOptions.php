@@ -18,7 +18,7 @@
  *                array('result' => & array));
  */
  
-class ActionArticleGetAllConfigOptions extends SmartAction
+class ActionArticleGetAllConfigOptions extends JapaAction
 {
     /**
      * get all article module config options

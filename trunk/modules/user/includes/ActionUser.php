@@ -15,7 +15,7 @@
  *
  */
 
-class ActionUser extends SmartAction
+class ActionUser extends JapaAction
 {
     /**
      * Fields and its format of the db table user_user 

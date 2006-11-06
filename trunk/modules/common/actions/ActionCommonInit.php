@@ -17,21 +17,21 @@
  */
 
 // util class
-include_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonUtil.php');
+include_once(JAPA_MODULES_DIR . 'common/includes/SmartCommonUtil.php');
 
 // session handler class
-require_once(SMART_BASE_DIR . 'modules/common/includes/SmartSessionHandler.php');
+require_once(JAPA_MODULES_DIR . 'common/includes/SmartSessionHandler.php');
 
 // session class
-require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonSession.php');
+require_once(JAPA_MODULES_DIR . 'common/includes/SmartCommonSession.php');
 
 // get_magic_quotes_gpc
-define ( 'SMART_MAGIC_QUOTES', get_magic_quotes_gpc());
+define ( 'JAPA_MAGIC_QUOTES', get_magic_quotes_gpc());
 
 // set include path to additional pear packages
-ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'modules/common/includes/PEAR' . PATH_SEPARATOR . ini_get('include_path') );
+ini_set( 'include_path', '.' . PATH_SEPARATOR . JAPA_MODULES_DIR . 'common/includes/PEAR' . PATH_SEPARATOR . ini_get('include_path') );
 
-class ActionCommonInit extends SmartAction
+class ActionCommonInit extends JapaAction
 {
     /**
      * Open Publisher Version
@@ -51,8 +51,8 @@ class ActionCommonInit extends SmartAction
     {
         $mysqlExtension = $this->getMySqlExtensionType();
         // db class
-        require_once(SMART_BASE_DIR . 'modules/common/includes/Smart'.$mysqlExtension.'.php');
-             
+        require_once(JAPA_MODULES_DIR . 'common/includes/Smart'.$mysqlExtension.'.php');
+         
         // Check if a setup was successfull done else launch setup > 'setup' module
         if(file_exists($this->config['config_path'] . 'dbConnect.php'))
         {
@@ -294,6 +294,11 @@ class ActionCommonInit extends SmartAction
         // this isnt the session garbage collector 
         $this->model->action('common', 'sessionDeleteExpired');   
     }
+    
+    public function validate( $data = false )
+    { 
+        return true;
+    }  
 }
 
 ?>

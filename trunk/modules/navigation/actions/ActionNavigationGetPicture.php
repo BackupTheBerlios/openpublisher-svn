@@ -23,7 +23,7 @@
  *
  */
  
-class ActionNavigationGetPicture extends SmartAction
+class ActionNavigationGetPicture extends JapaAction
 {
     private $tblFields_pic = array('id_node' => TRUE,
                                    'id_pic'  => TRUE,

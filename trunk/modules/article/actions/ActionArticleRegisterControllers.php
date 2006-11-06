@@ -21,7 +21,7 @@
  *
  */
  
-class ActionArticleRegisterViews extends SmartAction
+class ActionArticleRegisterViews extends JapaAction
 {
     /**
      * register/unregister a node related view

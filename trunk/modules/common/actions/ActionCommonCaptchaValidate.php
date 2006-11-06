@@ -24,10 +24,10 @@
 
 // captcha class
 //
-include_once( SMART_BASE_DIR .'modules/common/includes/class.captcha.php' );
+include_once( JAPA_BASE_DIR .'modules/common/includes/class.captcha.php' );
 
  
-class ActionCommonCaptchaValidate extends SmartAction
+class ActionCommonCaptchaValidate extends JapaAction
 {
     /**
      * Validate capcha public key/turing key
@@ -40,15 +40,15 @@ class ActionCommonCaptchaValidate extends SmartAction
         $captcha_privat_key = md5(implode('',file($data['configPath'].'dbConnect.php')));
         
         // The ttf font to create turing chars images
-        $captcha_ttf_font = SMART_BASE_DIR .'modules/common/includes/ttf_font/activa.ttf';
+        $captcha_ttf_font = JAPA_BASE_DIR .'modules/common/includes/ttf_font/activa.ttf';
     
         // Relative folder of captcha pictures
-        $captcha_pictures_folder = SMART_RELATIVE_PATH . 'data/common/captcha';
+        $captcha_pictures_folder = JAPA_PUBLIC_DIR . 'data/common/captcha';
     
         // Type of turing chars
         $captcha_char_type = 'num'; // or 'hex' 
 
-        $captcha = new captcha( $captcha_privat_key, SMART_BASE_DIR, $captcha_ttf_font, $captcha_pictures_folder, $captcha_char_type );
+        $captcha = new captcha( $captcha_privat_key, JAPA_BASE_DIR, $captcha_ttf_font, $captcha_pictures_folder, $captcha_char_type );
 
         if(FALSE == $captcha->check_captcha($data['public_key'], $data['turing_key']))
         {

@@ -40,7 +40,7 @@
 
 
 
-class ActionArticleAddArticle extends SmartAction
+class ActionArticleAddArticle extends JapaAction
 {  
     /**
      * Allowed article fields and its type

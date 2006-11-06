@@ -24,7 +24,7 @@
  *
  */
  
-class ActionUserGetPicture extends SmartAction
+class ActionUserGetPicture extends JapaAction
 {
     private $tblFields_pic = array('id_user' => TRUE,
                                    'id_pic' => TRUE,

@@ -16,7 +16,7 @@
  *
  */
 
-class ActionKeywordInit extends SmartAction
+class ActionKeywordInit extends JapaAction
 {
     /**
      * Keyword Module Version
@@ -68,7 +68,12 @@ class ActionKeywordInit extends SmartAction
         {
             $this->config['keyword'][$key] = $val; 
         }
-    }        
+    }      
+     
+    public function validate( $data = false )
+    {
+        return true;
+    }  
 }
 
 ?>

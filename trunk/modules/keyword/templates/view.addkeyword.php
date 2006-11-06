@@ -1,6 +1,6 @@
 <script language="JavaScript" type="text/JavaScript">
 </script>
-<form accept-charset="<?php echo $tpl['charset']; ?>" name="addkeyword" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=keyword&view=addKeyword&id_key=<?php echo $tpl['id_key']; ?>">
+<form accept-charset="<?php echo $tpl['charset']; ?>" name="addkeyword" method="post" action="<?php echo JAPA_CONTROLLER; ?>?mod=keyword&view=addKeyword&id_key=<?php echo $tpl['id_key']; ?>">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" class="moduleheader2">Add Keyword </td>
@@ -23,7 +23,7 @@
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=keyword&id_key=<?php echo $tpl['id_key']; ?>">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=keyword&id_key=<?php echo $tpl['id_key']; ?>">back</a></td>
   </tr>
 </table>
 </form>

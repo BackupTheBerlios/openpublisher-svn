@@ -19,7 +19,7 @@
  *
  */
  
-class ActionArticleGetPublicViews extends SmartAction
+class ActionArticleGetPublicViews extends JapaAction
 {
     private $tblFields_view = array('id_view'     => TRUE,
                                     'name'        => TRUE);

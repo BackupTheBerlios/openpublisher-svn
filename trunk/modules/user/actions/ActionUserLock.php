@@ -58,7 +58,7 @@
  *                      'id_user => (int)));  // user ID that locks 
  *
  */
-class ActionUserLock extends SmartAction
+class ActionUserLock extends JapaAction
 {
     /**
      * User lock actions

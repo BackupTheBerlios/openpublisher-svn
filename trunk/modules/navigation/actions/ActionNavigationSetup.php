@@ -14,7 +14,7 @@
  *
  */
  
-class ActionNavigationSetup extends SmartAction
+class ActionNavigationSetup extends JapaAction
 {
     /**
      * Run setup process of this module

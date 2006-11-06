@@ -20,7 +20,7 @@
  *
  */
 
-class ActionOptionsSmartCoreNewVersion extends SmartAction
+class ActionOptionsSmartCoreNewVersion extends JapaAction
 {
     /**
      * Add http headers to disable browser caching

@@ -24,7 +24,7 @@
  *
  */
  
-class ActionUserLogGetEntries extends SmartAction
+class ActionUserLogGetEntries extends JapaAction
 {
     /**
      * get data of all users

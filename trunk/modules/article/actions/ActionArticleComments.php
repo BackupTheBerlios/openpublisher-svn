@@ -31,7 +31,7 @@
  */
 
 
-class ActionArticleComments extends SmartAction
+class ActionArticleComments extends JapaAction
 {
     /**
      * Allowed sql caching

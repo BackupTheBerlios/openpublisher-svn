@@ -15,7 +15,7 @@
  *
  */
 
-class ActionNavigationInit extends SmartAction
+class ActionNavigationInit extends JapaAction
 {
     /**
      * Navigation Module Version
@@ -69,8 +69,13 @@ class ActionNavigationInit extends SmartAction
         } 
         
         // this module try to find the view on the related public request var 'id_node'
-        $this->config['view_map']['id_node'] = 'navigation';
-    }    
+        $this->config['controller_map']['id_node'] = 'navigation';
+    }   
+     
+    public function validate( $data = false )
+    {
+        return true;
+    } 
 }
 
 ?>

@@ -17,7 +17,7 @@
  *
  */
  
-class ActionArticleChangedateStatus extends SmartAction
+class ActionArticleChangedateStatus extends JapaAction
 {
     /**
      * update article status
@@ -67,6 +67,11 @@ class ActionArticleChangedateStatus extends SmartAction
 
         $this->model->dba->query($sql);        
     } 
+    
+    public function validate( $data = false )
+    { 
+        return true;
+    }  
 }
 
 ?>

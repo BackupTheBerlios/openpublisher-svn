@@ -1,6 +1,6 @@
 <script language="JavaScript" type="text/JavaScript">
 </script>
-<form name="options" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=options">
+<form name="options" method="post" action="<?php echo JAPA_CONTROLLER; ?>?mod=options">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" class="moduleheader2">global options</td>

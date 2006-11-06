@@ -20,7 +20,7 @@
  *
  */
  
-class ActionNavigationMoveNodeRank extends SmartAction
+class ActionNavigationMoveNodeRank extends JapaAction
 {
     /**
      * exchange (move) navigation node rank

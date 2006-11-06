@@ -17,7 +17,7 @@
  * $model->action('common','checkFolderRights', array('error' => & array() )); 
  */
  
-class ActionCommonCheckFolderRights extends SmartAction
+class ActionCommonCheckFolderRights extends JapaAction
 {
     /**
      * check if folders are writeable by php scripts
@@ -25,7 +25,7 @@ class ActionCommonCheckFolderRights extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $captcha_folder = SMART_BASE_DIR . 'data/common/captcha';
+        $captcha_folder = JAPA_BASE_DIR . 'data/common/captcha';
         if(!is_writeable($captcha_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$captcha_folder;    
@@ -55,13 +55,13 @@ class ActionCommonCheckFolderRights extends SmartAction
             $data['error'][] = 'Must be writeable by php scripts: '.$smartyCompiled;    
         }    
 
-        $tinymce_cache_folder = SMART_BASE_DIR . 'data/common/tinymce_cache';
+        $tinymce_cache_folder = JAPA_BASE_DIR . 'data/common/tinymce_cache';
         if(!is_writeable($tinymce_cache_folder))
         {
             $data['error'][] = 'Must be global readable, and writeable by php scripts: '.$tinymce_cache_folder;    
         }
 
-        $rss_cache = SMART_BASE_DIR . 'data/common/rss_cache';
+        $rss_cache = JAPA_BASE_DIR . 'data/common/rss_cache';
         if(!is_writeable($rss_cache))
         {
             $data['error'][] = 'Must be global readable, and writeable by php scripts: '.$rss_cache;    

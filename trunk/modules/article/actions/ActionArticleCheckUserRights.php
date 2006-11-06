@@ -20,7 +20,7 @@
  */
 
 
-class ActionArticleCheckUserRights extends SmartAction
+class ActionArticleCheckUserRights extends JapaAction
 {
     /**
      * get data of all users

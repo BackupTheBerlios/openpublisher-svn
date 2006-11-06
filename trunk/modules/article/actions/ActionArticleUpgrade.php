@@ -18,7 +18,7 @@
  *
  */
 
-class ActionArticleUpgrade extends SmartAction
+class ActionArticleUpgrade extends JapaAction
 {
     /**
      * Do upgrade
@@ -101,7 +101,7 @@ class ActionArticleUpgrade extends SmartAction
                
         $this->model->dba->query($sql);
 
-        $rss_folder = SMART_BASE_DIR . 'data/article/rss';
+        $rss_folder = JAPA_BASE_DIR . 'data/article/rss';
         if(!is_writeable($rss_folder))
         {
             trigger_error('Must be writeable by php scripts: '.$rss_folder, E_USER_WARNING);    

@@ -25,7 +25,7 @@
 
 if(!defined('MAGPIE_DIR'))
 {
-    define('MAGPIE_DIR', SMART_BASE_DIR . 'modules/common/includes/magpierss/');
+    define('MAGPIE_DIR', JAPA_BASE_DIR . 'modules/common/includes/magpierss/');
 }
 include_once(MAGPIE_DIR.'rss_fetch.inc');    
 
@@ -33,7 +33,7 @@ include_once(MAGPIE_DIR.'rss_fetch.inc');
 
  * 
  */
-class ActionCommonRssFetch extends SmartAction
+class ActionCommonRssFetch extends JapaAction
 {
     /**
      * Perform on the action call
@@ -54,7 +54,7 @@ class ActionCommonRssFetch extends SmartAction
         {
             define('MAGPIE_CACHE_ON',  TRUE);
             define('MAGPIE_CACHE_AGE', (int)$data['cache_time']);
-            define('MAGPIE_CACHE_DIR', SMART_BASE_DIR . 'data/common/rss_cache');
+            define('MAGPIE_CACHE_DIR', JAPA_BASE_DIR . 'data/common/rss_cache');
         }        
         
         if(!$rss = fetch_rss( $data['url'] ))

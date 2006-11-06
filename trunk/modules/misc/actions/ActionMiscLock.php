@@ -59,7 +59,7 @@
  *                      'id_node => (int)node ID that locks));  
  *
  */
-class ActionMiscLock extends SmartAction
+class ActionMiscLock extends JapaAction
 {
     /**
      * User lock actions

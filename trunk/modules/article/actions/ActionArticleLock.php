@@ -59,7 +59,7 @@
  *                      'id_article => (int)Article ID that locks));  
  *
  */
-class ActionArticleLock extends SmartAction
+class ActionArticleLock extends JapaAction
 {
     /**
      * User lock actions

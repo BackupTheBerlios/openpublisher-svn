@@ -18,7 +18,7 @@
 /**
  * 
  */
-class ActionCommonRssBuilderAddItem extends SmartAction
+class ActionCommonRssBuilderAddItem extends JapaAction
 {
     /**
      */

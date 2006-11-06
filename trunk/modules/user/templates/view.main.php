@@ -7,7 +7,7 @@
       <tr>
           <td width="60%" align="left" valign="top" class="itemnormal">
           <?php if($usr['lock']==FALSE): ?>
-                <?php echo '<a href="'.SMART_CONTROLLER.'?mod=user&view=editUser&id_user='.$usr['id_user'].'">'.$usr['login'].'</a> ('.$usr['name'].' '.$usr['lastname'].')'; ?>
+                <?php echo '<a href="'.JAPA_CONTROLLER.'?mod=user&view=editUser&id_user='.$usr['id_user'].'">'.$usr['login'].'</a> ('.$usr['name'].' '.$usr['lastname'].')'; ?>
               <?php elseif($usr['lock']==TRUE): ?>
           <?php echo $usr['login'].' ('.$usr['name'].' '.$usr['lastname'].')'; ?> <strong>-lock-</strong>
         <?php endif; ?>
@@ -20,6 +20,6 @@
     <?php endforeach; ?>
   <?php endif; ?>
 </td>
-    <td width="11%" align="center" valign="top" class="itemnormal"><?php if($tpl['showAddUserLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=user&view=addUser">add user </a><?php endif; ?></td>
+    <td width="11%" align="center" valign="top" class="itemnormal"><?php if($tpl['showAddUserLink']==TRUE): ?><a href="<?php echo JAPA_CONTROLLER; ?>?mod=user&view=addUser">add user </a><?php endif; ?></td>
   </tr>
 </table>

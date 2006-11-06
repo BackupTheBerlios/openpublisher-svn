@@ -23,7 +23,7 @@
 /**
  * 
  */
-class ActionCommonRssBuilderOutput extends SmartAction
+class ActionCommonRssBuilderOutput extends JapaAction
 {
     /**
      * Perform on the action call

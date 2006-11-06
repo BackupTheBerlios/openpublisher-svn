@@ -16,7 +16,7 @@
  * $model->action('link','optimizeDbTables')
  */
  
-class ActionLinkOptimizeDbTables extends SmartAction
+class ActionLinkOptimizeDbTables extends JapaAction
 {                                      
     /**
      * optimize link module DB tables

@@ -23,7 +23,7 @@
  *
  */
  
-class ActionNavigationUpdateSubNodes extends SmartAction
+class ActionNavigationUpdateSubNodes extends JapaAction
 {
     /**
      * allowed fields

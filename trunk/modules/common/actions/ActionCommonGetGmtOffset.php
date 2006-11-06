@@ -17,7 +17,7 @@
  *
  */
 
-class ActionCommonGetGmtOffset extends SmartAction
+class ActionCommonGetGmtOffset extends JapaAction
 {
     /**
      * Perform on the action call
@@ -39,6 +39,16 @@ class ActionCommonGetGmtOffset extends SmartAction
         }
         
         return '0';
+    }
+    /**
+     * validate data array
+     *
+     * @param array $data
+     * @return bool
+     */    
+    public function validate( $data = FALSE )
+    {      
+        return true;
     }
 }
 

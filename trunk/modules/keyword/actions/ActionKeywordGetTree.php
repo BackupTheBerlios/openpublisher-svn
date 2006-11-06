@@ -22,7 +22,7 @@
  *
  */
 
-class ActionKeywordGetTree extends SmartAction
+class ActionKeywordGetTree extends JapaAction
 {
     /**
      * Fields and the format of each of the db table keyword 

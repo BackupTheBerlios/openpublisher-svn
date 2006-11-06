@@ -18,7 +18,7 @@
  *
  */
  
-class ActionMiscCheckFolderRights extends SmartAction
+class ActionMiscCheckFolderRights extends JapaAction
 {
     /**
      * check if folders are writeable by php scripts
@@ -26,7 +26,7 @@ class ActionMiscCheckFolderRights extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $data_folder = SMART_BASE_DIR . 'data/misc';
+        $data_folder = JAPA_BASE_DIR . 'data/misc';
         if(!is_writeable($data_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$data_folder;    

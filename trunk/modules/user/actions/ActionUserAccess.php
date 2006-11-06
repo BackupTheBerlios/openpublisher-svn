@@ -56,7 +56,7 @@
  *
  *
  */
-class ActionUserAccess extends SmartAction
+class ActionUserAccess extends JapaAction
 {
     /**
      * User time access jobs

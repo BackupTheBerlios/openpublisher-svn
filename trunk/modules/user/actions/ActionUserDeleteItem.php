@@ -20,7 +20,7 @@
  * 
  */
 
-class ActionUserDeleteItem extends SmartAction
+class ActionUserDeleteItem extends JapaAction
 {
     /**
      * Delete user picture or file
@@ -95,11 +95,11 @@ class ActionUserDeleteItem extends SmartAction
         $this->idUser = $pic['id_user'];
         $this->mediaFolder = &$user['media_folder'];
 
-        if(!@unlink(SMART_BASE_DIR . 'data/user/'.$user['media_folder'].'/'.$pic['file']))
+        if(!@unlink(JAPA_BASE_DIR . 'data/user/'.$user['media_folder'].'/'.$pic['file']))
         {
            trigger_error('Cant delete user logo: data/user/'.$user['media_folder'].'/'.$_file['logo'], E_USER_WARNING);
         }
-        if(!@unlink(SMART_BASE_DIR . 'data/user/'.$user['media_folder'].'/thumb/'.$pic['file']))
+        if(!@unlink(JAPA_BASE_DIR . 'data/user/'.$user['media_folder'].'/thumb/'.$pic['file']))
         {
            trigger_error('Cant delete user logo: data/user/'.$user['media_folder'].'/thumb/'.$_file['logo'], E_USER_WARNING);
         }    
@@ -133,7 +133,7 @@ class ActionUserDeleteItem extends SmartAction
         $this->idUser = $file['id_user'];
         $this->mediaFolder = &$user['media_folder'];
 
-        if(!@unlink(SMART_BASE_DIR . 'data/user/'.$user['media_folder'].'/'.$file['file']))
+        if(!@unlink(JAPA_BASE_DIR . 'data/user/'.$user['media_folder'].'/'.$file['file']))
         {
            trigger_error('Cant delete user logo: data/user/'.$user['media_folder'].'/'.$file['file'], E_USER_WARNING);
         }   
@@ -150,7 +150,7 @@ class ActionUserDeleteItem extends SmartAction
      */  
     private function removeEmptyDirectory()
     {
-        $dir = SMART_BASE_DIR . 'data/user/' . $this->mediaFolder;
+        $dir = JAPA_BASE_DIR . 'data/user/' . $this->mediaFolder;
         
         if(TRUE == $this->isDirEmpty( $dir ))
         {

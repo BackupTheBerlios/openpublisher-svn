@@ -22,7 +22,7 @@
  *
  */
  
-class ActionArticleRemoveUser extends SmartAction
+class ActionArticleRemoveUser extends JapaAction
 {
     private $sqlArticle = '';
     private $sqlUser    = '';

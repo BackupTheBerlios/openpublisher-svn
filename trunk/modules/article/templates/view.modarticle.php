@@ -1,6 +1,6 @@
 <?php if($tpl['format']==2): ?>
 <!-- tinyMCE -->
-<script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
+<script language="javascript" type="text/javascript" src="<?php echo JAPA_PUBLIC_DIR; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
@@ -8,7 +8,7 @@
     remove_script_host : false,
     relative_urls : true,
     mode : "exact",
-    content_css : "<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/content.css",
+    content_css : "<?php echo JAPA_PUBLIC_DIR; ?>modules/common/media/content.css",
     theme_advanced_containers_default_align : "left",
     theme_advanced_styles : "Font Size 8=f8;Font Size 10=f10;Font Size 12=f12;Font Size 14=f14;Font Size 16=f16;Font Size 18=f18;Font Size 20=f20;Forecolor=forecolor;Backcolor=backcolor;Quote=quote;",
     elements : "body",
@@ -189,7 +189,7 @@ function MM_swapImage() { //v3.0
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo JAPA_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
 <input name="id_article" type="hidden" value="<?php echo $tpl['id_article']; ?>">
 <input name="id_node" type="hidden" value="<?php echo $tpl['id_node']; ?>">
 <input name="canceledit" type="hidden" id="canceledit" value="">
@@ -346,7 +346,7 @@ function MM_swapImage() { //v3.0
           <input type="file" name="logo" size="10">
           <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
           <?php else: ?>
-          <img name="articlelogo" src="<?php echo SMART_RELATIVE_PATH.'data/article/'.$tpl['article']['media_folder'].'/'.$tpl['article']['logo']; ?>" alt="Article Logo" width="150"> <br>
+          <img name="articlelogo" src="<?php echo JAPA_PUBLIC_DIR.'data/article/'.$tpl['article']['media_folder'].'/'.$tpl['article']['logo']; ?>" alt="Article Logo" width="150"> <br>
           <input name="deletelogo" type="hidden" value="">
           <input type="button" name="eraselogo" value="delete" onclick="dellogo(this.form, 'Delete article logo Picture?');">
           <?php endif; ?>
@@ -381,7 +381,7 @@ function MM_swapImage() { //v3.0
                     </tr>
                     <tr>
                       <td align="right" valign="top">
-            <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','data/article/<?php echo $tpl['article']['media_folder']; ?>/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 0);"><img src="<?php echo SMART_RELATIVE_PATH; ?>data/article/<?php echo $tpl['article']['media_folder']; ?>/thumb/<?php echo $thumb['file']; ?>" alt="<?php echo addslashes($thumb['description']); ?>" name="<?php echo $thumb['file']; ?>" width="120" border="0" title="Insert original image <?php echo $thumb['file']; ?> in text cursor position"></a></td>
+            <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','data/article/<?php echo $tpl['article']['media_folder']; ?>/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 0);"><img src="<?php echo JAPA_PUBLIC_DIR; ?>data/article/<?php echo $tpl['article']['media_folder']; ?>/thumb/<?php echo $thumb['file']; ?>" alt="<?php echo addslashes($thumb['description']); ?>" name="<?php echo $thumb['file']; ?>" width="120" border="0" title="Insert original image <?php echo $thumb['file']; ?> in text cursor position"></a></td>
                      
             <td align="left" valign="top"> <a href="javascript:moveup(document.forms['editarticle'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Up<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/upover.png',0)"><img src="./modules/common/media/pics/up.png" title="Move <?php echo $thumb['file']; ?> up" alt="Move <?php echo $thumb['file']; ?> up" name="Up<?php echo $thumb['id_pic']; ?>" width="21" height="21" border="0" align="right"></a><br/>
                           <br/>

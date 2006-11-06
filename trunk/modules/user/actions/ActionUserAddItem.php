@@ -20,7 +20,7 @@
  *                      'id_user'  => int))
  *
  */
-include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUserFileUploadBase.php');
+include_once(JAPA_BASE_DIR . 'modules/user/includes/ActionUserFileUploadBase.php');
 
 class ActionUserAddItem extends ActionUserFileUploadBase
 {
@@ -136,7 +136,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
     {
         $rank = $this->getNewLastRank( $data['id_user'], 'user_media_file' );
 
-        $_file = SMART_BASE_DIR . "data/user/" . $media_folder . '/' . $file_info['file_name'];
+        $_file = JAPA_BASE_DIR . "data/user/" . $media_folder . '/' . $file_info['file_name'];
         
         // get mime type
         $type = '';
@@ -171,8 +171,8 @@ class ActionUserAddItem extends ActionUserFileUploadBase
      */       
     private function addPicture( &$data, &$media_folder, &$file_info )
     {
-        $image_source = SMART_BASE_DIR . "data/user/" . $media_folder . '/' . $file_info['file_name'];
-        $image_dest_folder   = SMART_BASE_DIR . "data/user/" . $media_folder . '/thumb';
+        $image_source = JAPA_BASE_DIR . "data/user/" . $media_folder . '/' . $file_info['file_name'];
+        $image_dest_folder   = JAPA_BASE_DIR . "data/user/" . $media_folder . '/thumb';
         
         // get image width and height
         if(FALSE !== ($info = getimagesize( $image_source )))
@@ -251,7 +251,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
      */    
     private function getMime( &$file )
     {
-        include_once(SMART_BASE_DIR.'modules/common/includes/SmartCommonFileMime.php');
+        include_once(JAPA_BASE_DIR.'modules/common/includes/SmartCommonFileMime.php');
         return SmartCommonFileMime::getMime($file);
     }  
     /**

@@ -19,7 +19,7 @@
  *
  */
  
-class ActionMiscDeleteText extends SmartAction
+class ActionMiscDeleteText extends JapaAction
 {
     /**
      * delete misc text, referenced table entries and pictures, files
@@ -81,7 +81,7 @@ class ActionMiscDeleteText extends SmartAction
         if(isset($row['media_folder']) && !empty($row['media_folder']))
         {
             // delete user data media folder
-            SmartCommonUtil::deleteDirTree( SMART_BASE_DIR.'data/misc/'.$row['media_folder'] );
+            SmartCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/misc/'.$row['media_folder'] );
         }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text

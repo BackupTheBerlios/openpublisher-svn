@@ -18,7 +18,7 @@
  *
  */
 
-class ActionCommonMysqlInfo extends SmartAction
+class ActionCommonMysqlInfo extends JapaAction
 {
     /**
      * add node picture or file

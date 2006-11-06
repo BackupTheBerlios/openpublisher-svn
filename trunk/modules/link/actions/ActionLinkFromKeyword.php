@@ -31,7 +31,7 @@
  *
  */
 
-class ActionLinkFromKeyword extends SmartAction
+class ActionLinkFromKeyword extends JapaAction
 {
     /**
      * Allowed sql caching

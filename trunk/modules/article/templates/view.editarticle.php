@@ -2,17 +2,17 @@
 <?php if($tpl['use_keywords']==1): ?>
   function keywordmap(){
     mm='scrollbars=1,toolbar=0,menubar=0,resizable=yes,width=500,height=450';
-    newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+    newwindow= window.open('<?php echo JAPA_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
 <?php endif; ?>
 
   function usermap(){
     mm='scrollbars=1,toolbar=0,menubar=0,resizable=yes,width=500,height=450';
-    newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=user&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+    newwindow= window.open('<?php echo JAPA_CONTROLLER; ?>?nodecoration=1&mod=user&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
 
 <?php if(isset($tpl['showLogLink'])): ?>
   function showLogs(){
     mm='scrollbars=1,toolbar=0,menubar=0,resizable=yes,width=500,height=450';
-    newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=user&view=showLogs&openerView=editArticle&openerModule=article&id_item=<?php echo $tpl['id_article']; ?>','',mm); }
+    newwindow= window.open('<?php echo JAPA_CONTROLLER; ?>?nodecoration=1&mod=user&view=showLogs&openerView=editArticle&openerModule=article&id_item=<?php echo $tpl['id_article']; ?>','',mm); }
 <?php endif; ?>
 
 // unlock a node and forward to the node with id x. use this for links
@@ -79,7 +79,7 @@ function cancel_edit(f)
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&disableMainMenu=1" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo JAPA_CONTROLLER; ?>?mod=article&view=editArticle&disableMainMenu=1" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
 <input name="id_article" type="hidden" value="<?php echo $tpl['id_article']; ?>">
 <input name="id_node" type="hidden" value="<?php echo $tpl['id_node']; ?>">
 <input name="gotonode" type="hidden" value="">
@@ -125,7 +125,7 @@ function cancel_edit(f)
                   <?php if(isset($tpl['showLogLink'])): ?>
                     <li><a href="javascript:showLogs();">Who modified this article?</a></li>
                   <?php endif; ?>
-                  <li><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $tpl['id_article']; ?>">Modify article content</a></li>
+                  <li><a href="<?php echo JAPA_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $tpl['id_article']; ?>">Modify article content</a></li>
                   <?php if($tpl['article']['status'] >= 4): ?>
                     <li><a href="<?php echo $tpl['publicWebController']; ?>?id_article=<?php echo $tpl['id_article']; ?>">View online</a></li>
                   <?php endif; ?>

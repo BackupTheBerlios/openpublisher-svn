@@ -17,7 +17,7 @@
  *
  */
  
-class ActionArticleRemoveArticleViewRelation extends SmartAction
+class ActionArticleRemoveArticleViewRelation extends JapaAction
 {
     /**
      * delete article with status 0=delete which the last update is 

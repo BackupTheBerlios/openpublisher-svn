@@ -19,7 +19,7 @@
  *
  */
  
-class ActionArticleDeleteArticle extends SmartAction
+class ActionArticleDeleteArticle extends JapaAction
 {
     /**
      * delete article and navigation node relation
@@ -91,7 +91,7 @@ class ActionArticleDeleteArticle extends SmartAction
         if(isset($row['media_folder']) && !empty($row['media_folder']))
         {
             // delete article data media folder
-            SmartCommonUtil::deleteDirTree( SMART_BASE_DIR.'data/article/'.$row['media_folder'] );
+            SmartCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/article/'.$row['media_folder'] );
         }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_article

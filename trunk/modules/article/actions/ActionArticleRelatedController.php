@@ -20,7 +20,7 @@
  *
  */
  
-class ActionArticleRelatedView extends SmartAction
+class ActionArticleRelatedController extends JapaAction
 {
     /**
      * get article related view

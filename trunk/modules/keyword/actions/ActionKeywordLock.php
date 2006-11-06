@@ -59,7 +59,7 @@
  *                      'id_key => (int)key ID that locks));  
  *
  */
-class ActionKeywordLock extends SmartAction
+class ActionKeywordLock extends JapaAction
 {
     /**
      * User lock actions

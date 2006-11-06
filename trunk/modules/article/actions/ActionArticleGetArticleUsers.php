@@ -31,7 +31,7 @@
  *                                         'format','media_folder') ));
  *
  */
-include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUser.php');
+include_once(JAPA_BASE_DIR . 'modules/user/includes/ActionUser.php');
 
 class ActionArticleGetArticleUsers extends ActionUser
 {

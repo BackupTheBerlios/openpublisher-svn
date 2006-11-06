@@ -15,7 +15,7 @@
  *
  */
 
-class ActionNavigationFileUploadBase extends SmartAction
+class ActionNavigationFileUploadBase extends JapaAction
 {
     /**
      * move_uploaded_file
@@ -93,14 +93,14 @@ class ActionNavigationFileUploadBase extends SmartAction
         {
             $folder = SmartCommonUtil::unique_crc32();
         }
-        while(@is_dir(SMART_BASE_DIR . 'data/navigation/' . $folder));
+        while(@is_dir(JAPA_BASE_DIR . 'data/navigation/' . $folder));
         
-        if(!mkdir(SMART_BASE_DIR . 'data/navigation/' . $folder, $this->config['media_folder_rights']))
+        if(!mkdir(JAPA_BASE_DIR . 'data/navigation/' . $folder, $this->config['media_folder_rights']))
         {
             throw new SmartModelException('Cant create media folder: ' . $folder);
         }
 
-        if(!mkdir(SMART_BASE_DIR . 'data/navigation/' . $folder . '/thumb', $this->config['media_folder_rights']))
+        if(!mkdir(JAPA_BASE_DIR . 'data/navigation/' . $folder . '/thumb', $this->config['media_folder_rights']))
         {
             throw new SmartModelException('Cant create media folder: ' . $folder . '/thumb');
         }
@@ -130,7 +130,7 @@ class ActionNavigationFileUploadBase extends SmartAction
                 $prefix = '';
             }
             
-            $result['file_path'] = SMART_BASE_DIR . 'data/navigation/' . $media_folder . '/' . $prefix . $file_name;
+            $result['file_path'] = JAPA_BASE_DIR . 'data/navigation/' . $media_folder . '/' . $prefix . $file_name;
             $x++;
         }
         while(file_exists( $result['file_path'] )); 

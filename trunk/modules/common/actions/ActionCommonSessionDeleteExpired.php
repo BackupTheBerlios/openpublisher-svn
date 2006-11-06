@@ -17,7 +17,7 @@
  *
  */
 
-class ActionCommonSessionDeleteExpired extends SmartAction
+class ActionCommonSessionDeleteExpired extends JapaAction
 {
     /**
      * Delete current expired session
@@ -43,6 +43,11 @@ class ActionCommonSessionDeleteExpired extends SmartAction
             $this->model->session->destroy();
         }
     }
+    
+    public function validate( $data = false )
+    { 
+        return true;
+    }  
 }
 
 ?>

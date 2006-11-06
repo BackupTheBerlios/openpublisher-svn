@@ -16,7 +16,7 @@
  */
 
  
-class ActionArticleUpdateView extends SmartAction
+class ActionArticleUpdateView extends JapaAction
 {
     /**
      * update navigation node

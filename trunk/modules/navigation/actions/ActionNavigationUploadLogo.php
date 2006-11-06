@@ -13,7 +13,7 @@
  * ActionNavigationUploadLogo class 
  *
  */
-include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigationFileUploadBase.php');
+include_once(JAPA_BASE_DIR . 'modules/navigation/includes/ActionNavigationFileUploadBase.php');
 
 class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
 {

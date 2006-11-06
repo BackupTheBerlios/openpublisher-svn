@@ -23,7 +23,7 @@
                                            'hits'         => 'Int',)))
  */
  
-class ActionLinkUpdateLink extends SmartAction
+class ActionLinkUpdateLink extends JapaAction
 {
     /**
      * Allowed link fields and its type

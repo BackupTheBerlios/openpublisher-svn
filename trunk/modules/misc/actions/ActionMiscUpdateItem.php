@@ -25,7 +25,7 @@
  *                                        'description' => 'String') ))
 
  */
-class ActionMiscUpdateItem extends SmartAction
+class ActionMiscUpdateItem extends JapaAction
 {
     protected $tblFields_item = 
                       array('id_text'     => 'Int',

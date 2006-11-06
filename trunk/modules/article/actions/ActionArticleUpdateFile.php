@@ -19,7 +19,7 @@
  *                      'id_node' => int))
  *
  */
-class ActionArticleUpdateFile extends SmartAction
+class ActionArticleUpdateFile extends JapaAction
 {
     /**
      * update/delete article picture from db table

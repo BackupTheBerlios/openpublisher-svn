@@ -29,9 +29,9 @@
  *
  *
  */
-include_once(SMART_BASE_DIR . 'modules/common/includes/SmartPager.php');
+include_once(JAPA_BASE_DIR . 'modules/common/includes/SmartPager.php');
  
-class ActionLinkPager extends SmartAction
+class ActionLinkPager extends JapaAction
 {
     /**
      * build pager links

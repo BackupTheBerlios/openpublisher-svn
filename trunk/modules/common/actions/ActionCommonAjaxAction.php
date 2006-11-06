@@ -40,13 +40,13 @@
  *
  */
 
-include_once( SMART_BASE_DIR . 'smart/includes/PEAR/HTML/AJAX/Action.php');
+include_once( JAPA_BASE_DIR . 'smart/includes/PEAR/HTML/AJAX/Action.php');
 
 /**
 
  * 
  */
-class ActionCommonAjaxAction extends SmartAction
+class ActionCommonAjaxAction extends JapaAction
 {
     /**
      * Perform on the action call

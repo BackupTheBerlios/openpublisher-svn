@@ -20,7 +20,7 @@
  * 
  */
 
-class ActionUserDeleteLogo extends SmartAction
+class ActionUserDeleteLogo extends JapaAction
 {
     /**
      * Delete user logo
@@ -40,7 +40,7 @@ class ActionUserDeleteLogo extends SmartAction
                                    'id_user' => (int)$data['id_user'],
                                    'fields'  => array('logo','media_folder')));   
 
-        if(!@unlink(SMART_BASE_DIR . 'data/user/'.$_file['media_folder'].'/'.$_file['logo']))
+        if(!@unlink(JAPA_BASE_DIR . 'data/user/'.$_file['media_folder'].'/'.$_file['logo']))
         {
             throw new SmartModelException('Cant delete user logo: data/user/'.$_file['media_folder'].'/'.$_file['logo']);
         }
@@ -107,7 +107,7 @@ class ActionUserDeleteLogo extends SmartAction
      */  
     private function removeEmptyDirectory( &$media_folder, &$data )
     {
-        $dir = SMART_BASE_DIR . 'data/user/' . $media_folder;
+        $dir = JAPA_BASE_DIR . 'data/user/' . $media_folder;
         
         if(TRUE == $this->isDirEmpty( $dir ))
         {

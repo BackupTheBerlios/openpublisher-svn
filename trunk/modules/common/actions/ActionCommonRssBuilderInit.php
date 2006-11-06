@@ -14,12 +14,12 @@
  *
  */
 
-include_once (SMART_BASE_DIR . 'modules/common/includes/rssbuilder/class.RSSBuilder.inc.php');
+include_once (JAPA_BASE_DIR . 'modules/common/includes/rssbuilder/class.RSSBuilder.inc.php');
 
 /**
  * 
  */
-class ActionCommonRssBuilderInit extends SmartAction
+class ActionCommonRssBuilderInit extends JapaAction
 {
     /**
      */

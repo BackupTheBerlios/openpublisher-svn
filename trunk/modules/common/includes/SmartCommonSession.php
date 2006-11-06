@@ -14,7 +14,7 @@
  *
  */
 
-class SmartCommonSession extends SmartObject
+class SmartCommonSession
 {
     /**
      * Constructor

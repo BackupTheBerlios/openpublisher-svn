@@ -18,7 +18,7 @@
  * 
  */
  
-class ActionNavigationLogout extends SmartAction
+class ActionNavigationLogout extends JapaAction
 {
     /**
      * process logout 

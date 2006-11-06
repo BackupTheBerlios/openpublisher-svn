@@ -20,7 +20,7 @@
  *
  */
  
-class ActionArticleGetNodeAssociatedView extends SmartAction
+class ActionArticleGetNodeAssociatedView extends JapaAction
 {
     /**
      * get article node related view

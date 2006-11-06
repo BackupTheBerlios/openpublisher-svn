@@ -22,7 +22,7 @@
  *                      'dir'     => string)) // 'up' or 'down'
  *
  */
-class ActionNavigationMoveItemRank extends SmartAction
+class ActionNavigationMoveItemRank extends JapaAction
 {                          
     /**
      * 

@@ -22,7 +22,7 @@
  *
  */
  
-class ActionLinkRemoveKeyword extends SmartAction
+class ActionLinkRemoveKeyword extends JapaAction
 {
     private $sqlLink = '';
     private $sqlKey  = '';

@@ -32,7 +32,7 @@
  // include the PEAR XML_RPC client class
 include_once('XML/RPC.php');
 
-class ActionArticleGetArticlesRPC extends SmartAction
+class ActionArticleGetArticlesRPC extends JapaAction
 {   
     /**
      * get article data through rpc

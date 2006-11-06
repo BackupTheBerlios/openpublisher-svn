@@ -25,11 +25,28 @@
  *                                         'body') ));
  *
  */
-
-include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
  
-class ActionNavigationGetChilds extends ActionNavigation
+class ActionNavigationGetChilds extends JapaAction
 {   
+    /**
+     * Fields and the format of each of the db table navigation_node 
+     *
+     */
+    private $tblFields_node = 
+                      array('id_node'      => 'Int',
+                            'id_parent'    => 'Int',
+                            'id_sector'    => 'Int',
+                            'id_view'      => 'Int',
+                            'status'       => 'Int',
+                            'rank'         => 'Int',
+                            'format'       => 'Int',
+                            'logo'         => 'String',
+                            'media_folder' => 'String',
+                            'lang'         => 'String',
+                            'title'        => 'String',
+                            'short_text'   => 'String',
+                            'body'         => 'String');
+                            
     /**
      * get navigation node data
      *

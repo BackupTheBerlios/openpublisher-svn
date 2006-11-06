@@ -15,7 +15,7 @@
  *
  */
 
-class ActionMiscInit extends SmartAction
+class ActionMiscInit extends JapaAction
 {
     /**
      * Misc Module Version
@@ -66,7 +66,11 @@ class ActionMiscInit extends SmartAction
         {
             $this->config['misc'][$key] = $val;      
         } 
-    }        
+    }    
+    public function validate( $data = false )
+    {
+        return true;
+    }      
 }
 
 ?>

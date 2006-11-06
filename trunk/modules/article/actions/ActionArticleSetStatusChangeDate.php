@@ -20,7 +20,7 @@
  *                      'date'       => string)))
  */
  
-class ActionArticleSetStatusChangeDate extends SmartAction
+class ActionArticleSetStatusChangeDate extends JapaAction
 {
     /**
      * update/set article status date

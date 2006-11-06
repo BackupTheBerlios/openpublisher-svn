@@ -17,7 +17,7 @@
  *                array('id_article' => int))
  */
  
-class ActionNavigationCreateIndex extends SmartAction
+class ActionNavigationCreateIndex extends JapaAction
 {                                      
     /**
      * create article index

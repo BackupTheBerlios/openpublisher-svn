@@ -473,7 +473,7 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
      */
     private function redirect()
     {
-        @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=article&view=editArticle&disableMainMenu=1&id_article='.$this->current_id_article.'&id_node='.$this->current_id_node);
+        @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=article&view=editArticle&disableMainMenu=1&id_article='.$this->current_id_article.'&id_node='.$this->current_id_node);
         exit;      
     }  
     

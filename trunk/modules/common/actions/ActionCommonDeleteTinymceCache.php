@@ -14,7 +14,7 @@
  *
  */
  
-class ActionCommonDeleteTinymceCache extends SmartAction
+class ActionCommonDeleteTinymceCache extends JapaAction
 {
    /**
      * delete all cached files
@@ -24,7 +24,7 @@ class ActionCommonDeleteTinymceCache extends SmartAction
      */
     function perform( $data = FALSE )
     {
-        $cache_dir = SMART_BASE_DIR . 'data/common/tinymce_cache' ;
+        $cache_dir = JAPA_BASE_DIR . 'data/common/tinymce_cache' ;
           
         if ( (($handle = @opendir( $cache_dir ))) != FALSE )
         {

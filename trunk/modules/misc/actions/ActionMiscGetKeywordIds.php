@@ -24,7 +24,7 @@
  * 
  */
 
-class ActionMiscGetKeywordIds extends SmartAction
+class ActionMiscGetKeywordIds extends JapaAction
 {                                           
     /**
      * get misc text related keywords

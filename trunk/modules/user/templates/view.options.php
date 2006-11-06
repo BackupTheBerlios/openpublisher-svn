@@ -14,12 +14,12 @@
   </tr>
   <tr>
     <td align="left" valign="top">
-  <form name="format" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=options">
+  <form name="format" method="post" action="<?php echo JAPA_CONTROLLER; ?>?mod=user&view=options">
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <!-- Option to switch between tiny mice and text wiki. reserved for a future release
       <tr>
         <td width="46%" height="21" align="left" valign="top" class="font10bold">&nbsp;Fromat of  the users description textarea</td>
-        <td width="54%" rowspan="5" align="left" valign="top" class="font10bold"><p><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">back</a></p>
+        <td width="54%" rowspan="5" align="left" valign="top" class="font10bold"><p><a href="<?php echo JAPA_CONTROLLER; ?>?mod=user">back</a></p>
           <p>
               <?php if($tpl['uptodate']==TRUE): ?>
                 <font color="#FF0000">The user module options are now up to date!</font> </p>          <?php endif; ?></td>
@@ -54,7 +54,7 @@ Text Wikki &nbsp;&nbsp;</td>
     -->
       <tr>
         <td width="62%" align="left" valign="top" class="font10bold">&nbsp;Thumbnails width in pixels</td>
-        <td width="38%" align="left" valign="top" class="font10"><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">back</a></td>
+        <td width="38%" align="left" valign="top" class="font10"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=user">back</a></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10">&nbsp;<input name="thumb_width" type="text" value="<?php echo $tpl['option']['thumb_width']; ?>" size="4" maxlength="3"></td>

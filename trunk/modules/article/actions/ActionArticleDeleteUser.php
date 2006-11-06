@@ -21,7 +21,7 @@
  *
  */
  
-class ActionArticleDeleteUser extends SmartAction
+class ActionArticleDeleteUser extends JapaAction
 {
     /**
      * delete article and navigation node relation

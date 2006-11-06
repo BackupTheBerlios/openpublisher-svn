@@ -23,7 +23,7 @@
  *
  *
  */
-class ActionUserMoveItemRank extends SmartAction
+class ActionUserMoveItemRank extends JapaAction
 {                          
     /**
      * 

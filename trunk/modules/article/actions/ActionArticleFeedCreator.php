@@ -23,7 +23,7 @@
 /**
  * 
  */
-class ActionArticleFeedCreator extends SmartAction
+class ActionArticleFeedCreator extends JapaAction
 {
     /**
      * Perform on the action call
@@ -43,7 +43,7 @@ class ActionArticleFeedCreator extends SmartAction
     }
     /**
      */
-    public function validate( & $data )
+    public function validate( $data = false )
     {
         if(!isset( $data['format'] ))
         {
@@ -57,14 +57,14 @@ class ActionArticleFeedCreator extends SmartAction
             }   
         }
 
-        return TRUE;
+        return true;
     }  
     
     private function rss( & $data )
     {
         if(!isset($this->model->rssGenerator))
         {
-            include_once (SMART_BASE_DIR . 'modules/common/includes/rssgenerator/RssGenerator.php');
+            include_once (JAPA_BASE_DIR . 'modules/common/includes/rssgenerator/RssGenerator.php');
             $this->model->rssGenerator = new RssGenerator();
         }
         $rss = & $this->model->rssGenerator;
@@ -114,7 +114,7 @@ class ActionArticleFeedCreator extends SmartAction
     
     private function checkCache( & $data )
     {
-        $this->rssFile = SMART_BASE_DIR . 'data/article/rss/'.$data['id'].'.xml';
+        $this->rssFile = JAPA_BASE_DIR . 'data/article/rss/'.$data['id'].'.xml';
         $data['rssfile'] = 'data/article/rss/'.$data['id'].'.xml';
 
         // check expire time

@@ -23,7 +23,7 @@
  *
  */
  
-class ActionLinkGetLink extends SmartAction
+class ActionLinkGetLink extends JapaAction
 {
     /**
      * Allowed link fields and its type

@@ -19,7 +19,7 @@
  *
  */
  
-class ActionArticleDeleteComment extends SmartAction
+class ActionArticleDeleteComment extends JapaAction
 {
     /**
      * delete article and navigation node relation

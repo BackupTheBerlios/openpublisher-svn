@@ -31,7 +31,7 @@
  */
 
 
-class ActionArticleGetNodeStats extends SmartAction
+class ActionArticleGetNodeStats extends JapaAction
 {
     /**
      * Allowed sql caching

@@ -33,7 +33,7 @@
  */
 
  
-class ActionNavigationFromKeyword extends SmartAction
+class ActionNavigationFromKeyword extends JapaAction
 {
     /**
      * Allowed sql caching

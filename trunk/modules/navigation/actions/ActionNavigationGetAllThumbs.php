@@ -23,7 +23,7 @@
  *
  */
  
-class ActionNavigationGetAllThumbs extends SmartAction
+class ActionNavigationGetAllThumbs extends JapaAction
 {
     private $tblFields_pic = array('id_pic'  => TRUE,
                                    'id_node' => TRUE,

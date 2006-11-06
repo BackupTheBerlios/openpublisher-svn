@@ -20,7 +20,7 @@
  * 
  */
 
-class ActionArticleAddUser extends SmartAction
+class ActionArticleAddUser extends JapaAction
 {                                           
     /**
      * Add user

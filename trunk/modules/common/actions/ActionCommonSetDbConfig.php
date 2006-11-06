@@ -18,7 +18,7 @@
  *
  */
 
-class ActionCommonSetDbConfig extends SmartAction
+class ActionCommonSetDbConfig extends JapaAction
 {
     /**
      * Write php file with db connection array data
@@ -64,7 +64,7 @@ class ActionCommonSetDbConfig extends SmartAction
      */    
     private function buildContent( & $data )
     {
-        $str = "<?php \n\n if (!defined( 'SMART_SECURE_INCLUDE' )) \n  exit;\n\n";
+        $str = "<?php \n\n if (!defined( 'JAPA_SECURE_INCLUDE' )) \n  exit;\n\n";
         
         $str .= '$db'." = array();\n\n";
         

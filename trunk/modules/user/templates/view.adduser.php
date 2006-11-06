@@ -1,4 +1,4 @@
-<form accept-charset="<?php echo $tpl['charset']; ?>" name="adduser" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=addUser">
+<form accept-charset="<?php echo $tpl['charset']; ?>" name="adduser" method="post" action="<?php echo JAPA_CONTROLLER; ?>?mod=user&view=addUser">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="99%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
@@ -74,7 +74,7 @@
       </tr>
     </table>
     </td>
-    <td width="1%" align="left" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">cancel</a></td>
+    <td width="1%" align="left" valign="top" class="font10bold"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=user">cancel</a></td>
   </tr>
 </table>
 </form>

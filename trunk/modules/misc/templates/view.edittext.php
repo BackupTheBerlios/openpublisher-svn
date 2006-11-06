@@ -1,6 +1,6 @@
 <?php if($tpl['format']==2): ?>
 <!-- tinyMCE -->
-<script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
+<script language="javascript" type="text/javascript" src="<?php echo JAPA_PUBLIC_DIR; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
@@ -8,7 +8,7 @@
     remove_script_host : false,
     relative_urls : true,
     mode : "exact",
-    content_css : "<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/content.css",
+    content_css : "<?php echo JAPA_PUBLIC_DIR; ?>modules/common/media/content.css",
     theme_advanced_containers_default_align : "left",
     theme_advanced_styles : "Font Size 8=f8;Font Size 10=f10;Font Size 12=f12;Font Size 14=f14;Font Size 16=f16;Font Size 18=f18;Font Size 20=f20;Forecolor=forecolor;Backcolor=backcolor;Quote=quote;",
     elements : "body",
@@ -57,7 +57,7 @@ function insertImgDesc(desc)
 <?php if($tpl['use_keywords']==1): ?>
 function keywordmap(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
-newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=misc&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+newwindow= window.open('<?php echo JAPA_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=misc&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
 <?php endif; ?>
 function deletetext(f, mes)
 {
@@ -204,7 +204,7 @@ function MM_swapImage() { //v3.0
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=misc&view=editText" method="post" enctype="multipart/form-data" name="edittext" id="edittext">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo JAPA_CONTROLLER; ?>?mod=misc&view=editText" method="post" enctype="multipart/form-data" name="edittext" id="edittext">
 <input name="id_text" type="hidden" value="<?php echo $tpl['text']['id_text']; ?>">
 <input name="canceledit" type="hidden" id="canceledit" value="">
 <input name="modifytextdata" type="hidden" value="true">

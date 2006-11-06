@@ -19,7 +19,7 @@
  *                      'id_node' => int))
  *
  */
-class ActionNavigationUpdateFile extends SmartAction
+class ActionNavigationUpdateFile extends JapaAction
 {
     /**
      * update/delete node picture from db table

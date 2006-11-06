@@ -25,7 +25,7 @@
  *                                        'description' => 'String') ))
  *
  */
-class ActionNavigationUpdateItem extends SmartAction
+class ActionNavigationUpdateItem extends JapaAction
 {
     protected $tblFields_item = 
                       array('id_node'     => 'Int',

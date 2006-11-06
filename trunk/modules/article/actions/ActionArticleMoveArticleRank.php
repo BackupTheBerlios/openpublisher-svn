@@ -21,7 +21,7 @@
  *
  */
  
-class ActionArticleMoveArticleRank extends SmartAction
+class ActionArticleMoveArticleRank extends JapaAction
 {
     /**
      * exchange (move) navigation node rank

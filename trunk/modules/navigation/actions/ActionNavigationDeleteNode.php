@@ -19,7 +19,7 @@
  *
  */
  
-class ActionNavigationDeleteNode extends SmartAction
+class ActionNavigationDeleteNode extends JapaAction
 {
     /**
      * delete navigation node and referenced table entries
@@ -90,7 +90,7 @@ class ActionNavigationDeleteNode extends SmartAction
         if(isset($row['media_folder']) && !empty($row['media_folder']))
         {
             // delete user data media folder
-            SmartCommonUtil::deleteDirTree( SMART_BASE_DIR.'data/navigation/'.$row['media_folder'] );
+            SmartCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/navigation/'.$row['media_folder'] );
         }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node

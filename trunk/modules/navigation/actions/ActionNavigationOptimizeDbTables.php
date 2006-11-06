@@ -16,7 +16,7 @@
  * $model->action('navigation','optimizeDbTables')
  */
  
-class ActionNavigationOptimizeDbTables extends SmartAction
+class ActionNavigationOptimizeDbTables extends JapaAction
 {                                      
     /**
      * optimize navigation module DB tables

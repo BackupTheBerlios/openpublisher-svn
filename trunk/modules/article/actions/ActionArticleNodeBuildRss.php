@@ -28,7 +28,7 @@
  *
  */
  
-class ActionArticleNodeBuildRss extends SmartAction
+class ActionArticleNodeBuildRss extends JapaAction
 {
     /**
      * delete article and navigation node relation
@@ -37,7 +37,7 @@ class ActionArticleNodeBuildRss extends SmartAction
      */
     public function perform( $data = FALSE )
     {         
-        $rssfolder = SMART_BASE_DIR . 'data/article/rss/';
+        $rssfolder = JAPA_BASE_DIR . 'data/article/rss/';
         $rssfile   = '200_node'.$data['id_node'].'articles.xml';
         $data['rssfile'] = 'data/article/rss/200_node'.$data['id_node'].'articles.xml';
 

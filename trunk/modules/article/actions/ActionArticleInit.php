@@ -19,7 +19,7 @@
  *
  */
 
-class ActionArticleInit extends SmartAction
+class ActionArticleInit extends JapaAction
 {
     /**
      * Navigation Module Version
@@ -80,8 +80,13 @@ class ActionArticleInit extends SmartAction
         }
         
         // this module try to find the view on the related public request var 'id_article'
-        $this->config['view_map']['id_article'] = 'article';        
-    }        
+        $this->config['controller_map']['id_article'] = 'article';        
+    }     
+    
+    public function validate( $data = false )
+    { 
+        return true;
+    }  
 }
 
 ?>

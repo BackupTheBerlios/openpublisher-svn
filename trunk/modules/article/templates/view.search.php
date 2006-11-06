@@ -63,15 +63,15 @@ span.smart_pager {
                   <li class="subnodelist">
                     <div class="branch">
                       <?php  foreach($article['nodeBranch'] as $bnode): ?>
-                      <a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>&article_page=1');"><?php echo $bnode['title']; ?></a> /
+                      <a href="javascript:goto_item('<?php echo JAPA_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>&article_page=1');"><?php echo $bnode['title']; ?></a> /
                       <?php endforeach; ?>
-          <a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $article['node']['id_node']; ?>&article_page=1');"><?php echo $article['node']['title']; ?></a> </div>
+          <a href="javascript:goto_item('<?php echo JAPA_CONTROLLER; ?>?mod=article&id_node=<?php echo $article['node']['id_node']; ?>&article_page=1');"><?php echo $article['node']['title']; ?></a> </div>
                     <div class="branch">
            Publish Date: <?php echo $article['pubdate']; ?><br>
            Last modified: <?php echo $article['modifydate']; ?><br>
           </div>
                  <?php if($article['hasAccess']==true): ?>
-                    <div class="article"><a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $article['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>');"><?php echo $article['title']; ?></a></div>
+                    <div class="article"><a href="javascript:goto_item('<?php echo JAPA_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $article['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>');"><?php echo $article['title']; ?></a></div>
                  <?php else: ?>
                     <div class="article"><?php echo $article['title']; ?></div>
                  <?php endif; ?>
@@ -114,7 +114,7 @@ span.smart_pager {
     </table>
 </td>
     <td width="26%" align="left" valign="top" class="font10bold">
-      <form accept-charset="<?php echo $tpl['charset']; ?>" name="searchform" method="post" action="<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=article&view=search">
+      <form accept-charset="<?php echo $tpl['charset']; ?>" name="searchform" method="post" action="<?php echo JAPA_CONTROLLER; ?>?nodecoration=1&mod=article&view=search">
       <input name="search" type="text" id="search" size="25" maxlength="255" class="topselect">
       <br>
      <input name="searchbutton" type="submit" value="search" class="topselect">

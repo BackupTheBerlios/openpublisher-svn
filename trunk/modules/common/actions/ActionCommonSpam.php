@@ -28,7 +28,7 @@
 /**
  * 
  */
-class ActionCommonAkismetSpamDetector extends SmartAction
+class ActionCommonAkismetSpamDetector extends JapaAction
 {
     /**
      * check if a comment is spam through Akismet
@@ -38,7 +38,7 @@ class ActionCommonAkismetSpamDetector extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        include_once(SMART_BASE_DIR . 'modules/common/includes/Akismet.class.php');
+        include_once(JAPA_BASE_DIR . 'modules/common/includes/Akismet.class.php');
         $akismet = new Akismet(          $data['url'], $data['key']);
         
         $akismet->setCommentAuthor(      $data['user']['name']);

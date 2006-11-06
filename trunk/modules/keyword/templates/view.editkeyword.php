@@ -45,7 +45,7 @@ function cancel_edit(f)
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=keyword&view=editKeyword" method="post" enctype="multipart/form-data" name="editkeyword" id="editkeyword">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo JAPA_CONTROLLER; ?>?mod=keyword&view=editKeyword" method="post" enctype="multipart/form-data" name="editkeyword" id="editkeyword">
 <input name="id_key" type="hidden" value="<?php echo $tpl['key']['id_key']; ?>">
 <input name="gotokey" type="hidden" value="">
 <input name="modifykeyworddata" type="hidden" value="true">
