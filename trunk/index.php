@@ -28,7 +28,7 @@ define('JAPA_MODULES_DIR', JAPA_BASE_DIR . 'modules/');
 
 // Define the relative path to the JAPA public folder
 //
-define('JAPA_PUBLIC_DIR', './public/');
+define('JAPA_PUBLIC_DIR', 'public/');
 
 // Include the system core file. 
 include( JAPA_LIBRARY_DIR . 'japa/japa_core.php' );
