@@ -1,0 +1,29 @@
+#mainleft dl {
+	font-size: 1.2em;
+	width: 300px;
+	border: 2px solid #660000;
+	padding: 20px;
+	margin-left: 200px;
+}
+#login {
+	padding-left: 200px;
+}
+#mainleft .loginitem {
+	font-size: 1.2em;
+	font-style: italic;
+	font-weight: bold;
+	color: #666666;
+	letter-spacing: 0.2em;
+	padding-top: 5px;
+	padding-bottom: 10px;
+
+}
+#mainleft .loginbutton {
+	font-size: 1.1em;
+	color: #336699;
+	background-color: #EAEAEA;
+	width: 5em;
+	letter-spacing: 0.1em;
+	padding: 3px;
+
+}
