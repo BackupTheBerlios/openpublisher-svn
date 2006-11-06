@@ -1,3 +1,5 @@
+Allow from all
+
 RewriteEngine on
 
 # May you have to change the path to japa
@@ -5,7 +7,9 @@ RewriteEngine on
 
 #RewriteBase /japa/
 
+RewriteCond %{SCRIPT_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$ [NC] 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteRule ^(.*)$ index.php
+RewriteCond %{SCRIPT_FILENAME} !-l 
+RewriteRule ^(.*)$ index.php [L] 
 
