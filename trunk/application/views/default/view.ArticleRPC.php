@@ -1,15 +1,10 @@
 <!-- this line puts IE in quirk mode -->
-<!-- prevent direct call -->
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-<!-- --- AJAX --- -->
-<script type='text/javascript' src='<?php echo SMART_RELATIVE_PATH; ?>ajaxserver.php?client=all&amp;stub=all&amp;view=articleAjax'></script>
-<script type='text/javascript' src='<?php echo SMART_RELATIVE_PATH; ?>templates_home/ArticleAjax.js'></script>
 
 <script language="JavaScript" type="text/JavaScript">
     function showimage(theURL,widthx,heightx){
@@ -27,9 +22,9 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>typography.css";</style>
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>search.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>typography.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>search.css";</style>
 
 </head>
 
@@ -44,9 +39,9 @@
    <!-- --- show current navigation node branche --- -->
    <div id="branch">
     <?php  foreach($view['nodeBranch'] as $bnode): ?>
-      <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+      <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
     <?php endforeach; ?>
-    <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $view['node']['id_node']; ?>"><?php echo $view['node']['title']; ?></a>
+    <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $view['node']['id_node']; ?>"><?php echo $view['node']['title']; ?></a>
     <hr class="hr" />
    </div>
    
@@ -58,7 +53,7 @@
   
    <!-- --- show edit link if user is logged --- -->
    <?php if(isset($view['showEditLink'])): ?>
-     <div style="text-align: right;font-size: 1.2em;"><a href="admin.php?mod=article&view=editArticle&id_node=<?php echo $view['article']['id_node'];  ?>&id_article=<?php echo $view['article']['id_article'];  ?>&disableMainMenu=1">edit this article</a></div>
+     <div style="text-align: right;font-size: 1.2em;"><a href="<?php echo $view['urlBase']; ?>/Module/mod/article/view/editArticle/id_node/<?php echo $view['article']['id_node'];  ?>/id_article/<?php echo $view['article']['id_article'];  ?>/disableMainMenu/1">edit this article</a></div>
    <?php endif; ?>  
    
    <?php if(!empty($view['article']['subtitle'])): ?>
@@ -74,7 +69,7 @@
    <dl class="rpcarticles">
    <?php foreach($view['rpcArticles'] as $article): ?>
       <dd>Date: <?php echo $article['date']; ?></dd>
-      <dd>Title: <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></dd>
+      <dd>Title: <a href="<?php echo $view['urlBase']; ?>/id_article/<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></dd>
    <?php endforeach; ?>
    </dl>
    
@@ -114,7 +109,7 @@
          <div id="commentmessage"><?php echo $view['commentMessage']; ?></div>
        <?php endif; ?>                      
                         
-       <form name="comment" accept-charset="<?php echo $view['charset']; ?>" method="post" action="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $view['article']['id_article']; ?>#commentform">
+       <form name="comment" accept-charset="<?php echo $view['charset']; ?>" method="post" action="<?php echo $view['urlBase']; ?>/id_article/<?php echo $view['article']['id_article']; ?>#commentform">
        <dl id="commentformelements">
          <dd class="commentFormCol1">
            Author: 

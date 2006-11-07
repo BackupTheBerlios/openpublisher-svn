@@ -42,7 +42,7 @@ class ControllerArticle extends JapaControllerAbstractPage
         // "Smart3 and Ajax" article
         if($this->current_id_article == 7)
         {
-            $this->template = 'ArticleAjax';
+            $this->view = 'ArticleAjax';
         }
 
         // get article data                                                    
@@ -252,12 +252,14 @@ class ControllerArticle extends JapaControllerAbstractPage
         
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController']  = $this->config['admin_web_controller'];
         
         // template var with css folder
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
+        $this->viewVar['scriptFolder'] = JAPA_PUBLIC_DIR . 'scripts/default/';
         $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
+        $this->viewVar['urlAjax'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'];
         $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
+        $this->viewVar['urlScripts'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['scriptFolder'];
     }
 
     /**

@@ -10,17 +10,15 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewArticleAjax class
+ * ControllerArticleAjax class
  *
  * 
  *
  */
 
-// NOTICE:
-// An ajax view class extends the "SmartAjaxView" class !!!
-
-class ControllerArticleAjax extends SmartAjaxView
+class ControllerArticleAjax extends JapaControllerAjaxAbstractPage
 {
+
     /**
      * Registered Ajax methods
      * @var array $methods
@@ -34,7 +32,7 @@ class ControllerArticleAjax extends SmartAjaxView
      * simpleText
      */    
     public function simpleText() 
-    {       
+    {
         return 'This text was produced by the php methode "simpleText"';
     }
     
