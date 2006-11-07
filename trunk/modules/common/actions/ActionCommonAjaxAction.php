@@ -40,7 +40,7 @@
  *
  */
 
-include_once( JAPA_BASE_DIR . 'smart/includes/PEAR/HTML/AJAX/Action.php');
+include_once( JAPA_LIBRARY_DIR . 'PEAR/HTML/AJAX/Action.php');
 
 /**
 
