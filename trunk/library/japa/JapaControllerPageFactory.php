@@ -118,7 +118,7 @@ class JapaControllerPageFactory
             }
             else
             {
-                $this->viewEngine->view = $controller->view;
+                $this->viewEngine->view = 'view.' . $controller->view;
             }            
 
            $this->viewEngine->viewFolder = $this->getViewPath( $controller );

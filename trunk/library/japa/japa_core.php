@@ -118,9 +118,10 @@ $JapaConfig['admin_view_folder'] = 'views/';
 /**
  * Default and error controller.
  */
-$JapaConfig['application_controllers']        = array("Web", "Module");
+$JapaConfig['application_controllers']        = array("Web", "Module", "Ajax");
 $JapaConfig['default_application_controller'] = "Web";
 $JapaConfig['default_controller'] = 'index';
+$JapaConfig['default_ajax_controller'] = 'ajax';
 $JapaConfig['error_controller']   = 'error';
 
 /**
@@ -141,7 +142,7 @@ $JapaConfig['system_email'] = '';
 /**
  * message log types ('LOG|SHOW|MAIL')
  */
-$JapaConfig['message_handle'] = 'LOG';
+$JapaConfig['message_handle'] = 'LOG|SHOW';
  
 /**
  * error reporting

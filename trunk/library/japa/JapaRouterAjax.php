@@ -12,7 +12,7 @@
  *
  *
  */
-class JapaRouterWeb extends JapaRouter
+class JapaRouterAjax extends JapaRouter
 {
 
     public function getBase()
@@ -35,28 +35,7 @@ class JapaRouterWeb extends JapaRouter
     
     protected function run()
     {
-        $path = explode('/', trim($_SERVER['REQUEST_URI'],'/'));
-
-        foreach ($path as $pos => $pathPart)
-        {
-            $next_pos = $pos + 1;
-            
-            if (preg_match("/^[a-z0-9\-\._]+$/i", $pathPart)) 
-            {
-                if(in_array($pathPart, $this->applicationControllers))
-                {
-                    $this->application_controller = 'JapaController' . $pathPart . 'Application';
-                }
-                elseif(isset($path[$next_pos]))
-                {
-                    $this->request[$pathPart] = $path[$next_pos];
-                    $_GET[$pathPart]          = $path[$next_pos];
-                    $_REQUEST[$pathPart]      = $path[$next_pos];
-
-                    error_log($pathPart.'='.$_REQUEST[$pathPart]."\n ..... ", 3, JAPA_BASE_DIR.'error' );
-                }
-            }
-        }
+        $this->application_controller = 'JapaControllerAjaxApplication';
     }
 }
 
