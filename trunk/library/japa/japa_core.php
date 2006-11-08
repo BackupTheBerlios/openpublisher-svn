@@ -37,12 +37,13 @@ $JapaConfig['cache_path'] = JAPA_APPLICATION_DIR . 'cache/';
 /**
  * Default controllers and views folders
  */
-$JapaConfig['public_views_folder']       = JAPA_APPLICATION_DIR . 'views/default/';
+
 $JapaConfig['public_controllers_folder'] = JAPA_APPLICATION_DIR . 'controllers/default/';
 
 /**
  * Default public images, scripts and styles folders
  */
+$JapaConfig['public_views_folder']    = JAPA_PUBLIC_DIR . 'views/default/';
 $JapaConfig['public_images_folder']   = JAPA_PUBLIC_DIR . 'images/default/';
 $JapaConfig['public_scripts_folder']  = JAPA_PUBLIC_DIR . 'scripts/default/';
 $JapaConfig['public_styles_folder']   = JAPA_PUBLIC_DIR . 'styles/default/';
