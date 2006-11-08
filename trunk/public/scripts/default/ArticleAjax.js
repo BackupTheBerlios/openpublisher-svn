@@ -30,14 +30,14 @@
 	    	// build the node branch of an article
 	    	for (var b = 0; b < result[i]['nodeBranch'].length; ++b)
 	    	{
-      	            document.getElementById('search').innerHTML += '<a href="index.php?id_node='+result[i]['nodeBranch'][b]['id_node']+'">'+result[i]['nodeBranch'][b]['title']+'</a>/';	    	
+      	            document.getElementById('search').innerHTML += '<a href="id_node/'+result[i]['nodeBranch'][b]['id_node']+'">'+result[i]['nodeBranch'][b]['title']+'</a>/';	    	
 	    	}
       	        
       	        // print the node of an article
-      	        document.getElementById('search').innerHTML += '<a href="index.php?id_node='+result[i]['id_node']+'">'+result[i]['node']['title']+'</a>/</dd>';	    	    	
+      	        document.getElementById('search').innerHTML += '<a href="id_node/'+result[i]['id_node']+'">'+result[i]['node']['title']+'</a>/</dd>';	    	    	
       	        
       	        // print article link title
-      	        document.getElementById('search').innerHTML += '<dd class="articletitle"> - <a href="index.php?id_article='+result[i]['id_article']+'">'+result[i]['title']+'</a></dd>';
+      	        document.getElementById('search').innerHTML += '<dd class="articletitle"> - <a href="'+result[i]['id_article']+'">'+result[i]['title']+'</a></dd>';
       	    }
       	}
       	document.getElementById('search').innerHTML += '</dl>';
@@ -77,4 +77,4 @@ function doSearch( s )
 }
 
 // create our remote object
-var remoteTest = new ViewArticleAjax(testCallback);
+var remoteTest = new ControllerArticleAjax(testCallback);
