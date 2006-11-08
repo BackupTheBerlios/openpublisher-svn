@@ -93,7 +93,7 @@ class ControllerBlogMain extends JapaControllerAbstractPage
                                    'perPage'    => $this->articlesPerPage,
                                    'numPage'    => (int)$this->pageNumber,
                                    'delta'      => 10,
-                                   'url'        => SMART_CONTROLLER.'?id_node='.$this->current_id_node,
+                                   'url'        => $this->viewVar['urlBase'].'/id_node/'.$this->current_id_node,
                                    'var_prefix' => 'article_',
                                    'css_class'  => 'smart_pager'));  
         
@@ -210,8 +210,8 @@ class ControllerBlogMain extends JapaControllerAbstractPage
         
         // template var with css folder
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
-        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
-        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];  
+        $this->viewVar['urlBase'] = 'http://'.$this->router->getHost().$this->httpRequest->getBaseUrl();
+        $this->viewVar['urlCss'] = $this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];  
     }
 
     /**
