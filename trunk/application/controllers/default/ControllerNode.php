@@ -124,8 +124,7 @@ class ControllerNode extends JapaControllerAbstractPage
         $this->rssBuilder();
         
         // get result of the header and footer controller
-        // 
-      
+        //       
         $this->viewVar['header']      = $this->controllerLoader->header();
         $this->viewVar['footer']      = $this->controllerLoader->footer();  
         $this->viewVar['rightBorder'] = $this->controllerLoader->rightBorder();    

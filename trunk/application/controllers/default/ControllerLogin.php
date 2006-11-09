@@ -21,10 +21,18 @@ class ControllerLogin extends JapaControllerAbstractPage
     public function perform()
     {
         $this->initVars();
+
         
+        // get result of the header and footer controller
+        //       
+        $this->viewVar['header']      = $this->controllerLoader->header();
+        $this->viewVar['footer']      = $this->controllerLoader->footer();  
+        $this->viewVar['rightBorder'] = $this->controllerLoader->rightBorder(); 
+       
         // create capcha picture and public key
         $this->model->action( 'common','captchaMake',
                               array( 'captcha_pic' => &$this->viewVar['captcha_pic'],
+                                     'picture_folder' => $this->viewVar['urlBase'].'/data/common/captcha',
                                      'public_key'  => &$this->viewVar['public_key'],
                                      'configPath'  => &$this->config['config_path']));
                      
@@ -54,10 +62,11 @@ class ControllerLogin extends JapaControllerAbstractPage
                 // get url vars to switch to the destination page
                 $url = $this->model->session->get('url');
                 $this->model->session->del('url');
-                @header('Location: '.SMART_CONTROLLER.'?'.$url);
+                @header('Location: '.$this->viewVar['urlBase'].'/'.$url);
                 exit;            
             }
         }
+   
     }
     /**
      * authentication
@@ -92,8 +101,11 @@ class ControllerLogin extends JapaControllerAbstractPage
         
         // template var with charset used for the html pages
         $this->viewVar['charset']   = & $this->config['charset'];
+        $this->viewVar['adminWebController']  = 'Module';        
         // template var with css folder
-        $this->viewVar['cssFolder'] = & $this->config['css_folder'];
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
+        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
+        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];  
     }  
     /**
      * reset form data

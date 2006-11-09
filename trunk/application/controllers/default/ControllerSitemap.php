@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewSitemap
+ * ControllerSitemap
  *
  */
 
@@ -35,6 +35,12 @@ class ControllerSitemap extends JapaControllerAbstractPage
                                    'result'  => & $this->viewVar['tree'],
                                    'status'  => array('>=', 2),
                                    'fields'  => array('id_parent','status','id_node','title')));   
+                                   
+        // get result of the header and footer controller
+        //       
+        $this->viewVar['header']      = $this->controllerLoader->header();
+        $this->viewVar['footer']      = $this->controllerLoader->footer();  
+        $this->viewVar['rightBorder'] = $this->controllerLoader->rightBorder(); 
     }
 
     /**
@@ -77,12 +83,14 @@ class ControllerSitemap extends JapaControllerAbstractPage
         
         // template var with charset used for the html pages
         $this->viewVar['charset']   = & $this->config['charset'];
-        // template var with css folder
-        $this->viewVar['cssFolder'] = & $this->config['css_folder'];
         
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController']  = $this->config['admin_web_controller']; 
+
+        // template var with css folder
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
+        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
+        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];  
     }
 }
 

@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewLink class
+ * ControllerLink class
  *
  */
 
@@ -26,10 +26,7 @@ class ControllerLink extends JapaControllerAbstractPage
      * Execute the view of the "link" template
      */
     function perform()
-    { 
-        // init variables (see private function below)
-        $this->initVars();
-        
+    {  
         // dont proceed if an error occure
         if(isset( $this->dontPerform ))
         {
@@ -64,6 +61,12 @@ class ControllerLink extends JapaControllerAbstractPage
                                    'status'  => array('=','2'),
                                    'fields'  => array('id_link','id_node',
                                                       'title','url','description')));   
+
+        // get result of the header and footer controller
+        //       
+        $this->viewVar['header']      = $this->controllerLoader->header();
+        $this->viewVar['footer']      = $this->controllerLoader->footer();  
+        $this->viewVar['rightBorder'] = $this->controllerLoader->rightBorder();    
     }
 
     /**
@@ -96,21 +99,20 @@ class ControllerLink extends JapaControllerAbstractPage
      */
     public function prependFilterChain()
     {
+        // init variables (see private function below)
+        $this->initVars();
+        
         // filter action of the common module to prevent browser caching
         $this->model->action( 'common', 'filterDisableBrowserCache');  
         
         // fetch the current id_node. If no id_node defined or not numeric
         // this view class loads the error template
-        if( !isset($_REQUEST['id_node']) || is_array($_REQUEST['id_node']) || preg_match("/[^0-9]+/",$_REQUEST['id_node']) ) 
+        $this->current_id_node = (int) $this->httpRequest->getParameter( 'id_node', 'get', 'digits' );
+          
+        if( ($this->current_id_node === null) ) 
         {
-            $this->template          = 'error';  
-            $this->viewVar['message'] = "Wrong id_node value";
-            $this->dontPerform       = TRUE;
-            return;
-        }
-        else
-        {
-            $this->current_id_node    = (int)$_REQUEST['id_node'];          
+              @header('Location: '.$this->viewVar['urlBase']);
+              exit;
         }
         
         // check if the demanded node has at least status 2
@@ -120,11 +122,8 @@ class ControllerLink extends JapaControllerAbstractPage
         // if the requested node isnt active
         if( $nodeStatus < 2 )
         {
-            $this->template          = 'error'; 
-            $this->viewVar['message'] = "The requested node isnt accessible";
-            $this->dontPerform       = TRUE;
-            // disable caching
-            $this->cacheExpire = 0;
+              @header('Location: '.$this->viewVar['urlBase']);
+              exit;
         } 
         // if the requested node is only available for registered users
         elseif( ($nodeStatus == 3) && ($this->viewVar['isUserLogged'] == FALSE) )
@@ -132,7 +131,7 @@ class ControllerLink extends JapaControllerAbstractPage
               // set url vars to come back to this page after login
               $this->model->session->set('url','id_node='.$this->current_id_node);
               // switch to the login page
-              @header('Location: '.SMART_CONTROLLER.'?view=login');
+              @header('Location: '.$this->viewVar['urlBase'].'/cntr/login');
               exit;
         }
     }
@@ -161,14 +160,14 @@ class ControllerLink extends JapaControllerAbstractPage
         
         // template var with charset used for the html pages
         $this->viewVar['charset'] = & $this->config['charset'];
-        // relative path to the smart directory
-        $this->viewVar['relativePath'] = SMART_RELATIVE_PATH;
-        // template var with css folder
-        $this->viewVar['cssFolder'] = & $this->config['css_folder'];
 
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController']  = $this->config['admin_web_controller'];        
+        $this->viewVar['adminWebController']  = 'Module';        
+        // template var with css folder
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
+        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
+        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];  
     }
 }
 
