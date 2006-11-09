@@ -24,10 +24,28 @@
  *
  */
 
-include_once(JAPA_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
  
-class ActionNavigationGetTree extends ActionNavigation
+class ActionNavigationGetTree extends JapaAction
 {
+    /**
+     * Fields and the format of each of the db table navigation_node 
+     *
+     */
+    protected $tblFields_node = 
+                      array('id_node'      => 'Int',
+                            'id_parent'    => 'Int',
+                            'id_sector'    => 'Int',
+                            'id_view'      => 'Int',
+                            'status'       => 'Int',
+                            'rank'         => 'Int',
+                            'format'       => 'Int',
+                            'logo'         => 'String',
+                            'media_folder' => 'String',
+                            'lang'         => 'String',
+                            'title'        => 'String',
+                            'short_text'   => 'String',
+                            'body'         => 'String');
+                            
     /**
      * get navigation node (sub)tree from a given id_node
      *
