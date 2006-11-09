@@ -1,5 +1,4 @@
 <!-- prevent direct call -->
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -9,10 +8,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
 <meta name="robots" content="noindex, nofollow" />
 
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>login.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>login.css";</style>
 
-<title>SMART3 PHP5 Framework - Login</title>
+<title>Open Publisher - Login</title>
 
 <script language="JavaScript">
    function subok(s){
@@ -31,7 +30,7 @@
 
   <div id="mainleft">
   
-    <form name="loginform" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=login">
+    <form name="loginform" method="post" action="<?php echo $view['urlBase']; ?>/cntr/login">
       
       <dl id="login">
         <dd class="loginitem">

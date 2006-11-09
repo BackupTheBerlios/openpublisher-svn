@@ -1,6 +1,4 @@
 <!-- this line puts IE in quirk mode --> 
-<!-- prevent direct call -->
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -14,8 +12,8 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>sitemap.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>sitemap.css";</style>
 
 </head>
 
@@ -33,7 +31,7 @@
    <!-- --- show the whole navigation node tree (sitemap) --- -->
    <ul id="sitemap">
      <?php foreach($view['tree'] as $node):  ?>
-        <li class="nodelevel<?php echo $node['level']; ?>">-<a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a></li>
+        <li class="nodelevel<?php echo $node['level']; ?>">-<a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a></li>
      <?php endforeach; ?>
    </ul>
         

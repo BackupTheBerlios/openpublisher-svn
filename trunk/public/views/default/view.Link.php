@@ -1,12 +1,10 @@
 <!-- this line puts IE in quirk mode --> 
-<!-- prevent direct call -->
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>SMART3 PHP5 Framework - Links</title>
+<title>Open Publisher - Links</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
 <meta name="robots" content="index, follow" />
 
@@ -14,8 +12,8 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>link.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>link.css";</style>
 
 </head>
 
@@ -31,7 +29,7 @@
    <?php if(count($view['nodeBranch']) > 0): ?>
    <div id="branch">
     <?php  foreach($view['nodeBranch'] as $bnode): ?>
-         <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+         <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
     <?php endforeach; ?>
     <hr class="hr" />
    </div>
@@ -45,7 +43,7 @@
         <?php echo $link['description']; ?>
         <!-- --- show edit link if user is logged --- -->
         <?php if(isset($view['showEditLink'])): ?>
-          <div style="text-align: right;font-size: 1.2em;"><a href="admin.php?mod=link&view=editLink&id_node=<?php echo $link['id_node'];  ?>&id_link=<?php echo $link['id_link'];  ?>&disableMainMenu=1">edit this link</a></div>
+          <div style="text-align: right;font-size: 1.2em;"><a href="<?php echo $view['urlBase']; ?>/Module/mod/link/cntr/editLink/id_node/<?php echo $link['id_node'];  ?>/id_link/<?php echo $link['id_link'];  ?>/disableMainMenu/1">edit this link</a></div>
         <?php endif; ?>  
       </div>
     <?php endforeach; ?>
@@ -57,7 +55,7 @@
     <ul>
       <?php foreach($view['childNodes'] as $category): ?>
         <li>
-          <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $category['id_node']; ?>"><?php echo $category['title']; ?></a>
+          <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $category['id_node']; ?>"><?php echo $category['title']; ?></a>
         </li>
       <?php endforeach; ?>
     </ul>
