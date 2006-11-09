@@ -98,14 +98,14 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         // you have to modify some vars if you make calls
         // to an other domain server
         $url = parse_url('http://'.$_SERVER["REMOTE_ADDR"].$_SERVER["REQUEST_URI"]);
-                
         $this->model->action('article', 'getArticlesRPC',
                              array('result'      => & $this->viewVar['rpcArticles'],
-                                   'domain'      => $url['host'],
-                                   'rpcServer'   => str_replace('index.php','rpcserver.php',$url['path']),
-                                   'query'       => '?view=article',
-                                   'authUser'    => 'test',
-                                   'authPasswd'  => 'test',
+                                   'domain'      => $this->router->getHost(),
+                                   'rpcServer'   => $this->viewVar['urlBase'],
+                                   'query'       => '/Rpc/cntr/rpcServeArticles',
+                                   'authUser'    => 'superuser',
+                                   'authPasswd'  => 'a',
+                                   'debug'       => null,
                                    'numArticles' => 10) );                       
 
         // if there are article related keywords, 
@@ -185,6 +185,10 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
                 $comment['body'] = $this->addHtmlToComments( $comment['body'] );
             }
         }
+        
+        $this->viewVar['header']      = $this->controllerLoader->header();
+        $this->viewVar['footer']      = $this->controllerLoader->footer();  
+        $this->viewVar['rightBorder'] = $this->controllerLoader->rightBorder();   
     }
 
     /**
@@ -273,7 +277,14 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController']  = $this->config['admin_web_controller'];
+        
+        // template var with css folder
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
+        $this->viewVar['scriptFolder'] = JAPA_PUBLIC_DIR . 'scripts/default/';
+        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
+        $this->viewVar['urlAjax'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'];
+        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
+        $this->viewVar['urlScripts'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['scriptFolder'];
     }
 
     /**

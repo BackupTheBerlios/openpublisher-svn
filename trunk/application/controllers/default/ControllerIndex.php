@@ -50,8 +50,9 @@ class ControllerIndex extends JapaControllerAbstractPage
         $this->viewVar['urlBase'] = $this->router->getBase();
         $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];     
         // we need this template vars to show admin links if the user is logged
-        $this->viewVar['loggedUserRole']      = $this->controllerVar['loggedUserRole'];
-        $this->viewVar['adminWebController']  = 'Module'; 
+        $this->viewVar['loggedUserRole']     = $this->controllerVar['loggedUserRole'];
+        $this->viewVar['isUserLogged']       = $this->controllerVar['isUserLogged'];
+        $this->viewVar['adminWebController'] = 'Module'; 
         
         $this->viewVar['text']    = array();
 
