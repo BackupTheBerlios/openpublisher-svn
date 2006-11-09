@@ -83,7 +83,7 @@ class ActionArticleGetArticlesRPC extends JapaAction
 
         // start rpc client
         $client = new XML_RPC_Client($data['rpcServer'].$data['query'], $data['domain'], $data['port']); 
-        
+                     
         if(isset($data['debug']))
         {
             $client->setDebug(1);

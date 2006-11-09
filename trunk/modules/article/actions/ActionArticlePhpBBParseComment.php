@@ -19,7 +19,7 @@
  */
 
 // needed for error checking
-require_once JAPA_BASE_DIR . 'smart/includes/PEAR/PEAR.php';
+require_once JAPA_BASE_DIR . 'library/PEAR/PEAR.php';
 // base class
 require_once JAPA_BASE_DIR . 'modules/common/includes/PEAR/Text/BBCodeParser.php';
 
@@ -45,7 +45,17 @@ class ActionArticlePhpBBParseComment extends JapaAction
         $this->model->phpBBParser->setText( $data['content'] );
         $this->model->phpBBParser->parse();
         $data['content'] = $this->model->phpBBParser->getParsed();
-    }     
+    }    
+    /**
+     * validate data array
+     *
+     * @param array $data
+     * @return bool true or false on error
+     */    
+    public function validate( $data = FALSE )
+    { 
+        return TRUE;
+    }
 }
 
 ?>
