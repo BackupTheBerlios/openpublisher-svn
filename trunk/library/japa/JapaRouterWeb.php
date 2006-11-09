@@ -52,8 +52,6 @@ class JapaRouterWeb extends JapaRouter
                     $this->request[$pathPart] = $path[$next_pos];
                     $_GET[$pathPart]          = $path[$next_pos];
                     $_REQUEST[$pathPart]      = $path[$next_pos];
-
-                    error_log($pathPart.'='.$_REQUEST[$pathPart]."\n ..... ", 3, JAPA_BASE_DIR.'error' );
                 }
             }
         }

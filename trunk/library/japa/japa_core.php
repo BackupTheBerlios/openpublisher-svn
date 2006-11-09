@@ -119,7 +119,7 @@ $JapaConfig['admin_view_folder'] = 'views/';
 /**
  * Default and error controller.
  */
-$JapaConfig['application_controllers']        = array("Web", "Module", "Ajax");
+$JapaConfig['application_controllers']        = array("Web", "Module", "Ajax", "Rpc");
 $JapaConfig['default_application_controller'] = "Web";
 $JapaConfig['default_controller'] = 'index';
 $JapaConfig['default_ajax_controller'] = 'ajax';

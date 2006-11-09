@@ -91,7 +91,7 @@ class JapaErrorHandler
             }
             elseif(preg_match("/xml_rpc/", $this->config['controller_type']))
             {
-                return new xmlrpcresp(0, $GLOBALS['xmlrpcerruser'], $message);
+                return new XML_RPC_Response(0, $GLOBALS['XML_RPC_erruser'], $message);
             }              
         }    
         // email this message
