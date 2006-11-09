@@ -1,4 +1,6 @@
-Allow from all
+# Required to get work the PEAR XML_RPC package
+#
+php_flag always_populate_raw_post_data On
 
 RewriteEngine on
 
@@ -7,9 +9,12 @@ RewriteEngine on
 
 #RewriteBase /japa/
 
+# ajax server call
+RewriteRule .*ajaxserver\.php(.*)$ ajaxserver.php$1 [L] 
+
 RewriteCond %{SCRIPT_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$ [NC] 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-l 
-RewriteRule ^(.*)$ index.php [L] 
+RewriteRule ^(.*)$ index.php/$1 [L] 
 
