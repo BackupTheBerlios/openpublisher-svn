@@ -87,6 +87,8 @@ class JapaHttpRequest implements JapaInterfaceRequest
                 return $filter->getAlpha($name);
             case 'digits': 
                 return $filter->getDigits($name);
+            case 'raw': 
+                return $filter->getRaw($name);
             default:
                 return false;
         }
