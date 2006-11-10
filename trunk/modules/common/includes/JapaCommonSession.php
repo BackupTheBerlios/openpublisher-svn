@@ -14,7 +14,7 @@
  *
  */
 
-class SmartCommonSession
+class JapaCommonSession
 {
     /**
      * Constructor

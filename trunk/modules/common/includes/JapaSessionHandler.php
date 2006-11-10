@@ -10,11 +10,11 @@
 // ---------------------------------------------
 
 /**
- * Smart DB Session Handler
+ * Japa DB Session Handler
  *
  */
  
-final class SmartSessionHandler 
+final class JapaSessionHandler 
 {
     private $db;
     private $dbTablePrefix;
