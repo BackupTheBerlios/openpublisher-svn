@@ -71,9 +71,15 @@ class ControllerSearch extends JapaControllerAbstractPage
                                    'perPage'    => $this->articlesPerPage,
                                    'numPage'    => (int)$this->pageNumber,
                                    'delta'      => 10,
-                                   'url'        => SMART_CONTROLLER.'?view=search&search='.$this->pagerUrlSearchString,
+                                   'url'        => $this->viewVar['urlBase'].'/cntr/search/search/'.$this->pagerUrlSearchString,
                                    'var_prefix' => 'search_',
-                                   'css_class'  => 'search_pager'));          
+                                   'css_class'  => 'search_pager'));    
+                               
+        // get result of the header and footer controller
+        // 
+        $this->viewVar['header']      = $this->controllerLoader->header(); 
+        $this->viewVar['footer']      = $this->controllerLoader->footer();  
+        $this->viewVar['rightBorder'] = $this->controllerLoader->rightBorder();      
     }
 
     /**
@@ -121,16 +127,12 @@ class ControllerSearch extends JapaControllerAbstractPage
      */    
     private function initVars()
     {
-        if( isset($_REQUEST['search']) )
-        {
-            $this->searchString = SmartCommonUtil::stripSlashes((string)$_REQUEST['search']);
-            $this->pagerUrlSearchString = urlencode(SmartCommonUtil::stripSlashes((string)$_REQUEST['search']));
-        }     
-        else
-        {
-            $this->searchString = '';
-            $this->pagerUrlSearchString = '';
-        }
+        // fetch the current id_node. If no id_node defined or not numeric
+        // this view class loads the error template
+        $this->searchString = $this->httpRequest->getParameter( 'search', 'request', 'raw' );
+
+        $this->searchString = JapaCommonUtil::stripSlashes((string)$this->searchString);
+        $this->pagerUrlSearchString = urlencode(JapaCommonUtil::stripSlashes((string)$this->searchString));
         
         // strip bad code
         $this->searchString = $this->model->action( 'common', 'safeHtml', strip_tags($this->searchString) );
@@ -163,7 +165,11 @@ class ControllerSearch extends JapaControllerAbstractPage
         
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController']  = $this->config['admin_web_controller'];         
+        $this->viewVar['adminWebController']  = 'Module';        
+        // template var with css folder
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
+        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
+        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];      
     }
 }
 
