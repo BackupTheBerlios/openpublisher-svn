@@ -3,10 +3,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
-<!-- prevent direct call -->
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
-
 <head>
 <title>SMART3 PHP5 Framework - Search Results</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
@@ -16,8 +12,8 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo JAPA_PUBLIC_DIR; ?><?php echo $view['cssFolder']; ?>search.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['urlCss']; ?>search.css";</style>
 
 </head>
 
@@ -36,17 +32,17 @@
    <?php if(!empty($view['pager'])): ?>
      <div id="pager"><?php echo $view['pager']; ?></div>
    <?php endif; ?>
-   
+  
    <dl id="search">
    <?php foreach($view['articles'] as $article): ?>
      <dd class="articlenodebranch"> 
        <?php  foreach($article['nodeBranch'] as $bnode): ?>
-         <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+         <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
        <?php endforeach; ?>
-       <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $article['node']['id_node']; ?>"><?php echo $article['node']['title']; ?></a>
+       <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $article['node']['id_node']; ?>"><?php echo $article['node']['title']; ?></a>
      </dd>
      <dd class="articletitle">
-       <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a>
+       <a href="<?php echo $view['urlBase']; ?>/id_article/<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a>
      </dd>
      <?php if(!empty($article['description'])): ?>
      <dd class="articledescription">

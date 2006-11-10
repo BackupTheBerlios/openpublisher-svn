@@ -19,7 +19,7 @@
     <a href="<?php echo $view['urlBase']; ?>/cntr/login">Login</a>
   <?php endif; ?> &nbsp;&nbsp;   
   <a href="<?php echo $view['urlBase']; ?>/cntr/sitemap" class="topnavlink">Sitemap</a> &nbsp;&nbsp;
-   <form accept-charset="<?php echo $view['charset']; ?>" name="form2" method="post" action="ctnr/search" class="form">
+   <form accept-charset="<?php echo $view['charset']; ?>" name="form2" method="post" action="<?php echo $view['urlBase']; ?>/cntr/search" class="form">
     <input name="search" type="text" value="<?php if(isset($view['formsearch'])) echo $view['formsearch']; else echo "search"; ?>" size="30" maxlength="255" class="searchform"> &nbsp;
   </form>   
 </div>
