@@ -1,7 +1,7 @@
 <?php
-// +---------------------------------------------+
+// +----------------------------------------------------------------------+
 // | Copyright (c) 1997-2002 The PHP Group                                |
-// +---------------------------------------------+
+// +----------------------------------------------------------------------+
 // | This source file is subject to version 2.02 of the PHP license,      |
 // | that is bundled with this package in the file LICENSE, and is        |
 // | available at through the world-wide-web at                           |
@@ -9,11 +9,11 @@
 // | If you did not receive a copy of the PHP license and are unable to   |
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
-// +---------------------------------------------+
+// +----------------------------------------------------------------------+
 // | Authors: Alexander Zhukov <alex@veresk.ru> Original port from Python |
 // | Authors: Harry Fuecks <hfuecks@phppatterns.com> Port to PEAR + more  |
 // | Authors: Many @ Sitepointforums Advanced PHP Forums                  |
-// +---------------------------------------------+
+// +----------------------------------------------------------------------+
 //
 if (!defined('XML_HTMLSAX3')) {
  define('XML_HTMLSAX3', 'XML/');
