@@ -17,13 +17,13 @@
  */
 
 // util class
-include_once(JAPA_MODULES_DIR . 'common/includes/SmartCommonUtil.php');
+include_once(JAPA_MODULES_DIR . 'common/includes/JapaCommonUtil.php');
 
 // session handler class
-require_once(JAPA_MODULES_DIR . 'common/includes/SmartSessionHandler.php');
+require_once(JAPA_MODULES_DIR . 'common/includes/JapaSessionHandler.php');
 
 // session class
-require_once(JAPA_MODULES_DIR . 'common/includes/SmartCommonSession.php');
+require_once(JAPA_MODULES_DIR . 'common/includes/JapaCommonSession.php');
 
 // get_magic_quotes_gpc
 define ( 'JAPA_MAGIC_QUOTES', get_magic_quotes_gpc());
@@ -100,7 +100,7 @@ class ActionCommonInit extends JapaAction
         $this->checkModuleVersion();   
        
         // set session handler
-        $this->model->sessionHandler = new SmartSessionHandler( $this->model->dba, $this->config['dbTablePrefix'] );
+        $this->model->sessionHandler = new JapaSessionHandler( $this->model->dba, $this->config['dbTablePrefix'] );
 
         // init and start session
         $this->startSession();
@@ -289,7 +289,7 @@ class ActionCommonInit extends JapaAction
         ini_set('session.gc_probability', 10);
         ini_set('session.gc_maxlifetime', $this->config['session_maxlifetime']);
         
-        $this->model->session = new SmartCommonSession();
+        $this->model->session = new JapaCommonSession();
         // delete only expired session of the current user
         // this isnt the session garbage collector 
         $this->model->action('common', 'sessionDeleteExpired');   

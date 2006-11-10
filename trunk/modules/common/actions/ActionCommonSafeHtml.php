@@ -35,6 +35,12 @@ class ActionCommonSafeHtml extends JapaAction
         $this->model->safehtml = new safehtml();
         return $this->model->safehtml->parse( $data);
     }  
+    /**
+     */
+    public function validate( $data = FALSE )
+    {      
+        return TRUE;
+    }  
 }
 
 ?>

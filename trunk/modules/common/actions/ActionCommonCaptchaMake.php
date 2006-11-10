@@ -42,7 +42,7 @@ class ActionCommonCaptchaMake extends JapaAction
         $captcha_ttf_font = JAPA_BASE_DIR .'modules/common/includes/ttf_font/activa.ttf';
     
         // Relative folder of captcha pictures
-        $captcha_pictures_folder = JAPA_PUBLIC_DIR . 'data/common/captcha';
+        $captcha_pictures_folder = $data['picture_folder'];
     
         // Type of turing chars
         $captcha_char_type = 'num'; // or 'hex' 
