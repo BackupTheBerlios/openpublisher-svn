@@ -12,7 +12,6 @@ RewriteEngine on
 # ajax server call
 RewriteRule .*ajaxserver\.php(.*)$ ajaxserver.php$1 [L] 
 
-RewriteCond %{SCRIPT_FILENAME} !\.(jpg|jpeg|gif|png|css|js|pl|txt)$ [NC] 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-l 
