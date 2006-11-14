@@ -48,7 +48,13 @@ class ActionUser extends JapaAction
                                 '40' => 'Editor',
                                 '60' => 'Author',
                                 '80' => 'Contributor',
-                                '100' => 'Webuser');                            
+                                '100' => 'Webuser');      
+                                
+    public function perform( $data = FALSE ){}      
+    public function validate( $data = FALSE )
+    {
+        return true;
+    }            
 }
 
 ?>

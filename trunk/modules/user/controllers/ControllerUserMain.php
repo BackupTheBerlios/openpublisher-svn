@@ -14,20 +14,14 @@
  *
  */
 
-class ViewUserMain extends JapaControllerAbstractPage
+class ControllerUserMain extends JapaControllerAbstractPage
 {
-     /**
-     * Template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'main';
-    
-     /**
-     * Template folder for this view
-     * @var string $templateFolder
-     */    
-    public $templateFolder = 'modules/user/templates/';
-    
+    public $returnView = true;
+        
     /**
      * Execute the view
      *
@@ -35,13 +29,13 @@ class ViewUserMain extends JapaControllerAbstractPage
     public function perform()
     {
         // init users template variable 
-        $this->tplVar['users'] = array();
+        $this->viewVar['users'] = array();
         
         // assign template variable with users
         $this->model->action('user', 'getUsers',
-                             array('result'         => & $this->tplVar['users'],
+                             array('result'         => & $this->viewVar['users'],
                                    'translate_role' => TRUE,
-                                   'or_id_user'     => (int)$this->viewVar['loggedUserId'],
+                                   'or_id_user'     => (int)$this->controllerVar['loggedUserId'],
                                    'role'           => array('>',$this->config['loggedUserRole']),
                                    'fields' => array('id_user','status',
                                                      'login','role',
@@ -52,13 +46,13 @@ class ViewUserMain extends JapaControllerAbstractPage
         
         // set template variable that show the link to add users
         // only if the logged user have at least administrator rights
-        if($this->viewVar['loggedUserRole'] <= 20)
+        if($this->controllerVar['loggedUserRole'] <= 20)
         {
-            $this->tplVar['showAddUserLink'] = TRUE;
+            $this->viewVar['showAddUserLink'] = TRUE;
         }
         else
         {
-            $this->tplVar['showAddUserLink'] = FALSE;
+            $this->viewVar['showAddUserLink'] = FALSE;
         }
     }  
      /**
@@ -69,21 +63,21 @@ class ViewUserMain extends JapaControllerAbstractPage
     {
         $row = 0;
         
-        foreach($this->tplVar['users'] as $user)
+        foreach($this->viewVar['users'] as $user)
         {
             // lock the user to edit
             $result = $this->model->action('user','lock',
                                      array('job'        => 'is_locked',
                                            'id_user'    => (int)$user['id_user'],
-                                           'by_id_user' => (int)$this->viewVar['loggedUserId']) );
+                                           'by_id_user' => (int)$this->controllerVar['loggedUserId']) );
                                            
             if(($result !== TRUE) && ($result !== FALSE))
             {
-                $this->tplVar['users'][$row]['lock'] = TRUE;  
+                $this->viewVar['users'][$row]['lock'] = TRUE;  
             } 
             else
             {
-                $this->tplVar['users'][$row]['lock'] = FALSE;  
+                $this->viewVar['users'][$row]['lock'] = FALSE;  
             }
             
             $row++;

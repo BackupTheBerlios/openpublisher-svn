@@ -14,20 +14,14 @@
  *
  */
  
-class ViewUserIndex extends JapaControllerAbstractPage
+class ControllerUserIndex extends JapaControllerAbstractPage
 {
-     /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'index';
-    
-     /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/user/templates/';
-    
+    public $returnView = true;
+        
     /**
      * Execute the view of the template "index.tpl.php"
      * create the template variables
@@ -37,17 +31,38 @@ class ViewUserIndex extends JapaControllerAbstractPage
      */
     function perform()
     {
-        // set template var to show user options link
-        // only on user main page and if the user role is at least an "administrator"
-        if(isset($_REQUEST['view']) || ($this->viewVar['loggedUserRole'] > 20))
-        {
-            $this->tplVar['show_options_link'] = FALSE;
-        }
-        else
-        {
-            $this->tplVar['show_options_link'] = TRUE;
-        }
+        $this->viewVar['requestedModule'] = 'user';
+                
+        // get requested module controller name
+        $module_controller = $this->getRequestedModuleController();
+
+        // execute the requested module controller and assign template variable
+        // with the result.
+        // here we load the requested modul controller output
+        // into a view variable
+        $this->viewVar['module_user_controller'] = $this->controllerLoader->$module_controller();  
     }     
+    /**
+     * get requested module controller name
+     *
+     * @return string
+     */
+    public function getRequestedModuleController()
+    {
+        // check if there is a module request
+        if( false === ($controller_request = $this->router->getVar('cntr')) )
+        {
+            $this->viewVar['show_options_link'] = true;
+            $controller_request = 'Main';
+        }
+        elseif($this->controllerVar['loggedUserRole'] > 20)
+        {
+            $this->viewVar['show_options_link'] = false;
+        }
+
+        // build the whole module controller name
+        return 'User' . ucfirst($controller_request);                    
+    }
 }
 
 ?>

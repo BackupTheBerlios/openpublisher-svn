@@ -10,11 +10,11 @@
 // ---------------------------------------------
 
 /**
- * ViewUserLogout class
+ * ControllerUserAdminLogout class
  *
  */
 
-class ViewUserAdminLogout extends JapaControllerAbstractPage
+class ControllerUserAdminLogout extends JapaControllerAbstractPage
 {    
     /**
      * Destroy current session and reload the admin controller
@@ -24,11 +24,11 @@ class ViewUserAdminLogout extends JapaControllerAbstractPage
     {
         // free locks from this user
         $this->model->broadcast('lock',array('job'     => 'unlock_from_user',
-                                             'id_user' => (int)$this->viewVar['loggedUserId']));
+                                             'id_user' => (int)$this->controllerVar['loggedUserId']));
         
         $this->model->session->destroy();
         ob_clean();
-        @header('Location: ' . $this->config['admin_web_controller']);
+        @header('Location: ' . $this->controllerVar['url_base']);
         exit;        
     }  
 }
