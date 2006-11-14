@@ -183,7 +183,7 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
         }
 
         // build the whole module controller name
-        return ucfirst($module_request) . $controller_request;                    
+        return ucfirst($module_request) . ucfirst($controller_request);                    
     }
 }
 
