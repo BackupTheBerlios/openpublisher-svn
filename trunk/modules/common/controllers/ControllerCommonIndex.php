@@ -10,11 +10,11 @@
 // ---------------------------------------------
 
 /**
- * CommonIndexController class
+ * ControllerCommonIndex class
  *
  */
 
-class CommonIndexController extends JapaControllerAbstractPage
+class ControllerCommonIndex extends JapaControllerAbstractPage
 {
      /**
      * Login Module to load
@@ -37,36 +37,36 @@ class CommonIndexController extends JapaControllerAbstractPage
         // disable main menu ?
         if(false !== $this->router->getVar('disableMainMenu'))
         {
-            $this->tplVar['disableMainMenu'] = true;   
+            $this->viewVar['disableMainMenu'] = true;   
         } 
         else
         {
-            $this->tplVar['disableMainMenu'] = false;   
+            $this->viewVar['disableMainMenu'] = false;   
         }
         
         // assign some template variables
-        $this->tplVar['smartVersionNumber'] = $this->config['smart_version'];
-        $this->tplVar['requestedModule'] = $module;
-        $this->tplVar['moduleList'] = $this->model->getModuleInfo();
-        $this->tplVar['charset']    = $this->config['charset'];
-        $this->tplVar['adminCssFolder'] = $this->config['admin_css_folder'];
-        $this->tplVar['textarea_rows'] = $this->config['textarea_rows'];
-        $this->tplVar['publicWebController'] = $this->config['public_web_controller'];
-        $this->tplVar['adminWebController']  = $this->config['admin_web_controller'];
+        $this->viewVar['japaVersionNumber'] = $this->config['japa_version'];
+        $this->viewVar['moduleList'] = $this->model->getModuleInfo();
+        $this->viewVar['charset']    = $this->config['charset'];
+        $this->viewVar['adminCssFolder'] = 'modules/common/css_home';
+        $this->viewVar['textarea_rows'] = $this->config['textarea_rows'];
+        $this->viewVar['publicWebController'] = $this->config['default_application_controller'];
+        $this->viewVar['adminWebController']  = $this->config['default_module_application_controller'];
         
         // assign template var to show the admin header and footer
         // some views dosent need it
         if(false !== $this->router->getVar('nodecoration'))
         {
-            $this->tplVar['showHeaderFooter'] = false;
+            $this->viewVar['showHeaderFooter'] = false;
         }
         else
         {
-            $this->tplVar['showHeaderFooter'] = true;
+            $this->viewVar['showHeaderFooter'] = true;
         }       
         
         // get url base
-        $this->viewVar['url_base'] = $this->config['url_base']; 
+        $this->viewVar['url_base'] = $this->httpRequest->getBaseUrl();
+        $this->controllerVar['url_base'] = $this->viewVar['url_base']; 
         
         // get requested module controller name
         $module_controller = $this->getRequestedModuleController();
@@ -74,7 +74,7 @@ class CommonIndexController extends JapaControllerAbstractPage
         // with the result.
         // here we load the requested modul controller output
         // into a view variable
-        $this->viewVar['module_controller'] = $this->controllerLoader->$module_controller();  
+        $this->viewVar['module_controller'] = $this->controllerLoader->$module_controller(false, true);  
     }  
 
     /**
@@ -103,8 +103,8 @@ class CommonIndexController extends JapaControllerAbstractPage
     {
         // if both variables contain NULL, means that the user isnt authenticated.
         // 
-        $this->viewVar['loggedUserId']   = $this->model->config['loggedUserId'];
-        $this->viewVar['loggedUserRole'] = $this->model->config['loggedUserRole'];
+        $this->controllerVar['loggedUserId']   = $this->model->config['loggedUserId'];
+        $this->controllerVar['loggedUserRole'] = $this->model->config['loggedUserRole'];
         
         $this->checkPermission();
     }
@@ -137,8 +137,8 @@ class CommonIndexController extends JapaControllerAbstractPage
         else
         {
             // set template variable
-            $this->tplVar['isUserLogged'] = true;
-            $this->tplVar['userRole'] = $this->model->config['loggedUserRole'];
+            $this->viewVar['isUserLogged'] = true;
+            $this->viewVar['userRole'] = $this->model->config['loggedUserRole'];
         }    
     }
 
@@ -149,9 +149,9 @@ class CommonIndexController extends JapaControllerAbstractPage
     private function setLoginTarget()
     {
         $this->loginModule = 'user';
-        $this->loginController   = 'login';
+        $this->loginController   = 'Login';
         // set template variable
-        $this->tplVar['isUserLogged'] = false;
+        $this->viewVar['isUserLogged'] = false;
     }
     
     /**
@@ -176,11 +176,6 @@ class CommonIndexController extends JapaControllerAbstractPage
         {
             $controller_request = $this->loginController;
         }
-        // check if there is a controller request
-        if( false !== ($controller_request = $this->router->getVar('cntr')) )
-        {
-            $controller_request = ucfirst($controller_request);
-        } 
         // else set the index controller name
         else
         {
