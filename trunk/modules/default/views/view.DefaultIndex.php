@@ -7,12 +7,8 @@
   </tr>
   <tr>
     <td align="left" valign="top">
-        <?php foreach($view['what_would_you_do'] as $modul_view): ?>
-            <?php echo $modul_view; ?>
-        <?php endforeach; ?>
+        <?php echo $view['module_controller']; ?>
     </td>
   </tr>
 </table>
-  <p>&nbsp;</p>
-    <p align="right"><a href="<?php echo JAPA_CONTROLLER; ?>?mod=default&view=systemInfo">Show System Info</a>&nbsp;&nbsp;&nbsp;</p>
     <p>&nbsp;</p>
