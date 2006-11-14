@@ -77,134 +77,124 @@ class ActionUserAdd extends ActionUser
         {
             if(!isset($this->tblFields_user[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' var isnt set!");
+            throw new JapaModelException("'error' var isnt set!");
         }
         elseif(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' var isnt from type array!");
+            throw new JapaModelException("'error' var isnt from type array!");
         }
                 
         // Check user data field values
         //
-        if(!is_string($data['user']['login']))
+        if(isset($data['user']['login']))
         {
-            throw new SmartModelException("'login' isnt from type string!");
+            if(!is_string($data['user']['login']))
+            {
+                throw new JapaModelException("'login' isnt from type string!");
+            }
+            elseif(empty($data['user']['login']))
+            {
+                $data['error'][] = 'Login is empty';      
+            }
+            $str_len = strlen( $data['user']['login'] );
+            if( ($str_len < 3) || ($str_len > 20) )
+            {
+                $data['error'][] = 'Only 3-20 login chars are accepted.';     
+            }   
+            if( @preg_match("/[^a-zA-Z0-9]/", $data['user']['login']) )
+            {
+                $data['error'][] = 'Login entry is not correct! Only 3-30 chars a-zA-Z0-9 are accepted.';       
+            }    
+            // Check if login exists
+            elseif($this->loginExists($data['user']['login']) > 0)
+            {
+                $data['error'][] = 'Login exists';
+            }    
         }
-        elseif(empty($data['user']['login']))
+        else
         {
-            $data['error'][] = 'Login is empty';      
+           $data['error'][] = 'Login isnt defined';  
         }
-        
-        if(!is_string($data['user']['passwd']))
-        {
-            throw new SmartModelException("'passwd' isnt from type string!");
-        }
-        elseif(empty($data['user']['passwd']))
-        {
-            $data['error'][] = 'Password is empty';       
-        }   
 
-        $str_len = strlen( $data['user']['login'] );
-        if( ($str_len < 3) || ($str_len > 20) )
-        {
-            $data['error'][] = 'Only 3-20 login chars are accepted.';     
-        }
 
-        $str_len = strlen( $data['user']['passwd'] );
-        if( ($str_len < 3) || ($str_len > 20) )
+        if(isset($data['user']['passwd']))
         {
-            $data['error'][] = 'Only 3-20 password chars are accepted.';     
+            if(!is_string($data['user']['passwd']))
+            {
+                throw new JapaModelException("'passwd' isnt from type string!");
+            }
+            elseif(empty($data['user']['passwd']))
+            {
+                $data['error'][] = 'Password is empty';       
+            } 
+            $str_len = strlen( $data['user']['passwd'] );
+            if( ($str_len < 3) || ($str_len > 20) )
+            {
+                $data['error'][] = 'Only 3-20 password chars are accepted.';     
+            }
+            if( @preg_match("/[^a-zA-Z0-9]/", $data['user']['passwd']) )
+            {
+                $data['error'][] = 'Password entry is not correct! Only 3-30 chars a-zA-Z0-9 are accepted.';       
+            }          
         }
-        
-        if( @preg_match("/[^a-zA-Z0-9_-]/", $data['user']['login']) )
+        else
         {
-            $data['error'][] = 'Login entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';       
-        }  
-        
-        if( @preg_match("/[^a-zA-Z0-9_-]/", $data['user']['passwd']) )
+           $data['error'][] = 'Password isnt defined'; 
+        }           
+  
+        if(isset($data['user']['name']) && !is_string($data['user']['name']))
         {
-            $data['error'][] = 'Password entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';       
-        }        
-
-        if(!is_string($data['user']['name']))
-        {
-            throw new SmartModelException("'name' isnt from type string!");
+            throw new JapaModelException("'name' isnt from type string!");
         }    
-        elseif(empty($data['user']['name']))
-        {
-            $data['error'][] = 'Name is empty';       
-        }
 
-        $str_len = strlen( $data['user']['name'] );
-        if( $str_len > 30 )
+        if(isset($data['user']['lastname']) && !is_string($data['user']['lastname']))
         {
-            $data['error'][] = 'Max 30 Name chars are accepted.';       
-        }
-
-        if(!is_string($data['user']['lastname']))
-        {
-            throw new SmartModelException("'lastname' isnt from type string!");
+            throw new JapaModelException("'lastname' isnt from type string!");
         }            
-        elseif(empty($data['user']['lastname']))
-        {
-            $data['error'][] = 'Lastname is empty';       
-        } 
 
-        $str_len = strlen( $data['user']['lastname'] );
-        if( $str_len > 30 )
+        if(isset($data['user']['email']) && !empty($data['user']['email']))
         {
-            $data['error'][] = 'Max 30 lastname chars are accepted.';      
-        }
-
-        if(!is_string($data['user']['email']))
-        {
-            throw new SmartModelException("'email' isnt from type string!");
+            if(!is_string($data['user']['email']))
+            {
+                throw new JapaModelException("'email' isnt from type string!");
+            }
+            elseif( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['user']['email']) )
+            {
+                $data['error'][] = 'Email format is not correct!';      
+            } 
         }    
-        elseif( empty($data['user']['email']) )
-        {
-            $data['error'][] = 'Email entry is empty!';      
-        } 
 
-        $str_len = strlen( $data['user']['email'] );
-        if( $str_len > 500 )
+        if(isset($data['user']['status']))
         {
-            $data['error'][] = 'Max 500 email chars are accepted.';       
-        }
-
-        if( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['user']['email']) )
-        {
-            $data['error'][] = 'Email format is not correct!';      
-        } 
-
-        if(!is_int($data['user']['status']))
-        {
-            throw new SmartModelException("'status' isnt from type int!");
+            if(!is_int($data['user']['status']))
+            {
+                throw new JapaModelException("'status' isnt from type int!");
+            }
+            elseif( ($data['user']['status'] <= 0) || ($data['user']['status'] > 2) )
+            {
+                $data['error'][] = 'Status value must be 1 or 2';      
+            }     
         }            
-        elseif( ($data['user']['status'] <= 0) || ($data['user']['status'] > 2) )
-        {
-            $data['error'][] = 'Status value must be 1 or 2';      
-        }         
-        
-        if(!is_int($data['user']['role']))
-        {
-            throw new SmartModelException("'role' isnt from type int!");
-        }    
-        elseif( ($data['user']['role'] < 0) || ($data['user']['role'] > 250) )
-        {
-            $data['error'][] = 'Role value must be between 0 and 250';      
-        }                 
     
-        // Check if login exists
-        if($this->loginExists($data['user']['login']) > 0)
+        if(isset($data['user']['role']))
         {
-            $data['error'][] = 'Login exists';
-        }    
+            if(!is_int($data['user']['role']))
+            {
+                throw new JapaModelException("'role' isnt from type int!");
+            }
+            elseif( ($data['user']['role'] < 0) || ($data['user']['role'] > 250) )
+            {
+                $data['error'][] = 'Role value must be between 0 and 250';      
+            }         
+        }                      
+    
+
         
         if( count($data['error']) > 0 )
         {

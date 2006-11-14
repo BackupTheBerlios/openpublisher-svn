@@ -53,12 +53,12 @@ class ControllerUserAddUser extends JapaControllerAbstractPage
         $this->viewVar['form_website']     = '';
         $this->viewVar['form_description'] = '';   
         $this->viewVar['role']             = 0;  
-    
+
         // add user on demande
-        if( null === $this->httpRequest->getParameter( 'addthisuser', 'post', 'alpha' ) )
+        if( false !== $this->httpRequest->getParameter( 'addthisuser', 'post', 'alpha' ) )
         {
             $form_role = $this->httpRequest->getParameter( 'role', 'post', 'int' );
-            
+
             if(FALSE == $this->checkAssignedPermission( (int) $form_role ))
             {
                 $this->resetFormData();
@@ -67,22 +67,15 @@ class ControllerUserAddUser extends JapaControllerAbstractPage
                 return TRUE;
             }
             
-            // check if required fields are empty
-            if (FALSE == ($user_data = $this->checkEmptyFields()))
-            {
-                // reset form fields on error
-                $this->resetFormData();
-                $this->viewVar['error'][] = 'You have fill out the login, name, lastname, email and password fields!';
-                $this->assignHtmlSelectBoxRole();
-                return TRUE;
-            }            
+            // get form data
+            $user_data = $this->getFormData();          
 
             // array with new user data
             $_data = array( 'error' => & $this->viewVar['error'],
                             'user'  => $user_data );
              
             // add new user data
-            if(FALSE !== ($id_user = $this->model->action( 'user','add',$_data )))
+            if(false !== ($id_user = $this->model->action( 'user','add',$_data )))
             {
                 // reload the user module on success
                 @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/user/view/editUser/id_user='.$id_user);
@@ -160,24 +153,18 @@ class ControllerUserAddUser extends JapaControllerAbstractPage
      * @return bool true on success else false
      * @access privat
      */       
-    private function checkEmptyFields()
+    private function getFormData()
     {
         $form = array();
          
-        $form['login']    = $this->httpRequest->getParameter( 'login', 'post', 'alphanum' );
-        $form['name']     = $this->httpRequest->getParameter( 'name', 'post', 'alphanum' );
-        $form['lastname'] = $this->httpRequest->getParameter( 'lastname', 'post', 'alphanum' );
-        $form['passwd']   = $this->httpRequest->getParameter( 'passwd', 'post', 'alphanum' );
-        $form['email']    = $this->httpRequest->getParameter( 'email', 'post', 'email' );
-        $form['status']   = $this->httpRequest->getParameter( 'status', 'post', 'int' );
-        $form['role']     = $this->httpRequest->getParameter( 'role', 'post', 'int' );
-            
-        // check if some fields are empty
-        if( empty($form['login']) || 
-            empty($form['passwd']) )
-        {        
-            return false;
-        }  
+        $form['login']    = (string)$this->httpRequest->getParameter( 'login', 'post', 'alnum' );
+        $form['name']     = (string)$this->httpRequest->getParameter( 'name', 'post', 'alnum' );
+        $form['lastname'] = (string)$this->httpRequest->getParameter( 'lastname', 'post', 'alnum' );
+        $form['passwd']   = (string)$this->httpRequest->getParameter( 'passwd', 'post', 'alnum' );
+        $form['email']    = (string)$this->httpRequest->getParameter( 'email', 'post', 'raw' );
+        $form['status']   = (int)$this->httpRequest->getParameter( 'status', 'post', 'int' );
+        $form['role']     = (int)$this->httpRequest->getParameter( 'role', 'post', 'int' );
+           
         return $form;
     }  
     
@@ -190,11 +177,11 @@ class ControllerUserAddUser extends JapaControllerAbstractPage
     {
         $this->viewVar['role']          = $this->httpRequest->getParameter( 'role', 'post', 'int' );
         $this->viewVar['form_status']   = $this->httpRequest->getParameter( 'status', 'post', 'int' );
-        $this->viewVar['form_email']    = $this->httpRequest->getParameter( 'email', 'post', 'email' );
-        $this->viewVar['form_name']     = $this->httpRequest->getParameter( 'name', 'post', 'alphanum' );
-        $this->viewVar['form_lastname'] = $this->httpRequest->getParameter( 'lastname', 'post', 'alphanum' );
-        $this->viewVar['form_login']    = $this->httpRequest->getParameter( 'login', 'post', 'alphanum' );
-        $this->viewVar['form_passwd']   = $this->httpRequest->getParameter( 'passwd', 'post', 'alphanum' );         
+        $this->viewVar['form_email']    = (string)$this->httpRequest->getParameter( 'email', 'post', 'raw' );
+        $this->viewVar['form_name']     = (string)$this->httpRequest->getParameter( 'name', 'post', 'alnum' );
+        $this->viewVar['form_lastname'] = (string)$this->httpRequest->getParameter( 'lastname', 'post', 'alnum' );
+        $this->viewVar['form_login']    = (string)$this->httpRequest->getParameter( 'login', 'post', 'alnum' );
+        $this->viewVar['form_passwd']   = (string)$this->httpRequest->getParameter( 'passwd', 'post', 'alnum' );         
     }       
 }
 
