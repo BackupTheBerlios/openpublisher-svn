@@ -57,6 +57,15 @@ class ActionArticleDeleteExpired extends JapaAction
 			$this->model->broadcast('modArticleDeleteRelations', array('id_article' => (int)$row['id_article']));
         }      
     } 
+    
+    /**
+     * validate array data
+     *
+     */    
+    public function validate( $data = FALSE )
+    {
+        return true;
+    } 
 }
 
 ?>

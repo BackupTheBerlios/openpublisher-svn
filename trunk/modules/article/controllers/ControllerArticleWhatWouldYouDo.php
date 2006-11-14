@@ -14,19 +14,13 @@
  *
  */
 
-class ViewArticleWhatWouldYouDo extends JapaControllerAbstractPage
+class ControllerArticleWhatWouldYouDo extends JapaControllerAbstractPage
 {
-     /**
-     * Template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'whatWouldYouDo';
-    
-     /**
-     * Template folder for this view
-     * @var string $templateFolder
-     */    
-    public $templateFolder = 'modules/article/templates/';
+    public $returnView = true;
     
     /**
      * Execute the view
@@ -35,11 +29,11 @@ class ViewArticleWhatWouldYouDo extends JapaControllerAbstractPage
     function perform()
     {
         // init article template variable 
-        $this->tplVar['article'] = array();   
+        $this->viewVar['article'] = array();   
         
         // add articles which are finaly displayed
         // at the main admin page
-        $this->tplVar['article']['wwyd'][] = array('article' => '?mod=article&view=addArticle&disableMainMenu=1',
+        $this->viewVar['article']['wwyd'][] = array('article' => $this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/article/cntr/addArticle/disableMainMenu/1',
                                                    'text'    => 'Add Article');
     }     
 }
