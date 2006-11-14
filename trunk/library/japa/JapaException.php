@@ -123,7 +123,7 @@ class JapaExceptionLog
     }
 }
 
-class JapaTplException extends JapaException
+class JapaViewException extends JapaException
 {
     public function __construct ($message = null, $code = 0)
     {
@@ -133,13 +133,13 @@ class JapaTplException extends JapaException
     }
 }
 
-class JapaViewException extends JapaException
+class JapaPageControllerException extends JapaException
 {
     public function __construct ($message = null, $code = 0)
     {
         parent::__construct($message, $code);
 
-        $this->setName( 'JapaViewException' );
+        $this->setName( 'JapaPageControllerException' );
     }
 }
 

@@ -36,7 +36,7 @@ class JapaHttpRequest implements JapaInterfaceRequest
             case 'files':
                 return $this->getFiles( $name, $type );
             case 'cookie':
-                return $this->geCookie( $name, $type );
+                return $this->getCookie( $name, $type );
             default:
                 return null;
         }
@@ -59,6 +59,24 @@ class JapaHttpRequest implements JapaInterfaceRequest
         }
         return $this->validate( $this->filterGet, $name, $type );
     }
+    
+    private function getPost( $name, $type )
+    {
+        if(!isset($this->filterPost))
+        {
+            $this->filterPost = new Zend_Filter_Input( $_POST );
+        }
+        return $this->validate( $this->filterPost, $name, $type );
+    }
+    
+    private function getCookie( $name, $type )
+    {
+        if(!isset($this->filterCookie))
+        {
+            $this->filterCookie = new Zend_Filter_Input( $_COOKIE );
+        }
+        return $this->validate( $this->filterCookie, $name, $type );
+    }
 
     public function getParameterNames( $context = 'request' ) 
     {
@@ -75,7 +93,7 @@ class JapaHttpRequest implements JapaInterfaceRequest
         return null;
     }
     
-    public function validate( $filter, $name, $type ) 
+    public function validate( & $filter, $name, $type ) 
     {
         switch( $type )
         {
@@ -89,6 +107,8 @@ class JapaHttpRequest implements JapaInterfaceRequest
                 return $filter->getDigits($name);
             case 'raw': 
                 return $filter->getRaw($name);
+            case 'email': 
+                return $filter->testEmail($name);
             default:
                 return false;
         }

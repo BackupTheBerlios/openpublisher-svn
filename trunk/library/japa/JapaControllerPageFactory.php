@@ -60,8 +60,11 @@ class JapaControllerPageFactory
         }
 
         // create page controller instance
-        $controller = $this->getControllerInstance( $controllername, $args[0] , $args[1]  );
-           
+        if(false === ($controller = $this->getControllerInstance( $controllername, $args[0] , $args[1]  )))
+        {
+            return false;
+        }
+          
         // Aggregate model object
         $controller->model = $this->model;
         
@@ -166,7 +169,7 @@ class JapaControllerPageFactory
      * @param mixed $data Data passed to the controller constructor if any
      * @param bool $controller_must_exsists 
      */ 
-    private function getControllerInstance( & $class_name, & $data, $controller_must_exsists )
+    protected function getControllerInstance( & $class_name, & $data, $controller_must_exsists )
     {       
         // JapaAbstractPageController
         if( !isset($this->pageController[$class_name]) )
@@ -188,7 +191,11 @@ class JapaControllerPageFactory
             elseif($controller_must_exsists == true)
             {
                 throw new JapaPageControllerException("Controller dosent exists: ".$class_file);
-            }            
+            }  
+            else
+            {
+                return false;
+            }          
         }
 
         return $this->pageController[$class_name]; 
@@ -307,15 +314,18 @@ class JapaControllerPageFactory
      * @param mixed  $data Data passed to the view object
      * @param bool   $controller_must_exsists If true dont continue even if a controller dosent exists.
      */    
-    public function broadcast( & $result, $controller, $data = FALSE, $controller_must_exsists = FALSE )
+    public function broadcast( & $result, $controller, $data = false, $controller_must_exsists = false )
     {
         $_modules = $this->model->getAvailaibleModules();
         
         foreach($_modules as $module)
         {
             $controller_name = ucfirst($module).ucfirst($controller);
-            $result[] = $this->$controller_name( $data, $controller_must_exsists );
-        }        
+            if(false === ($result[] = $this->$controller_name( $data, $controller_must_exsists )))
+            {
+                array_pop($result);
+            }
+        }      
     } 
 }
 

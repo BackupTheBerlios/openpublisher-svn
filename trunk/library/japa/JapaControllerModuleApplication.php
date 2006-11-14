@@ -75,7 +75,7 @@ class JapaControllerModuleApplication extends JapaController
             // Execute the index view of a common module
             $this->controller->$methode();
         }
-        catch(JapaViewException $e)
+        catch(JapaPageControllerException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
@@ -87,7 +87,7 @@ class JapaControllerModuleApplication extends JapaController
             $e->performStackTrace();
             $this->userErrorController($e);
         }         
-        catch(JapaTplException $e)
+        catch(JapaViewException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 

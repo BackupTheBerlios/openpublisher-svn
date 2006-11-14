@@ -17,7 +17,7 @@ class JapaControllerModulePageFactory extends JapaControllerPageFactory
     /**
      * Stack array of controller name chunks
      */   
-    private $controller_match = array();
+    protected $controller_match = array();
 
     /**
      * return path to the module controller
@@ -84,6 +84,47 @@ class JapaControllerModulePageFactory extends JapaControllerPageFactory
      * @param string $content View content
      */ 
     protected function writeViewCache( $controller, & $content ){}
+    
+    /**
+     * return controller instance
+     *
+     * @param string $class_name Controller class name
+     * @param mixed $data Data passed to the controller constructor if any
+     * @param bool $controller_must_exsists 
+     */ 
+    protected function getControllerInstance( & $class_name, & $data, $controller_must_exsists )
+    {       
+        // JapaAbstractPageController
+        if( !isset($this->pageController[$class_name]) )
+        {
+            // build the whole controller class name
+            $requested_controller = 'Controller' . $class_name;
+            
+            // path to the modules controller class
+            $class_file = $this->getControllerPath( $class_name ) . $requested_controller . '.php';
+
+            if(@file_exists($class_file))
+            {
+                include_once($class_file);
+
+                // make instance of the module controller class
+                $this->pageController[$class_name] = new $requested_controller( $data );
+            }
+            // if controller file dosent exists return false (see: this function description)
+            elseif($controller_must_exsists == true)
+            {
+                throw new JapaPageControllerException("Controller dosent exists: ".$class_file);
+            }  
+            else
+            {
+                // Strip out controller name if this controller dosent exists
+                array_pop($this->controller_match);
+                return false;
+            }          
+        }
+
+        return $this->pageController[$class_name]; 
+    }
 }
 
 ?>

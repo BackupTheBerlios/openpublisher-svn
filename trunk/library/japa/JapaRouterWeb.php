@@ -15,7 +15,7 @@
 class JapaRouterWeb extends JapaRouter
 {
 
-    public function getBase()
+    public function _old_getBase()
     {
         // Set magic default of RewriteBase:
         $filename = basename($_SERVER['SCRIPT_FILENAME']);
@@ -24,6 +24,16 @@ class JapaRouterWeb extends JapaRouter
         {
             // Default of '' for cases when SCRIPT_NAME doesn't contain a filename (ZF-205)
             $base = (strpos($base, $filename) !== false) ? dirname($base) : '';
+        }
+        return rtrim($base, '/');
+    }
+
+    public function getBase()
+    {
+        $base = '';
+        if (empty($_SERVER['PATH_INFO'])) $base = $_SERVER['REQUEST_URI'];
+        else if ($pos = strpos($_SERVER['REQUEST_URI'], $_SERVER['PATH_INFO'])) {
+            $base = substr($_SERVER['REQUEST_URI'], 0, $pos);
         }
         return rtrim($base, '/');
     }
