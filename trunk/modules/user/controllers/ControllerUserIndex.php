@@ -49,10 +49,11 @@ class ControllerUserIndex extends JapaControllerAbstractPage
      */
     public function getRequestedModuleController()
     {
+        $this->viewVar['show_options_link'] = true;
+        
         // check if there is a module request
         if( false === ($controller_request = $this->router->getVar('cntr')) )
         {
-            $this->viewVar['show_options_link'] = true;
             $controller_request = 'Main';
         }
         elseif($this->controllerVar['loggedUserRole'] > 20)

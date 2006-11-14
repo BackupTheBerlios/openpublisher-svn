@@ -17,6 +17,12 @@
 class ControllerUserAdminLogout extends JapaControllerAbstractPage
 {    
     /**
+     * we dont need any view. we do a logout and redirecting to the public site
+     *
+     */
+    public $renderView = false;
+     
+    /**
      * Destroy current session and reload the admin controller
      *
      */

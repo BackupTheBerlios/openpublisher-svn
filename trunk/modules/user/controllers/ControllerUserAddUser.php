@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewUserAddUser class
+ * ControllerUserAddUser class
  *
  */
  
-class ViewUserAddUser extends JapaControllerAbstractPage
+class ControllerUserAddUser extends JapaControllerAbstractPage
 {
-     /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'adduser';
-    
-     /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/user/templates/';
-
+    public $returnView = true;
+        
     /**
      * prepend filter chain
      *
@@ -37,7 +31,7 @@ class ViewUserAddUser extends JapaControllerAbstractPage
         // check permission to execute this view
         if(FALSE == $this->checkViewPermission())
         {
-            throw new SmartViewException('Operation denied');
+            throw new JapaViewException('Operation denied');
         }    
     }
     
@@ -49,53 +43,49 @@ class ViewUserAddUser extends JapaControllerAbstractPage
     function perform()
     { 
         // Init template form field values
-        $this->tplVar['error']            = array();
-        $this->tplVar['form_email']       = '';
-        $this->tplVar['form_status']      = 0;
-        $this->tplVar['form_login']       = '';
-        $this->tplVar['form_passwd']      = '';
-        $this->tplVar['form_name']        = '';
-        $this->tplVar['form_lastname']    = '';  
-        $this->tplVar['form_website']     = '';
-        $this->tplVar['form_description'] = '';   
-        $this->tplVar['role']             = 0;  
+        $this->viewVar['error']            = array();
+        $this->viewVar['form_email']       = '';
+        $this->viewVar['form_status']      = 0;
+        $this->viewVar['form_login']       = '';
+        $this->viewVar['form_passwd']      = '';
+        $this->viewVar['form_name']        = '';
+        $this->viewVar['form_lastname']    = '';  
+        $this->viewVar['form_website']     = '';
+        $this->viewVar['form_description'] = '';   
+        $this->viewVar['role']             = 0;  
     
         // add user on demande
-        if( isset($_POST['addthisuser']) )
+        if( null === $this->httpRequest->getParameter( 'addthisuser', 'post', 'alpha' ) )
         {
-            if(FALSE == $this->checkAssignedPermission( (int)$_POST['role'] ))
+            $form_role = $this->httpRequest->getParameter( 'role', 'post', 'int' );
+            
+            if(FALSE == $this->checkAssignedPermission( (int) $form_role ))
             {
                 $this->resetFormData();
-                $this->tplVar['error'][] = 'You have no rights to assign the such role to a new user!';
+                $this->viewVar['error'][] = 'You have no rights to assign the such role to a new user!';
                 $this->assignHtmlSelectBoxRole();
                 return TRUE;
             }
             
             // check if required fields are empty
-            if (FALSE == $this->checkEmptyFields())
+            if (FALSE == ($user_data = $this->checkEmptyFields()))
             {
                 // reset form fields on error
                 $this->resetFormData();
-                $this->tplVar['error'][] = 'You have fill out the login, name, lastname, email and password fields!';
+                $this->viewVar['error'][] = 'You have fill out the login, name, lastname, email and password fields!';
                 $this->assignHtmlSelectBoxRole();
                 return TRUE;
             }            
 
             // array with new user data
-            $_data = array( 'error'     => & $this->tplVar['error'],
-                            'user' => array('email'    => SmartCommonUtil::stripSlashes((string)$_POST['email']),
-                                            'status'   => (int)$_POST['status'],
-                                            'role'     => (int)$_POST['role'],
-                                            'login'    => SmartCommonUtil::stripSlashes((string)$_POST['login']),
-                                            'name'     => SmartCommonUtil::stripSlashes((string)$_POST['name']),
-                                            'lastname' => SmartCommonUtil::stripSlashes((string)$_POST['lastname']),
-                                            'passwd'   => SmartCommonUtil::stripSlashes((string)$_POST['passwd']) ));
+            $_data = array( 'error' => & $this->viewVar['error'],
+                            'user'  => $user_data );
              
             // add new user data
             if(FALSE !== ($id_user = $this->model->action( 'user','add',$_data )))
             {
                 // reload the user module on success
-                @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=user&view=editUser&id_user='.$id_user);
+                @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/user/view/editUser/id_user='.$id_user);
                 exit; 
             }
             else
@@ -124,14 +114,14 @@ class ViewUserAddUser extends JapaControllerAbstractPage
                        '60'  => 'Author',
                        '100' => 'Webuser'); 
         
-        $this->tplVar['form_roles'] = array();
+        $this->viewVar['form_roles'] = array();
         
         foreach($roles as $key => $val)
         {
             // just the roles on which the logged user has rights
-            if(($this->viewVar['loggedUserRole'] < $key) && ($this->viewVar['loggedUserRole'] <= 40))
+            if(($this->controllerVar['loggedUserRole'] < $key) && ($this->controllerVar['loggedUserRole'] <= 40))
             {
-                $this->tplVar['form_roles'][$key] = $val;
+                $this->viewVar['form_roles'][$key] = $val;
             }
         }
     }
@@ -144,7 +134,7 @@ class ViewUserAddUser extends JapaControllerAbstractPage
      */
     private function checkAssignedPermission( $assignedRole )
     {
-        if($this->viewVar['loggedUserRole'] >= (int)$assignedRole)
+        if($this->controllerVar['loggedUserRole'] >= (int)$assignedRole)
         {
             return FALSE;
         }
@@ -157,7 +147,7 @@ class ViewUserAddUser extends JapaControllerAbstractPage
      */
     private function checkViewPermission()
     {
-        if($this->viewVar['loggedUserRole'] <= 40)
+        if($this->controllerVar['loggedUserRole'] <= 40)
         {
             return TRUE;
         }
@@ -172,16 +162,23 @@ class ViewUserAddUser extends JapaControllerAbstractPage
      */       
     private function checkEmptyFields()
     {
+        $form = array();
+         
+        $form['login']    = $this->httpRequest->getParameter( 'login', 'post', 'alphanum' );
+        $form['name']     = $this->httpRequest->getParameter( 'name', 'post', 'alphanum' );
+        $form['lastname'] = $this->httpRequest->getParameter( 'lastname', 'post', 'alphanum' );
+        $form['passwd']   = $this->httpRequest->getParameter( 'passwd', 'post', 'alphanum' );
+        $form['email']    = $this->httpRequest->getParameter( 'email', 'post', 'email' );
+        $form['status']   = $this->httpRequest->getParameter( 'status', 'post', 'int' );
+        $form['role']     = $this->httpRequest->getParameter( 'role', 'post', 'int' );
+            
         // check if some fields are empty
-        if( empty($_POST['login']) || 
-            empty($_POST['email']) || 
-            empty($_POST['lastname']) || 
-            empty($_POST['name']) || 
-            empty($_POST['passwd']) )
+        if( empty($form['login']) || 
+            empty($form['passwd']) )
         {        
-            return FALSE;
+            return false;
         }  
-        return TRUE;
+        return $form;
     }  
     
     /**
@@ -191,13 +188,13 @@ class ViewUserAddUser extends JapaControllerAbstractPage
      */       
     private function resetFormData()
     {
-        $this->tplVar['role']          = SmartCommonUtil::stripSlashes($_POST['role']);
-        $this->tplVar['form_status']   = $_POST['status'];
-        $this->tplVar['form_email']    = SmartCommonUtil::stripSlashes($_POST['email']);
-        $this->tplVar['form_name']     = SmartCommonUtil::stripSlashes($_POST['name']);
-        $this->tplVar['form_lastname'] = SmartCommonUtil::stripSlashes($_POST['lastname']);
-        $this->tplVar['form_login']    = SmartCommonUtil::stripSlashes($_POST['login']);
-        $this->tplVar['form_passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']);          
+        $this->viewVar['role']          = $this->httpRequest->getParameter( 'role', 'post', 'int' );
+        $this->viewVar['form_status']   = $this->httpRequest->getParameter( 'status', 'post', 'int' );
+        $this->viewVar['form_email']    = $this->httpRequest->getParameter( 'email', 'post', 'email' );
+        $this->viewVar['form_name']     = $this->httpRequest->getParameter( 'name', 'post', 'alphanum' );
+        $this->viewVar['form_lastname'] = $this->httpRequest->getParameter( 'lastname', 'post', 'alphanum' );
+        $this->viewVar['form_login']    = $this->httpRequest->getParameter( 'login', 'post', 'alphanum' );
+        $this->viewVar['form_passwd']   = $this->httpRequest->getParameter( 'passwd', 'post', 'alphanum' );         
     }       
 }
 
