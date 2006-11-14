@@ -40,6 +40,8 @@ class ControllerDefaultIndex extends JapaControllerAbstractPage
             $this->viewVar['show_admin_link'] = true;
         }   
         
+        $this->viewVar['requestedModule'] = 'default';
+                
         // get requested module controller name
         $module_controller = $this->getRequestedModuleController();
         // execute the requested module controller and assign template variable
