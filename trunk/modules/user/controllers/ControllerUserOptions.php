@@ -10,23 +10,17 @@
 // ---------------------------------------------
 
 /**
- * ViewUserOptions class
+ * ControllerUserOptions class
  *
  */
 
-class ViewUserOptions extends JapaControllerAbstractPage
+class ControllerUserOptions extends JapaControllerAbstractPage
 {
-     /**
-     * Template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'options';
-    
-     /**
-     * Template folder for this view
-     * @var string $templateFolder
-     */    
-    public $templateFolder = 'modules/user/templates/';
+    public $returnView = true;
     
     /**
      * Execute the view
@@ -34,10 +28,16 @@ class ViewUserOptions extends JapaControllerAbstractPage
      */
     public function perform()
     {
-        $this->tplVar['uptodate'] = FALSE;
-        
-        if(isset($_POST['updateoptions']))
-        {
+        $this->viewVar['uptodate'] = FALSE;
+
+        // add user on demande
+        if( false !== $this->httpRequest->getParameter( 'updateoptions', 'post', 'alpha' ) )
+        {       
+            $file_size_max = $this->httpRequest->getParameter( 'file_size_max', 'post', 'int' ); 
+            $img_size_max  = $this->httpRequest->getParameter( 'img_size_max', 'post', 'int' ); 
+            $thumb_width   = $this->httpRequest->getParameter( 'thumb_width', 'post', 'int' ); 
+            $use_log       = $this->httpRequest->getParameter( 'use_log', 'post', 'int' ); 
+            
             // update user module options
             $this->model->action('user','updateOptions',
                                  array('file_size_max'  => (int)$_POST['file_size_max'],
@@ -45,15 +45,15 @@ class ViewUserOptions extends JapaControllerAbstractPage
                                        'thumb_width'    => (int)$_POST['thumb_width'],
                                        'use_log'        => (int)$_POST['use_log']));  
 
-            $this->tplVar['uptodate'] = TRUE;                           
+            $this->viewVar['uptodate'] = TRUE;                           
         }
 
         // init users template variable 
-        $this->tplVar['option'] = array();
+        $this->viewVar['option'] = array();
         
         // assign template variable with options of the user module
         $this->model->action('user','getOptions',
-                             array('result' => & $this->tplVar['option']));  
+                             array('result' => & $this->viewVar['option']));  
     
     }  
 }
