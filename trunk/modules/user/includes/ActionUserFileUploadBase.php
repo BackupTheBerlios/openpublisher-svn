@@ -101,18 +101,18 @@ class ActionUserFileUploadBase extends JapaAction
         // create unique folder that dosent exists       
         do
         {
-            $folder = SmartCommonUtil::unique_crc32();
+            $folder = JapaCommonUtil::unique_crc32();
         }
         while(@is_dir(JAPA_BASE_DIR . 'data/user/' . $folder));
         
         if(!mkdir(JAPA_BASE_DIR . 'data/user/' . $folder, $this->config['media_folder_rights']))
         {
-            throw new SmartModelException('Cant create media folder: ' . $folder);
+            throw new JapaModelException('Cant create media folder: ' . $folder);
         }
 
         if(!mkdir(JAPA_BASE_DIR . 'data/user/' . $folder . '/thumb', $this->config['media_folder_rights']))
         {
-            throw new SmartModelException('Cant create media folder: ' . $folder . '/thumb');
+            throw new JapaModelException('Cant create media folder: ' . $folder . '/thumb');
         }
 
         $error = array();
@@ -155,7 +155,10 @@ class ActionUserFileUploadBase extends JapaAction
         $result['file_name'] = $prefix . $file_name;
         
         return $result;
-    }                      
+    }              
+    
+    public function perform($data = false){}
+    public function validate($data = false){}        
 }
 
 ?>

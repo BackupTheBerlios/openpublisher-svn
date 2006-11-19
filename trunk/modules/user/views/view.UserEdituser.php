@@ -1,6 +1,6 @@
-<?php if($tpl['format']==2): ?>
+<?php if($view['format']==2): ?>
 <!-- tinyMCE -->
-<script language="javascript" type="text/javascript" src="<?php echo JAPA_PUBLIC_DIR; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $view['url_base']; ?>/modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
@@ -8,7 +8,7 @@
     remove_script_host : false,
     relative_urls : true,
     mode : "exact",
-    content_css : "<?php echo JAPA_PUBLIC_DIR; ?>modules/common/media/content.css",
+    content_css : "<?php echo $view['url_base']; ?>/modules/common/media/content.css",
     theme_advanced_containers_default_align : "left",
     theme_advanced_styles : "Font Size 8=f8;Font Size 10=f10;Font Size 12=f12;Font Size 14=f14;Font Size 16=f16;Font Size 18=f18;Font Size 20=f20;Forecolor=forecolor;Backcolor=backcolor;Quote=quote;",
     elements : "description",
@@ -25,7 +25,7 @@
   });
  function insertFile(folder,title,file,id_file)
 {
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="data/user/'+folder+'/'+file+'" title="'+title+'">'+title+'</a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="<?php echo $view['url_base']; ?>/data/user/'+folder+'/'+file+'" title="'+title+'">'+title+'</a>');
 }
 function insertFileDesc(desc)
 {
@@ -46,10 +46,10 @@ function insertImgDesc(desc)
 } 
 </script>
 <!-- /tinyMCE -->
-<?php elseif($tpl['format']==1): ?>
+<?php elseif($view['format']==1): ?>
 <!-- PEAR text_wikki -->
-<script language="javascript" type="text/javascript" src="./modules/common/media/textarea.js"></script>
-<script language="javascript" type="text/javascript" src="./modules/navigation/media/text_wikki_func.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $view['url_base']; ?>/modules/common/media/textarea.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo $view['url_base']; ?>/modules/navigation/media/text_wikki_func.js"></script>
 <!-- /PEAR text_wikki -->
 <?php endif; ?>
 <script language="JavaScript" type="text/JavaScript">
@@ -186,8 +186,8 @@ function MM_swapImage() { //v3.0
 
 
 
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo JAPA_CONTROLLER; ?>?mod=user&view=editUser" method="post" enctype="multipart/form-data" id="edituser" name="edituser">
-<input name="id_user" type="hidden" id="id_user" value="<?php echo $tpl['id_user']; ?>">
+<form accept-charset="<?php echo $view['charset']; ?>" action="<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/user/cntr/editUser" method="post" enctype="multipart/form-data" id="edituser" name="edituser">
+<input name="id_user" type="hidden" id="id_user" value="<?php echo $view['id_user']; ?>">
 <input name="deleteuser" type="hidden" id="deleteuser" value="">
 <input name="canceledit" type="hidden" id="canceledit" value="">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
@@ -196,28 +196,28 @@ function MM_swapImage() { //v3.0
     </tr>
   <tr>
     <td width="79%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
-      <?php if(count($tpl['error'])>0): ?>
+      <?php if(count($view['error'])>0): ?>
       <tr>
         <td align="left" valign="top" class="itemerror" colspan="2">
-    <?php foreach($tpl['error'] as $err): ?>
+    <?php foreach($view['error'] as $err): ?>
        <?php echo $err; ?><br />
     <?php endforeach; ?>
     </td>
       </tr>
       <?php endif; ?>
-    <?php if($tpl['showButton']==TRUE): ?>
+    <?php if($view['showButton']==TRUE): ?>
       <tr>
         <td width="45%" align="left" valign="top" class="font10bold">Status:</td>
         <td width="55%" align="left" valign="top" class="font10bold">Role</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><select name="status">
-      <option value="2"<?php if($tpl['user']['status']==2) echo ' selected="selected"'; ?>>Active</option>
-          <option value="1"<?php if($tpl['user']['status']==1) echo ' selected="selected"'; ?>>Inactive</option>
+      <option value="2"<?php if($view['user']['status']==2) echo ' selected="selected"'; ?>>Active</option>
+          <option value="1"<?php if($view['user']['status']==1) echo ' selected="selected"'; ?>>Inactive</option>
         </select></td>
         <td align="left" valign="top" class="font10bold"><select name="role">
-          <?php foreach($tpl['form_roles'] as $key => $val): ?>
-          <option value="<?php echo $key; ?>"<?php if($tpl['user']['role']==$key) echo ' selected="selected"'; ?>><?php echo $val; ?></option>
+          <?php foreach($view['form_roles'] as $key => $val): ?>
+          <option value="<?php echo $key; ?>"<?php if($view['user']['role']==$key) echo ' selected="selected"'; ?>><?php echo $val; ?></option>
           <?php endforeach; ?>
         </select></td>
       </tr>
@@ -227,7 +227,7 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top" class="font10bold">Password</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="login" type="text" id="login" size="20" maxlength="255" value="<?php echo $tpl['user']['login']; ?>"> 
+        <td align="left" valign="top"><input name="login" type="text" id="login" size="20" maxlength="255" value="<?php echo $view['user']['login']; ?>"> 
         </td>
         <td align="left" valign="top"><input name="passwd" type="text" id="passwd" size="20" maxlength="255" value=""></td>
       </tr>
@@ -236,9 +236,9 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top" class="font10bold">Lastname</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="name" type="text" id="name" size="25" maxlength="255" value="<?php echo $tpl['user']['name']; ?>">
+        <td align="left" valign="top"><input name="name" type="text" id="name" size="25" maxlength="255" value="<?php echo $view['user']['name']; ?>">
 * </td>
-        <td align="left" valign="top"><input name="lastname" type="text" id="lastname" size="25" maxlength="255" value="<?php echo $tpl['user']['lastname']; ?>">
+        <td align="left" valign="top"><input name="lastname" type="text" id="lastname" size="25" maxlength="255" value="<?php echo $view['user']['lastname']; ?>">
 *</td>
       </tr>
    
@@ -247,12 +247,12 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top" class="font10bold">Default time zone relative to Greenwich (GMT)</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="email" type="text" id="passwd" size="30" maxlength="255" value="<?php echo $tpl['user']['email']; ?>">
+        <td align="left" valign="top"><input name="email" type="text" id="passwd" size="30" maxlength="255" value="<?php echo $view['user']['email']; ?>">
 * </td>
         <td align="left" valign="top">
         <select name="user_gmt" size="1" id="user_gmt" class="treeselectbox">
         <?php for($gmt=12; $gmt>=-12; $gmt--): ?>
-          <option value="<?php echo $gmt; ?>" <?php if($tpl['user']['user_gmt'] == $gmt) echo 'selected="selected"'; ?>><?php echo $gmt; ?></option>
+          <option value="<?php echo $gmt; ?>" <?php if($view['user']['user_gmt'] == $gmt) echo 'selected="selected"'; ?>><?php echo $gmt; ?></option>
         <?php endfor; ?>
         </select>
 		</td>
@@ -261,7 +261,7 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top" class="font10bold">&nbsp;</td>
         <td rowspan="2" align="right" valign="bottom"><input name="updatethisuser" type="hidden" value="1">
           <input name="updateuser" type="submit" value="Submit">
-          <?php if($tpl['showButton']==TRUE): ?>
+          <?php if($view['showButton']==TRUE): ?>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <input type="button" name="Submit" value="delete" onClick="deluser(this.form, 'Delete this user?');">
 <?php endif; ?>
@@ -272,22 +272,22 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top" class="font10bold">Description</td>
         </tr>
       <tr>
-        <td colspan="2" align="left" valign="top"><textarea name="description" rows="15" cols="80" style="width: 100%" wrap="VIRTUAL" id="description"><?php echo $tpl['user']['description']; ?></textarea> 
+        <td colspan="2" align="left" valign="top"><textarea name="description" rows="15" cols="80" style="width: 100%" wrap="VIRTUAL" id="description"><?php echo $view['user']['description']; ?></textarea> 
         </td>
         </tr>  
     <!--  format feature for a next release (tiny mice or text_wiki)
-    <?php if($tpl['show_format_switch']==TRUE):  ?>     
+    <?php if($view['show_format_switch']==TRUE):  ?>     
       <tr>
         <td colspan="2" align="left" valign="top" class="font10bold">Use text format: 
           <input type="hidden" name="switchformat" value="0">
-      <input type="radio" name="format" value="2" <?php if($tpl['format']==2) echo "checked"; ?> onclick="switch_format(document.forms['edituser'])">
+      <input type="radio" name="format" value="2" <?php if($view['format']==2) echo "checked"; ?> onclick="switch_format(document.forms['edituser'])">
           Wysiwyg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" name="format" value="1" <?php if($tpl['format']==1) echo "checked"; ?> onclick="switch_format(document.forms['edituser'])"> 
+          <input type="radio" name="format" value="1" <?php if($view['format']==1) echo "checked"; ?> onclick="switch_format(document.forms['edituser'])"> 
           Wikki
           </td>
       </tr>
     <?php else: ?>
-        <input type="hidden" name="format" value="<?php echo $tpl['format']; ?>">
+        <input type="hidden" name="format" value="<?php echo $view['format']; ?>">
     <?php endif;  ?>
     -->
       <tr>
@@ -307,7 +307,7 @@ function MM_swapImage() { //v3.0
               <input name="fileID2del" type="hidden" value="">
               <input name="fileIDmoveUp" type="hidden" value="">
               <input name="fileIDmoveDown" type="hidden" value="">
-              <?php foreach($tpl['user']['file'] as $file): ?>
+              <?php foreach($view['user']['file'] as $file): ?>
               <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -315,7 +315,7 @@ function MM_swapImage() { //v3.0
                         <td colspan="2" class="font12bold"><?php echo $file['file']; ?></td>
                         </tr>
                       <tr>
-                        <td align="right" valign="top"><a href="javascript:insertFile('<?php echo $tpl['user']['media_folder']; ?>','<?php if(!empty($file['title'])) echo addslashes($file['title']); else echo $file['file']; ?>','<?php echo $file['file']; ?>','<?php echo $file['id_file']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $file['id_file']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $file['id_file']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $file['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <td align="right" valign="top"><a href="javascript:insertFile('<?php echo $view['user']['media_folder']; ?>','<?php if(!empty($file['title'])) echo addslashes($file['title']); else echo $file['file']; ?>','<?php echo $file['file']; ?>','<?php echo $file['id_file']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $file['id_file']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $file['id_file']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $file['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
             <a href="javascript:deletefile(document.forms['edituser'], <?php echo $file['id_file']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('File<?php echo $file['id_file']; ?>','','modules/common/media/pics/deleteover.png',0)">
             <img name="File<?php echo $file['id_file']; ?>" src="modules/common/media/pics/delete.png" title="Delete <?php echo $file['file']; ?>" alt="Delete <?php echo $file['file']; ?>" width="30" height="29" border="0"></a>
             </td>
@@ -359,12 +359,12 @@ function MM_swapImage() { //v3.0
       </tr>
       <tr>
         <td align="center" valign="top">
-    <?php if(empty($tpl['user']['logo'])): ?>
+    <?php if(empty($view['user']['logo'])): ?>
       <input type="file" name="logo" id="logo" size="10" class="fileform">
         <input name="uploadlogo" type="hidden" value="">
         <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
         <?php else: ?>
-      <img name="userlogo" src="<?php echo JAPA_PUBLIC_DIR.'data/user/'.$tpl['user']['media_folder'].'/'.$tpl['user']['logo']; ?>" alt="User Logo" width="150">
+      <img name="userlogo" src="<?php echo $view['url_base']; ?>/data/user/<?php echo $view['user']['media_folder'].'/'.$view['user']['logo']; ?>" alt="User Logo" width="150">
         <br>
         <input name="deletelogo" type="hidden" value="">
         <input type="button" name="eraselogo" value="delete" onclick="dellogo(this.form, 'Delete user logo Picture?');">
@@ -388,7 +388,7 @@ function MM_swapImage() { //v3.0
         <input name="imageID2del" type="hidden" value="">
       <input name="imageIDmoveUp" type="hidden" value="">
       <input name="imageIDmoveDown" type="hidden" value="">
-      <?php foreach($tpl['user']['thumb'] as $thumb): ?>
+      <?php foreach($view['user']['thumb'] as $thumb): ?>
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
               <tr>
                 <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -398,8 +398,8 @@ function MM_swapImage() { //v3.0
                   </tr>
                   <tr>
                     <td align="right" valign="top">
-          <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','data/user/<?php echo $tpl['user']['media_folder']; ?>/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $tpl['id_user']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 0);">
-          <img src="./data/user/<?php echo $tpl['user']['media_folder']; ?>/thumb/<?php echo $thumb['file']; ?>" alt="<?php echo $thumb['description']; ?>" name="<?php echo $thumb['file']; ?>" width="120" border="0" title="<?php echo $thumb['file']; ?>">
+          <a href="javascript:insertImage('<?php echo $view['publicWebController']; ?>','data/user/<?php echo $view['user']['media_folder']; ?>/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $view['id_user']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 0);">
+          <img src="<?php echo $view['url_base']; ?>/data/user/<?php echo $view['user']['media_folder']; ?>/thumb/<?php echo $thumb['file']; ?>" alt="<?php echo $thumb['description']; ?>" name="<?php echo $thumb['file']; ?>" width="120" border="0" title="<?php echo $thumb['file']; ?>">
                     </a>
                 </td>
                     <td align="left" valign="top">
@@ -409,7 +409,7 @@ function MM_swapImage() { //v3.0
                   </tr>
                   <tr>
                     <td align="right" valign="top">
-          <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','data/user/<?php echo $tpl['user']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo addslashes($thumb['title']); ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $tpl['id_user']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
+          <a href="javascript:insertImage('<?php echo $view['publicWebController']; ?>','data/user/<?php echo $view['user']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo addslashes($thumb['title']); ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $view['id_user']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:deletepic(document.forms['edituser'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/deleteover.png',0)"><img id="Image6" name="Image<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/delete.png" title="Delete <?php echo $thumb['file']; ?>" alt="Delete <?php echo $thumb['file']; ?>" width="30" height="29" border="0"></a></td>
                     <td align="left" valign="top">&nbsp;</td>
                   </tr>

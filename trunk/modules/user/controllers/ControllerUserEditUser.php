@@ -10,23 +10,17 @@
 // ---------------------------------------------
 
 /**
- * ViewUserEditUser class
+ * ControllerUserEditUser class
  *
  */
  
-class ViewUserEditUser extends JapaControllerAbstractPage
+class ControllerUserEditUser extends JapaControllerAbstractPage
 {
-     /**
-     * Template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'edituser';
-    
-     /**
-     * Template folder for this view
-     * @var string $templateFolder
-     */    
-    public $templateFolder = 'modules/user/templates/';
+    public $returnView = true;
 
     /**
      * prepend filter chain
@@ -34,22 +28,24 @@ class ViewUserEditUser extends JapaControllerAbstractPage
      */
     public function prependFilterChain()
     {
+        $this->id_user = $this->httpRequest->getParameter( 'id_user', 'request', 'digits' );
+
         // check permission to edit/update requested user data
-        if(FALSE == $this->model->action('user','allowEditUser',
-                                         array('id_user' => (int)$_REQUEST['id_user'] ) ))
+        if(false == $this->model->action('user','allowEditUser',
+                                         array('id_user' => (int)$this->id_user ) ))
         {
-            throw new SmartViewException('Operation denied');
+            throw new JapaControllerException('Operation denied');
         }    
        
         // lock the user to edit
         $result = $this->model->action('user','lock',
                                        array('job'        => 'lock',
-                                             'id_user'    => (int)$_REQUEST['id_user'],
-                                             'by_id_user' => (int)$this->viewVar['loggedUserId']) );
-        if($result !== TRUE)
+                                             'id_user'    => (int)$this->id_user,
+                                             'by_id_user' => (int)$this->controllerVar['loggedUserId']) );
+        if($result !== true)
         {
             // this would only happen if someone try to hack a tournaround
-            throw new SmartViewException('Operation denied. User is locked by: '.$result);    
+            throw new JapaControllerException('Operation denied. User is locked by: '.$result);    
         }
     }
     
@@ -61,33 +57,33 @@ class ViewUserEditUser extends JapaControllerAbstractPage
     public function perform()
     { 
         // init template array to fill with user data
-        $this->tplVar['user'] = array();
+        $this->viewVar['user'] = array();
         // Init template form field values
-        $this->tplVar['error']            = array();
-        $this->tplVar['user']['email']       = '';
-        $this->tplVar['user']['login']       = '';
-        $this->tplVar['user']['passwd']      = '';
-        $this->tplVar['user']['name']        = '';
-        $this->tplVar['user']['lastname']    = '';  
-        $this->tplVar['user']['description'] = '';   
-        $this->tplVar['user']['user_gmt']    = 1;  
-        $this->tplVar['user']['role']        = 0;  
-        $this->tplVar['user']['thumb']       = array();
-        $this->tplVar['user']['file']        = array();
-       
+        $this->viewVar['error']            = array();
+        $this->viewVar['user']['email']       = '';
+        $this->viewVar['user']['login']       = '';
+        $this->viewVar['user']['passwd']      = '';
+        $this->viewVar['user']['name']        = '';
+        $this->viewVar['user']['lastname']    = '';  
+        $this->viewVar['user']['description'] = '';   
+        $this->viewVar['user']['user_gmt']    = 1;  
+        $this->viewVar['user']['role']        = 0;  
+        $this->viewVar['user']['thumb']       = array();
+        $this->viewVar['user']['file']        = array();
+
         // update user data
-        if( isset($_POST['updatethisuser']) )
-        {
-            if(FALSE == $this->updateUserData())
+        if( false !== $this->httpRequest->getParameter( 'updatethisuser', 'post', 'alpha' ) )
+        {       
+            if(false == $this->updateUserData())
             {
-                return FALSE;
+                return false;
             }
         }
 
         // get user data
         $this->model->action('user','getUser',
-                             array('result'  => & $this->tplVar['user'],
-                                   'id_user' => (int)$_REQUEST['id_user'],
+                             array('result'  => & $this->viewVar['user'],
+                                   'id_user' => (int)$this->id_user,
                                    'fields'  => array('login',
                                                       'name',
                                                       'lastname',
@@ -101,14 +97,14 @@ class ViewUserEditUser extends JapaControllerAbstractPage
                                                       'media_folder')) );
         
         // convert some field values to safely include it in template html form fields
-        $this->convertHtmlSpecialChars( $this->tplVar['user'], array('name','lastname') );
+        $this->convertHtmlSpecialChars( $this->viewVar['user'], array('name','lastname') );
 
-        $this->tplVar['user']['thumb'] = array();
+        $this->viewVar['user']['thumb'] = array();
 
         // get user picture thumbnails
         $this->model->action('user','getAllThumbs',
-                             array('result'  => & $this->tplVar['user']['thumb'],
-                                   'id_user' => (int)$_REQUEST['id_user'],
+                             array('result'  => & $this->viewVar['user']['thumb'],
+                                   'id_user' => (int)$this->id_user,
                                    'order'   => 'rank',
                                    'fields'  => array('id_pic',
                                                       'file',
@@ -121,19 +117,19 @@ class ViewUserEditUser extends JapaControllerAbstractPage
 
         // convert description field to safely include into javascript function call
         $x=0;
-        $this->tplVar['user']['thumbdesc'] = array();
-        foreach($this->tplVar['user']['thumb'] as $thumb)
+        $this->viewVar['user']['thumbdesc'] = array();
+        foreach($this->viewVar['user']['thumb'] as $thumb)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['user']['thumb'][$x], array('description') );
+            $this->convertHtmlSpecialChars( $this->viewVar['user']['thumb'][$x], array('description') );
             $x++;
         }
 
-        $this->tplVar['user']['file'] = array();
+        $this->viewVar['user']['file'] = array();
 
         // get user files
         $this->model->action('user','getAllFiles',
-                             array('result'  => & $this->tplVar['user']['file'],
-                                   'id_user' => (int)$_REQUEST['id_user'],
+                             array('result'  => & $this->viewVar['user']['file'],
+                                   'id_user' => (int)$this->id_user,
                                    'order'   => 'rank',
                                    'fields'  => array('id_file',
                                                       'file',
@@ -144,10 +140,10 @@ class ViewUserEditUser extends JapaControllerAbstractPage
 
         // convert files description field to safely include into javascript function call
         $x=0;
-        $this->tplVar['user']['filedesc'] = array();
-        foreach($this->tplVar['user']['file'] as $file)
+        $this->viewVar['user']['filedesc'] = array();
+        foreach($this->viewVar['user']['file'] as $file)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['user']['file'][$x], array('description') );
+            $this->convertHtmlSpecialChars( $this->viewVar['user']['file'][$x], array('description') );
             $x++;
         }
 
@@ -161,199 +157,228 @@ class ViewUserEditUser extends JapaControllerAbstractPage
      */
     private function updateUserData()
     {
+        $role = $this->httpRequest->getParameter( 'role', 'post', 'int' );
+        $status = $this->httpRequest->getParameter( 'status', 'post', 'int' );
+        $canceledit = $this->httpRequest->getParameter( 'canceledit', 'post', 'digits' );
+        $deleteuser = $this->httpRequest->getParameter( 'deleteuser', 'post', 'digits' );
+        $uploadlogo = $this->httpRequest->getParameter( 'uploadlogo', 'post', 'alnum' );
+        $deletelogo = $this->httpRequest->getParameter( 'deletelogo', 'post', 'alnum' );
+        $uploadpicture = $this->httpRequest->getParameter( 'uploadpicture', 'post', 'alnum' );
+        $imageID2del = $this->httpRequest->getParameter( 'imageID2del', 'post', 'raw' );
+        $imageIDmoveUp = $this->httpRequest->getParameter( 'imageIDmoveUp', 'post', 'digits' );
+        $imageIDmoveDown = $this->httpRequest->getParameter( 'imageIDmoveDown', 'post', 'digits' );      
+        $fileIDmoveUp = $this->httpRequest->getParameter( 'fileIDmoveUp', 'post', 'digits' );
+        $fileIDmoveDown = $this->httpRequest->getParameter( 'fileIDmoveDown', 'post', 'digits' );        
+        $uploadfile = $this->httpRequest->getParameter( 'uploadfile', 'post', 'alnum' );
+        $fileID2del = $this->httpRequest->getParameter( 'fileID2del', 'post', 'digits' );
+        $pid = $this->httpRequest->getParameter( 'pid', 'post', 'raw' );
+        $fid = $this->httpRequest->getParameter( 'fid', 'post', 'raw' );
+        $email = $this->httpRequest->getParameter( 'email', 'post', 'email' );
+        $name = $this->httpRequest->getParameter( 'name', 'post', 'raw' );
+        $passwd = $this->httpRequest->getParameter( 'passwd', 'post', 'alnum' );
+        $lastname = $this->httpRequest->getParameter( 'lastname', 'post', 'raw' );
+        $description = $this->httpRequest->getParameter( 'description', 'post', 'raw' );
+        $user_gmt = $this->httpRequest->getParameter( 'user_gmt', 'post', 'int' );
+        
         // check permission to set user role except if a logged user modify its own data.
         // In this case he cant modify its own role so we dont check this permission
-        if(isset($_POST['role']) && (FALSE == $this->checkAssignedPermission( (int)$_POST['role'] )))
+        if((false !== $role) && (false == $this->checkAssignedPermission( (int)$role )))
         {
             $this->resetFormData();
-            $this->tplVar['error'] = 'You have no rights to assign the such role to a new user!';
+            $this->viewVar['error'] = 'You have no rights to assign the such role to a new user!';
             $this->setTemplateVars();
-            return FALSE;
+            return false;
         }
          // cancel edit user?
-        elseif($_POST['canceledit'] == '1')
+        elseif($canceledit == '1')
         {
             $this->unlockUser();
             $this->redirect();
         }
         // delete a user?
-        elseif($_POST['deleteuser'] == '1')
+        elseif($deleteuser == '1')
         {
             $this->deleteUser();
         }      
         // upload logo
-        elseif(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
+        elseif(!empty($uploadlogo))
         {   
+            $logo = $this->httpRequest->getParameter( 'logo', 'files', 'raw' );
+
             $this->model->action('user','uploadLogo',
-                                 array('id_user'  => (int)$_REQUEST['id_user'],
-                                       'postName' => 'logo',
-                                       'error'    => & $this->tplVar['error']) ); 
+                                 array('id_user'  => (int)$this->id_user,
+                                       'postData' => & $logo,
+                                       'error'    => & $this->viewVar['error']) ); 
                                         
-            $dont_forward = TRUE;
+            $dont_forward = true;
         }
         // delete logo
-        elseif(isset($_POST['deletelogo']) && !empty($_POST['deletelogo']))
+        elseif(!empty($deletelogo))
         {   
             $this->model->action('user','deleteLogo',
-                                 array('id_user'   => (int)$_REQUEST['id_user']) ); 
+                                 array('id_user'   => (int)$this->id_user) ); 
                                          
-            $dont_forward = TRUE;
+            $dont_forward = true;
         }   
         // add picture
-        elseif(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
+        elseif(!empty($uploadpicture))
         {   
             $this->model->action('user','addItem',
                                  array('item'     => 'picture',
-                                       'id_user'  => (int)$_REQUEST['id_user'],
+                                       'id_user'  => (int)$this->id_user,
                                        'postName' => 'picture',
-                                       'error'    => & $this->tplVar['error']) ); 
+                                       'error'    => & $this->viewVar['error']) ); 
                                          
-            $dont_forward = TRUE;
+            $dont_forward = true;
         }
         // delete picture
-        elseif(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
+        elseif(!empty($imageID2del))
         {
             $this->model->action('user','deleteItem',
-                                 array('id_user' => (int)$_REQUEST['id_user'],
-                                       'id_pic'  => (int)$_POST['imageID2del']) ); 
+                                 array('id_user' => (int)$this->id_user,
+                                       'id_pic'  => (int)$imageID2del) ); 
                                          
-            $dont_forward = TRUE;
+            $dont_forward = true;
         }
         // move image rank up
-        elseif(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
+        elseif(!empty($imageIDmoveUp))
         {   
             $this->model->action('user','moveItemRank',
-                                 array('id_user' => (int)$_REQUEST['id_user'],
-                                       'id_pic'  => (int)$_POST['imageIDmoveUp'],
+                                 array('id_user' => (int)$this->id_user,
+                                       'id_pic'  => (int)$imageIDmoveUp,
                                        'dir'     => 'up') ); 
                                          
-            $dont_forward = TRUE;
+            $dont_forward = true;
         }  
         // move image rank down
-        elseif(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
+        elseif(!empty($imageIDmoveDown))
         {   
             $this->model->action('user','moveItemRank',
-                                 array('id_user' => (int)$_REQUEST['id_user'],
-                                       'id_pic'  => (int)$_POST['imageIDmoveDown'],
+                                 array('id_user' => (int)$this->id_user,
+                                       'id_pic'  => (int)$imageIDmoveDown,
                                        'dir'     => 'down') ); 
                                          
-            $dont_forward = TRUE;
+            $dont_forward = true;
         } 
         // move file rank up
-        elseif(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
+        elseif(!empty($fileIDmoveUp))
         {
             $this->model->action('user','moveItemRank',
-                                 array('id_user' => (int)$_REQUEST['id_user'],
-                                       'id_file' => (int)$_POST['fileIDmoveUp'],
+                                 array('id_user' => (int)$this->id_user,
+                                       'id_file' => (int)$fileIDmoveUp,
                                        'dir'     => 'up') );                                                 
-            $dont_forward = TRUE;
+            $dont_forward = true;
         }
         // move file rank down
-        elseif(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
+        elseif(!empty($fileIDmoveDown))
         {   
             $this->model->action('user','moveItemRank',
-                                 array('id_user' => (int)$_REQUEST['id_user'],
-                                       'id_file' => (int)$_POST['fileIDmoveDown'],
+                                 array('id_user' => (int)$this->id_user,
+                                       'id_file' => (int)$fileIDmoveDown,
                                        'dir'     => 'down') );                                                
-            $dont_forward = TRUE;
+            $dont_forward = true;
         } 
         // add file
-        elseif(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
+        elseif(!empty($uploadfile))
         {          
             $this->model->action('user','addItem',
                                  array('item'     => 'file',
-                                       'id_user'  => (int)$_REQUEST['id_user'],
+                                       'id_user'  => (int)$this->id_user,
                                        'postName' => 'ufile',
-                                       'error'    => & $this->tplVar['error']) ); 
+                                       'error'    => & $this->viewVar['error']) ); 
                                      
-            $dont_forward = TRUE;
+            $dont_forward = true;
         }
         // delete file
-        elseif(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
+        elseif(!empty($fileID2del))
         {   
             $this->model->action('user','deleteItem',
-                                 array('id_user' => (int)$_REQUEST['id_user'],
-                                       'id_file' => (int)$_POST['fileID2del']) ); 
+                                 array('id_user' => (int)$this->id_user,
+                                       'id_file' => (int)$fileID2del) ); 
                                          
-            $dont_forward = TRUE;
+            $dont_forward = true;
         }  
         
         // update picture descriptions if there images
-        if(isset($_POST['pid']))
+        if(!empty($pid))
         {
+            $picdesc = $this->httpRequest->getParameter( 'picdesc', 'post', 'raw' );
+            $pictitle = $this->httpRequest->getParameter( 'pictitle', 'post', 'raw' );
             $this->model->action( 'user','updateItem',
                                   array('item'    => 'pic',
-                                        'ids'     => &$_POST['pid'],
-                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['picdesc']),
-                                                           'title'       => $this->stripSlashesArray($_POST['pictitle']))));
+                                        'ids'     => &$pid,
+                                        'fields'  => array('description' => $this->stripSlashesArray($picdesc),
+                                                           'title'       => $this->stripSlashesArray($pictitle))));
         }        
 
         // update file descriptions if there file attachments
-        if(isset($_POST['fid']))
+        if(!empty($fid))
         {
+            $filedesc = $this->httpRequest->getParameter( 'picdesc', 'post', 'raw' );
+            $filetitle = $this->httpRequest->getParameter( 'pictitle', 'post', 'raw' );
             $this->model->action( 'user','updateItem',
                                   array('item'    => 'file',
                                         'ids'     => &$_POST['fid'],
-                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['filedesc']),
-                                                           'title'       => $this->stripSlashesArray($_POST['filetitle']))));
+                                        'fields'  => array('description' => $this->stripSlashesArray($filedesc),
+                                                           'title'       => $this->stripSlashesArray($filetitle))));
         }  
        
         // check if required fields are empty
-        if (FALSE == $this->checkEmptyFields())
+        if (false == $this->checkEmptyFields())
         {
             // reset form fields on error
             $this->resetFormData();
-            $this->tplVar['error'][] = 'You have fill out at least the name, lastname and email fields!';
+            $this->viewVar['error'][] = 'You have fill out at least the name, lastname and email fields!';
             $this->setTemplateVars();
-            return FALSE;
+            return false;
         }
            
         // array with new user data passed to the action
-        $_data = array( 'error'     => & $this->tplVar['error'],
-                        'id_user'   => (int)$_REQUEST['id_user'],
-                        'fields' => array('email'    => SmartCommonUtil::stripSlashes((string)$_POST['email']),
-                                          'name'     => SmartCommonUtil::stripSlashes((string)$_POST['name']),
-                                          'lastname' => SmartCommonUtil::stripSlashes((string)$_POST['lastname']),
-                                          'description' => SmartCommonUtil::stripSlashes((string)$_POST['description']) ));
+        $_data = array( 'error'     => & $this->viewVar['error'],
+                        'id_user'   => (int)$this->id_user,
+                        'fields' => array('email'    => JapaCommonUtil::stripSlashes($email),
+                                          'name'     => JapaCommonUtil::stripSlashes($name),
+                                          'lastname' => JapaCommonUtil::stripSlashes($lastname),
+                                          'description' => JapaCommonUtil::stripSlashes($description) ));
 
-        if( isset($_POST['user_gmt']) )
+        if( !empty($user_gmt) )
         {
-            if( ($_POST['user_gmt'] >= -12) &&  ($_POST['user_gmt'] <= 12) )
+            if( ($user_gmt >= -12) &&  ($user_gmt <= 12) )
             {
-                $_data['fields']['user_gmt'] = (int)$_POST['user_gmt'];
+                $_data['fields']['user_gmt'] = (int)$user_gmt;
                 // update session user gmt
-                $this->model->session->set('loggedUserGmt', (int)$_POST['user_gmt']);
+                $this->model->session->set('loggedUserGmt', (int)$user_gmt);
             }        
         }
 
         // if a logged user modify its own account data disable status and role settings
-        if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
+        if($this->controllerVar['loggedUserId'] != $this->id_user)
         {
-            $_data['fields']['status'] = (int)$_POST['status']; 
-            $_data['fields']['role']   = (int)$_POST['role'];
+            $_data['fields']['status'] = (int)$status; 
+            $_data['fields']['role']   = (int)$role;
         }
         // add this if the password field isnt empty
-        if(!empty($_POST['passwd']))
+        if(!empty($passwd))
         {
-            $_data['fields']['passwd'] = SmartCommonUtil::stripSlashes((string)$_POST['passwd']);
+            $_data['fields']['passwd'] = JapaCommonUtil::stripSlashes((string)$passwd);
         }
         
         // add new user data
-        if(TRUE == $this->model->action( 'user','update',$_data ))
+        if(true == $this->model->action( 'user','update',$_data ))
         {
-            if(isset($_POST['updateuser']) && ($_POST['updateuser'] == 'Submit'))
+            if('Submit' == $this->httpRequest->getParameter( 'updateuser', 'post', 'alpha' ))
             {
                 $this->unlockUser();
                 $this->redirect();
             }
-            return TRUE;
+            return true;
         }
         else
         {
             // reset form fields on error
             $this->resetFormData();
             $this->setTemplateVars();
-            return FALSE;                
+            return false;                
         }        
     }
     
@@ -364,10 +389,10 @@ class ViewUserEditUser extends JapaControllerAbstractPage
     private function deleteUser()
     {
         // not possible if a logged user try to remove it self
-        if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
+        if($this->controllerVar['loggedUserId'] != $this->id_user)
         {                                 
             $this->model->action('user','delete',
-                                 array('id_user' => (int)$_REQUEST['id_user']));                      
+                                 array('id_user' => (int)$this->id_user));                      
             $this->redirect();   
         }   
     }
@@ -378,7 +403,7 @@ class ViewUserEditUser extends JapaControllerAbstractPage
     private function redirect()
     {
         // reload the user module
-        @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=user');
+        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/user');
         exit;      
     }
 
@@ -392,14 +417,14 @@ class ViewUserEditUser extends JapaControllerAbstractPage
         $this->assignHtmlSelectBoxRole();
         
         // assign template var if the logged user edit his own account
-        if($this->viewVar['loggedUserId'] == $_REQUEST['id_user'])
+        if($this->controllerVar['loggedUserId'] == $this->id_user)
         {  
             // dont show some form elements (delete,status,role)
-            $this->tplVar['showButton'] = FALSE;  
+            $this->viewVar['showButton'] = false;  
         }
         else
         {
-            $this->tplVar['showButton'] = TRUE;  
+            $this->viewVar['showButton'] = true;  
         }  
         
         //  -----  feature for a next release ------------
@@ -408,26 +433,26 @@ class ViewUserEditUser extends JapaControllerAbstractPage
         // 2 = tiny_mce
         if($this->config['user']['force_format'] != 0)
         {
-            $this->tplVar['format'] = $this->config['user']['force_format'];
-            $this->tplVar['show_format_switch'] = FALSE;
+            $this->viewVar['format'] = $this->config['user']['force_format'];
+            $this->viewVar['show_format_switch'] = false;
         }
         elseif(isset($_POST['format']))
         {
             if(!preg_match("/(1|2){1}/",$_POST['format']))
             {
-                $this->tplVar['format'] = $this->config['user']['default_format'];
+                $this->viewVar['format'] = $this->config['user']['default_format'];
             }
-            $this->tplVar['format'] = $_POST['format'];
-            $this->tplVar['show_format_switch'] = TRUE;
+            $this->viewVar['format'] = $_POST['format'];
+            $this->viewVar['show_format_switch'] = true;
         }
         else
         {
-            $this->tplVar['format'] = $this->config['user']['default_format'];
-            $this->tplVar['show_format_switch'] = TRUE;
+            $this->viewVar['format'] = $this->config['user']['default_format'];
+            $this->viewVar['show_format_switch'] = true;
         }
         
         
-        $this->tplVar['id_user'] = $_REQUEST['id_user']; 
+        $this->viewVar['id_user'] = $this->id_user; 
     }
 
     /**
@@ -454,7 +479,7 @@ class ViewUserEditUser extends JapaControllerAbstractPage
         $tmp_array = array();
         foreach($var_array as $f)
         {
-            $tmp_array[] = preg_replace("/\"/","'",SmartCommonUtil::stripSlashes( $f ));
+            $tmp_array[] = preg_replace("/\"/","'",JapaCommonUtil::stripSlashes( $f ));
         }
 
         return $tmp_array;
@@ -472,14 +497,14 @@ class ViewUserEditUser extends JapaControllerAbstractPage
                        '60'  => 'Author',
                        '100' => 'Webuser'); 
         
-        $this->tplVar['form_roles'] = array();
+        $this->viewVar['form_roles'] = array();
         
         foreach($roles as $key => $val)
         {
             // just the roles on which the logged user have rights
-            if(($this->viewVar['loggedUserRole'] < $key) && ($this->viewVar['loggedUserRole'] <= 40))
+            if(($this->controllerVar['loggedUserRole'] < $key) && ($this->controllerVar['loggedUserRole'] <= 40))
             {
-                $this->tplVar['form_roles'][$key] = $val;
+                $this->viewVar['form_roles'][$key] = $val;
             }
         }
     }
@@ -492,11 +517,11 @@ class ViewUserEditUser extends JapaControllerAbstractPage
      */
     private function checkAssignedPermission( $assignedRole )
     {
-        if($this->viewVar['loggedUserRole'] >= (int)$assignedRole)
+        if($this->controllerVar['loggedUserRole'] >= (int)$assignedRole)
         {
-            return FALSE;
+            return false;
         }
-        return TRUE;
+        return true;
     }
 
     /**
@@ -505,11 +530,11 @@ class ViewUserEditUser extends JapaControllerAbstractPage
      */
     private function checkViewPermission()
     {
-        if($this->viewVar['loggedUserRole'] < 100)
+        if($this->controllerVar['loggedUserRole'] < 100)
         {
-            return TRUE;
+            return true;
         }
-        return FALSE;
+        return false;
     }
     
     /**
@@ -520,14 +545,7 @@ class ViewUserEditUser extends JapaControllerAbstractPage
      */       
     private function checkEmptyFields()
     {
-        // check if some fields are empty
-        if( empty($_POST['email']) || 
-            empty($_POST['lastname']) || 
-            empty($_POST['name']) )
-        {        
-            return FALSE;
-        }  
-        return TRUE;
+        return true;
     }  
     
     /**
@@ -537,16 +555,32 @@ class ViewUserEditUser extends JapaControllerAbstractPage
      */       
     private function resetFormData()
     {
+        $this->viewVar['user']['role'] = $this->httpRequest->getParameter( 'role', 'post', 'int' );
+        $this->viewVar['user']['status'] = $this->httpRequest->getParameter( 'status', 'post', 'int' );
+        $canceledit = $this->httpRequest->getParameter( 'canceledit', 'post', 'digits' );
+        $deleteuser = $this->httpRequest->getParameter( 'deleteuser', 'post', 'digits' );
+        $uploadlogo = $this->httpRequest->getParameter( 'uploadlogo', 'post', 'alnum' );
+        $deletelogo = $this->httpRequest->getParameter( 'deletelogo', 'post', 'alnum' );
+        $uploadpicture = $this->httpRequest->getParameter( 'uploadpicture', 'post', 'alnum' );
+        $imageID2del = $this->httpRequest->getParameter( 'imageID2del', 'post', 'raw' );
+        $imageIDmoveUp = $this->httpRequest->getParameter( 'imageIDmoveUp', 'post', 'digits' );
+        $imageIDmoveDown = $this->httpRequest->getParameter( 'imageIDmoveDown', 'post', 'digits' );      
+        $fileIDmoveUp = $this->httpRequest->getParameter( 'fileIDmoveUp', 'post', 'digits' );
+        $fileIDmoveDown = $this->httpRequest->getParameter( 'fileIDmoveDown', 'post', 'digits' );        
+        $uploadfile = $this->httpRequest->getParameter( 'uploadfile', 'post', 'alnum' );
+        $fileID2del = $this->httpRequest->getParameter( 'fileID2del', 'post', 'digits' );
+        $pid = $this->httpRequest->getParameter( 'pid', 'post', 'raw' );
+        $fid = $this->httpRequest->getParameter( 'fid', 'post', 'raw' );
+        $this->viewVar['user']['email'] = $this->httpRequest->getParameter( 'email', 'post', 'email' );
+        $this->viewVar['user']['name'] = $this->httpRequest->getParameter( 'name', 'post', 'alnum' );
+        $this->viewVar['user']['passwd'] = $this->httpRequest->getParameter( 'passwd', 'post', 'alnum' );
+        $this->viewVar['user']['lastname'] = $this->httpRequest->getParameter( 'description', 'post', 'alnum' );
+        $this->viewVar['user']['description'] = JapaCommonUtil::stripSlashes($this->httpRequest->getParameter( 'description', 'post', 'raw' ));
+        $this->viewVar['user']['user_gmt'] = $this->httpRequest->getParameter( 'user_gmt', 'post', 'int' );
+        
+        
         // if empty assign form field with old values
-        $this->tplVar['user']['role']     = (int)$_POST['role'];
-        $this->tplVar['user']['email']    = SmartCommonUtil::stripSlashes((string)$_POST['email']);
-        $this->tplVar['user']['name']     = SmartCommonUtil::stripSlashes((string)$_POST['name']);
-        $this->tplVar['user']['lastname'] = SmartCommonUtil::stripSlashes((string)$_POST['lastname']);
-        $this->tplVar['user']['description'] = SmartCommonUtil::stripSlashes((string)$_POST['description']);
-        $this->tplVar['user']['login']    = SmartCommonUtil::stripSlashes((string)$_POST['login']);
-        $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes((string)$_POST['passwd']); 
-        $this->tplVar['user']['status']   = (int)$_POST['status']; 
-        $this->tplVar['user']['user_gmt'] = (int)$_POST['user_gmt']; 
+        $this->viewVar['user']['login']    = $this->httpRequest->getParameter( 'deletelogo', 'post', 'alnum' );
     } 
 
     /**
@@ -557,7 +591,7 @@ class ViewUserEditUser extends JapaControllerAbstractPage
     {
         $this->model->action('user','lock',
                              array('job'     => 'unlock',
-                                   'id_user' => (int)$_REQUEST['id_user']));    
+                                   'id_user' => (int)$this->id_user));    
     }
 }
 

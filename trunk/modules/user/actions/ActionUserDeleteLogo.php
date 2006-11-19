@@ -42,7 +42,7 @@ class ActionUserDeleteLogo extends JapaAction
 
         if(!@unlink(JAPA_BASE_DIR . 'data/user/'.$_file['media_folder'].'/'.$_file['logo']))
         {
-            throw new SmartModelException('Cant delete user logo: data/user/'.$_file['media_folder'].'/'.$_file['logo']);
+            throw new JapaModelException('Cant delete user logo: data/user/'.$_file['media_folder'].'/'.$_file['logo']);
         }
         
         $this->error = array();
@@ -64,12 +64,12 @@ class ActionUserDeleteLogo extends JapaAction
     {
         if(!is_int($data['id_user']))
         {
-            throw new SmartModelException('Wrong "id_user" format: ');        
+            throw new JapaModelException('Wrong "id_user" format: ');        
         }
         
         if(FALSE == $this->userExists( $data['id_user'] ))
         {
-            throw new SmartModelException('id_user dosent exists: '.$data['id_user']);  
+            throw new JapaModelException('id_user dosent exists: '.$data['id_user']);  
         }
         
         return TRUE;
@@ -112,7 +112,7 @@ class ActionUserDeleteLogo extends JapaAction
         if(TRUE == $this->isDirEmpty( $dir ))
         {
             // delete whole tree
-            SmartCommonUtil::deleteDirTree( $dir );
+            JapaCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
             $this->model->action( 'user','update',
                                   array('id_user' => (int)$data['id_user'],

@@ -27,7 +27,7 @@ class ActionUserDelete extends JapaAction
      * @param array $data
      */
     function perform( $data = FALSE )
-    { 
+    {
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_access
                   WHERE
                    `id_user`={$data['id_user']}";
@@ -63,7 +63,7 @@ class ActionUserDelete extends JapaAction
         if(isset($row['media_folder']) && !empty($row['media_folder']))
         {
             // delete user data media folder
-            SmartCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/user/'.$row['media_folder'] );
+            JapaCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/user/'.$row['media_folder'] );
         }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_user
@@ -89,7 +89,7 @@ class ActionUserDelete extends JapaAction
         // Check if id_user exists
         if(!is_int($data['id_user']))
         {
-            throw new SmartModelException('var id_user has wrong format');
+            throw new JapaModelException('var id_user has wrong format');
         }  
         
         return TRUE;

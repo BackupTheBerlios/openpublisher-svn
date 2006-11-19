@@ -65,24 +65,24 @@ class ActionUserUpdate extends ActionUser
         {
             if(!isset($this->tblFields_user[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' isnt set");
+            throw new JapaModelException("'error' isnt set");
         }
         elseif(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' isnt from type array");
+            throw new JapaModelException("'error' isnt from type array");
         }
 
         if(isset($data['fields']['passwd']) && !empty($data['fields']['passwd']))
         {
             if(!is_string($data['fields']['passwd']))
             {
-                throw new SmartModelException('"passwd" isnt from type string');                     
+                throw new JapaModelException('"passwd" isnt from type string');                     
             }
             
             $str_len = strlen( $data['fields']['passwd'] );
@@ -103,81 +103,72 @@ class ActionUserUpdate extends ActionUser
         {
             if(!is_string($data['fields']['name']))
             {
-                throw new SmartModelException('"name" isnt from type string');                     
+                throw new JapaModelException('"name" isnt from type string');                     
             }
             
-            if(empty($data['fields']['name']))
+            if(!empty($data['fields']['name']))
             {
-                $data['error'][] = 'Name is empty';
-                return FALSE; 
-            }
-            
-            $str_len = strlen( $data['fields']['name'] );
-            if( $str_len > 30 )
-            {
-                $data['error'][] = 'Max 30 Name chars are accepted.';
-                return FALSE;         
-            }            
+                $str_len = strlen( $data['fields']['name'] );
+                if( $str_len > 30 )
+                {
+                    $data['error'][] = 'Max 30 Name chars are accepted.';
+                    return false;         
+                }  
+            }          
         }
 
         if(isset($data['fields']['lastname']))
         {
             if(!is_string($data['fields']['lastname']))
             {
-                throw new SmartModelException('"name" isnt from type string');                     
+                throw new JapaModelException('"name" isnt from type string');                     
             }
             
-            if(empty($data['fields']['lastname']))
+            if(!empty($data['fields']['lastname']))
             {
-                $data['error'][] = 'Lastname is empty';
-                return FALSE;         
-            } 
-
-            $str_len = strlen( $data['fields']['lastname'] );
-            if( $str_len > 30 )
-            {
-                $data['error'][] = 'Max 30 lastname chars are accepted.';
-                return FALSE;        
-            }        
+                $str_len = strlen( $data['fields']['lastname'] );
+                if( $str_len > 30 )
+                {
+                    $data['error'][] = 'Max 30 lastname chars are accepted.';
+                    return false;        
+                } 
+            }       
         }
         
         if(isset($data['fields']['email']))
         {
             if(!is_string($data['fields']['email']))
             {
-                throw new SmartModelException('"name" isnt from type string');                     
+                throw new JapaModelException('"name" isnt from type string');                     
             }
             
-            if( empty($data['fields']['email']) )
+            if( !empty($data['fields']['email']) )
             {
-                $data['error'][] = 'Email entry is empty!';
-                return FALSE;        
-            } 
-
-            $str_len = strlen( $data['fields']['email'] );
-            if( $str_len > 500 )
-            {
-                $data['error'][] = 'Max 500 email chars are accepted.';
-                return FALSE;         
-            }  
+                $str_len = strlen( $data['fields']['email'] );
+                if( $str_len > 500 )
+                {
+                    $data['error'][] = 'Max 500 email chars are accepted.';
+                    return false;         
+                }  
             
-            if( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['fields']['email']) )
-            {
-                $data['error'][] = 'Email entry is not correct!';
-                return FALSE;        
-            }            
+                if( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['fields']['email']) )
+                {
+                    $data['error'][] = 'Email entry is not correct!';
+                    return false;        
+                }
+            }        
         }
         
         if(isset($data['fields']['media_folder']))
         {
             if(!is_string($data['fields']['media_folder']))
             {
-                throw new SmartModelException('"media_folder" isnt from type string');                     
+                throw new JapaModelException('"media_folder" isnt from type string');                     
             }
             
             if( @preg_match("/[^0-9-]/", $data['fields']['media_folder']) )
             {
-                throw new SmartModelException('Wrong media folder value: '.$data['fields']['media_folder']);         
+                throw new JapaModelException('Wrong media folder value: '.$data['fields']['media_folder']);         
             }             
         }        
         
@@ -185,12 +176,12 @@ class ActionUserUpdate extends ActionUser
         {
             if(!is_int($data['fields']['status']))
             {
-                throw new SmartModelException('"status" isnt from type int');                     
+                throw new JapaModelException('"status" isnt from type int');                     
             }
             
             if(($data['fields']['status'] != 1) && ($data['fields']['status'] != 2))
             {
-                throw new SmartModelException('Wrong status value: '.$data['fields']['status']);          
+                throw new JapaModelException('Wrong status value: '.$data['fields']['status']);          
             }         
         }
 
@@ -198,7 +189,7 @@ class ActionUserUpdate extends ActionUser
         {
             if(!is_int($data['fields']['role']))
             {
-                throw new SmartModelException('"role" isnt from type int');                     
+                throw new JapaModelException('"role" isnt from type int');                     
             }               
             elseif(($data['fields']['role'] < 10) || ($data['fields']['role'] > 100))
             {
@@ -209,13 +200,13 @@ class ActionUserUpdate extends ActionUser
 
         if( !is_int($data['id_user']) )
         {
-            throw new SmartModelException('"id_user" isnt from type int');         
+            throw new JapaModelException('"id_user" isnt from type int');         
         } 
         
         // Check if id_user exists
         if($this->userExists($data['id_user']) == FALSE)
         {
-            throw new SmartModelException('id_user dosent exists: '.$data['id_user']); 
+            throw new JapaModelException('id_user dosent exists: '.$data['id_user']); 
         }    
         
         return TRUE;

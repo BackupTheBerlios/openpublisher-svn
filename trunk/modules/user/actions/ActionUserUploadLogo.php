@@ -27,11 +27,11 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
     {
         $media_folder = $this->getUserMediaFolder( $data['id_user'] );
         
-        $file_info = $this->getUniqueMediaFileName($media_folder, $_FILES[$data['postName']]['name']);
+        $file_info = $this->getUniqueMediaFileName($media_folder, $data['postData']['name']);
 
-        if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
+        if(FALSE == $this->moveUploadedFile($data['postData']['tmp_name'], $file_info['file_path']))
         { 
-            throw new SmartModelException ('Cant upload file');   
+            throw new JapaModelException ('Cant upload file');   
         }
         
         $error = array();
@@ -60,11 +60,12 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
             throw new SmartModelException("'error' var isnt from type array!");
         }    
         
-        if( !isset($data['postName']) || empty($data['postName']) )
+        
+        if( (false == $data['postData']) || empty($data['postData']) )
         {        
             throw new SmartModelException ('"post_name" must be defined in view class'); 
         }    
-        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
+        elseif( !file_exists($data['postData']['tmp_name']) )
         {
             $data['error'][] = 'File upload failed';
             return FALSE;
@@ -91,7 +92,7 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
      */       
     private function isAllowedExtension( &$data )
     {
-        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
+        if(preg_match("/\.(gif|jpg|png)$/i",$data['postData']['name']))
         {
             return TRUE;
         }
