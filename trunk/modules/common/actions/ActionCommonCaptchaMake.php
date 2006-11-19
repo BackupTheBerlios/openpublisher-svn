@@ -65,15 +65,15 @@ class ActionCommonCaptchaMake extends JapaAction
     {
         if(!is_string($data['public_key']))
         {
-            throw new SmartModelException("'public_key' isnt from type string");
+            throw new JapaModelException("'public_key' isnt from type string");
         }
         if(!is_string($data['captcha_pic']))
         {
-            throw new SmartModelException("'captcha_pic' isnt from type string");
+            throw new JapaModelException("'captcha_pic' isnt from type string");
         }   
         if(!is_string($data['configPath']))
         {
-            throw new SmartModelException("'configPath' isnt from type string");
+            throw new JapaModelException("'configPath' isnt from type string");
         }
 
         return TRUE;

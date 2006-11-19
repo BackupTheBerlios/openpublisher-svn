@@ -10,7 +10,7 @@
 // ---------------------------------------------
 
 /**
- * ActionCommonSmartCoreNewVersion
+ * ActionCommonJapaCoreNewVersion
  *
  * Delete Tinymce cache
  *
@@ -20,7 +20,7 @@
  *
  */
 
-class ActionCommonSmartCoreNewVersion extends JapaAction
+class ActionCommonJapaCoreNewVersion extends JapaAction
 {
     /**
      * perform
@@ -33,7 +33,7 @@ class ActionCommonSmartCoreNewVersion extends JapaAction
         $this->model->action('common', 'deleteTinymceCache');
         
         // set new smart core version number in db
-        $this->setNewSmartCoreVersionNumber( $data['new_version'] );
+        $this->setNewJapaCoreVersionNumber( $data['new_version'] );
     }
     
     /**
@@ -43,7 +43,7 @@ class ActionCommonSmartCoreNewVersion extends JapaAction
     {
         if(!is_string($data['new_version']))
         {
-            throw new SmartModelException("'new_version' isnt from type string");
+            throw new JapaModelException("'new_version' isnt from type string");
         }    
         return TRUE;
     }   
@@ -53,7 +53,7 @@ class ActionCommonSmartCoreNewVersion extends JapaAction
      *
      * @param string $version  version number
      */
-    private function setNewSmartCoreVersionNumber( $version )
+    private function setNewJapaCoreVersionNumber( $version )
     {
         $sql = "UPDATE {$this->config['dbTablePrefix']}common_config
                     SET

@@ -14,7 +14,7 @@
  *
  * USAGE:
  *
- * $->model->action('common','imageThumb',
+ * $model->action('common','imageThumb',
  *                  array('imgSource'     => (string), // absolute path to the source picture
  *                        'imgDestName'   => (string), // name of the thumnail file name
  *                        'imgDestWidth'  => (int),    // thumnail width
@@ -72,38 +72,38 @@ class ActionCommonImageThumb extends JapaAction
     {
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' var isnt set!");
+            throw new JapaModelException("'error' var isnt set!");
         }
         elseif(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' var isnt from type array!");
+            throw new JapaModelException("'error' var isnt from type array!");
         }
         
         if(!isset($data['imgDestWidth']))
         {
-            throw new SmartModelException("'imgDestWidth' isnt defined");
+            throw new JapaModelException("'imgDestWidth' isnt defined");
         }
         if(!is_int($data['imgDestWidth']))
         {
-            throw new SmartModelException("'imgDestWidth' isnt from type int");
+            throw new JapaModelException("'imgDestWidth' isnt from type int");
         }
         
         if(!isset($data['imgDestName']))
         {
-            throw new SmartModelException("'imgDestName' isnt defined");
+            throw new JapaModelException("'imgDestName' isnt defined");
         }        
         if(!is_string($data['imgDestName']))
         {
-            throw new SmartModelException("'imgDestName' isnt from type string");
+            throw new JapaModelException("'imgDestName' isnt from type string");
         }  
         
         if(!isset($data['imgSource']))
         {
-            throw new SmartModelException("'imgSource' isnt defined");
+            throw new JapaModelException("'imgSource' isnt defined");
         }        
         if(!is_string($data['imgSource']))
         {
-            throw new SmartModelException("'imgSource' isnt from type string");
+            throw new JapaModelException("'imgSource' isnt from type string");
         }         
         if(!file_exists($data['imgSource']))
         {
@@ -112,15 +112,15 @@ class ActionCommonImageThumb extends JapaAction
 
         if(!isset($data['imgDestFolder']))
         {
-            throw new SmartModelException("'imgDestFolder' isnt defined");
+            throw new JapaModelException("'imgDestFolder' isnt defined");
         }        
         if(!is_string($data['imgDestFolder']))
         {
-            throw new SmartModelException("'imgDestFolder' isnt from type string");
+            throw new JapaModelException("'imgDestFolder' isnt from type string");
         } 
         if(!is_dir($data['imgDestFolder']))
         {
-            throw new SmartModelException("'imgDestFolder' isnt a directory");
+            throw new JapaModelException("'imgDestFolder' isnt a directory");
         }        
         if(!is_writeable($data['imgDestFolder']))
         {

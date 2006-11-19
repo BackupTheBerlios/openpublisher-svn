@@ -86,12 +86,12 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
     {
         if(preg_match("/[^a-zA-Z0-9_]/", $moduleView))
         {
-            throw new SmartViewException('Wrong view fromat: ' . $moduleView);
+            throw new JapaViewException('Wrong view fromat: ' . $moduleView);
         }
 
         if(!@file_exists(JAPA_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php'))
         {
-            throw new SmartViewException('View dosent exists: ' . JAPA_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php');
+            throw new JapaViewException('View dosent exists: ' . JAPA_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php');
         }
     }
     

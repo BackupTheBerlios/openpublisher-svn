@@ -62,15 +62,15 @@ class ActionCommonCaptchaValidate extends JapaAction
     {
         if(!is_string($data['public_key']))
         {
-            throw new SmartModelException("'public_key' isnt from type string");
+            throw new JapaModelException("'public_key' isnt from type string");
         }
         if(!is_string($data['turing_key']))
         {
-            throw new SmartModelException("'turing_key' isnt from type string");
+            throw new JapaModelException("'turing_key' isnt from type string");
         }   
         if(!is_string($data['configPath']))
         {
-            throw new SmartModelException("'configPath' isnt from type string");
+            throw new JapaModelException("'configPath' isnt from type string");
         }
 
         return TRUE;

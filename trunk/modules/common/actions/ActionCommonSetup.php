@@ -46,7 +46,7 @@ class ActionCommonSetup extends JapaAction
             $this->model->dba->connect();  
             $this->model->dba->query("SET NAMES '{$data['config']['db']['dbcharset']}'"); 
         }
-        catch(SmartDbException $e)
+        catch(JapaDbException $e)
         {
             // if no database connection stop here
             throw new Exception("Connection to the database (server?) fails. Please check connection data!",0);
@@ -170,7 +170,7 @@ class ActionCommonSetup extends JapaAction
         }
         else
         {
-            throw new SmartModelException('Charset not supported: '.$charset);
+            throw new JapaModelException('Charset not supported: '.$charset);
         }
     } 
     

@@ -77,22 +77,22 @@ class ActionCommonRssBuilderAddItem extends JapaAction
     {
         if(!isset($data['rssObject']))
         {
-            throw new SmartModelException("Missing 'rssObject' object var"); 
+            throw new JapaModelException("Missing 'rssObject' object var"); 
         } 
         if(!is_object($data['rssObject']))
         {
-            throw new SmartModelException("Var 'rssObject' isnt from type object"); 
+            throw new JapaModelException("Var 'rssObject' isnt from type object"); 
         }        
         
 
         if(!isset($data['title']))
         {
-            throw new SmartModelException("Missing 'title' var"); 
+            throw new JapaModelException("Missing 'title' var"); 
         } 
 
         if(!isset($data['about']))
         {
-            throw new SmartModelException("Missing 'about' var");
+            throw new JapaModelException("Missing 'about' var");
         }
         
         return TRUE;

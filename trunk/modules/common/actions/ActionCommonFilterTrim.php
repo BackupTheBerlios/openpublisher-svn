@@ -37,7 +37,7 @@ class ActionCommonFilterTrim extends JapaAction
     {
         if(!is_string($data['str']))
         {
-            throw new SmartModelException("'str' isnt from type string");
+            throw new JapaModelException("'str' isnt from type string");
         }    
         return TRUE;
     }    

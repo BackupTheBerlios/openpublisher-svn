@@ -51,7 +51,7 @@ class ActionCommonInit extends JapaAction
     {
         $mysqlExtension = $this->getMySqlExtensionType();
         // db class
-        require_once(JAPA_MODULES_DIR . 'common/includes/Smart'.$mysqlExtension.'.php');
+        require_once(JAPA_MODULES_DIR . 'common/includes/Japa'.$mysqlExtension.'.php');
          
         // Check if a setup was successfull done else launch setup > 'setup' module
         if(file_exists($this->config['config_path'] . 'dbConnect.php'))
@@ -60,7 +60,7 @@ class ActionCommonInit extends JapaAction
         }
         else
         {
-            throw new SmartForwardAdminViewException( $this->config['setup_module'] );        
+            throw new JapaForwardAdminViewException( $this->config['setup_module'] );        
         }
 
         // set db config vars
@@ -84,10 +84,10 @@ class ActionCommonInit extends JapaAction
             $this->model->dba->connect();  
             $this->model->dba->query("SET NAMES '{$db['dbcharset']}'");        
         }
-        catch(SmartDbException $e)
+        catch(JapaDbException $e)
         {
             // if no database connection stop here
-            throw new SmartModelException;
+            throw new JapaModelException;
         }
 
         // load global config variables of the common module   
@@ -229,7 +229,7 @@ class ActionCommonInit extends JapaAction
         } 
         else
         {
-            throw new SmartModelException( "It seem that there isnt the php extension 'mysql' nor 'mysqli' installed on your system. Check this!" );        
+            throw new JapaModelException( "It seem that there isnt the php extension 'mysql' nor 'mysqli' installed on your system. Check this!" );        
         }
     }    
     

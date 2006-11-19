@@ -62,11 +62,11 @@ class ActionCommonMysqlInfo extends JapaAction
     {
         if(!isset($data['result']))
         {
-            throw new SmartModelException("'result' var isnt set!");
+            throw new JapaModelException("'result' var isnt set!");
         }
         elseif(!is_array($data['result']))
         {
-            throw new SmartModelException("'result' var isnt from type array!");
+            throw new JapaModelException("'result' var isnt from type array!");
         }      
         
         return TRUE;

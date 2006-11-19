@@ -129,114 +129,114 @@ class ActionCommonAjaxAction extends JapaAction
         {
             if( !is_array( $data['assignAttr'] ) )
             {
-                throw new SmartModelException("'assignAttr' isnt from type array");            
+                throw new JapaModelException("'assignAttr' isnt from type array");            
             }
             if( !isset( $data['assignAttr']['id'] ) )
             {
-                throw new SmartModelException("In array 'assignAttr' 'id' is required");            
+                throw new JapaModelException("In array 'assignAttr' 'id' is required");            
             }  
             if( !isset( $data['assignAttr']['attr'] ) )
             {
-                throw new SmartModelException("In array 'assignAttr' 'attr' is required");            
+                throw new JapaModelException("In array 'assignAttr' 'attr' is required");            
             }  
             if( !isset( $data['assignAttr']['message'] ) )
             {
-                throw new SmartModelException("In array 'assignAttr' 'message' is required");            
+                throw new JapaModelException("In array 'assignAttr' 'message' is required");            
             }             
         }
         if( isset( $data['prependAttr'] ) )
         {
             if( !is_array( $data['prependAttr'] ) )
             {
-                throw new SmartModelException("'prependAttr' isnt from type array");            
+                throw new JapaModelException("'prependAttr' isnt from type array");            
             }
             if( !isset( $data['prependAttr']['id'] ) )
             {
-                throw new SmartModelException("In array 'prependAttr' 'id' is required");            
+                throw new JapaModelException("In array 'prependAttr' 'id' is required");            
             }  
             if( !isset( $data['prependAttr']['attr'] ) )
             {
-                throw new SmartModelException("In array 'prependAttr' 'attr' is required");            
+                throw new JapaModelException("In array 'prependAttr' 'attr' is required");            
             }  
             if( !isset( $data['prependAttr']['message'] ) )
             {
-                throw new SmartModelException("In array 'prependAttr' 'message' is required");            
+                throw new JapaModelException("In array 'prependAttr' 'message' is required");            
             }             
         }
         if( isset( $data['appendAttr'] ) )
         {
             if( !is_array( $data['appendAttr'] ) )
             {
-                throw new SmartModelException("'appendAttr' isnt from type array");            
+                throw new JapaModelException("'appendAttr' isnt from type array");            
             }
             if( !isset( $data['appendAttr']['id'] ) )
             {
-                throw new SmartModelException("In array 'appendAttr' 'id' is required");            
+                throw new JapaModelException("In array 'appendAttr' 'id' is required");            
             }  
             if( !isset( $data['appendAttr']['attr'] ) )
             {
-                throw new SmartModelException("In array 'appendAttr' 'attr' is required");            
+                throw new JapaModelException("In array 'appendAttr' 'attr' is required");            
             }  
             if( !isset( $data['appendAttr']['message'] ) )
             {
-                throw new SmartModelException("In array 'appendAttr' 'message' is required");            
+                throw new JapaModelException("In array 'appendAttr' 'message' is required");            
             }             
         }    
         if( isset( $data['clearAttr'] ) )
         {
             if( !is_array( $data['clearAttr'] ) )
             {
-                throw new SmartModelException("'clearAttr' isnt from type array");            
+                throw new JapaModelException("'clearAttr' isnt from type array");            
             }
             if( !isset( $data['clearAttr']['id'] ) )
             {
-                throw new SmartModelException("In array 'clearAttr' 'id' is required");            
+                throw new JapaModelException("In array 'clearAttr' 'id' is required");            
             }  
             if( !isset( $data['clearAttr']['attr'] ) )
             {
-                throw new SmartModelException("In array 'clearAttr' 'attr' is required");            
+                throw new JapaModelException("In array 'clearAttr' 'attr' is required");            
             }            
         }   
         if( isset( $data['createNode'] ) )
         {
             if( !is_array( $data['createNode'] ) )
             {
-                throw new SmartModelException("'createNode' isnt from type array");            
+                throw new JapaModelException("'createNode' isnt from type array");            
             }
             if( !isset( $data['createNode']['id'] ) )
             {
-                throw new SmartModelException("In array 'createNode' 'id' is required");            
+                throw new JapaModelException("In array 'createNode' 'id' is required");            
             }  
             if( !isset( $data['createNode']['attr'] ) )
             {
-                throw new SmartModelException("In array 'createNode' 'attr' is required");            
+                throw new JapaModelException("In array 'createNode' 'attr' is required");            
             }  
             if( !isset( $data['createNode']['tag'] ) )
             {
-                throw new SmartModelException("In array 'createNode' 'tag' is required");            
+                throw new JapaModelException("In array 'createNode' 'tag' is required");            
             } 
             if( !isset( $data['createNode']['type'] ) )
             {
-                throw new SmartModelException("In array 'createNode' 'type' is required");            
+                throw new JapaModelException("In array 'createNode' 'type' is required");            
             }             
         }  
         if( isset( $data['replaceNode'] ) )
         {
             if( !is_array( $data['replaceNode'] ) )
             {
-                throw new SmartModelException("'replaceNode' isnt from type array");            
+                throw new JapaModelException("'replaceNode' isnt from type array");            
             }
             if( !isset( $data['replaceNode']['id'] ) )
             {
-                throw new SmartModelException("In array 'replaceNode' 'id' is required");            
+                throw new JapaModelException("In array 'replaceNode' 'id' is required");            
             }  
             if( !isset( $data['replaceNode']['attr'] ) )
             {
-                throw new SmartModelException("In array 'replaceNode' 'attr' is required");            
+                throw new JapaModelException("In array 'replaceNode' 'attr' is required");            
             }  
             if( !isset( $data['replaceNode']['tag'] ) )
             {
-                throw new SmartModelException("In array 'replaceNode' 'tag' is required");            
+                throw new JapaModelException("In array 'replaceNode' 'tag' is required");            
             }             
         }         
         return TRUE;

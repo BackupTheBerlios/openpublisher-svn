@@ -81,22 +81,22 @@ class ActionCommonRssFetch extends JapaAction
     {
         if( !isset($data['url']) )
         {
-            throw new SmartModelException('url var is required');        
+            throw new JapaModelException('url var is required');        
         }
         if( !is_string($data['url']) )
         {
-            throw new SmartModelException('url var isnt from type string');        
+            throw new JapaModelException('url var isnt from type string');        
         }        
 
         if( isset($data['encoding']) )
         {
             if( !is_string($data['encoding']) )
             {
-                throw new SmartModelException('encoding var isnt from type string');        
+                throw new JapaModelException('encoding var isnt from type string');        
             }  
             if( empty($data['encoding']) )
             {
-                throw new SmartModelException('encoding var is empty');        
+                throw new JapaModelException('encoding var is empty');        
             }               
         }
   
@@ -104,7 +104,7 @@ class ActionCommonRssFetch extends JapaAction
         {
             if( !is_int($data['cache_time']) )
             {
-                throw new SmartModelException('cache_time var isnt from type int');        
+                throw new JapaModelException('cache_time var isnt from type int');        
             }                
         }      
         return TRUE;

@@ -15,7 +15,7 @@
  */
 
 /**
- * Every action must extends from the parent class SmartAction
+ * Every action must extends from the parent class JapaAction
  *
  * The name of an action class must follows the rules:
  * [Action][Module name with first letter uppercase][Action name with first letter uppercase]
@@ -90,7 +90,7 @@ class ActionCommonTest extends JapaAction
         //
         if( !is_int($data['article_id']) )
         {
-            throw new SmartModelException("No valide Article ID", JAPA_ACTION_ERROR);
+            throw new JapaModelException("No valide Article ID", JAPA_ACTION_ERROR);
         }
         
         *
