@@ -61,7 +61,7 @@ class ActionUserUpdateOptions extends smartAction
             // check if database fields exists
             if(!isset($this->tblFields[$key]))
             {
-                throw new SmartModelException("user_config table field '".$key."' dosent exists!");
+                throw new JapaModelException("user_config table field '".$key."' dosent exists!");
             }
         }
 

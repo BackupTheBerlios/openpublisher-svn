@@ -53,17 +53,17 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
     {
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' var isnt set!");
+            throw new JapaModelException("'error' var isnt set!");
         }
         elseif(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' var isnt from type array!");
+            throw new JapaModelException("'error' var isnt from type array!");
         }    
         
         
         if( (false == $data['postData']) || empty($data['postData']) )
         {        
-            throw new SmartModelException ('"post_name" must be defined in view class'); 
+            throw new JapaModelException ('"post_name" must be defined in view class'); 
         }    
         elseif( !file_exists($data['postData']['tmp_name']) )
         {
@@ -73,7 +73,7 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
         
         if(!is_int($data['id_user']))
         {
-            throw new SmartModelException('Wrong id_user format');        
+            throw new JapaModelException('Wrong id_user format');        
         }  
         
         if(FALSE == $this->isAllowedExtension( $data ))
