@@ -59,19 +59,19 @@ class ActionArticleGetStatus extends JapaAction
     { 
         if(!isset($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt defined');        
+            throw new JapaModelException('"id_article" isnt defined');        
         }
         if(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }
         if(!isset($data['result']))
         {
-            throw new SmartModelException('Missing "result" array var: '); 
+            throw new JapaModelException('Missing "result" array var: '); 
         }
         elseif(!is_array($data['result']))
         {
-            throw new SmartModelException('"result" isnt from type array'); 
+            throw new JapaModelException('"result" isnt from type array'); 
         }           
         
         return TRUE;

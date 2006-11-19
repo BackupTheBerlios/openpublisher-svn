@@ -71,21 +71,21 @@ class ActionArticleRegisterViews extends JapaAction
     {
         if( !isset($data['action']) || !is_string($data['action']) )
         {        
-            throw new SmartModelException ('"action" isnt defined or isnt from type string'); 
+            throw new JapaModelException ('"action" isnt defined or isnt from type string'); 
         }
         
         if(($data['action'] != 'register') && ($data['action'] != 'unregister'))
         {
-            throw new SmartModelException ('"action" value must be "register" or "unregister"');         
+            throw new JapaModelException ('"action" value must be "register" or "unregister"');         
         }
 
         if( ($data['action'] == 'register') && (!isset($data['name']) || empty($data['name'])))
         {
-            throw new SmartModelException ('"name" isnt defined or is empty');                 
+            throw new JapaModelException ('"name" isnt defined or is empty');                 
         }
         elseif( ($data['action'] == 'unregister') && (!isset($data['id_view']) || !is_int($data['id_view'])))
         {
-            throw new SmartModelException ('"id_view" isnt defined or is not from type int');                 
+            throw new JapaModelException ('"id_view" isnt defined or is not from type int');                 
         }        
         return TRUE;
     }

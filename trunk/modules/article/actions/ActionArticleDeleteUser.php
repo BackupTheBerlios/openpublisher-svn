@@ -44,11 +44,11 @@ class ActionArticleDeleteUser extends JapaAction
     {         
         if(!isset($data['id_user']))
         {
-            throw new SmartModelException('"id_user" isnt defined');        
+            throw new JapaModelException('"id_user" isnt defined');        
         }    
         elseif(!is_array($data['id_user']) && !is_int($data['id_user']))
         {
-            throw new SmartModelException('"id_user" isnt from type int or array');        
+            throw new JapaModelException('"id_user" isnt from type int or array');        
         }
         
         return TRUE;

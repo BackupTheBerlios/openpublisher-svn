@@ -1,6 +1,6 @@
 <?php
 // ----------------------------------------------------------------------
-// Smart3 PHP Framework
+// Japa3 PHP Framework
 // Copyright (c) 2004, 2005
 // by Armand Turpel < framework@smart3.org >
 // http://www.smart3.org/

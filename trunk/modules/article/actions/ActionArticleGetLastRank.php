@@ -59,17 +59,17 @@ class ActionArticleGetLastRank extends JapaAction
     { 
         if(!isset($data['id_node']))
         {
-            throw new SmartModelException('id_node isnt defined');        
+            throw new JapaModelException('id_node isnt defined');        
         }
         
         if(!is_int($data['id_node']))
         {
-            throw new SmartModelException('id_node isnt from type int');        
+            throw new JapaModelException('id_node isnt from type int');        
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException('Missing "result" var reference'); 
+            throw new JapaModelException('Missing "result" var reference'); 
         }       
 
         return TRUE;

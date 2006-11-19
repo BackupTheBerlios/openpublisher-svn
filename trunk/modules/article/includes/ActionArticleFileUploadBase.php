@@ -91,18 +91,18 @@ class ActionArticleFileUploadBase extends JapaAction
         // create unique folder that dosent exists       
         do
         {
-            $folder = SmartCommonUtil::unique_crc32();
+            $folder = JapaCommonUtil::unique_crc32();
         }
         while(@is_dir(JAPA_BASE_DIR . 'data/article/' . $folder));
         
         if(!mkdir(JAPA_BASE_DIR . 'data/article/' . $folder, $this->config['media_folder_rights']))
         {
-            throw new SmartModelException('Cant create media folder: ' . $folder);
+            throw new JapaModelException('Cant create media folder: ' . $folder);
         }
 
         if(!mkdir(JAPA_BASE_DIR . 'data/article/' . $folder . '/thumb', $this->config['media_folder_rights']))
         {
-            throw new SmartModelException('Cant create media folder: ' . $folder . '/thumb');
+            throw new JapaModelException('Cant create media folder: ' . $folder . '/thumb');
         }
 
         $error = array();

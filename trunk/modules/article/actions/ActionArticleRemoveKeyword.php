@@ -53,7 +53,7 @@ class ActionArticleRemoveKeyword extends JapaAction
         {
             if(!is_int($data['id_article']))
             {
-                throw new SmartModelException('"id_article" isnt from type int');        
+                throw new JapaModelException('"id_article" isnt from type int');        
             }   
             $this->sqlArticle = "`id_article`={$data['id_article']}";
             $selcetedItem = TRUE;
@@ -63,7 +63,7 @@ class ActionArticleRemoveKeyword extends JapaAction
         {
             if(!is_int($data['id_key']))
             {
-                throw new SmartModelException("'id_key' isnt from type int");
+                throw new JapaModelException("'id_key' isnt from type int");
             }  
             if(isset($selcetedItem))
             {
@@ -75,7 +75,7 @@ class ActionArticleRemoveKeyword extends JapaAction
 
         if(!isset($selcetedItem))
         {
-            throw new SmartModelException('Whether "id_key" nor "id_article" is defined');                      
+            throw new JapaModelException('Whether "id_key" nor "id_article" is defined');                      
         }
          
         return TRUE;

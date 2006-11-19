@@ -79,7 +79,7 @@ class ActionArticleCreateDiff extends JapaAction
         
         if($res->numRows() == 0)
         {
-            throw new SmartModelException('No article with id: '.$data['id_article']);
+            throw new JapaModelException('No article with id: '.$data['id_article']);
         }
         
         $old_article = $res->fetchAssoc();
@@ -96,11 +96,11 @@ class ActionArticleCreateDiff extends JapaAction
     { 
         if(!isset($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt defined');        
+            throw new JapaModelException('"id_article" isnt defined');        
         }
         elseif(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }
         
         return TRUE;

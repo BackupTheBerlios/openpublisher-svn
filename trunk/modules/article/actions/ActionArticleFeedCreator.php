@@ -47,13 +47,13 @@ class ActionArticleFeedCreator extends JapaAction
     {
         if(!isset( $data['format'] ))
         {
-            throw new SmartModelException("No RSS 'format' defined");  
+            throw new JapaModelException("No RSS 'format' defined");  
         }
         else
         {
             if(!preg_match("/rss|atom/", $data['format']))
             {
-                throw new SmartModelException("Wrong RSS 'format' definition");  
+                throw new JapaModelException("Wrong RSS 'format' definition");  
             }   
         }
 

@@ -146,7 +146,7 @@ class ActionArticleUpdateArticle extends JapaAction
     { 
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         // check if database fields exists
@@ -154,30 +154,30 @@ class ActionArticleUpdateArticle extends JapaAction
         {
             if(!isset($this->tblFields_article[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }
 
         // error is required
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' array isnt defined");
+            throw new JapaModelException("'error' array isnt defined");
         }
         elseif(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' isnt from type array");
+            throw new JapaModelException("'error' isnt from type array");
         }  
 
         if(isset($data['fields']['title']))
         {
             if(!is_string($data['fields']['title']))
             {
-                throw new SmartModelException("'title' isnt from type string");
+                throw new JapaModelException("'title' isnt from type string");
             }        
             elseif(empty($data['fields']['title']))
             {
@@ -189,7 +189,7 @@ class ActionArticleUpdateArticle extends JapaAction
         {
             if(!is_int($data['fields']['id_node']))
             {
-                throw new SmartModelException("'id_node' isnt from type int");
+                throw new JapaModelException("'id_node' isnt from type int");
             }        
             elseif($data['fields']['id_node'] == 0)
             {
@@ -204,19 +204,19 @@ class ActionArticleUpdateArticle extends JapaAction
             {
                 if(!preg_match("/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}/",$data['fields']['changedate']))
                 {
-                    throw new SmartModelException("'changedate' isnt from type '0000-00-00 00:00'");
+                    throw new JapaModelException("'changedate' isnt from type '0000-00-00 00:00'");
                 }
                 if(!isset($data['fields']['changestatus']))
                 {
-                    throw new SmartModelException("'changestatus' isnt defined");
+                    throw new JapaModelException("'changestatus' isnt defined");
                 }     
                 if(!is_int($data['fields']['changestatus']))
                 {
-                    throw new SmartModelException("'changestatus' isnt from type int");
+                    throw new JapaModelException("'changestatus' isnt from type int");
                 }  
                 if(($data['fields']['changestatus'] < 0) || ($data['fields']['changestatus'] > 5))
                 {
-                    throw new SmartModelException("'changestatus' allowed value = 0-5");
+                    throw new JapaModelException("'changestatus' allowed value = 0-5");
                 }   
             }
         }          

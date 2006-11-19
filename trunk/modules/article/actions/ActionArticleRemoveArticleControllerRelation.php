@@ -46,11 +46,11 @@ class ActionArticleRemoveArticleViewRelation extends JapaAction
     { 
         if(!isset($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt defined');        
+            throw new JapaModelException('"id_article" isnt defined');        
         }    
         if(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }   
         return TRUE;
     }    

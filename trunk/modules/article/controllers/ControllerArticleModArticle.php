@@ -326,8 +326,8 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
         // if no error occure update text data
         if(count($this->tplVar['error']) == 0)
         {
-            $articleFields = array('title'  => SmartCommonUtil::stripSlashes((string)$_POST['title']),
-                                   'body'   => SmartCommonUtil::stripSlashes((string)$_POST['body']));
+            $articleFields = array('title'  => JapaCommonUtil::stripSlashes((string)$_POST['title']),
+                                   'body'   => JapaCommonUtil::stripSlashes((string)$_POST['body']));
 
             // add fields depended on configuration settings
             $this->addSetArticleFields( $articleFields );         
@@ -462,7 +462,7 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
         $tmp_array = array();
         foreach($var_array as $f)
         {
-            $tmp_array[] = preg_replace("/\"/","'",SmartCommonUtil::stripSlashes( $f ));
+            $tmp_array[] = preg_replace("/\"/","'",JapaCommonUtil::stripSlashes( $f ));
         }
 
         return $tmp_array;
@@ -517,23 +517,23 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
     {
         if($this->config['article']['use_overtitle'] == 1)
         {
-            $articleFields['overtitle'] = SmartCommonUtil::stripSlashes((string)$_POST['overtitle']);
+            $articleFields['overtitle'] = JapaCommonUtil::stripSlashes((string)$_POST['overtitle']);
         }
         if($this->config['article']['use_subtitle'] == 1)
         {
-            $articleFields['subtitle'] = SmartCommonUtil::stripSlashes((string)$_POST['subtitle']);
+            $articleFields['subtitle'] = JapaCommonUtil::stripSlashes((string)$_POST['subtitle']);
         }   
         if($this->config['article']['use_description'] == 1)
         {
-            $articleFields['description'] = SmartCommonUtil::stripSlashes((string)$_POST['description']);
+            $articleFields['description'] = JapaCommonUtil::stripSlashes((string)$_POST['description']);
         }
         if($this->config['article']['use_header'] == 1)
         {
-            $articleFields['header'] = SmartCommonUtil::stripSlashes((string)$_POST['header']);
+            $articleFields['header'] = JapaCommonUtil::stripSlashes((string)$_POST['header']);
         }   
         if($this->config['article']['use_ps'] == 1)
         {
-            $articleFields['ps'] = SmartCommonUtil::stripSlashes((string)$_POST['ps']);
+            $articleFields['ps'] = JapaCommonUtil::stripSlashes((string)$_POST['ps']);
         }               
     }  
     

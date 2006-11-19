@@ -57,12 +57,12 @@ class ActionArticleSetStatusChangeDate extends JapaAction
     {
         if(!isset($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt set');        
+            throw new JapaModelException('"id_article" isnt set');        
         }
         
         if(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }
 
 		if(isset($data['remove']) && ($data['remove'] == true))
@@ -72,22 +72,22 @@ class ActionArticleSetStatusChangeDate extends JapaAction
 
         if(!isset($data['status']))
         {
-            throw new SmartModelException('"status" isnt set');        
+            throw new JapaModelException('"status" isnt set');        
         }
         
         if(!is_int($data['status']))
         {
-            throw new SmartModelException('"status" isnt from type int');        
+            throw new JapaModelException('"status" isnt from type int');        
         }
 
         if(!isset($data['date']))
         {
-            throw new SmartModelException('"date" isnt set');        
+            throw new JapaModelException('"date" isnt set');        
         }
         
         if(!preg_match("/[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}/",$data['date']))
         {
-            throw new SmartModelException('"date" has wrong format');        
+            throw new JapaModelException('"date" has wrong format');        
         }
 
         return TRUE;

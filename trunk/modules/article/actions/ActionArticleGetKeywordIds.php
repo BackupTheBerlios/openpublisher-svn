@@ -68,29 +68,29 @@ class ActionArticleGetKeywordIds extends JapaAction
     {
         if(!isset($data['id_article'])) 
         {
-            throw new SmartModelException("'id_article' isnt defined");
+            throw new JapaModelException("'id_article' isnt defined");
         }
         elseif(!is_int($data['id_article']))
         {
-            throw new SmartModelException("'id_article' isnt from type int");
+            throw new JapaModelException("'id_article' isnt from type int");
         }         
 
         if(isset($data['key_status']))
         {
             if(!is_array($data['key_status']))
             {
-                throw new SmartModelException('"key_status" isnt an array'); 
+                throw new JapaModelException('"key_status" isnt an array'); 
             }
             else
             {
                 if(!preg_match("/>|<|=|>=|<=|!=/",$data['key_status'][0]))
                 {
-                    throw new SmartModelException('Wrong "key_status" array[0] value: '.$data['status'][0]); 
+                    throw new JapaModelException('Wrong "key_status" array[0] value: '.$data['status'][0]); 
                 }
 
                 if(!isset($data['key_status'][1]) || preg_match("/[^0-9]+/",$data['key_status'][1]))
                 {
-                    throw new SmartModelException('Wrong "key_status" array[1] value: '.$data['key_status'][1]); 
+                    throw new JapaModelException('Wrong "key_status" array[1] value: '.$data['key_status'][1]); 
                 }
             }
         }

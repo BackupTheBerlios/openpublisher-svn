@@ -119,13 +119,13 @@ class ViewArticleSearch extends JapaControllerAbstractPage
     {
         if( isset($_POST['search']) )
         {
-            $this->searchString = SmartCommonUtil::stripSlashes((string)$_POST['search']);
-            $this->pagerUrlSearchString = urlencode(SmartCommonUtil::stripSlashes((string)$_POST['search']));
+            $this->searchString = JapaCommonUtil::stripSlashes((string)$_POST['search']);
+            $this->pagerUrlSearchString = urlencode(JapaCommonUtil::stripSlashes((string)$_POST['search']));
         }
         elseif( isset($_GET['search']) )
         {
-            $this->searchString = urldecode(SmartCommonUtil::stripSlashes((string)$_GET['search']));
-            $this->pagerUrlSearchString = SmartCommonUtil::stripSlashes((string)$_GET['search']);
+            $this->searchString = urldecode(JapaCommonUtil::stripSlashes((string)$_GET['search']));
+            $this->pagerUrlSearchString = JapaCommonUtil::stripSlashes((string)$_GET['search']);
         }        
         else
         {

@@ -53,7 +53,7 @@ class ActionArticleRemoveUser extends JapaAction
         {
             if(!is_int($data['id_article']))
             {
-                throw new SmartModelException('"id_article" isnt from type int');        
+                throw new JapaModelException('"id_article" isnt from type int');        
             }   
             $this->sqlArticle = "`id_article`={$data['id_article']}";
             $selcetedItem = TRUE;
@@ -63,7 +63,7 @@ class ActionArticleRemoveUser extends JapaAction
         {
             if(!is_int($data['id_user']) && !is_array($data['id_user']))
             {
-                throw new SmartModelException("'id_user' isnt from type int or array");
+                throw new JapaModelException("'id_user' isnt from type int or array");
             }  
             if(isset($selcetedItem))
             {
@@ -79,7 +79,7 @@ class ActionArticleRemoveUser extends JapaAction
                 }
                 else
                 {
-                    throw new SmartModelException("'id_user' array is empty");
+                    throw new JapaModelException("'id_user' array is empty");
                 }
             }
             else
@@ -92,7 +92,7 @@ class ActionArticleRemoveUser extends JapaAction
 
         if(!isset($selcetedItem))
         {
-            throw new SmartModelException('Whether "id_user" nor "id_article" is defined');                      
+            throw new JapaModelException('Whether "id_user" nor "id_article" is defined');                      
         }
          
         return TRUE;

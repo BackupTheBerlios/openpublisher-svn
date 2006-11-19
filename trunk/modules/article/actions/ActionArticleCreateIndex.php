@@ -65,7 +65,7 @@ class ActionArticleCreateIndex extends JapaAction
     { 
         if(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }
 
         return TRUE;

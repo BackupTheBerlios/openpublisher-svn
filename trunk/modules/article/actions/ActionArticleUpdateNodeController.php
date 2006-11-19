@@ -58,19 +58,19 @@ class ActionArticleUpdateNodeView extends ActionNavigation
     { 
         if(!isset($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt defined');        
+            throw new JapaModelException('"id_node" isnt defined');        
         }    
         if(!is_int($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt from type int');        
+            throw new JapaModelException('"id_node" isnt from type int');        
         }
         if(!isset($data['id_view']))
         {
-            throw new SmartModelException('"id_view" isnt defined');        
+            throw new JapaModelException('"id_view" isnt defined');        
         }    
         if(!is_int($data['id_view']))
         {
-            throw new SmartModelException('"id_view" isnt from type int');        
+            throw new JapaModelException('"id_view" isnt from type int');        
         }        
         return TRUE;
     }

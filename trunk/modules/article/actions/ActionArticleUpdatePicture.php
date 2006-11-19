@@ -45,29 +45,29 @@ class ActionArticleUpdatePicture extends JapaAction
     {
         if(!isset($data['action']) || (($data['action'] != 'delete') && ($data['action'] != 'update')))
         {      
-            throw new SmartModelException("No/Wrong 'action' defined. Required!");
+            throw new JapaModelException("No/Wrong 'action' defined. Required!");
         }
         
         if(!isset($data['id_pic']))
         {
-            throw new SmartModelException("No 'id_pic' defined. Required!");
+            throw new JapaModelException("No 'id_pic' defined. Required!");
         }
 
         if(!is_int($data['id_pic']))
         {
-            throw new SmartModelException("'id_pic' isnt from type int");
+            throw new JapaModelException("'id_pic' isnt from type int");
         }
 
         if($data['action'] == 'delete')
         {
             if(!isset($data['id_article']))
             {
-                throw new SmartModelException("No 'id_article' defined. Required!");
+                throw new JapaModelException("No 'id_article' defined. Required!");
             }
 
             if(!is_int($data['id_article']))
             {
-                throw new SmartModelException("'id_article' isnt from type int");
+                throw new JapaModelException("'id_article' isnt from type int");
             }
         }
         

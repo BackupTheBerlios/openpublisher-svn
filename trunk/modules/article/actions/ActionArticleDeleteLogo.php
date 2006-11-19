@@ -41,7 +41,7 @@ class ActionArticleDeleteLogo extends JapaAction
 
         if(!@unlink(JAPA_BASE_DIR . 'data/article/'.$article['media_folder'].'/'.$article['logo']))
         {
-            throw new SmartModelException('Cant delete user logo: data/article/'.$article['media_folder'].'/'.$article['logo']);
+            throw new JapaModelException('Cant delete user logo: data/article/'.$article['media_folder'].'/'.$article['logo']);
         }
                             
         $this->model->action('article','updateArticle',
@@ -64,11 +64,11 @@ class ActionArticleDeleteLogo extends JapaAction
     {
         if(!isset($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt defined');        
+            throw new JapaModelException('"id_article" isnt defined');        
         }    
         elseif(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }
         
         return TRUE;
@@ -85,7 +85,7 @@ class ActionArticleDeleteLogo extends JapaAction
         if(TRUE == $this->isDirEmpty( $dir ))
         {
             // delete whole tree
-            SmartCommonUtil::deleteDirTree( $dir );
+            JapaCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
             $this->model->action( 'article','updateArticle',
                                   array('id_article' => (int)$data['id_article'],

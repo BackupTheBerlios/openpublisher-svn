@@ -71,35 +71,35 @@ class ActionArticleCountArticlePerUser extends JapaAction
         {
             if(!preg_match("/^SQL_NO_CACHE$/",$data['disable_sql_cache']))
             {
-                throw new SmartModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
+                throw new JapaModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
             }
             $this->sqlCache = 'SQL_NO_CACHE';
         }
         
         if(!isset($data['id_user']))
         {
-            throw new SmartModelException('id_user isnt set'); 
+            throw new JapaModelException('id_user isnt set'); 
         }
         if(!is_int($data['id_user']))
         {
-            throw new SmartModelException('id_user isnt from type int '); 
+            throw new JapaModelException('id_user isnt from type int '); 
         }
         
         if(!isset($data['article_status']))
         {
-            throw new SmartModelException('article_status isnt set'); 
+            throw new JapaModelException('article_status isnt set'); 
         }
         if(!is_array($data['article_status']))
         {
-            throw new SmartModelException('article_status isnt from type array'); 
+            throw new JapaModelException('article_status isnt from type array'); 
         }
         if(!preg_match("/=|=>|<=|<|>/", $data['article_status'][0]))
         {
-            throw new SmartModelException('wrong article_status array[0] value: '.$data['article_status'][0]); 
+            throw new JapaModelException('wrong article_status array[0] value: '.$data['article_status'][0]); 
         }
         if(!is_int($data['article_status'][1]))
         {
-            throw new SmartModelException('article_status array[1] value isnt from type int'); 
+            throw new JapaModelException('article_status array[1] value isnt from type int'); 
         }
         return TRUE;
     }  

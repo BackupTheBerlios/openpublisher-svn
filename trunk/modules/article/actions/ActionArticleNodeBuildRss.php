@@ -80,11 +80,11 @@ class ActionArticleNodeBuildRss extends JapaAction
     {         
         if(!isset($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt defined');        
+            throw new JapaModelException('"id_node" isnt defined');        
         }    
         elseif(!is_int($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt from type int');        
+            throw new JapaModelException('"id_node" isnt from type int');        
         }
         
         if(!isset($data['expire']))
@@ -93,7 +93,7 @@ class ActionArticleNodeBuildRss extends JapaAction
         }    
         elseif(!is_int($data['expire']))
         {
-            throw new SmartModelException('"expire" isnt from type int');        
+            throw new JapaModelException('"expire" isnt from type int');        
         }        
         return TRUE;
     }

@@ -31,7 +31,7 @@ class ActionArticleUploadLogo extends ActionArticleFileUploadBase
 
         if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
         { 
-            throw new SmartModelException ('Cant upload file');   
+            throw new JapaModelException ('Cant upload file');   
         }
         
         $this->model->action('article','updateArticle',
@@ -53,17 +53,17 @@ class ActionArticleUploadLogo extends ActionArticleFileUploadBase
     {
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' var isnt set!");
+            throw new JapaModelException("'error' var isnt set!");
         }
         elseif(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' var isnt from type array!");
+            throw new JapaModelException("'error' var isnt from type array!");
         }    
 
         // validate logo upload file name
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
-            throw new SmartModelException ('"post_name" must be defined in view class'); 
+            throw new JapaModelException ('"post_name" must be defined in view class'); 
         }  
         elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
         {
@@ -77,11 +77,11 @@ class ActionArticleUploadLogo extends ActionArticleFileUploadBase
         
         if(!isset($data['id_article']))
         {
-            throw new SmartModelException("No 'id_article' defined. Required!");
+            throw new JapaModelException("No 'id_article' defined. Required!");
         }        
         if(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }        
 
         if(count($data['error']) > 0)

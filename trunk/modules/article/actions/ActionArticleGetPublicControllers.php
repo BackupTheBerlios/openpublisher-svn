@@ -60,20 +60,20 @@ class ActionArticleGetPublicViews extends JapaAction
     {
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         foreach($data['fields'] as $key)
         {
             if(!isset($this->tblFields_view[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException('Missing "result" array var: '); 
+            throw new JapaModelException('Missing "result" array var: '); 
         }
 
         return TRUE;

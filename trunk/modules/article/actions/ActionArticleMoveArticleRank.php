@@ -55,36 +55,36 @@ class ActionArticleMoveArticleRank extends JapaAction
     { 
         if(!isset($data['dir']))
         {
-            throw new SmartModelException('"dir" action data var isnt defined');   
+            throw new JapaModelException('"dir" action data var isnt defined');   
         }
         elseif(!is_string($data['dir']))
         {
-            throw new SmartModelException('"dir" isnt from type string');   
+            throw new JapaModelException('"dir" isnt from type string');   
         }
         
         if(($data['dir'] != 'up') && ($data['dir'] != 'down'))
         {
-            throw new SmartModelException('Wrong "dir" action data var: '.$data['dir']); 
+            throw new JapaModelException('Wrong "dir" action data var: '.$data['dir']); 
         }
 
         if(!isset($data['id_article']))
         {
-            throw new SmartModelException('"id_article" action data var isnt defined');   
+            throw new JapaModelException('"id_article" action data var isnt defined');   
         }
 
         if(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }
         
         if(!isset($data['id_node']))
         {
-            throw new SmartModelException('"id_node" action data var isnt defined');   
+            throw new JapaModelException('"id_node" action data var isnt defined');   
         }
 
         if(!is_int($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt from type int');        
+            throw new JapaModelException('"id_node" isnt from type int');        
         }        
         return TRUE;
     }

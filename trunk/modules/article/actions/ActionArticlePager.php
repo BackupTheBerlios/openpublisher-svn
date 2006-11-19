@@ -29,7 +29,7 @@
  *
  *
  */
-include_once(JAPA_BASE_DIR . 'modules/common/includes/SmartPager.php');
+include_once(JAPA_BASE_DIR . 'modules/common/includes/JapaPager.php');
  
 class ActionArticlePager extends JapaAction
 {
@@ -139,7 +139,7 @@ class ActionArticlePager extends JapaAction
                         'var_prefix' => (string)$data['var_prefix'],
                         'css_class'  => (string)$data['css_class']);        
 
-        new SmartPager( $config );   
+        new JapaPager( $config );   
     } 
     /**
      * validate data array
@@ -157,13 +157,13 @@ class ActionArticlePager extends JapaAction
                 {
                     if(!is_int($id_node))
                     {
-                        throw new SmartModelException('"id_node" array value isnt from type int: '.$id_node); 
+                        throw new JapaModelException('"id_node" array value isnt from type int: '.$id_node); 
                     }
                 }
             }
             else
             {
-                throw new SmartModelException('"id_node" isnt from type array: '); 
+                throw new JapaModelException('"id_node" isnt from type array: '); 
             }
         }    
 
@@ -175,13 +175,13 @@ class ActionArticlePager extends JapaAction
                 {
                     if(!is_int($id_sector))
                     {
-                        throw new SmartModelException('"id_sector" array value isnt from type int: '.$id_node); 
+                        throw new JapaModelException('"id_sector" array value isnt from type int: '.$id_node); 
                     }
                 }
             }
             else
             {
-                throw new SmartModelException('"id_sector" isnt from type array: '); 
+                throw new JapaModelException('"id_sector" isnt from type array: '); 
             }
         }  
 
@@ -189,7 +189,7 @@ class ActionArticlePager extends JapaAction
         {
             if(!is_string($data['search']))
             {
-                throw new SmartModelException('"search" isnt from type string');        
+                throw new JapaModelException('"search" isnt from type string');        
             }     
         }
 
@@ -197,18 +197,18 @@ class ActionArticlePager extends JapaAction
         {
             if(!is_array($data['status']))
             {
-                throw new SmartModelException('"status" isnt an array'); 
+                throw new JapaModelException('"status" isnt an array'); 
             }
             else
             {
                 if(!preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
                 {
-                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
+                    throw new JapaModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
                 }
 
                 if(!isset($data['status'][1]) || preg_match("/[^0-9]+/",$data['status'][1]))
                 {
-                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                    throw new JapaModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
                 }
             }
         }
@@ -217,7 +217,7 @@ class ActionArticlePager extends JapaAction
         {
             if(!preg_match("/^SQL_NO_CACHE$/",$data['disable_sql_cache']))
             {
-                throw new SmartModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
+                throw new JapaModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
             }
             $this->sqlCache = 'SQL_NO_CACHE';
         }
@@ -226,18 +226,18 @@ class ActionArticlePager extends JapaAction
         {
             if(!is_array($data['pubdate']))
             {
-                throw new SmartModelException('"pubdate" isnt an array'); 
+                throw new JapaModelException('"pubdate" isnt an array'); 
             }
             else
             {
                 if(!preg_match("/>|<|=|>=|<=|!=/",$data['pubdate'][0]))
                 {
-                    throw new SmartModelException('Wrong "pubdate" array[0] value: '.$data['pubdate'][0]); 
+                    throw new JapaModelException('Wrong "pubdate" array[0] value: '.$data['pubdate'][0]); 
                 }
 
                 if(!isset($data['pubdate'][1]) || !preg_match("/^CURRENT_TIMESTAMP$/i",$data['pubdate'][1]))
                 {
-                    throw new SmartModelException('Wrong "pubdate" array[1] value: '.$data['pubdate'][1]); 
+                    throw new JapaModelException('Wrong "pubdate" array[1] value: '.$data['pubdate'][1]); 
                 }
             }
             $this->sqlCache = 'SQL_NO_CACHE';
@@ -245,25 +245,25 @@ class ActionArticlePager extends JapaAction
        
         if(!isset($data['result']))
         {
-            throw new SmartModelException('"result" isnt defined'); 
+            throw new JapaModelException('"result" isnt defined'); 
         }          
         if(!is_string($data['result']))
         {
-            throw new SmartModelException('"result" isnt from type string'); 
+            throw new JapaModelException('"result" isnt from type string'); 
         }    
         if(!isset($data['url']))
         {
-            throw new SmartModelException('"url" isnt defined'); 
+            throw new JapaModelException('"url" isnt defined'); 
         }          
         if(!is_string($data['url']))
         {
-            throw new SmartModelException('"url" isnt from type string'); 
+            throw new JapaModelException('"url" isnt from type string'); 
         }   
         if(isset($data['var_prefix']))
         {
             if(!is_string($data['var_prefix']))
             {
-                throw new SmartModelException('"var_prefix" isnt from type string'); 
+                throw new JapaModelException('"var_prefix" isnt from type string'); 
             }  
         }          
        
@@ -271,18 +271,18 @@ class ActionArticlePager extends JapaAction
         {
             if(!is_array($data['nodeStatus']))
             {
-                throw new SmartModelException('"nodeStatus" isnt an array'); 
+                throw new JapaModelException('"nodeStatus" isnt an array'); 
             }
             else
             {
                 if(!isset($data['nodeStatus'][0]) || !preg_match("/>|<|=|>=|<=|!=/",$data['nodeStatus'][0]))
                 {
-                    throw new SmartModelException('Wrong "nodeStatus" array[0] value: '.$data['nodeStatus'][0]); 
+                    throw new JapaModelException('Wrong "nodeStatus" array[0] value: '.$data['nodeStatus'][0]); 
                 }
 
                 if(!isset($data['nodeStatus'][1]) || !is_int($data['nodeStatus'][1]))
                 {
-                    throw new SmartModelException('Wrong "nodeStatus" array[1] value: '.$data['nodeStatus'][1]); 
+                    throw new JapaModelException('Wrong "nodeStatus" array[1] value: '.$data['nodeStatus'][1]); 
                 }
             }
         }

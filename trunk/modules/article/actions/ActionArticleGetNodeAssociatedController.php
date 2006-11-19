@@ -68,7 +68,7 @@ class ActionArticleGetNodeAssociatedView extends JapaAction
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException('Missing "result" array var: '); 
+            throw new JapaModelException('Missing "result" array var: '); 
         }
         
         return TRUE;

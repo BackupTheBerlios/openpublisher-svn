@@ -73,12 +73,12 @@ class ActionArticleCheckUserRights extends JapaAction
 
         if(!isset($data['id_article']) || !is_int($data['id_article']))
         {
-            throw new SmartModelException("'id_article' isnt set or isnt from type int");
+            throw new JapaModelException("'id_article' isnt set or isnt from type int");
         }
         
         if(!isset($data['id_user']) || !is_int($data['id_user']))
         {
-            throw new SmartModelException("'id_user' isnt set or isnt from type int");
+            throw new JapaModelException("'id_user' isnt set or isnt from type int");
         }
         
         return TRUE;

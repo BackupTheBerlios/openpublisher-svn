@@ -78,7 +78,7 @@ class ActionArticleUpdateComment extends JapaAction
     { 
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         // check if database fields exists
@@ -86,18 +86,18 @@ class ActionArticleUpdateComment extends JapaAction
         {
             if(!isset($this->tblFields[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!isset($data['id_comment']))
         {
-            throw new SmartModelException('"id_comment" isnt defined');        
+            throw new JapaModelException('"id_comment" isnt defined');        
         }
 
         if(!is_int($data['id_comment']))
         {
-            throw new SmartModelException('"id_comment" isnt from type int');        
+            throw new JapaModelException('"id_comment" isnt from type int');        
         }
 
         return TRUE;

@@ -116,7 +116,7 @@ class ViewArticleAddArticle extends JapaControllerAbstractPage
                               array('id_node' => (int)$id_node,
                                     'id_user' => (int)$this->viewVar['loggedUserId'],
                                     'error'   => & $this->tplVar['error'],
-                                    'fields'  => array('title'  => SmartCommonUtil::stripSlashes((string)$_POST['title']),
+                                    'fields'  => array('title'  => JapaCommonUtil::stripSlashes((string)$_POST['title']),
                                                        'status'  => 2,
                                                        'format'  => $this->config['article']['default_format'])));        
     }
@@ -160,7 +160,7 @@ class ViewArticleAddArticle extends JapaControllerAbstractPage
      */       
     private function resetFormData()
     {
-        $this->tplVar['title'] = htmlspecialchars ( SmartCommonUtil::stripSlashes((string)$_POST['title']), ENT_COMPAT, $this->config['charset'] );
+        $this->tplVar['title'] = htmlspecialchars ( JapaCommonUtil::stripSlashes((string)$_POST['title']), ENT_COMPAT, $this->config['charset'] );
     }      
 }
 

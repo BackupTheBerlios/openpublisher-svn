@@ -91,7 +91,7 @@ class ActionArticleDeleteArticle extends JapaAction
         if(isset($row['media_folder']) && !empty($row['media_folder']))
         {
             // delete article data media folder
-            SmartCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/article/'.$row['media_folder'] );
+            JapaCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/article/'.$row['media_folder'] );
         }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_article
@@ -114,11 +114,11 @@ class ActionArticleDeleteArticle extends JapaAction
     {         
         if(!isset($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt defined');        
+            throw new JapaModelException('"id_article" isnt defined');        
         }    
         elseif(!is_int($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt from type int');        
+            throw new JapaModelException('"id_article" isnt from type int');        
         }
         
         return TRUE;

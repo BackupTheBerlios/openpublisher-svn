@@ -152,39 +152,39 @@ class ActionArticleGetAllThumbs extends JapaAction
     {
         if(!isset($data['fields']))
         {
-            throw new SmartModelException("'fields' isnt set");
+            throw new JapaModelException("'fields' isnt set");
         }
         elseif(!is_array($data['fields']))
         {
-            throw new SmartModelException("'fields' isnt from type array");
+            throw new JapaModelException("'fields' isnt from type array");
         }
         elseif(count($data['fields']) == 0)
         {
-            throw new SmartModelException("'fields' array is empty");
+            throw new JapaModelException("'fields' array is empty");
         }  
         
         foreach($data['fields'] as $key)
         {
             if(!isset($this->tblFields_pic[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException("'result' isnt set");
+            throw new JapaModelException("'result' isnt set");
         }
         elseif(!is_array($data['result']))
         {
-            throw new SmartModelException("'result' isnt from type array");
+            throw new JapaModelException("'result' isnt from type array");
         }
 
         if(isset($data['id_article']))
         {
             if(!is_array($data['id_article']))
             {
-                throw new SmartModelException('"id_article" isnt an array'); 
+                throw new JapaModelException('"id_article" isnt an array'); 
             }
             else
             {
@@ -192,7 +192,7 @@ class ActionArticleGetAllThumbs extends JapaAction
                 {
                     if(!is_int($id_article))
                     {
-                        throw new SmartModelException('Wrong "id_article" array value: '.$id_article.'. Only integers accepted!'); 
+                        throw new JapaModelException('Wrong "id_article" array value: '.$id_article.'. Only integers accepted!'); 
                     }
                 }
             }
@@ -202,7 +202,7 @@ class ActionArticleGetAllThumbs extends JapaAction
         {
             if(!is_array($data['id_sector']))
             {
-                throw new SmartModelException('"id_sector" isnt an array'); 
+                throw new JapaModelException('"id_sector" isnt an array'); 
             }
             else
             {
@@ -210,7 +210,7 @@ class ActionArticleGetAllThumbs extends JapaAction
                 {
                     if(!is_int($id_sector))
                     {
-                        throw new SmartModelException('Wrong "id_sector" array value: '.$id_sector.'. Only integers accepted!'); 
+                        throw new JapaModelException('Wrong "id_sector" array value: '.$id_sector.'. Only integers accepted!'); 
                     }
                 }
             }
@@ -220,7 +220,7 @@ class ActionArticleGetAllThumbs extends JapaAction
         {
             if(!is_array($data['id_node']))
             {
-                throw new SmartModelException('"id_node" isnt an array'); 
+                throw new JapaModelException('"id_node" isnt an array'); 
             }
             else
             {
@@ -228,7 +228,7 @@ class ActionArticleGetAllThumbs extends JapaAction
                 {
                     if(!is_int($id_node))
                     {
-                        throw new SmartModelException('Wrong "id_node" array value: '.$id_node.'. Only integers accepted!'); 
+                        throw new JapaModelException('Wrong "id_node" array value: '.$id_node.'. Only integers accepted!'); 
                     }
                 }
             }
@@ -238,23 +238,23 @@ class ActionArticleGetAllThumbs extends JapaAction
         {        
             if(!isset($data['limit']['numPage']))
             {
-                throw new SmartModelException('numPage" isnt defined'); 
+                throw new JapaModelException('numPage" isnt defined'); 
             } 
             if(!is_int($data['limit']['numPage']))
             {
-                throw new SmartModelException('numPage" isnt from type int'); 
+                throw new JapaModelException('numPage" isnt from type int'); 
             }             
             if(!isset($data['limit']['perPage']))
             {
-                throw new SmartModelException('"perPage" isnt defined'); 
+                throw new JapaModelException('"perPage" isnt defined'); 
             } 
             if(!is_int($data['limit']['perPage']))
             {
-                throw new SmartModelException('"perPage" isnt from type int'); 
+                throw new JapaModelException('"perPage" isnt from type int'); 
             }  
             elseif( $data['limit']['perPage'] < 1 )
             {
-                throw new SmartModelException('"perPage" must be >= 1');
+                throw new JapaModelException('"perPage" must be >= 1');
             }
         }
 
@@ -262,20 +262,20 @@ class ActionArticleGetAllThumbs extends JapaAction
         {
             if(!is_array($data['order']))
             {
-                throw new SmartModelException('"order" action array instruction isnt an array'); 
+                throw new JapaModelException('"order" action array instruction isnt an array'); 
             }
             else
             {
                 if(!isset($this->tblFields_pic[$data['order'][0]]) && !preg_match("/rand/i",$data['order'][0]) )
                 {
-                    throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
+                    throw new JapaModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
                 }
 
                 if(isset($data['order'][1]))
                 {
                     if(!preg_match("/asc|desc/i",$data['order'][1]))
                     {
-                        throw new SmartModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
+                        throw new JapaModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
                     }
                 }
                 else
@@ -289,18 +289,18 @@ class ActionArticleGetAllThumbs extends JapaAction
         {
             if(!is_array($data['status']))
             {
-                throw new SmartModelException('"status" isnt an array'); 
+                throw new JapaModelException('"status" isnt an array'); 
             }
             else
             {
                 if(!preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
                 {
-                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
+                    throw new JapaModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
                 }
 
                 if(!isset($data['status'][1]) || preg_match("/[^0-9]+/",$data['status'][1]))
                 {
-                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                    throw new JapaModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
                 }
             }
         }
@@ -309,18 +309,18 @@ class ActionArticleGetAllThumbs extends JapaAction
         {
             if(!is_array($data['node_status']))
             {
-                throw new SmartModelException('"node_status" isnt an array'); 
+                throw new JapaModelException('"node_status" isnt an array'); 
             }
             else
             {
                 if(!preg_match("/>|<|=|>=|<=|!=/",$data['node_status'][0]))
                 {
-                    throw new SmartModelException('Wrong "node_status" array[0] value: '.$data['node_status'][0]); 
+                    throw new JapaModelException('Wrong "node_status" array[0] value: '.$data['node_status'][0]); 
                 }
 
                 if(!isset($data['node_status'][1]) || preg_match("/[^0-9]+/",$data['node_status'][1]))
                 {
-                    throw new SmartModelException('Wrong "node_status" array[1] value: '.$data['node_status'][1]); 
+                    throw new JapaModelException('Wrong "node_status" array[1] value: '.$data['node_status'][1]); 
                 }
             }
         }

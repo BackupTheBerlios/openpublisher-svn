@@ -91,7 +91,7 @@ class ActionArticleUpdateConfigOptions extends JapaAction
     { 
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         // check if database fields exists
@@ -99,7 +99,7 @@ class ActionArticleUpdateConfigOptions extends JapaAction
         {
             if(!isset($this->tblFields_config[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
         

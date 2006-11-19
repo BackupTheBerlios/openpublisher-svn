@@ -63,7 +63,7 @@ class ActionArticleGetNodeStats extends JapaAction
         }
         else
         {
-            throw new SmartModelException('whether id_node nor id_sector is defined'); 
+            throw new JapaModelException('whether id_node nor id_sector is defined'); 
         }
         
         $sql = "
@@ -102,7 +102,7 @@ class ActionArticleGetNodeStats extends JapaAction
         {
             if(!preg_match("/^SQL_NO_CACHE$/",$data['disable_sql_cache']))
             {
-                throw new SmartModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
+                throw new JapaModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
             }
             $this->sqlCache = 'SQL_NO_CACHE';
         }
@@ -111,14 +111,14 @@ class ActionArticleGetNodeStats extends JapaAction
         {
             if(!is_int($data['id_sector']))
             {
-                throw new SmartModelException('id_sector isnt from type int '); 
+                throw new JapaModelException('id_sector isnt from type int '); 
             }
         }
         if(isset($data['id_node']))
         {
             if(!is_int($data['id_node']))
             {
-                throw new SmartModelException('id_node isnt from type int '); 
+                throw new JapaModelException('id_node isnt from type int '); 
             }
         }
         

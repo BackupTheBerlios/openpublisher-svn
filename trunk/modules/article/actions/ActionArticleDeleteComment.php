@@ -44,11 +44,11 @@ class ActionArticleDeleteComment extends JapaAction
     {         
         if(!isset($data['id_comment']))
         {
-            throw new SmartModelException('"id_comment" isnt defined');        
+            throw new JapaModelException('"id_comment" isnt defined');        
         }    
         elseif(!is_int($data['id_comment']))
         {
-            throw new SmartModelException('"id_comment" isnt from type int');        
+            throw new JapaModelException('"id_comment" isnt from type int');        
         }
         
         return TRUE;
