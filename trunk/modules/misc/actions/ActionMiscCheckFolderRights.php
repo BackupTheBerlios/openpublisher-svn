@@ -42,11 +42,11 @@ class ActionMiscCheckFolderRights extends JapaAction
     {
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' isnt defined");
+            throw new JapaModelException("'error' isnt defined");
         }
         if(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' isnt from type array");
+            throw new JapaModelException("'error' isnt from type array");
         }
         
         return TRUE;

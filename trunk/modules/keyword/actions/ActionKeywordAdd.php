@@ -70,7 +70,7 @@ class ActionKeywordAdd extends JapaAction
     {
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         // check if database fields exists
@@ -78,25 +78,25 @@ class ActionKeywordAdd extends JapaAction
         {            
             if(!isset($this->tblFields_keyword[$key]))
             {
-                throw new SmartModelException("Field '".$key."' isnt allowed!");
+                throw new JapaModelException("Field '".$key."' isnt allowed!");
             }
         }
 
         if(!isset($data['fields']['title']))
         {
-            throw new SmartModelException('"title" is required');        
+            throw new JapaModelException('"title" is required');        
         }      
         elseif(!is_string($data['fields']['title']))
         {
-            throw new SmartModelException('"title" isnt from type string');        
+            throw new JapaModelException('"title" isnt from type string');        
         }  
         if(!isset($data['fields']['id_parent']))
         {
-            throw new SmartModelException('"id_parent" is required');        
+            throw new JapaModelException('"id_parent" is required');        
         }      
         elseif(!is_int($data['fields']['id_parent']))
         {
-            throw new SmartModelException('"id_parent" isnt from type int');        
+            throw new JapaModelException('"id_parent" isnt from type int');        
         }      
         
         return TRUE;

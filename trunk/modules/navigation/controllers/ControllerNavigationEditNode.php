@@ -518,17 +518,17 @@ class ViewNavigationEditNode extends JapaControllerAbstractPage
         
         if($this->config['navigation']['use_short_text'] == 1)
         {
-            $fields['short_text'] = SmartCommonUtil::stripSlashes((string)$_POST['short_text']);
+            $fields['short_text'] = JapaCommonUtil::stripSlashes((string)$_POST['short_text']);
         }
         
         if($this->config['navigation']['use_body'] == 1)
         {
-            $fields['body'] = SmartCommonUtil::stripSlashes((string)$_POST['body']);
+            $fields['body'] = JapaCommonUtil::stripSlashes((string)$_POST['body']);
         }
         
         $fields['id_parent']  = (int)$_POST['node_id_parent'];
         $fields['status']     = (int)$_POST['status'];
-        $fields['title']      = SmartCommonUtil::stripSlashes((string)$_POST['title']);
+        $fields['title']      = JapaCommonUtil::stripSlashes((string)$_POST['title']);
 
         if($this->node_was_moved == TRUE)
         {
@@ -688,7 +688,7 @@ class ViewNavigationEditNode extends JapaControllerAbstractPage
         $tmp_array = array();
         foreach($var_array as $f)
         {
-            $tmp_array[] = preg_replace("/\"/","'",SmartCommonUtil::stripSlashes( $f ));
+            $tmp_array[] = preg_replace("/\"/","'",JapaCommonUtil::stripSlashes( $f ));
         }
 
         return $tmp_array;

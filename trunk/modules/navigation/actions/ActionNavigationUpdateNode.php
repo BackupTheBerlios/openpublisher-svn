@@ -84,7 +84,7 @@ class ActionNavigationUpdateNode extends ActionNavigation
     { 
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         // check if database fields exists
@@ -92,13 +92,13 @@ class ActionNavigationUpdateNode extends ActionNavigation
         {
             if(!isset($this->tblFields_node[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!is_int($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt from type int');        
+            throw new JapaModelException('"id_node" isnt from type int');        
         }
         
         return TRUE;

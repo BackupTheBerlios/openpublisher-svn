@@ -37,7 +37,7 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
 
         if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
         { 
-            throw new SmartModelException ('Cant upload file');   
+            throw new JapaModelException ('Cant upload file');   
         }
         
         // set table name and item reference
@@ -63,17 +63,17 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
     {
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' var isnt set!");
+            throw new JapaModelException("'error' var isnt set!");
         }
         elseif(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' var isnt from type array!");
+            throw new JapaModelException("'error' var isnt from type array!");
         }
         
         // check if postName exists
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
-            throw new SmartModelException ('"post_name" must be defined in view class'); 
+            throw new JapaModelException ('"post_name" must be defined in view class'); 
         }
         // validate postName name
         elseif( !isset($_FILES[$data['postName']]) )
@@ -92,19 +92,19 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
         
         if(!isset($data['item']))
         {
-            throw new SmartModelException("No 'item' defined");
+            throw new JapaModelException("No 'item' defined");
         }
         elseif(($data['item'] != 'picture') && ($data['item'] != 'file'))
         {
-            throw new SmartModelException("'item' must be 'file' or 'picture'");
+            throw new JapaModelException("'item' must be 'file' or 'picture'");
         }
         if(!isset($data['id_text']))
         {
-            throw new SmartModelException("No 'id_text' defined");
+            throw new JapaModelException("No 'id_text' defined");
         }
         elseif(!is_int($data['id_text']))
         {
-            throw new SmartModelException("'id_text' isnt from type int");
+            throw new JapaModelException("'id_text' isnt from type int");
         }  
         elseif(($data['item'] == 'file') && ($this->config['misc']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
@@ -249,8 +249,8 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
      */    
     private function getMime( &$file )
     {
-        include_once(JAPA_BASE_DIR.'modules/common/includes/SmartCommonFileMime.php');
-        return SmartCommonFileMime::getMime($file);
+        include_once(JAPA_BASE_DIR.'modules/common/includes/JapaCommonFileMime.php');
+        return JapaCommonFileMime::getMime($file);
     } 
     /**
      * check if the file type to upload is allowed

@@ -88,48 +88,48 @@ class ActionKeywordGetChilds extends JapaAction
     { 
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         foreach($data['fields'] as $val)
         {
             if(!isset($this->tblFields_keyword[$val]))
             {
-                throw new SmartModelException("Field '".$val."' dosent exists!");
+                throw new JapaModelException("Field '".$val."' dosent exists!");
             }
         }
 
         if(!isset($data['id_key']))
         {
-            throw new SmartModelException('"id_key" action array instruction is required'); 
+            throw new JapaModelException('"id_key" action array instruction is required'); 
         }
         
         if(!is_int($data['id_key']))
         {
-            throw new SmartModelException('"id_key" isnt from type string');        
+            throw new JapaModelException('"id_key" isnt from type string');        
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException('Missing "result" array var: '); 
+            throw new JapaModelException('Missing "result" array var: '); 
         }
 
         if(isset($data['status']))
         {
             if(!is_array($data['status']))
             {
-                throw new SmartModelException('"status" isnt an array'); 
+                throw new JapaModelException('"status" isnt an array'); 
             }
             else
             {
                 if(!preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
                 {
-                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
+                    throw new JapaModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
                 }
 
                 if(!isset($data['status'][1]) || preg_match("/[^0-9]+/",$data['status'][1]))
                 {
-                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                    throw new JapaModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
                 }
             }
         }

@@ -38,7 +38,7 @@ class ActionNavigationGetAllConfigOptions extends JapaAction
     {
         if(!isset($data['result']))
         {
-            throw new SmartModelException("No 'result' defined");
+            throw new JapaModelException("No 'result' defined");
         }
 
         return TRUE;

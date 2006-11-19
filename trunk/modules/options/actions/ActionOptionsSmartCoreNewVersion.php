@@ -10,7 +10,7 @@
 // ---------------------------------------------
 
 /**
- * ActionOptiuonsSmartCoreNewVersion
+ * ActionOptiuonsJapaCoreNewVersion
  *
  * Delete public views cache
  *
@@ -20,7 +20,7 @@
  *
  */
 
-class ActionOptionsSmartCoreNewVersion extends JapaAction
+class ActionOptionsJapaCoreNewVersion extends JapaAction
 {
     /**
      * Add http headers to disable browser caching
@@ -39,7 +39,7 @@ class ActionOptionsSmartCoreNewVersion extends JapaAction
     {
         if(!is_string($data['new_version']))
         {
-            throw new SmartModelException("'new_version' isnt from type string");
+            throw new JapaModelException("'new_version' isnt from type string");
         }    
         return TRUE;
     }    

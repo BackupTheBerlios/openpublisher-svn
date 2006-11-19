@@ -45,29 +45,29 @@ class ActionMiscUpdatePicture extends JapaAction
     {
         if(!isset($data['action']) || (($data['action'] != 'delete') && ($data['action'] != 'update')))
         {      
-            throw new SmartModelException("No/Wrong 'action' defined. Required!");
+            throw new JapaModelException("No/Wrong 'action' defined. Required!");
         }
         
         if(!isset($data['id_pic']))
         {
-            throw new SmartModelException("No 'id_pic' defined. Required!");
+            throw new JapaModelException("No 'id_pic' defined. Required!");
         }
 
         if(preg_match("/[^0-9]/",$data['id_pic']))
         {
-            throw new SmartModelException("'id_pic' isnt numeric");
+            throw new JapaModelException("'id_pic' isnt numeric");
         }
 
         if($data['action'] == 'delete')
         {
             if(!isset($data['id_text']))
             {
-                throw new SmartModelException("No 'id_text' defined. Required!");
+                throw new JapaModelException("No 'id_text' defined. Required!");
             }
 
             if(preg_match("/[^0-9]/",$data['id_text']))
             {
-                throw new SmartModelException("'id_text' isnt numeric");
+                throw new JapaModelException("'id_text' isnt numeric");
             }
         }
         

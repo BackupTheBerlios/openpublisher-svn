@@ -40,11 +40,11 @@ class ActionMiscDeleteText extends JapaAction
     { 
         if(!isset($data['id_text']))
         {
-            throw new SmartModelException('"id_text" isnt defined and is required!');        
+            throw new JapaModelException('"id_text" isnt defined and is required!');        
         }    
         if(!is_int($data['id_text']))
         {
-            throw new SmartModelException('"id_text" isnt from type int!');        
+            throw new JapaModelException('"id_text" isnt from type int!');        
         }
 
         return TRUE;
@@ -81,7 +81,7 @@ class ActionMiscDeleteText extends JapaAction
         if(isset($row['media_folder']) && !empty($row['media_folder']))
         {
             // delete user data media folder
-            SmartCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/misc/'.$row['media_folder'] );
+            JapaCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/misc/'.$row['media_folder'] );
         }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text

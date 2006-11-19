@@ -65,16 +65,16 @@ class ActionNavigationUpdateSubNodes extends JapaAction
     { 
         if(!isset($data['id_node']))
         {
-            throw new SmartModelException('Action data var "id_node" isnt defined');        
+            throw new JapaModelException('Action data var "id_node" isnt defined');        
         }
         if(!is_int($data['id_node']))
         {
-            throw new SmartModelException('Action data var "id_node" isnt from type int');        
+            throw new JapaModelException('Action data var "id_node" isnt from type int');        
         }        
         
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         // check if database fields exists
@@ -82,7 +82,7 @@ class ActionNavigationUpdateSubNodes extends JapaAction
         {
             if(!isset($this->tblFields_node[$key]))
             {
-                throw new SmartModelException("Field '".$key."' isnt allowed to update!");
+                throw new JapaModelException("Field '".$key."' isnt allowed to update!");
             }
         }
         

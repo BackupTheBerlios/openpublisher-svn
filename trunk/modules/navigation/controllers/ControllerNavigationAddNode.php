@@ -61,7 +61,7 @@ class ViewNavigationAddNode extends JapaControllerAbstractPage
             {
                 @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=navigation&view=editNode&id_node='.$new_id_node);
                 exit;
-                //throw new SmartForwardAdminViewException('naviagtion','index');
+                //throw new JapaForwardAdminViewException('naviagtion','index');
             }
         }
         
@@ -122,7 +122,7 @@ class ViewNavigationAddNode extends JapaControllerAbstractPage
         
         $new_id_node = $this->model->action('navigation', 'addNode', 
                              array('id_parent' => (int)$id_parent,
-                                   'fields'    => array('title'   => SmartCommonUtil::stripSlashes((string)$_POST['title']),
+                                   'fields'    => array('title'   => JapaCommonUtil::stripSlashes((string)$_POST['title']),
                                                         'id_view' => (int)$id_view,
                                                         'status'  => 1)));    
 

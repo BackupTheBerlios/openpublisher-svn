@@ -109,50 +109,50 @@ class ActionMiscGetPictures extends JapaAction
         {
             if(!isset($this->tblFields_pic[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException("'result' isnt set");
+            throw new JapaModelException("'result' isnt set");
         }
         elseif(!is_array($data['result']))
         {
-            throw new SmartModelException("'result' isnt from type array");
+            throw new JapaModelException("'result' isnt from type array");
         }
         
         if(!isset($data['id_text']))
         {
-            throw new SmartModelException("No 'id_text' defined");
+            throw new JapaModelException("No 'id_text' defined");
         }
 
         if(!is_int($data['id_text']))
         {
-            throw new SmartModelException("'id_text' isnt from type int");
+            throw new JapaModelException("'id_text' isnt from type int");
         }
 
         if(isset($data['limit']))
         {        
             if(!isset($data['limit']['numPage']))
             {
-                throw new SmartModelException('numPage" isnt defined'); 
+                throw new JapaModelException('numPage" isnt defined'); 
             } 
             if(!is_int($data['limit']['numPage']))
             {
-                throw new SmartModelException('numPage" isnt from type int'); 
+                throw new JapaModelException('numPage" isnt from type int'); 
             }             
             if(!isset($data['limit']['perPage']))
             {
-                throw new SmartModelException('"perPage" isnt defined'); 
+                throw new JapaModelException('"perPage" isnt defined'); 
             } 
             if(!is_int($data['limit']['perPage']))
             {
-                throw new SmartModelException('"perPage" isnt from type int'); 
+                throw new JapaModelException('"perPage" isnt from type int'); 
             }  
             elseif( $data['limit']['perPage'] < 1 )
             {
-                throw new SmartModelException('"perPage" must be >= 1');
+                throw new JapaModelException('"perPage" must be >= 1');
             }
         }
 
@@ -160,18 +160,18 @@ class ActionMiscGetPictures extends JapaAction
         {
             if(!is_array($data['status']))
             {
-                throw new SmartModelException('"status" isnt an array'); 
+                throw new JapaModelException('"status" isnt an array'); 
             }
             else
             {
                 if(!preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
                 {
-                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
+                    throw new JapaModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
                 }
 
                 if(!isset($data['status'][1]) || preg_match("/[^0-9]+/",$data['status'][1]))
                 {
-                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                    throw new JapaModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
                 }
             }
         }

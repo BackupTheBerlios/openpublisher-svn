@@ -164,43 +164,43 @@ class ActionNavigationFromKeyword extends JapaAction
     {
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         foreach($data['fields'] as $val)
         {
             if(!isset($this->tblFields_node[$val]))
             {
-                throw new SmartModelException("Field '".$val."' dosent exists!");
+                throw new JapaModelException("Field '".$val."' dosent exists!");
             }
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException('Missing "result" array var: '); 
+            throw new JapaModelException('Missing "result" array var: '); 
         }
 
         if(isset($data['limit']))
         {        
             if(!isset($data['limit']['numPage']))
             {
-                throw new SmartModelException('numPage" isnt defined'); 
+                throw new JapaModelException('numPage" isnt defined'); 
             } 
             if(!is_int($data['limit']['numPage']))
             {
-                throw new SmartModelException('numPage" isnt from type int'); 
+                throw new JapaModelException('numPage" isnt from type int'); 
             }             
             if(!isset($data['limit']['perPage']))
             {
-                throw new SmartModelException('"perPage" isnt defined'); 
+                throw new JapaModelException('"perPage" isnt defined'); 
             } 
             if(!is_int($data['limit']['perPage']))
             {
-                throw new SmartModelException('"perPage" isnt from type int'); 
+                throw new JapaModelException('"perPage" isnt from type int'); 
             }  
             elseif( $data['limit']['perPage'] < 2 )
             {
-                throw new SmartModelException('"perPage" must be >= 2');
+                throw new JapaModelException('"perPage" must be >= 2');
             }
         }
         
@@ -208,18 +208,18 @@ class ActionNavigationFromKeyword extends JapaAction
         {
             if(!is_array($data['status']))
             {
-                throw new SmartModelException('"status" isnt an array'); 
+                throw new JapaModelException('"status" isnt an array'); 
             }
             else
             {
                 if(!preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
                 {
-                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
+                    throw new JapaModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
                 }
 
                 if(!isset($data['status'][1]) || preg_match("/[^0-9]+/",$data['status'][1]))
                 {
-                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                    throw new JapaModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
                 }
             }
         }
@@ -228,7 +228,7 @@ class ActionNavigationFromKeyword extends JapaAction
         {
             if(!is_array($data['id_key_list']))
             {
-                throw new SmartModelException('"id_key_list" isnt an array'); 
+                throw new JapaModelException('"id_key_list" isnt an array'); 
             }
             else
             {
@@ -236,7 +236,7 @@ class ActionNavigationFromKeyword extends JapaAction
                 {
                     if(!is_int($id_key))
                     {
-                        throw new SmartModelException('Wrong "id_key_list" array value: '.$id_node.'. Only integers accepted!'); 
+                        throw new JapaModelException('Wrong "id_key_list" array value: '.$id_node.'. Only integers accepted!'); 
                     }
                 }
                 $this->id_key_list = implode(",", $data['id_key_list']);
@@ -248,7 +248,7 @@ class ActionNavigationFromKeyword extends JapaAction
         {
             if(!is_array($data['exclude']))
             {
-                throw new SmartModelException('"exclude" isnt an array'); 
+                throw new JapaModelException('"exclude" isnt an array'); 
             }
             else
             {
@@ -256,7 +256,7 @@ class ActionNavigationFromKeyword extends JapaAction
                 {
                     if(!is_int($id_node))
                     {
-                        throw new SmartModelException('Wrong "exclude" array value: '.$id_node.'. Only integers accepted!'); 
+                        throw new JapaModelException('Wrong "exclude" array value: '.$id_node.'. Only integers accepted!'); 
                     }
                 }
             }
@@ -266,7 +266,7 @@ class ActionNavigationFromKeyword extends JapaAction
         {
             if(!is_array($data['exclude_key']))
             {
-                throw new SmartModelException('"exclude_key" isnt an array'); 
+                throw new JapaModelException('"exclude_key" isnt an array'); 
             }
             else
             {
@@ -274,7 +274,7 @@ class ActionNavigationFromKeyword extends JapaAction
                 {
                     if(!is_int($id_key))
                     {
-                        throw new SmartModelException('Wrong "exclude_key" array value: '.$id_key.'. Only integers accepted!'); 
+                        throw new JapaModelException('Wrong "exclude_key" array value: '.$id_key.'. Only integers accepted!'); 
                     }
                 }
             }
@@ -284,20 +284,20 @@ class ActionNavigationFromKeyword extends JapaAction
         {
             if(!is_array($data['order']))
             {
-                throw new SmartModelException('"order" action array instruction isnt an array'); 
+                throw new JapaModelException('"order" action array instruction isnt an array'); 
             }
             else
             {
                 if(!isset($this->tblFields_node[$data['order'][0]]))
                 {
-                    throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
+                    throw new JapaModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
                 }
 
                 if(isset($data['order'][1]))
                 {
                     if(!preg_match("/asc|desc/i",$data['order'][1]))
                     {
-                        throw new SmartModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
+                        throw new JapaModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
                     }
                 }
                 else

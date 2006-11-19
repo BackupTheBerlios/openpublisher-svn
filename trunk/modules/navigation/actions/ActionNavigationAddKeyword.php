@@ -52,20 +52,20 @@ class ActionNavigationAddKeyword extends JapaAction
     {
         if(!isset($data['id_node'])) 
         {
-            throw new SmartModelException("'id_node' isnt defined");
+            throw new JapaModelException("'id_node' isnt defined");
         }
         elseif(!is_int($data['id_node']))
         {
-            throw new SmartModelException("'id_node' isnt from type int");
+            throw new JapaModelException("'id_node' isnt from type int");
         }         
           
         if(!isset($data['id_key'])) 
         {
-            throw new SmartModelException("'id_key' isnt defined");
+            throw new JapaModelException("'id_key' isnt defined");
         }
         elseif(!is_int($data['id_key']))
         {
-            throw new SmartModelException("'id_key' isnt from type int");
+            throw new JapaModelException("'id_key' isnt from type int");
         }  
         
         return TRUE;

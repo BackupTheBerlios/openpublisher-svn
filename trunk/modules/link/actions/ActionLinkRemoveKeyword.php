@@ -53,7 +53,7 @@ class ActionLinkRemoveKeyword extends JapaAction
         {
             if(!is_int($data['id_link']))
             {
-                throw new SmartModelException('"id_link" isnt from type int');        
+                throw new JapaModelException('"id_link" isnt from type int');        
             }   
             $this->sqlLink = "`id_link`={$data['id_link']}";
             $selcetedItem  = TRUE;
@@ -63,7 +63,7 @@ class ActionLinkRemoveKeyword extends JapaAction
         {
             if(!is_int($data['id_key']))
             {
-                throw new SmartModelException("'id_key' isnt from type int");
+                throw new JapaModelException("'id_key' isnt from type int");
             }  
             if(isset($selcetedItem))
             {
@@ -75,7 +75,7 @@ class ActionLinkRemoveKeyword extends JapaAction
 
         if(!isset($selcetedItem))
         {
-            throw new SmartModelException('Whether "id_key" nor "id_link" is defined');                      
+            throw new JapaModelException('Whether "id_key" nor "id_link" is defined');                      
         }
          
         return TRUE;

@@ -86,7 +86,7 @@ class ActionMiscLock extends JapaAction
                 $this->unlockByIdUser($data); 
                 return;                
             default:
-                throw new SmartModelException('Action not available: '.$data['job']); 
+                throw new JapaModelException('Action not available: '.$data['job']); 
         }
         
         return TRUE;
@@ -102,11 +102,11 @@ class ActionMiscLock extends JapaAction
     {
         if( isset($data['id_text']) && !is_int($data['id_text']) )
         {
-            throw new SmartModelException('"id_text" isnt from type int');         
+            throw new JapaModelException('"id_text" isnt from type int');         
         }    
         if( isset($data['by_id_user']) && !is_int($data['by_id_user']) )
         {
-            throw new SmartModelException('"by_id_user" isnt from type int');         
+            throw new JapaModelException('"by_id_user" isnt from type int');         
         }         
         return TRUE;
     }

@@ -59,17 +59,17 @@ class ActionNavigationGetLastRank extends JapaAction
     { 
         if(!isset($data['id_parent']))
         {
-            throw new SmartModelException('id_parent isnt defined');        
+            throw new JapaModelException('id_parent isnt defined');        
         }
         
         if(!is_int($data['id_parent']))
         {
-            throw new SmartModelException('id_parent isnt from type int');        
+            throw new JapaModelException('id_parent isnt from type int');        
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException('Missing "result" var reference'); 
+            throw new JapaModelException('Missing "result" var reference'); 
         }
 
         return TRUE;

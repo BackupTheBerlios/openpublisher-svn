@@ -86,7 +86,7 @@ class ActionKeywordLock extends JapaAction
                 $this->unlockByIdUser($data); 
                 return;                
             default:
-                throw new SmartModelException('Action not available: '.$data['job']); 
+                throw new JapaModelException('Action not available: '.$data['job']); 
         }
         
         return TRUE;
@@ -102,20 +102,20 @@ class ActionKeywordLock extends JapaAction
     {
         if(!isset($data['job']))
         {
-            throw new SmartModelException('"job" isnt set');
+            throw new JapaModelException('"job" isnt set');
         }
         elseif(!is_string($data['job']))
         {
-            throw new SmartModelException('"job" isnt from type string');
+            throw new JapaModelException('"job" isnt from type string');
         } 
         
         if( isset($data['id_key']) && !is_int($data['id_key']) )
         {
-            throw new SmartModelException('"id_key" isnt from type int');         
+            throw new JapaModelException('"id_key" isnt from type int');         
         }    
         if( isset($data['by_id_user']) && !is_int($data['by_id_user']) )
         {
-            throw new SmartModelException('"by_id_user" isnt from type int');         
+            throw new JapaModelException('"by_id_user" isnt from type int');         
         }         
         return TRUE;
     }

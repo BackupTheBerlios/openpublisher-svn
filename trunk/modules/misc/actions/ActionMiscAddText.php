@@ -76,16 +76,16 @@ class ActionMiscAddText extends JapaAction
     {
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' var isnt set!");
+            throw new JapaModelException("'error' var isnt set!");
         }
         elseif(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' var isnt from type array!");
+            throw new JapaModelException("'error' var isnt from type array!");
         }
         
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         // check if database fields exists
@@ -93,17 +93,17 @@ class ActionMiscAddText extends JapaAction
         {            
             if(!isset($this->tblFields_text[$key]))
             {
-                throw new SmartModelException("Field '".$key."' isnt allowed!");
+                throw new JapaModelException("Field '".$key."' isnt allowed!");
             }
         }
 
         if(!isset($data['fields']['title']))
         {
-            throw new SmartModelException("'title' is required!");
+            throw new JapaModelException("'title' is required!");
         }
         elseif(!is_string($data['fields']['title']))
         {
-            throw new SmartModelException("'title' isnt from type string!");
+            throw new JapaModelException("'title' isnt from type string!");
         }
         elseif(empty($data['fields']['title']))
         {
@@ -112,22 +112,22 @@ class ActionMiscAddText extends JapaAction
 
         if(isset($data['fields']['description']) && !is_string($data['fields']['description']))
         {
-            throw new SmartModelException("'description' isnt from type string!");
+            throw new JapaModelException("'description' isnt from type string!");
         }
 
         if(isset($data['fields']['body']) && !is_string($data['fields']['body']))
         {
-            throw new SmartModelException("'body' isnt from type string!");
+            throw new JapaModelException("'body' isnt from type string!");
         }
 
         if(isset($data['fields']['status']) && !is_int($data['fields']['status']))
         {
-            throw new SmartModelException("'status' isnt from type int!");
+            throw new JapaModelException("'status' isnt from type int!");
         }
 
         if(isset($data['fields']['media_folder']) && !is_string($data['fields']['media_folder']))
         {
-            throw new SmartModelException("'media_folder' isnt from type string!");
+            throw new JapaModelException("'media_folder' isnt from type string!");
         }
 
         if( count($data['error']) > 0 )

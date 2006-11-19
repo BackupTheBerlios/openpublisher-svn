@@ -43,11 +43,11 @@ class ActionNavigationDeleteNode extends JapaAction
     { 
         if(!isset($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt defined');        
+            throw new JapaModelException('"id_node" isnt defined');        
         }    
         elseif(!is_int($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt from type int');        
+            throw new JapaModelException('"id_node" isnt from type int');        
         }
 
         return TRUE;
@@ -90,7 +90,7 @@ class ActionNavigationDeleteNode extends JapaAction
         if(isset($row['media_folder']) && !empty($row['media_folder']))
         {
             // delete user data media folder
-            SmartCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/navigation/'.$row['media_folder'] );
+            JapaCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/navigation/'.$row['media_folder'] );
         }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node

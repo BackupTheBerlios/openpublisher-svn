@@ -54,17 +54,17 @@ class ActionNavigationDeleteItem extends JapaAction
     {
         if(!isset($data['id_pic']) && !isset($data['id_file']))
         {
-            throw new SmartModelException("No 'id_pic' or 'id_file' defined");
+            throw new JapaModelException("No 'id_pic' or 'id_file' defined");
         }
 
         if(isset($data['id_pic']) && !is_int($data['id_pic']))
         {
-            throw new SmartModelException("'id_pic' isnt from type int");
+            throw new JapaModelException("'id_pic' isnt from type int");
         }
         
         if(isset($data['id_file']) && !is_int($data['id_file']))
         {
-            throw new SmartModelException("'id_file' isnt from type int");
+            throw new JapaModelException("'id_file' isnt from type int");
         }        
         return TRUE;
     } 
@@ -154,7 +154,7 @@ class ActionNavigationDeleteItem extends JapaAction
         if(TRUE == $this->isDirEmpty( $dir ))
         {
             // delete whole tree
-            SmartCommonUtil::deleteDirTree( $dir );
+            JapaCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
             $this->model->action( 'navigation','updateNode',
                                   array('id_node' => (int)$this->idNode,

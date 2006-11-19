@@ -51,22 +51,22 @@ class ActionNavigationIsSubNode extends JapaAction
     { 
         if(!isset($data['id_node1']))
         {
-            throw new SmartModelException('Action data var "id_node1" isnt defined');        
+            throw new JapaModelException('Action data var "id_node1" isnt defined');        
         }
         
         if(!isset($data['id_node2']))
         {
-            throw new SmartModelException('Action data var "id_node2" isnt defined');        
+            throw new JapaModelException('Action data var "id_node2" isnt defined');        
         }   
         
         if(!is_int($data['id_node2']))
         {
-            throw new SmartModelException('"id_node2" isnt from type int');        
+            throw new JapaModelException('"id_node2" isnt from type int');        
         }    
         
         if(!is_int($data['id_node1']))
         {
-            throw new SmartModelException('"id_node1" isnt from type int');        
+            throw new JapaModelException('"id_node1" isnt from type int');        
         }   
         
         return TRUE;

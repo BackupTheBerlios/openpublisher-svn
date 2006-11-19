@@ -48,12 +48,12 @@ class ActionSetupInsertSampleContent extends JapaAction
     {
         if(!isset($data['prefix']))
         {
-            throw new SmartModelException("data 'prefix' key is required");
+            throw new JapaModelException("data 'prefix' key is required");
         }
         
         if(!is_string($data['prefix']))
         {
-            throw new SmartModelException("data 'prefix' key value isnt from type string");
+            throw new JapaModelException("data 'prefix' key value isnt from type string");
         }        
         
         return TRUE;

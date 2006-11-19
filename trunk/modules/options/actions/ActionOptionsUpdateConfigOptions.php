@@ -74,7 +74,7 @@ class ActionOptionsUpdateConfigOptions extends JapaAction
         {
             if(!isset($this->tblFields_config[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
         

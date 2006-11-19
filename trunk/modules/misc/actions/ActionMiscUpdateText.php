@@ -78,18 +78,18 @@ class ActionMiscUpdateText extends JapaAction
         {
             if(!isset($this->tblFields_text[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!isset($data['id_text']))
         {
-            throw new SmartModelException('"id_text" isnt defined');        
+            throw new JapaModelException('"id_text" isnt defined');        
         }
 
         if(!is_int($data['id_text']))
         {
-            throw new SmartModelException('"id_text" isnt from type int');        
+            throw new JapaModelException('"id_text" isnt from type int');        
         }
         
         return TRUE;

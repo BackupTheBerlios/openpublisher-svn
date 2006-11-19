@@ -67,35 +67,35 @@ class ActionNavigationMoveItemRank extends JapaAction
     {
         if( !isset($data['id_node']) )
         {        
-            throw new SmartModelException ('"id_node" must be defined'); 
+            throw new JapaModelException ('"id_node" must be defined'); 
         } 
         elseif(!is_int($data['id_node'])  )
         {        
-            throw new SmartModelException ('"id_node" must be an integer'); 
+            throw new JapaModelException ('"id_node" must be an integer'); 
         } 
         
         if( !isset($data['id_file']) && !isset($data['id_pic']) )
         {        
-            throw new SmartModelException ('"id_file" or "id_pic" must be defined'); 
+            throw new JapaModelException ('"id_file" or "id_pic" must be defined'); 
         }
         
         if( isset($data['id_file']) && !is_int($data['id_file'])  )
         {        
-            throw new SmartModelException ('"id_file" must be an integer'); 
+            throw new JapaModelException ('"id_file" must be an integer'); 
         }  
         
         if( isset($data['id_pic']) && !is_int($data['id_pic'])  )
         {        
-            throw new SmartModelException ('"id_pic" must be an integer'); 
+            throw new JapaModelException ('"id_pic" must be an integer'); 
         }  
         
         if( !isset($data['dir']) )
         {        
-            throw new SmartModelException ('"dir" must be defined'); 
+            throw new JapaModelException ('"dir" must be defined'); 
         }  
         elseif( ($data['dir'] != 'up') && ($data['dir'] != 'down'))
         {        
-            throw new SmartModelException ('"dir" value must be "up" or "down"'); 
+            throw new JapaModelException ('"dir" value must be "up" or "down"'); 
         }   
         
         return TRUE;

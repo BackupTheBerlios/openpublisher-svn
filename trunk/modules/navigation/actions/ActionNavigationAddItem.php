@@ -65,21 +65,21 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
     {
         if(!isset($data['error']))
         {
-            throw new SmartModelException("'error' var isnt set!");
+            throw new JapaModelException("'error' var isnt set!");
         }
         elseif(!is_array($data['error']))
         {
-            throw new SmartModelException("'error' var isnt from type array!");
+            throw new JapaModelException("'error' var isnt from type array!");
         }    
         
         // check if postName exists
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
-            throw new SmartModelException ('"post_name" must be defined in view class'); 
+            throw new JapaModelException ('"post_name" must be defined in view class'); 
         }
         elseif(!is_string($data['postName']))
         {
-            throw new SmartModelException("'postName' isnt from type string");
+            throw new JapaModelException("'postName' isnt from type string");
         }         
         // validate postName name
         elseif( !isset($_FILES[$data['postName']]) )
@@ -93,15 +93,15 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         
         if(!isset($data['item']))
         {
-            throw new SmartModelException("No 'item' defined");
+            throw new JapaModelException("No 'item' defined");
         }
         elseif(!is_string($data['item']))
         {
-            throw new SmartModelException("'item' isnt from type string");
+            throw new JapaModelException("'item' isnt from type string");
         }        
         elseif(($data['item'] != 'picture') && ($data['item'] != 'file'))
         {
-            throw new SmartModelException("'item' must be 'file' or 'picture'");
+            throw new JapaModelException("'item' must be 'file' or 'picture'");
         }
         
         // set table name and item reference
@@ -124,11 +124,11 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         
         if(!isset($data['id_node']))
         {
-            throw new SmartModelException("No 'id_node' defined");
+            throw new JapaModelException("No 'id_node' defined");
         }
         elseif(!is_int($data['id_node']))
         {
-            throw new SmartModelException("'id_node' isnt numeric");
+            throw new JapaModelException("'id_node' isnt numeric");
         }  
         elseif(($data['item'] == 'file') && ($this->config['navigation']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
@@ -273,8 +273,8 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
      */    
     private function getMime( &$file )
     {
-        include_once(JAPA_BASE_DIR.'modules/common/includes/SmartCommonFileMime.php');
-        return SmartCommonFileMime::getMime($file);
+        include_once(JAPA_BASE_DIR.'modules/common/includes/JapaCommonFileMime.php');
+        return JapaCommonFileMime::getMime($file);
     }     
     /**
      * check if the file type to upload is allowed

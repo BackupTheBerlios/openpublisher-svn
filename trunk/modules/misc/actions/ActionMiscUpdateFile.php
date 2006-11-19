@@ -50,29 +50,29 @@ class ActionMiscUpdateFile extends JapaAction
     {
         if(!isset($data['action']) || (($data['action'] != 'delete') && ($data['action'] != 'update')))
         {      
-            throw new SmartModelException("No/Wrong 'action' defined. Required!");
+            throw new JapaModelException("No/Wrong 'action' defined. Required!");
         }
         
         if(!isset($data['id_file']))
         {
-            throw new SmartModelException("No 'id_file' defined. Required!");
+            throw new JapaModelException("No 'id_file' defined. Required!");
         }
 
         if(!is_int($data['id_file']))
         {
-            throw new SmartModelException("'id_file' isnt numeric");
+            throw new JapaModelException("'id_file' isnt numeric");
         }
 
         if($data['action'] == 'delete')
         {
             if(!isset($data['id_text']))
             {
-                throw new SmartModelException("No 'id_text' defined. Required!");
+                throw new JapaModelException("No 'id_text' defined. Required!");
             }
 
             if(!is_int($data['id_text']))
             {
-                throw new SmartModelException("'id_text' isnt numeric");
+                throw new JapaModelException("'id_text' isnt numeric");
             }
         }
         

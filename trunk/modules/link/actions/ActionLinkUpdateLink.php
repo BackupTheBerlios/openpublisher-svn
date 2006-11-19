@@ -71,7 +71,7 @@ class ActionLinkUpdateLink extends JapaAction
     { 
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         // check if database fields exists
@@ -79,7 +79,7 @@ class ActionLinkUpdateLink extends JapaAction
         {
             if(!isset($this->tblFields_link[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
         
@@ -87,7 +87,7 @@ class ActionLinkUpdateLink extends JapaAction
         {
             if(!is_int($data['fields']['id_node']))
             {
-                throw new SmartModelException("'id_node' isnt from type int");
+                throw new JapaModelException("'id_node' isnt from type int");
             }        
             elseif($data['fields']['id_node'] == 0)
             {
@@ -98,7 +98,7 @@ class ActionLinkUpdateLink extends JapaAction
         
         if(!is_int($data['id_link']))
         {
-            throw new SmartModelException('"id_link" isnt from type int');        
+            throw new JapaModelException('"id_link" isnt from type int');        
         }
         
         return TRUE;

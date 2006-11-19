@@ -97,7 +97,7 @@ class ActionNavigationAddNode extends ActionNavigation
     {
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         // check if database fields exists
@@ -105,26 +105,26 @@ class ActionNavigationAddNode extends ActionNavigation
         {
             if($key == 'id_sector')
             {
-                throw new SmartModelException("Field 'id_sector' is not allowed!");
+                throw new JapaModelException("Field 'id_sector' is not allowed!");
             }      
             elseif($key == 'id_parent')
             {
-                throw new SmartModelException("Field 'id_parent' is not allowed in fields array!");
+                throw new JapaModelException("Field 'id_parent' is not allowed in fields array!");
             } 
             
             if(!isset($this->tblFields_node[$key]))
             {
-                throw new SmartModelException("Field '".$key."' isnt allowed!");
+                throw new JapaModelException("Field '".$key."' isnt allowed!");
             }
         }
 
         if(!isset($data['id_parent']))
         {
-            throw new SmartModelException('"id_parent" is required');        
+            throw new JapaModelException('"id_parent" is required');        
         }      
         elseif(!is_int($data['id_parent']))
         {
-            throw new SmartModelException('"id_parent" isnt from type int');        
+            throw new JapaModelException('"id_parent" isnt from type int');        
         }      
         
         return TRUE;

@@ -40,7 +40,7 @@ class ActionNavigationDeleteLogo extends JapaAction
 
         if(!@unlink(JAPA_BASE_DIR . 'data/navigation/'.$_file['media_folder'].'/'.$_file['logo']))
         {
-            throw new SmartModelException('Cant delete user logo: data/navigation/'.$_file['media_folder'].'/'.$_file['logo']);
+            throw new JapaModelException('Cant delete user logo: data/navigation/'.$_file['media_folder'].'/'.$_file['logo']);
         }
                             
         $this->model->action('navigation','updateNode',
@@ -62,11 +62,11 @@ class ActionNavigationDeleteLogo extends JapaAction
     {
         if(!isset($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt defined');        
+            throw new JapaModelException('"id_node" isnt defined');        
         }    
         elseif(!is_int($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt from type int');        
+            throw new JapaModelException('"id_node" isnt from type int');        
         }
         
         return TRUE;
@@ -83,7 +83,7 @@ class ActionNavigationDeleteLogo extends JapaAction
         if(TRUE == $this->isDirEmpty( $dir ))
         {
             // delete whole tree
-            SmartCommonUtil::deleteDirTree( $dir );
+            JapaCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
             $this->model->action( 'navigation','updateNode',
                                   array('id_node' => (int)$id_node,

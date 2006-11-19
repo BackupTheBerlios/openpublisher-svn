@@ -85,7 +85,7 @@ class ActionMiscGetTextes extends JapaAction
         {
             if(!isset($this->tblFields_text[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
@@ -93,20 +93,20 @@ class ActionMiscGetTextes extends JapaAction
         {
             if(!is_array($data['order']))
             {
-                throw new SmartModelException('"order" action array instruction isnt an array'); 
+                throw new JapaModelException('"order" action array instruction isnt an array'); 
             }
             else
             {
                 if(!preg_match("/status|title/",$data['order'][0]))
                 {
-                    throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
+                    throw new JapaModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
                 }
 
                 if(isset($data['order'][1]))
                 {
                     if(!preg_match("/asc|desc/i",$data['order'][1]))
                     {
-                        throw new SmartModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
+                        throw new JapaModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
                     }
                 }
                 else
@@ -120,7 +120,7 @@ class ActionMiscGetTextes extends JapaAction
         {
             if(!is_array($data['ids']))
             {
-                throw new SmartModelException('"ids" action array instruction isnt an array'); 
+                throw new JapaModelException('"ids" action array instruction isnt an array'); 
             }
             else
             {
@@ -128,7 +128,7 @@ class ActionMiscGetTextes extends JapaAction
                 {
                     if(!is_int($id))
                     {
-                        throw new SmartModelException('Wrong "ids" array value: '.$id.'. Must be integer!'); 
+                        throw new JapaModelException('Wrong "ids" array value: '.$id.'. Must be integer!'); 
                     }
                 }
             }        

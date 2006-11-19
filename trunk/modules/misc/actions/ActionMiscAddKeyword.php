@@ -52,20 +52,20 @@ class ActionMiscAddKeyword extends JapaAction
     {
         if(!isset($data['id_text'])) 
         {
-            throw new SmartModelException("'id_text' isnt defined");
+            throw new JapaModelException("'id_text' isnt defined");
         }
         elseif(!is_int($data['id_text']))
         {
-            throw new SmartModelException("'id_text' isnt from type int");
+            throw new JapaModelException("'id_text' isnt from type int");
         }         
           
         if(!isset($data['id_key'])) 
         {
-            throw new SmartModelException("'id_key' isnt defined");
+            throw new JapaModelException("'id_key' isnt defined");
         }
         elseif(!is_int($data['id_key']))
         {
-            throw new SmartModelException("'id_key' isnt from type int");
+            throw new JapaModelException("'id_key' isnt from type int");
         }  
         
         return TRUE;

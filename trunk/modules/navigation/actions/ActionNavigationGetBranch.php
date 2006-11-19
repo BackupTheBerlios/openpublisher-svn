@@ -94,30 +94,30 @@ class ActionNavigationGetBranch extends JapaAction
     { 
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+            throw new JapaModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
         foreach($data['fields'] as $val)
         {
             if(!isset($this->tblFields_node[$val]))
             {
-                throw new SmartModelException("Field '".$val."' dosent exists!");
+                throw new JapaModelException("Field '".$val."' dosent exists!");
             }
         }
 
         if(!isset($data['id_node']))
         {
-            throw new SmartModelException('"id_node" action array instruction is required'); 
+            throw new JapaModelException('"id_node" action array instruction is required'); 
         }
         
         if(!is_int($data['id_node']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_user);        
+            throw new JapaModelException('Wrong id_node format: '.$id_user);        
         }
 
         if(!isset($data['result']) || !is_array($data['result']))
         {
-            throw new SmartModelException('Missing "result" array var or "result isnt defined as an array.'); 
+            throw new JapaModelException('Missing "result" array var or "result isnt defined as an array.'); 
         }
         
         return TRUE;

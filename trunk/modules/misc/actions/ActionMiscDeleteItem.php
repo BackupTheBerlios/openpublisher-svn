@@ -40,7 +40,7 @@ class ActionMiscDeleteItem extends JapaAction
         }
         else
         {
-            throw new SmartModelException("No 'id_file' or 'id_pic'");
+            throw new JapaModelException("No 'id_file' or 'id_pic'");
         }
         
         $this->removeEmptyDirectory();
@@ -58,16 +58,16 @@ class ActionMiscDeleteItem extends JapaAction
     {
         if(!isset($data['id_pic']) && !isset($data['id_file']))
         {
-            throw new SmartModelException("No 'id_pic' or 'id_file' defined");
+            throw new JapaModelException("No 'id_pic' or 'id_file' defined");
         }
         
         if(isset($data['id_pic']) && !is_int($data['id_pic']))
         {
-            throw new SmartModelException("'id_pic' isnt from type int");
+            throw new JapaModelException("'id_pic' isnt from type int");
         }
         elseif(isset($data['id_file']) && !is_int($data['id_file']))
         {
-            throw new SmartModelException("'id_file' isnt from type int");
+            throw new JapaModelException("'id_file' isnt from type int");
         }        
         return TRUE;
     } 
@@ -157,7 +157,7 @@ class ActionMiscDeleteItem extends JapaAction
         if(TRUE == $this->isDirEmpty( $dir ))
         {
             // delete whole tree
-            SmartCommonUtil::deleteDirTree( $dir );
+            JapaCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
             $this->model->action( 'misc','updateText',
                                   array('id_text' => (int)$this->idText,
