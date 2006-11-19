@@ -1,6 +1,6 @@
 <?php
 // ---------------------------------------------
-// Smart (PHP Framework)
+// Japa (PHP Framework)
 // Copyright (c) 2006
 // by Armand Turpel < cms@open-publisher.net >
 // http://www.open-publisher.net/

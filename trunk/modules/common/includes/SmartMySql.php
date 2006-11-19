@@ -52,7 +52,7 @@ class DbMysql
     
         if(FALSE == $this->dbh) 
         {
-            throw new SmartDbException( $this->error() );
+            throw new JapaDbException( $this->error() );
         }
         $this->selectDatabase( $this->dbname );
     }
@@ -66,7 +66,7 @@ class DbMysql
     {       
         if( !mysql_select_db( $db_name, $this->dbh ) )
         {
-            throw new SmartDbException( $this->error() );
+            throw new JapaDbException( $this->error() );
         }
     }
 
@@ -81,7 +81,7 @@ class DbMysql
 
         if(FALSE === $result) 
         {
-            throw new SmartDbException($this->error( 'QUERY: ' . $query ));
+            throw new JapaDbException($this->error( 'QUERY: ' . $query ));
         }
         else 
         {
@@ -98,7 +98,7 @@ class DbMysql
     
     public function prepare($query) 
     {
-         throw new SmartDbException('Prepare statement not yet supported');
+         throw new JapaDbException('Prepare statement not yet supported');
     }   
     
     public function escape( $str )
@@ -123,7 +123,7 @@ class DbMysql
     
     public function setCharset( $charset )
     {
-        throw new SmartDbException('setCharset() not supported');
+        throw new JapaDbException('setCharset() not supported');
     }  
     
     public function lastInsertID()
@@ -161,7 +161,7 @@ class DbMysqlStatement
     {
         if(!$result = mysql_fetch_row( $this->result ))
         {
-            throw new SmartDbException( $this->error() );
+            throw new JapaDbException( $this->error() );
         }
         return $result;
     }
@@ -264,7 +264,7 @@ class DbMysqlBindStatement extends DbMysqlStatement
         
         if( FALSE ==  $this->result->execute() )
         {
-            throw new SmartDbException($this->dbh->error);
+            throw new JapaDbException($this->dbh->error);
         }
     } 
     

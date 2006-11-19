@@ -10,10 +10,10 @@
 // ---------------------------------------------
 
 /**
- * SmartPager
+ * JapaPager
  *
  * USAGE:
- * new SmartPager( array('result'     => & string, // result string ref. with pager links
+ * new JapaPager( array('result'     => & string, // result string ref. with pager links
                          'numItems'   => int,      // total items
                          'perPage'    => int,      // items per page
                          'numPage'    => int,      // current page
@@ -25,7 +25,7 @@
  *
  */
 
-class SmartPager
+class JapaPager
 { 
     /**
      * constructor

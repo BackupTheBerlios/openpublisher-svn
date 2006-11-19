@@ -91,7 +91,7 @@ class JapaCommonUtil
                 }
                 if ( @is_dir( $dir . '/' . $file ) )
                 {
-                    SmartCommonUtil::deleteDirTree( $dir . '/' . $file );
+                    JapaCommonUtil::deleteDirTree( $dir . '/' . $file );
                 }
                 else
                 {

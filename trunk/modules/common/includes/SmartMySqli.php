@@ -56,7 +56,7 @@ class DbMysql
             {
                 if(FALSE == $this->dbh->options($key, $val))
                 {
-                    throw new SmartDbException($this->dbh->error);
+                    throw new JapaDbException($this->dbh->error);
                 }
             }
         }
@@ -65,7 +65,7 @@ class DbMysql
     
         if(FALSE == $connect) 
         {
-            throw new SmartDbException($this->dbh->error);
+            throw new JapaDbException($this->dbh->error);
         }
     }
 
@@ -80,7 +80,7 @@ class DbMysql
 
         if(FALSE === $result) 
         {
-            throw new SmartDbException($this->dbh->error);
+            throw new JapaDbException($this->dbh->error);
         }
         elseif(TRUE !== $result) 
         {
@@ -101,7 +101,7 @@ class DbMysql
 
         if(!$result) 
         {
-            throw new SmartDbException($this->dbh->error);
+            throw new JapaDbException($this->dbh->error);
         }
         
         $stmt = new DbMysqlBindStatement;  
@@ -256,7 +256,7 @@ class DbMysqlBindStatement extends DbMysqlStatement
         
         if( FALSE ==  $this->result->execute() )
         {
-            throw new SmartDbException($this->dbh->error);
+            throw new JapaDbException($this->dbh->error);
         }
     } 
     

@@ -10,11 +10,11 @@
 // ---------------------------------------------
 
 /**
- * SmartCommonFileMime class 
+ * JapaCommonFileMime class 
  *
  */
  
-class SmartCommonFileMime
+class JapaCommonFileMime
 {
     /**
      * get_extension
@@ -176,7 +176,7 @@ class SmartCommonFileMime
          ".ice"     => "x-conference-xcooltalk"
         );
         
-        $ext = SmartCommonFileMime::getExtension( strtolower($file) );
+        $ext = JapaCommonFileMime::getExtension( strtolower($file) );
         
         if(!isset($_mimetypes[$ext]))
         {
