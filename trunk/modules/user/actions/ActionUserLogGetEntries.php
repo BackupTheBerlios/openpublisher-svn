@@ -99,18 +99,18 @@ class ActionUserLogGetEntries extends JapaAction
     {
         if(!isset($data['result']))
         {
-            throw new SmartModelException("'result' isnt set");
+            throw new JapaModelException("'result' isnt set");
         }
         elseif(!is_array($data['result']))
         {
-            throw new SmartModelException("'result' isnt from type array");
+            throw new JapaModelException("'result' isnt from type array");
         }
         
         if(isset($data['module']))
         {
             if(!is_string($data['module']))
             {
-                throw new SmartModelException("'module' isnt from type string");
+                throw new JapaModelException("'module' isnt from type string");
             }
         }
         
@@ -118,7 +118,7 @@ class ActionUserLogGetEntries extends JapaAction
         {
             if(!is_string($data['view']))
             {
-                throw new SmartModelException("'view' isnt from type string");
+                throw new JapaModelException("'view' isnt from type string");
             }
         }
         
@@ -126,7 +126,7 @@ class ActionUserLogGetEntries extends JapaAction
         {
             if(!is_int($data['id_item']))
             {
-                throw new SmartModelException("'id_item' isnt from type int");
+                throw new JapaModelException("'id_item' isnt from type int");
             }
         }
         
@@ -134,23 +134,23 @@ class ActionUserLogGetEntries extends JapaAction
         {        
             if(!isset($data['limit']['numPage']))
             {
-                throw new SmartModelException('numPage" isnt defined'); 
+                throw new JapaModelException('numPage" isnt defined'); 
             } 
             if(!is_int($data['limit']['numPage']))
             {
-                throw new SmartModelException('numPage" isnt from type int'); 
+                throw new JapaModelException('numPage" isnt from type int'); 
             }             
             if(!isset($data['limit']['perPage']))
             {
-                throw new SmartModelException('"perPage" isnt defined'); 
+                throw new JapaModelException('"perPage" isnt defined'); 
             } 
             if(!is_int($data['limit']['perPage']))
             {
-                throw new SmartModelException('"perPage" isnt from type int'); 
+                throw new JapaModelException('"perPage" isnt from type int'); 
             }  
             elseif( $data['limit']['perPage'] < 2 )
             {
-                throw new SmartModelException('"perPage" must be >= 2');
+                throw new JapaModelException('"perPage" must be >= 2');
             }
         }     
 

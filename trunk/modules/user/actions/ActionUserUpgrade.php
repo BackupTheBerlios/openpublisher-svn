@@ -100,11 +100,11 @@ class ActionUserUpgrade extends JapaAction
     {
         if(!isset($data['new_version']))
         {
-            throw new SmartModelException('data var "new_version" is required');        
+            throw new JapaModelException('data var "new_version" is required');        
         }  
         if(!is_string($data['new_version']))
         {
-            throw new SmartModelException('data var "new_version" isnt from type string');        
+            throw new JapaModelException('data var "new_version" isnt from type string');        
         }   
         
         return TRUE;

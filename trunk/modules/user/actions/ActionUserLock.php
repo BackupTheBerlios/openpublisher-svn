@@ -85,7 +85,7 @@ class ActionUserLock extends JapaAction
                 $this->unlockByIdUser($data); 
                 return;                
             default:
-                throw new SmartModelException('"job" not available: '.$data['job']); 
+                throw new JapaModelException('"job" not available: '.$data['job']); 
         }
         
         return TRUE;
@@ -101,15 +101,15 @@ class ActionUserLock extends JapaAction
     {
         if( isset($data['id_user']) && !is_int($data['id_user']) )
         {
-            throw new SmartModelException('Wrong "id_user" format or it isnt set');         
+            throw new JapaModelException('Wrong "id_user" format or it isnt set');         
         }    
         if( isset($data['by_id_user']) && !is_int($data['by_id_user']) )
         {
-            throw new SmartModelException('Wrong "by_id_user" format or it isnt set');         
+            throw new JapaModelException('Wrong "by_id_user" format or it isnt set');         
         } 
         if( isset($data['job']) && !is_string($data['job']) )
         {
-            throw new SmartModelException('Wrong "job" format or it isnt set');         
+            throw new JapaModelException('Wrong "job" format or it isnt set');         
         }         
         return TRUE;
     }

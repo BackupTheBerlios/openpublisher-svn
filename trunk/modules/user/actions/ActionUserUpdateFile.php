@@ -50,29 +50,29 @@ class ActionUserUpdateFile extends JapaAction
     {
         if(!isset($data['action']) || (($data['action'] != 'delete') && ($data['action'] != 'update')))
         {      
-            throw new SmartModelException("No/Wrong 'action'. Required!");
+            throw new JapaModelException("No/Wrong 'action'. Required!");
         }
         
         if(!isset($data['id_file']))
         {
-            throw new SmartModelException("No 'id_file' defined. Required!");
+            throw new JapaModelException("No 'id_file' defined. Required!");
         }
 
         if(!is_int($data['id_file']))
         {
-            throw new SmartModelException("'id_file' isnt from type int");
+            throw new JapaModelException("'id_file' isnt from type int");
         }
 
         if($data['action'] == 'delete')
         {
             if(!isset($data['id_user']))
             {
-                throw new SmartModelException("No 'id_user' defined. Required!");
+                throw new JapaModelException("No 'id_user' defined. Required!");
             }
 
             if(!is_int($data['id_user']))
             {
-                throw new SmartModelException("'id_user' isnt from type int");
+                throw new JapaModelException("'id_user' isnt from type int");
             }
         }
         

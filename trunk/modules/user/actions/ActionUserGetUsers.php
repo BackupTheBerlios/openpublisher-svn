@@ -113,35 +113,35 @@ class ActionUserGetUsers extends ActionUser
         {
             if(!isset($this->tblFields_user[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException("'result' isnt set");
+            throw new JapaModelException("'result' isnt set");
         }
         elseif(!is_array($data['result']))
         {
-            throw new SmartModelException("'result' isnt from type array");
+            throw new JapaModelException("'result' isnt from type array");
         }
 
         if(isset($data['or_id_user']) && !is_int($data['or_id_user']))
         {
-            throw new SmartModelException("'or_id_user' isnt from type int");
+            throw new JapaModelException("'or_id_user' isnt from type int");
         }
 
         if(isset($data['role']))
         {
             if(!is_array($data['role']))
             {
-                throw new SmartModelException('"role" action array instruction isnt an array'); 
+                throw new JapaModelException('"role" action array instruction isnt an array'); 
             }
             else
             {
                 if(!preg_match("/=|<|>|>=|<=/",$data['role'][0]))
                 {
-                    throw new SmartModelException('Wrong "role" array[0] value: '.$data['role'][0]); 
+                    throw new JapaModelException('Wrong "role" array[0] value: '.$data['role'][0]); 
                 }
 
                 if(isset($data['role'][1]))
@@ -149,12 +149,12 @@ class ActionUserGetUsers extends ActionUser
                     // check allowed role values
                     if(!isset($this->userRole[$data['role'][1]]))
                     {
-                        throw new SmartModelException('Wrong "role" array[1] value: '.$data['role'][1]); 
+                        throw new JapaModelException('Wrong "role" array[1] value: '.$data['role'][1]); 
                     }
                 }
                 else
                 {
-                    throw new SmartModelException('"role" array[1] value isnt set.'); 
+                    throw new JapaModelException('"role" array[1] value isnt set.'); 
                 }
             }
         }
@@ -163,20 +163,20 @@ class ActionUserGetUsers extends ActionUser
         {
             if(!is_array($data['order']))
             {
-                throw new SmartModelException('"order" action array instruction isnt an array'); 
+                throw new JapaModelException('"order" action array instruction isnt an array'); 
             }
             else
             {
                 if(!preg_match("/name|lastname|login|role|status/",$data['order'][0]))
                 {
-                    throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
+                    throw new JapaModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
                 }
 
                 if(isset($data['order'][1]))
                 {
                     if(!preg_match("/asc|desc/i",$data['order'][1]))
                     {
-                        throw new SmartModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
+                        throw new JapaModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
                     }
                 }
                 else

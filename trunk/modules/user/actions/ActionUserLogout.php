@@ -45,7 +45,7 @@ class ActionUserLogout extends JapaAction
     {
         if( !isset($data['loggedUserId']) || !is_int($data['loggedUserId']) )
         {        
-            throw new SmartModelException ('"loggedUserId" must be defined and from type int'); 
+            throw new JapaModelException ('"loggedUserId" must be defined and from type int'); 
         }
     
         return TRUE;

@@ -73,11 +73,11 @@ class ActionUserUpdateItem extends JapaAction
     { 
         if(!isset($data['item']))
         {
-            throw new SmartModelException ('action array var "item" isnt defined!'); 
+            throw new JapaModelException ('action array var "item" isnt defined!'); 
         }
         if(!is_string($data['item']))
         {
-            throw new SmartModelException ('action array var "item" must be a string!'); 
+            throw new JapaModelException ('action array var "item" must be a string!'); 
         }        
         // set table name and item reference
         switch($data['item'])
@@ -94,25 +94,25 @@ class ActionUserUpdateItem extends JapaAction
                 $this->tblFields_item['id_pic'] = 'Int';
                 break;
             default:
-                throw new SmartModelException ('"item" must be "file" or "pic". Unknown "item": '.$data['item']); 
+                throw new JapaModelException ('"item" must be "file" or "pic". Unknown "item": '.$data['item']); 
         }
 
         if( !isset($data['ids']) )
         {        
-            throw new SmartModelException ('"ids" must be defined'); 
+            throw new JapaModelException ('"ids" must be defined'); 
         } 
         elseif(!is_array($data['ids'])  )
         {        
-            throw new SmartModelException ('"ids" must be an array'); 
+            throw new JapaModelException ('"ids" must be an array'); 
         } 
 
         if(!isset($data['fields']))
         {
-            throw new SmartModelException ('action array var "fields" isnt defined!'); 
+            throw new JapaModelException ('action array var "fields" isnt defined!'); 
         }
         if(!is_array($data['fields']))
         {
-            throw new SmartModelException ('action array var "fields" must be an array!'); 
+            throw new JapaModelException ('action array var "fields" must be an array!'); 
         }  
     
         // check if database fields exists
@@ -120,7 +120,7 @@ class ActionUserUpdateItem extends JapaAction
         {
             if(!isset($this->tblFields_item[$key]))
             {
-                throw new SmartModelException("Field '".$key."' isnt allowed!");
+                throw new JapaModelException("Field '".$key."' isnt allowed!");
             }
         }
         

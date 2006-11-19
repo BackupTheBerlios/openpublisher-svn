@@ -72,7 +72,7 @@ class ActionUserLogAddSession extends JapaAction
         {
             if(!isset($this->tblFields[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
@@ -80,45 +80,45 @@ class ActionUserLogAddSession extends JapaAction
         {
             if(!is_int($data['id_session']))
             {
-                throw new SmartModelException("'id_session' isnt from type int!");
+                throw new JapaModelException("'id_session' isnt from type int!");
             }
         }
         else
         {
-            throw new SmartModelException("'id_session' isnt defined");
+            throw new JapaModelException("'id_session' isnt defined");
         }
         
         if(isset($data['user']['id_user']))
         {
             if(!is_int($data['user']['id_user']))
             {
-                throw new SmartModelException("'id_user' isnt from type int!");
+                throw new JapaModelException("'id_user' isnt from type int!");
             }
         }
         else
         {
-            throw new SmartModelException("'id_user' isnt defined");
+            throw new JapaModelException("'id_user' isnt defined");
         }
         
         if(isset($data['user']['ip']))
         {
             if(!is_string($data['user']['ip']))
             {
-                throw new SmartModelException("'ip' isnt from type string!");
+                throw new JapaModelException("'ip' isnt from type string!");
             }
         }        
         if(isset($data['user']['host']))
         {
             if(!is_string($data['user']['host']))
             {
-                throw new SmartModelException("'host' isnt from type string!");
+                throw new JapaModelException("'host' isnt from type string!");
             }
         }   
         if(isset($data['user']['agent']))
         {
             if(!is_string($data['user']['agent']))
             {
-                throw new SmartModelException("'agent' isnt from type string!");
+                throw new JapaModelException("'agent' isnt from type string!");
             }
         }  
         

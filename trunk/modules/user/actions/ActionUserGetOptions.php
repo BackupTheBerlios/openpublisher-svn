@@ -46,11 +46,11 @@ class ActionUserGetOptions extends JapaAction
     {
         if(!isset($data['result']))
         {
-            throw new SmartModelException("No 'result' defined");
+            throw new JapaModelException("No 'result' defined");
         }
         if(!is_array($data['result']))
         {
-            throw new SmartModelException("'result' isnt from type array");
+            throw new JapaModelException("'result' isnt from type array");
         }
         return TRUE;
     }

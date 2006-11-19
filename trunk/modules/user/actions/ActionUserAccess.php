@@ -80,7 +80,7 @@ class ActionUserAccess extends JapaAction
                 $this->deleteAccess($data);   
                 return;                
             default:
-                throw new SmartModelException('Action not available: '.$data['action']); 
+                throw new JapaModelException('Action not available: '.$data['action']); 
         }
         
         return TRUE;
@@ -96,7 +96,7 @@ class ActionUserAccess extends JapaAction
     {       
         if(!isset($data['job']) || !is_string($data['job']) || empty($data['job']))
         {
-            throw new SmartModelException('No [job] defined for this action'); 
+            throw new JapaModelException('No [job] defined for this action'); 
         }
         
         switch($data['job'])
@@ -109,28 +109,28 @@ class ActionUserAccess extends JapaAction
                 } 
                 elseif(!is_int($data['id_user']))
                 {
-                    throw new SmartModelException('"id_user" action array value type is not int'); 
+                    throw new JapaModelException('"id_user" action array value type is not int'); 
                 }
                 break;  
             case 'last':
             case 'delete':
                 if(!isset($data['id_user']))
                 {
-                    throw new SmartModelException('[id_user] isnt set');         
+                    throw new JapaModelException('[id_user] isnt set');         
                 } 
                 elseif(!is_int($data['id_user']))
                 {
-                    throw new SmartModelException('"id_user" action array value type is not int'); 
+                    throw new JapaModelException('"id_user" action array value type is not int'); 
                 }
                 break;
             case 'last_x':
                 if( !isset($data['num']) || !is_int($data['num']) )
                 {
-                    throw new SmartModelException('"num" action array value isnt set or isnt type int');       
+                    throw new JapaModelException('"num" action array value isnt set or isnt type int');       
                 } 
                 break;                
             default:
-                throw new SmartModelException('[job] not available: '.$data['job']); 
+                throw new JapaModelException('[job] not available: '.$data['job']); 
         }        
                
         return TRUE;

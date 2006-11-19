@@ -80,7 +80,7 @@ class ActionUserCheckLogin extends JapaAction
     {
         if(!is_string($data['login']))
         {
-            throw new SmartModelException("'login' isnt from type string!");
+            throw new JapaModelException("'login' isnt from type string!");
         }
         elseif( preg_match("/[^a-zA-Z0-9_-]/", $data['login']) )
         { 
@@ -93,7 +93,7 @@ class ActionUserCheckLogin extends JapaAction
 
         if(!is_string($data['passwd']))
         {
-            throw new SmartModelException("'passwd' isnt from type string!");
+            throw new JapaModelException("'passwd' isnt from type string!");
         }        
         elseif( preg_match("/[^a-zA-Z0-9_-]/", $data['passwd']) )
         {

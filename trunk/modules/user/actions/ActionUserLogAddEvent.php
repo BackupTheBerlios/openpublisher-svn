@@ -89,7 +89,7 @@ class ActionUserLogAddEvent extends JapaAction
         {
             if(!isset($this->tblFields[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
         
@@ -97,21 +97,21 @@ class ActionUserLogAddEvent extends JapaAction
         {
             if(!is_string($data['module']))
             {
-                throw new SmartModelException("'module' isnt from type string!");
+                throw new JapaModelException("'module' isnt from type string!");
             }
         }        
         if(isset($data['view']))
         {
             if(!is_string($data['view']))
             {
-                throw new SmartModelException("'view' isnt from type string!");
+                throw new JapaModelException("'view' isnt from type string!");
             }
         }   
         if(isset($data['message']))
         {
             if(!is_string($data['message']))
             {
-                throw new SmartModelException("'message' isnt from type string!");
+                throw new JapaModelException("'message' isnt from type string!");
             }
         }  
         
@@ -119,19 +119,19 @@ class ActionUserLogAddEvent extends JapaAction
         {
             if(!is_int($data['id_item']))
             {
-                throw new SmartModelException("'id_item' isnt from type int!");
+                throw new JapaModelException("'id_item' isnt from type int!");
             }
         }   
         if(isset($data['type']))
         {
             if(!is_int($data['type']))
             {
-                throw new SmartModelException("'type' isnt from type int!");
+                throw new JapaModelException("'type' isnt from type int!");
             }
         } 
         else
         {
-            throw new SmartModelException("'type' isnt defined");
+            throw new JapaModelException("'type' isnt defined");
         }
         
         return true;

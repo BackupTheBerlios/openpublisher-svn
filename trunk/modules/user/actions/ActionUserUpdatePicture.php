@@ -45,29 +45,29 @@ class ActionUserUpdatePicture extends JapaAction
     {
         if(!isset($data['action']) || (($data['action'] != 'delete') && ($data['action'] != 'update')))
         {      
-            throw new SmartModelException("No/Wrong 'action' defined. Required!");
+            throw new JapaModelException("No/Wrong 'action' defined. Required!");
         }
         
         if(!isset($data['id_pic']))
         {
-            throw new SmartModelException("No 'id_pic' defined. Required!");
+            throw new JapaModelException("No 'id_pic' defined. Required!");
         }
 
         if(!is_int($data['id_pic']))
         {
-            throw new SmartModelException("'id_pic' isnt numeric");
+            throw new JapaModelException("'id_pic' isnt numeric");
         }
 
         if($data['action'] == 'delete')
         {
             if(!isset($data['id_user']))
             {
-                throw new SmartModelException("No 'id_user' defined. Required!");
+                throw new JapaModelException("No 'id_user' defined. Required!");
             }
 
             if(!is_int($data['id_user']))
             {
-                throw new SmartModelException("'id_user' isnt numeric");
+                throw new JapaModelException("'id_user' isnt numeric");
             }
         }
         

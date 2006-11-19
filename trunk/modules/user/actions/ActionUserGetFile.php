@@ -70,27 +70,27 @@ class ActionUserGetFile extends JapaAction
         {
             if(!isset($this->tblFields_pic[$key]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new JapaModelException("Field '".$key."' dosent exists!");
             }
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException("'result' isnt set");
+            throw new JapaModelException("'result' isnt set");
         }
         elseif(!is_array($data['result']))
         {
-            throw new SmartModelException("'result' isnt from type array");
+            throw new JapaModelException("'result' isnt from type array");
         }
 
         if(!isset($data['id_file']))
         {
-            throw new SmartModelException("No 'id_file' defined");
+            throw new JapaModelException("No 'id_file' defined");
         }
 
         if(!is_int($data['id_file']))
         {
-            throw new SmartModelException("'id_file' isnt numeric");
+            throw new JapaModelException("'id_file' isnt numeric");
         }
         return TRUE;
     }
