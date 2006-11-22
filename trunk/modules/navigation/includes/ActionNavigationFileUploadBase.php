@@ -138,7 +138,13 @@ class ActionNavigationFileUploadBase extends JapaAction
         $result['file_name'] = $prefix . $file_name;
         
         return $result;
-    }                      
+    }      
+    
+    public function perform( $data = FALSE ){}      
+    public function validate( $data = FALSE )
+    {
+        return true;
+    }                 
 }
 
 ?>
