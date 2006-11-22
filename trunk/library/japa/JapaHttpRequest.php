@@ -77,6 +77,15 @@ class JapaHttpRequest implements JapaInterfaceRequest
         }
         return $this->validate( $this->filterCookie, $name, $type );
     }
+    
+    private function getFiles( $name, $type )
+    {
+        if(!isset($this->filterFiles))
+        {
+            $this->filterFiles = new Zend_Filter_Input( $_FILES);
+        }
+        return $this->validate( $this->filterFiles, $name, $type );
+    }
 
     public function getParameterNames( $context = 'request' ) 
     {
