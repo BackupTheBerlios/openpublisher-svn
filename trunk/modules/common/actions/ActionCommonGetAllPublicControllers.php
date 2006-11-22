@@ -10,15 +10,15 @@
 // ---------------------------------------------
 
 /**
- * ActionCommonGetAllPublicViews
+ * ActionCommonGetAllPublicControllers
  *
  * USAGE:
- * $model->action( 'common','getAllPublicViews',
+ * $model->action( 'common','getAllPublicControllers',
  *                 array('result' => & array );   
  *
  */
 
-class ActionCommonGetAllPublicViews extends JapaAction
+class ActionCommonGetAllPublicControllers extends JapaAction
 {
     /**
      * Perform on the action call
@@ -29,10 +29,10 @@ class ActionCommonGetAllPublicViews extends JapaAction
      */
     public function perform( $data = FALSE )
     {
-        $view_name = array();
-        $view_dir = JAPA_BASE_DIR . $this->model->config['views_folder'];
+        $controller_name = array();
+        $controller_dir  = JAPA_APPLICATION_DIR . 'controllers/' . $this->model->config['views_folder'];
           
-        if ( (($handle = @opendir( $view_dir ))) != FALSE )
+        if ( (($handle = @opendir( $controller_dir ))) != FALSE )
         {
             while ( (( $file = readdir( $handle ) )) != false )
             {
@@ -40,35 +40,35 @@ class ActionCommonGetAllPublicViews extends JapaAction
                 {
                     continue;
                 }
-                if(preg_match("/^View([a-zA-z0-9_]+)\.php$/", $file, $name))
+                if(preg_match("/^Controller([a-zA-z0-9_]+)\.php$/", $file, $name))
                 {
-                    $view_name[] = $name[1];
+                    $controller_name[] = $name[1];
                 }
             }
             @closedir( $handle );
         }
         else
         {
-            trigger_error( "Can not open view folder to read: ".$view_dir, E_USER_ERROR  );
+            trigger_error( "Can not open controllers folder to read: " . $controller_dir, E_USER_ERROR  );
         }
         
-        sort( $view_name );
+        sort( $controller_name );
         
-        $tpl_dir = JAPA_BASE_DIR . $this->model->config['templates_folder'];
+        $view_dir = JAPA_PUBLIC_DIR . 'views/' . $this->model->config['templates_folder'];
         
         $data['result'] = array();
         
-        foreach($view_name as $name)
+        foreach($controller_name as $name)
         {
-            if(file_exists($tpl_dir . '/tpl.' . $name . '.php'))
+            if(file_exists($view_dir . '/view.' . $name . '.php'))
             {
                 $data['result'][] = array('name' => $name,
-                                          'tpl'  => TRUE);
+                                          'view'  => TRUE);
             }
             else
             {
                 $data['result'][] = array('name' => $name,
-                                          'tpl'  => FALSE);            
+                                          'view'  => FALSE);            
             }
         }   
     }
@@ -85,7 +85,7 @@ class ActionCommonGetAllPublicViews extends JapaAction
             throw new JapaModelException("No 'result' array var defined");
         }
         
-        return TRUE;
+        return true;
     }    
 }
 
