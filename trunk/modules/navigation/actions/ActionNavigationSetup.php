@@ -32,7 +32,7 @@ class ActionNavigationSetup extends JapaAction
                    `id_node`       int(11) unsigned NOT NULL auto_increment,
                    `id_parent`     int(11) unsigned NOT NULL default 0,
                    `id_sector`     int(11) unsigned NOT NULL default 0,
-                   `id_view`       int(11) unsigned NOT NULL default 0,
+                   `id_controller` int(11) unsigned NOT NULL default 0,
                    `status`        tinyint(1) NOT NULL default 0,
                    `rank`          smallint(4) unsigned NOT NULL default 0,
                    `modifydate`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -48,7 +48,7 @@ class ActionNavigationSetup extends JapaAction
                    KEY `node_status` (`status`),
                    KEY `id_sector`   (`id_sector`),
                    KEY `modifydate`  (`modifydate`), 
-                   KEY `view`        (`id_view`)) 
+                   KEY `id_controller` (`id_controller`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
@@ -120,11 +120,11 @@ class ActionNavigationSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_view (
-                   `id_view`      int(11) unsigned NOT NULL auto_increment,
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_public_controller (
+                   `id_controller` int(11) unsigned NOT NULL auto_increment,
                    `name`         varchar(255) NOT NULL default '',
                    `description`  text NOT NULL default '',
-                   PRIMARY KEY    (`id_view`)) 
+                   PRIMARY KEY    (`id_controller`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);      
 
@@ -168,7 +168,7 @@ class ActionNavigationSetup extends JapaAction
                                      {$data['dbtablesprefix']}navigation_media_file,
                                      {$data['dbtablesprefix']}navigation_config,
                                      {$data['dbtablesprefix']}navigation_index,
-                                     {$data['dbtablesprefix']}navigation_view";
+                                     {$data['dbtablesprefix']}navigation_public_controller";
         $this->model->dba->query($sql);  
     }
 }

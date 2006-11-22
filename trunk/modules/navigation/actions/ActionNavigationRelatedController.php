@@ -10,10 +10,10 @@
 // ---------------------------------------------
 
 /**
- * ActionNavigationRelatedView class 
+ * ActionNavigationRelatedController class 
  *
  * USAGE:
- * $model->action( 'navigation', 'relatedView',
+ * $model->action( 'navigation', 'relatedController',
  *                 array('id_node' => int,
  *                       'result' => & string));
  *
@@ -34,11 +34,11 @@ class ActionNavigationRelatedController extends JapaAction
                 v.`name`
             FROM
                 {$this->config['dbTablePrefix']}navigation_node AS n,
-                {$this->config['dbTablePrefix']}navigation_view AS v
+                {$this->config['dbTablePrefix']}navigation_public_controller AS v
             WHERE
                 n.`id_node`={$data['id_node']} 
             AND
-                n.`id_view`=v.`id_view`";
+                n.`id_controller`=v.`id_controller`";
 
         $rs = $this->model->dba->query($sql);
         
