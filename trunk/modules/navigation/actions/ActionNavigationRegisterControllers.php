@@ -33,7 +33,7 @@ class ActionNavigationRegisterControllers extends JapaAction
         if($data['action'] == 'register')
         {
             $sql = "
-                SELECT `id_view` FROM {$this->config['dbTablePrefix']}navigation_public_controller
+                SELECT `id_controller` FROM {$this->config['dbTablePrefix']}navigation_public_controller
                  WHERE `name`='{$data['name']}'";
 
             $rs = $this->model->dba->query($sql);    

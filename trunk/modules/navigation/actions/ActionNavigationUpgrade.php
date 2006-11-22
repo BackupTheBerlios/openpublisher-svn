@@ -53,7 +53,7 @@ class ActionNavigationUpgrade extends JapaAction
         $this->model->dba->query($sql);      
 
         $sql = "ALTER TABLE {$this->config['dbTablePrefix']}navigation_public_controller
-                  CHANGE `id_view` `id_controller` INT(11)";
+                  CHANGE `id_view` `id_controller` INT(11) NOT NULL auto_increment";
         $this->model->dba->query($sql);      
     }
     
