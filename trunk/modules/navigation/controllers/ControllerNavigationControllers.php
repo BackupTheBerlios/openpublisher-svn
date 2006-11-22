@@ -10,23 +10,17 @@
 // ---------------------------------------------
 
 /**
- * ViewNavigationViews
+ * ControllerNavigationControllers
  *
  */
  
-class ViewNavigationViews extends JapaControllerAbstractPage
+class ControllerNavigationControllers extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'views';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/navigation/templates/';
+    public $returnView = true;
 
     /**
      * prepend filter chain
@@ -36,12 +30,11 @@ class ViewNavigationViews extends JapaControllerAbstractPage
     {
         // if no rights for the logged user, show error template
         // Only administrators 
-        if($this->viewVar['loggedUserRole'] > 20)
+        if($this->controllerVar['loggedUserRole'] > 20)
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'You have not the rights to access navigation node views!';
-            $this->dontPerform = TRUE;
+            // reload admin
+            @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
+            exit;  
         }
     } 
     
@@ -51,63 +44,72 @@ class ViewNavigationViews extends JapaControllerAbstractPage
     */
     public function perform()
     {
-        if(isset($_REQUEST['register']))
+        $register   = $this->httpRequest->getParameter('register', 'request', 'alnum');
+        $unregister = $this->httpRequest->getParameter('unregister', 'request', 'alnum');
+        
+        if(!empty($register))
         {
-            if(isset($_POST['availableview']) && is_array($_POST['availableview']))
+            $availablecontrollers = $this->httpRequest->getParameter('availablecontrollers', 'post', 'raw');
+            
+            if(!empty($availablecontrollers) && is_array($availablecontrollers))
             {
-                foreach($_POST['availableview'] as $name)
+                foreach($availablecontrollers as $name)
                 {
-                    $this->model->action('navigation','registerViews',
+                    $this->model->action('navigation','registerControllers',
                                          array('action' => 'register',
                                                'name'   => (string)$name) );  
                 }
             }
         }
-        elseif(isset($_REQUEST['unregister']))
+        elseif(!empty($unregister))
         {
-            if(isset($_POST['registeredview']) && is_array($_POST['registeredview']))
+            $registeredcontrolller = $this->httpRequest->getParameter('registeredcontrolller', 'post', 'raw');
+            
+            if(!empty($registeredcontrolller) && is_array($registeredcontrolller))
             {
-                foreach($_POST['registeredview'] as $id_view)
+                foreach($registeredcontrolller as $id_controller)
                 {
-                    $this->model->action('navigation','registerViews',
-                                         array('action'  => 'unregister',
-                                               'id_view' => (int)$id_view) );  
+                    $this->model->action('navigation','registerControllers',
+                                         array('action'        => 'unregister',
+                                               'id_controller' => (int)$id_controller) );  
                 }
             }
         }        
         
-        // get all available public views
-        $this->tplVar['availableViews'] = array();
-        $this->model->action( 'common','getAllPublicViews',
-                              array('result' => &$this->tplVar['availableViews']) );   
+        // get all available public Controllers
+        $this->viewVar['availableControllers'] = array();
+        $this->model->action( 'common','getAllPublicControllers',
+                              array('result' => &$this->viewVar['availableControllers']) );   
                                     
-        // get all available public views
-        $this->tplVar['registeredViews'] = array();
-        $this->model->action( 'navigation','getNodePublicViews',
-                              array('result' => &$this->tplVar['registeredViews'],
-                                    'fields' => array('id_view','name')) );
+        // get all registered public Controllers
+        $this->viewVar['registeredControllers'] = array();
+        $this->model->action( 'navigation','getNodePublicControllers',
+                              array('result' => &$this->viewVar['registeredControllers'],
+                                    'fields' => array('id_controller','name')) );
         
-        return TRUE;
+        return true;
     }   
     
     private function isRegisteredPublicView()
     {
         $this->current_reg_nodes = array();
-        $this->model->action( 'navigation','getNodePublicViews',
+        $this->model->action( 'navigation','getNodePublicControllers',
                               array('result' => &$this->current_reg_nodes,
-                                    'fields' => array('id_view','name')) );  
-                                    
-        foreach($_POST['view'] as $v_name)
+                                    'fields' => array('id_controller','name')) );  
+
+        $controller = $this->httpRequest->getParameter('controller', 'post', 'raw');
+                                   
+        foreach($controller as $c_name)
         {
-            foreach($this->current_reg_nodes as $_v)
+            foreach($this->current_reg_nodes as $_c)
             {
-                if($v_name == $_v['name'])
+                if($c_name == $_c['name'])
                 {
-                    return $_v['id_view'];
+                    return $_c['id_controller'];
                 }
             }
         }
-        return FALSE;
+        return false;
     }
 }
 

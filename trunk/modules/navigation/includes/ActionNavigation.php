@@ -35,6 +35,12 @@ class ActionNavigation extends JapaAction
                             'title'        => 'String',
                             'short_text'   => 'String',
                             'body'         => 'String');
+                            
+    public function perform( $data = FALSE ){}      
+    public function validate( $data = FALSE )
+    {
+        return true;
+    }  
                  
 }
 

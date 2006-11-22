@@ -10,23 +10,56 @@
 // ---------------------------------------------
 
 /**
- * ViewNavigationIndex
+ * ControllerNavigationIndex
  *
  */
  
-class ViewNavigationIndex extends JapaControllerAbstractPage
+class ControllerNavigationIndex extends JapaControllerAbstractPage
 {
-     /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'index';
-    
-     /**
-     * Default template folder for this view
-     * @var string $templateFolder
-     */    
-    public  $templateFolder = 'modules/navigation/templates/';
+    public $returnView = true;
+
+    /**
+     * 
+     *
+     */
+    function perform()
+    {
+        $this->viewVar['requestedModule']   = 'navigation';
+        $this->viewVar['show_options_link'] = true;
+                
+        // get requested module controller name
+        $module_controller = $this->getRequestedModuleController();
+
+        // execute the requested module controller and assign template variable
+        // with the result.
+        // here we load the requested modul controller output
+        // into a view variable
+        $this->viewVar['module_navigation_controller'] = $this->controllerLoader->$module_controller();  
+    }  
+    /**
+     * get requested module controller name
+     *
+     * @return string
+     */
+    public function getRequestedModuleController()
+    {
+        // check if there is a module request
+        if( false === ($controller_request = $this->router->getVar('cntr')) )
+        {
+            $controller_request = 'Main';
+        }
+        elseif($this->controllerVar['loggedUserRole'] > 20)
+        {
+            $this->viewVar['show_options_link'] = false;
+        }
+
+        // build the whole module controller name
+        return 'Navigation' . ucfirst($controller_request);                    
+    }
     
     /**
      * prepend filter chain
@@ -34,16 +67,12 @@ class ViewNavigationIndex extends JapaControllerAbstractPage
      */
     public function prependFilterChain()
     {
-        // all accounts can access the map view
-        if( !isset($_REQUEST['view']) || ($_REQUEST['view'] != "nodemap") )
+        // only administrators can access navigation module
+        if($this->controllerVar['loggedUserRole'] > $this->model->config['module']['navigation']['perm'])
         {
-            // only administrators can access keyword module
-            if($this->viewVar['loggedUserRole'] > $this->model->config['module']['navigation']['perm'])
-            {
-                // reload admin
-                @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER);
-                exit;  
-            }
+            // reload admin
+            @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
+            exit;  
         }
     }     
 }
