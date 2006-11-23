@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewNavigationMain
+ * ControllerNavigationAddNode
  *
  */
  
-class ViewNavigationAddNode extends JapaControllerAbstractPage
+class ControllerNavigationAddNode extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'addnode';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/navigation/templates/';
-        
+    public $returnView = true;
+
    /**
     * Perform on the main view
     *
@@ -35,31 +29,33 @@ class ViewNavigationAddNode extends JapaControllerAbstractPage
     public function perform()
     {
         // init template array to fill with node data
-        $this->tplVar['title']  = '';
-        $this->tplVar['branch'] = array();  
-        $this->tplVar['childs'] = array();
+        $this->viewVar['title']  = '';
+        $this->viewVar['branch'] = array();  
+        $this->viewVar['childs'] = array();
         // Init template form field values
-        $this->tplVar['error']            = FALSE;
+        $this->viewVar['error']            = FALSE;
+
+        $id_node = $this->httpRequest->getParameter('id_node', 'request', 'digits');
+        $addnode = $this->httpRequest->getParameter('addnode', 'post', 'alpha');
 
         // fetch the current id_node. If no node the script assums that
         // we are at the top level with id_parent 0
-        if(!isset($_REQUEST['id_node'])) 
+        if(false === $id_node) 
         {
-            $this->tplVar['id_node']  = 0;
+            $this->viewVar['id_node']  = 0;
             $id_node = 0;
         }
         else
         {
-            $this->tplVar['id_node']  = $_REQUEST['id_node'];
-            $id_node = (int)$_REQUEST['id_node'];
+            $this->viewVar['id_node']  = $id_node;
         }
         
         // add node
-        if( isset($_POST['addnode']) )
+        if( !empty($addnode) )
         {
             if(FALSE !== ($new_id_node = $this->addNode( $id_node )))
             {
-                @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=navigation&view=editNode&id_node='.$new_id_node);
+                @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/navigation/cntr/editNode/id_node/'.$new_id_node);
                 exit;
                 //throw new JapaForwardAdminViewException('naviagtion','index');
             }
@@ -71,26 +67,26 @@ class ViewNavigationAddNode extends JapaControllerAbstractPage
                                    'order'   => array('rank', 'asc'),
                                    'status'  => array('>=', 0),
                                    'fields'  => array('id_node','title','status'),
-                                   'result'  => & $this->tplVar['childs'],
-                                   'error'   => & $this->tplVar['error']));
+                                   'result'  => & $this->viewVar['childs'],
+                                   'error'   => & $this->viewVar['error']));
                  
         // assign the template array $B->tpl_nodes with navigation nodes
         $this->model->action('navigation',
                              'getBranch', 
-                             array('result'  => & $this->tplVar['branch'],
+                             array('result'  => & $this->viewVar['branch'],
                                    'id_node' => (int)$id_node,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_node')));                 
 
         // set template variable that show the link to add users
         // only if the logged user have at least editor rights
-        if($this->viewVar['loggedUserRole'] <= 40)
+        if($this->controllerVar['loggedUserRole'] <= 40)
         {
-            $this->tplVar['showAddNodeLink'] = TRUE;
+            $this->viewVar['showAddNodeLink'] = TRUE;
         }
         else
         {
-            $this->tplVar['showAddNodeLink'] = FALSE;
+            $this->viewVar['showAddNodeLink'] = FALSE;
         }
     }   
    /**
@@ -100,9 +96,11 @@ class ViewNavigationAddNode extends JapaControllerAbstractPage
     */    
     private function addNode( $id_parent )
     {
-        if(!isset($_POST['title']) || empty($_POST['title']))
+        $title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
+        
+        if(empty($title))
         {
-            $this->tplVar['error'] = 'Title is empty';
+            $this->viewVar['error'] = 'Title is empty';
             return FALSE;
         }
         
@@ -122,7 +120,7 @@ class ViewNavigationAddNode extends JapaControllerAbstractPage
         
         $new_id_node = $this->model->action('navigation', 'addNode', 
                              array('id_parent' => (int)$id_parent,
-                                   'fields'    => array('title'   => JapaCommonUtil::stripSlashes((string)$_POST['title']),
+                                   'fields'    => array('title'   => JapaCommonUtil::stripSlashes((string)$title),
                                                         'id_view' => (int)$id_view,
                                                         'status'  => 1)));    
 
