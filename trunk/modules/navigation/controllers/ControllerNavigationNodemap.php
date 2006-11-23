@@ -10,48 +10,44 @@
 // ---------------------------------------------
 
 /**
- * ViewNavigationNodemap
+ * ControllerNavigationNodemap
  *
  */
  
-class ViewNavigationNodemap extends JapaControllerAbstractPage
+class ControllerNavigationNodemap extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'nodemap';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/navigation/templates/';
-    
+    public $returnView = true;
+
    /**
     * Perform on the main view
     *
     */
     public function perform()
     {   
+        $openerModule = $this->httpRequest->getParameter('openerModule', 'request', 'alnum');
+        
         // get the opener module
-        if(isset($_REQUEST['openerModule']))
+        if(!empty($openerModule))
         {
-            $this->tplVar['mod'] = (string)$_REQUEST['openerModule'];
-            $this->tplVar['url_pager_var'] = (string)$_REQUEST['openerModule'].'_page=1';
+            $this->viewVar['mod'] = (string)$openerModule;
+            $this->viewVar['url_pager_var'] = (string)$openerModule.'_page/1';
         }
         else
         {
-            $this->tplVar['url_pager_var'] = '';
-            $this->tplVar['mod'] = 'navigation';
+            $this->viewVar['url_pager_var'] = '';
+            $this->viewVar['mod'] = 'navigation';
         }
         
-        $this->tplVar['tree'] = array();
+        $this->viewVar['tree'] = array();
         
         // get whole node tree
         $this->model->action('navigation','getTree', 
                              array('id_node' => 0,
-                                   'result'  => & $this->tplVar['tree'],
+                                   'result'  => & $this->viewVar['tree'],
                                    'status'  => array('=', 2),
                                    'fields'  => array('id_parent','status','id_node','title')));   
     }   
