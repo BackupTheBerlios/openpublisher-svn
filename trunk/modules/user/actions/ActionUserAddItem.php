@@ -16,7 +16,7 @@
  * $model->action('user','addItem',
  *                array('error' => & array(),
  *                      'item'  => string,      // 'picture' or 'file'
- *                      'postName' => string,   // $_FILES[$data['postName']]
+ *                      'postName' => string,   // $data['postData']
  *                      'id_user'  => int))
  *
  */
@@ -34,9 +34,9 @@ class ActionUserAddItem extends ActionUserFileUploadBase
     { 
         $media_folder = $this->getUserMediaFolder( $data['id_user'] );
         
-        $file_info = $this->getUniqueMediaFileName($media_folder, $_FILES[$data['postName']]['name']);
+        $file_info = $this->getUniqueMediaFileName($media_folder, $data['postData']['name']);
 
-        if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
+        if(FALSE == $this->moveUploadedFile($data['postData']['tmp_name'], $file_info['file_path']))
         { 
             $data['error'][] = 'File upload failed';
             return FALSE;
@@ -87,7 +87,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         {        
             throw new JapaModelException ('"post_name" must be defined in view class'); 
         }
-        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
+        elseif( !file_exists($data['postData']['tmp_name']) )
         {
             $data['error'][] = 'File upload failed';
             return FALSE;
@@ -109,11 +109,11 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         {
             throw new JapaModelException("'id_user' isnt numeric");
         }  
-        elseif(($data['item'] == 'file') && ($this->config['user']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        elseif(($data['item'] == 'file') && ($this->config['user']['file_size_max'] <= filesize($data['postData']['tmp_name'])))
         {
             $data['error'][] = "Max file size allowed: {$this->config['user']['file_size_max']} bytes";
         }
-        elseif(($data['item'] == 'picture') && ($this->config['user']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        elseif(($data['item'] == 'picture') && ($this->config['user']['img_size_max'] <= filesize($data['postData']['tmp_name'])))
         {
             $data['error'][] = "Max picture size allowed: {$this->config['user']['img_size_max']} bytes";
         }
@@ -262,7 +262,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
      */       
     private function isAllowedExtension( &$data )
     {
-        if(preg_match("/(\.[^.]+)$/i",$_FILES[$data['postName']]['name'],$file_ext))
+        if(preg_match("/(\.[^.]+)$/i",$data['postData']['name'],$file_ext))
         {
             $disallowed_ext = explode(",",$this->config['rejected_files']);
             foreach($disallowed_ext as $ext)
@@ -285,7 +285,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
      */       
     private function isAllowedImageExtension( &$data )
     {
-        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
+        if(preg_match("/\.(gif|jpg|png)$/i",$data['postData']['name']))
         {
             return TRUE;
         }
