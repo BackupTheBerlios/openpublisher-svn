@@ -35,7 +35,7 @@
             <tr>
               <td height="29" align="left" valign="top" class="font10bold">
                 <?php foreach($tpl['registeredControllers'] as $controller): ?>
-                <input type="checkbox" name="registeredcontroller[]" value="<?php echo $controller['id_view'] ?>">
+                <input type="checkbox" name="registeredcontroller[]" value="<?php echo $controller['id_controller'] ?>">
                 <?php echo $controller['name'] ?>
                 <br>
                 <?php endforeach; ?>
