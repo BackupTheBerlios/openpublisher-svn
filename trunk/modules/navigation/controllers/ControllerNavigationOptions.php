@@ -10,43 +10,32 @@
 // ---------------------------------------------
 
 /**
- * ViewNavigationOptions
+ * ControllerNavigationOptions
  *
  */
  
-class ViewNavigationOptions extends JapaControllerAbstractPage
+class ControllerNavigationOptions extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'options';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/navigation/templates/';
+    public $returnView = true;
     
     /**
      * Submited config options data array
      */
     private $fields = array();
-
-    /**
-     * prepend filter chain
-     *
-     */
+    
     public function prependFilterChain()
     {
         // if no rights for the logged user, show error template
-        // only administrators can change options
-        if($this->viewVar['loggedUserRole'] > 20)
+        // Only administrators 
+        if($this->controllerVar['loggedUserRole'] > 20)
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'You have not the rights to change navigation module options!';
-            $this->dontPerform = TRUE;
+            // reload admin
+            @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
+            exit;  
         }
     } 
     
@@ -56,9 +45,11 @@ class ViewNavigationOptions extends JapaControllerAbstractPage
     */
     public function perform()
     {   
-        $this->tplVar['error'] = FALSE;
+        $this->viewVar['error'] = FALSE;
+
+        $updateOptions = $this->httpRequest->getParameter('updateOptions', 'post', 'alnum');
         
-        if(isset($_POST['updateOptions']))
+        if(!empty($updateOptions))
         {
             if(TRUE == $this->validatePostData())
             {
@@ -68,9 +59,9 @@ class ViewNavigationOptions extends JapaControllerAbstractPage
         }
 
         // get all available public views
-        $this->tplVar['option'] = array();
+        $this->viewVar['option'] = array();
         $this->model->action( 'navigation','getAllConfigOptions',
-                              array('result' => &$this->tplVar['option']) );   
+                              array('result' => &$this->viewVar['option']) );   
                                            
         return TRUE;
     }   
@@ -80,133 +71,144 @@ class ViewNavigationOptions extends JapaControllerAbstractPage
     */    
     private function validatePostData()
     {
-        $this->tplVar['error'] = array();
+        $this->viewVar['error'] = array();
         $this->fields  = array();
+
+        $thumb_width   = $this->httpRequest->getParameter('thumb_width', 'post', 'digits');
+        $img_size_max  = $this->httpRequest->getParameter('img_size_max', 'post', 'digits');
+        $file_size_max = $this->httpRequest->getParameter('file_size_max', 'post', 'digits');
+        $force_format  = $this->httpRequest->getParameter('force_format', 'post', 'digits');
+        $use_short_text  = $this->httpRequest->getParameter('use_short_text', 'post', 'digits');
+        $use_body  = $this->httpRequest->getParameter('use_body', 'post', 'digits');
+        $use_logo  = $this->httpRequest->getParameter('use_logo', 'post', 'digits');
+        $use_images  = $this->httpRequest->getParameter('use_images', 'post', 'digits');
+        $use_files  = $this->httpRequest->getParameter('use_files', 'post', 'digits');
+        $use_keywords  = $this->httpRequest->getParameter('use_keywords', 'post', 'digits');
         
-        if(isset($_POST['thumb_width']) && !empty($_POST['thumb_width']))
+        if(!empty($thumb_width))
         {
-            if(($_POST['thumb_width'] > 10) && ($_POST['thumb_width'] <= 350))
+            if(($thumb_width > 10) && ($thumb_width <= 350))
             {
-                $this->fields['thumb_width'] = (int)$_POST['thumb_width'];
+                $this->fields['thumb_width'] = (int)$thumb_width;
             }
             else
             {
-                $this->tplVar['error'][] = "Thumbnail width must be between 10 and 250!";
+                $this->viewVar['error'][] = "Thumbnail width must be between 10 and 350!";
             }
         }
         else
         {
-            $this->tplVar['error'][] = "Thumbnail width field is empty!";
+            $this->viewVar['error'][] = "Thumbnail width field is empty!";
         }   
         
-        if(isset($_POST['img_size_max']) && !empty($_POST['img_size_max']))
+        if(!empty($img_size_max))
         {
-            if(($_POST['img_size_max'] > 0) && ($_POST['img_size_max'] <= 10000000))
+            if(($img_size_max > 0) && ($img_size_max <= 2000000))
             {
-                $this->fields['img_size_max'] = (int)$_POST['img_size_max'];
+                $this->fields['img_size_max'] = (int)$img_size_max;
             }
             else
             {
-                $this->tplVar['error'][] = "Image file size must be between 100 and 3000000!";
+                $this->viewVar['error'][] = "Image file size must be between 0 and 2000000!";
             }
         }
         else
         {
-            $this->tplVar['error'][] = "Image file size field is empty!";
+            $this->viewVar['error'][] = "Image file size field is empty!";
         }  
         
-        if(isset($_POST['file_size_max']) && !empty($_POST['file_size_max']))
+        if(!empty($file_size_max))
         {
-            if(($_POST['file_size_max'] > 0) && ($_POST['file_size_max'] <= 25000000))
+            if(($file_size_max > 0) && ($file_size_max <= 25000000))
             {
-                $this->fields['file_size_max'] = (int)$_POST['file_size_max'];
+                $this->fields['file_size_max'] = (int)$file_size_max;
             }
             else
             {
-                $this->tplVar['error'][] = "File size must be between 100 and 3000000!";
+                $this->viewVar['error'][] = "File size must be between 100 and 25000000!";
             }
         }
         else
         {
-            $this->tplVar['error'][] = "File size field is empty!";
+            $this->viewVar['error'][] = "File size field is empty!";
         }   
         
-        if(isset($_POST['force_format']) && !empty($_POST['force_format']))
+        if(!empty($force_format))
         {
-            if(($_POST['force_format'] >= 0) && ($_POST['force_format'] <= 2))
+            if(($force_format >= 0) && ($force_format <= 2))
             {
-                $this->fields['force_format'] = (int)$_POST['force_format'];
+                $this->fields['force_format'] = (int)$force_format;
             }
         } 
         
-        if(isset($_POST['default_format']) && !empty($_POST['default_format']))
+        if(!empty($default_format))
         {
-            if(($_POST['default_format'] >= 0) && ($_POST['default_format'] <= 2))
+            if(($default_format >= 0) && ($default_format <= 2))
             {
-                $this->fields['default_format'] = (int)$_POST['default_format'];
+                $this->fields['default_format'] = (int)$default_format;
             }
         }  
         
-        if(isset($_POST['use_short_text']) && ($_POST['use_short_text'] == '1'))
+        if(!empty($use_short_text) && ($use_short_text == '1'))
         {
-            $this->fields['use_short_text'] = (int)$_POST['use_short_text'];
+            $this->fields['use_short_text'] = (int)$use_short_text;
         }
         else
         {
             $this->fields['use_short_text'] = 0;
         }
         
-        if(isset($_POST['use_body']) && ($_POST['use_body'] == '1'))
+        if(!empty($use_body) && ($use_body == '1'))
         {
-            $this->fields['use_body'] = (int)$_POST['use_body'];
+            $this->fields['use_body'] = (int)$use_body;
         } 
         else
         {
             $this->fields['use_body'] = 0;
         }
         
-        if(isset($_POST['use_logo']) && ($_POST['use_logo'] == '1'))
+        if(!empty($use_logo) && ($use_logo == '1'))
         {
-            $this->fields['use_logo'] = (int)$_POST['use_logo'];
+            $this->fields['use_logo'] = (int)$use_logo;
         } 
         else
         {
             $this->fields['use_logo'] = 0;
         }        
         
-        if(isset($_POST['use_images']) && ($_POST['use_images'] == '1'))
+        if(!empty($use_images) && ($use_images == '1'))
         {
-            $this->fields['use_images'] = (int)$_POST['use_images'];
+            $this->fields['use_images'] = (int)$use_images;
         } 
         else
         {
             $this->fields['use_images'] = 0;
         }
         
-        if(isset($_POST['use_files']) && ($_POST['use_files'] == '1'))
+        if(!empty($use_files) && ($use_files == '1'))
         {
-            $this->fields['use_files'] = (int)$_POST['use_files'];
+            $this->fields['use_files'] = (int)$use_files;
         } 
         else
         {
             $this->fields['use_files'] = 0;
         }
 
-        if(isset($_POST['use_keywords']) && ($_POST['use_keywords'] == '1'))
+        if(!empty($use_keywords) && ($use_keywords == '1'))
         {
-            $this->fields['use_keywords'] = (int)$_POST['use_keywords'];
+            $this->fields['use_keywords'] = (int)$use_keywords;
         } 
         else
         {
             $this->fields['use_keywords'] = 0;
         }
         
-        if(count($this->tplVar['error']) > 0)
+        if(count($this->viewVar['error']) > 0)
         {
-            return FALSE;
+            return false;
         }
-        $this->tplVar['error'] = FALSE;
-        return TRUE;
+        $this->viewVar['error'] = false;
+        return true;
     }
 }
 

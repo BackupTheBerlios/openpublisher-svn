@@ -39,7 +39,7 @@ class ControllerNavigationControllers extends JapaControllerAbstractPage
     } 
     
    /**
-    * Perform on the main view
+    * Perform 
     *
     */
     public function perform()
@@ -49,11 +49,11 @@ class ControllerNavigationControllers extends JapaControllerAbstractPage
         
         if(!empty($register))
         {
-            $availablecontrollers = $this->httpRequest->getParameter('availablecontrollers', 'post', 'raw');
+            $availablecontroller = $this->httpRequest->getParameter('availablecontroller', 'post', 'raw');
             
-            if(!empty($availablecontrollers) && is_array($availablecontrollers))
+            if(!empty($availablecontroller) && is_array($availablecontroller))
             {
-                foreach($availablecontrollers as $name)
+                foreach($availablecontroller as $name)
                 {
                     $this->model->action('navigation','registerControllers',
                                          array('action' => 'register',
@@ -63,7 +63,7 @@ class ControllerNavigationControllers extends JapaControllerAbstractPage
         }
         elseif(!empty($unregister))
         {
-            $registeredcontrolller = $this->httpRequest->getParameter('registeredcontrolller', 'post', 'raw');
+            $registeredcontrolller = $this->httpRequest->getParameter('registeredcontroller', 'post', 'raw');
             
             if(!empty($registeredcontrolller) && is_array($registeredcontrolller))
             {
