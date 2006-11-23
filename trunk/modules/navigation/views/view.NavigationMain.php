@@ -1,6 +1,6 @@
 <script language="JavaScript" type="text/JavaScript">
 function nodemap(){
-mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+mm='scrollbars=1,toolbar=0,menubar=0,resizable=yes,width=400,height=450';
 newwindow= window.open('<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/navigation/cntr/nodemap/nodecoration/1','',mm); }
 </script>
 <style type="text/css">
