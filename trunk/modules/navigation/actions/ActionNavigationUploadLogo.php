@@ -13,7 +13,7 @@
  * ActionNavigationUploadLogo class 
  *
  */
-include_once(JAPA_BASE_DIR . 'modules/navigation/includes/ActionNavigationFileUploadBase.php');
+include_once(JAPA_MODULES_DIR . 'navigation/includes/ActionNavigationFileUploadBase.php');
 
 class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
 {
@@ -27,9 +27,9 @@ class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
     {
         $media_folder = $this->getNodeMediaFolder( $data['id_node'] );
         
-        $file_info = $this->getUniqueMediaFileName($media_folder, $_FILES[$data['postName']]['name']);
+        $file_info = $this->getUniqueMediaFileName($media_folder, $data['postData']['name']);
 
-        if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
+        if(FALSE == $this->moveUploadedFile($data['postData']['tmp_name'], $file_info['file_path']))
         { 
             throw new JapaModelException ('Cant upload file');   
         }
@@ -61,11 +61,11 @@ class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
             throw new JapaModelException("'error' var isnt from type array!");
         }        
         // validate logo upload name
-        if( !isset($data['postName']) || empty($data['postName']) )
+        if( !isset($data['postData']) || empty($data['postData']) )
         {        
             throw new JapaModelException ('"post_name" must be defined in view class'); 
         }     
-        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
+        elseif( !file_exists($data['postData']['tmp_name']) )
         {
             $data['error'][] = 'File upload failed';
         }  
@@ -99,7 +99,7 @@ class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
      */       
     private function isAllowedExtension( &$data )
     {
-        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
+        if(preg_match("/\.(gif|jpg|png)$/i",$data['postData']['name']))
         {
             return TRUE;
         }

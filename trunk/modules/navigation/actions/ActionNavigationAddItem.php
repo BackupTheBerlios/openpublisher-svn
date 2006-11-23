@@ -16,11 +16,11 @@
  * $model->action('navigation','addItem',
  *                array('error'    => & array(),
  *                      'item'     => string,      // 'picture' or 'file'
- *                      'postName' => string,   // $_FILES[$data['postName']]
+ *                      'postData' => & array,   // $data['postData']
  *                      'id_node'  => int))
  *
  */
-include_once(JAPA_BASE_DIR . 'modules/navigation/includes/ActionNavigationFileUploadBase.php');
+include_once(JAPA_MODULES_DIR . 'navigation/includes/ActionNavigationFileUploadBase.php');
 
 class ActionNavigationAddItem extends ActionNavigationFileUploadBase
 {
@@ -34,9 +34,9 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
     { 
         $media_folder = $this->getNodeMediaFolder( $data['id_node'] );
         
-        $file_info = $this->getUniqueMediaFileName($media_folder, $_FILES[$data['postName']]['name']);
+        $file_info = $this->getUniqueMediaFileName($media_folder, $data['postData']['name']);
 
-        if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
+        if(FALSE == $this->moveUploadedFile($data['postData']['tmp_name'], $file_info['file_path']))
         { 
             $data['error'][] = 'File upload failed';
             return FALSE;
@@ -82,11 +82,11 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
             throw new JapaModelException("'postName' isnt from type string");
         }         
         // validate postName name
-        elseif( !isset($_FILES[$data['postName']]) )
+        elseif( !isset($data['postData']) )
         {
             $data['error'][] = 'You have to select a local file to upload';
         }    
-        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
+        elseif( !file_exists($data['postData']['tmp_name']) )
         {
             $data['error'][] = 'File upload failed';
         }  
@@ -130,11 +130,11 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         {
             throw new JapaModelException("'id_node' isnt numeric");
         }  
-        elseif(($data['item'] == 'file') && ($this->config['navigation']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        elseif(($data['item'] == 'file') && ($this->config['navigation']['file_size_max'] <= filesize($data['postData']['tmp_name'])))
         {
             $data['error'][] = "Max file size allowed: {$this->config['navigation']['file_size_max']} bytes";
         }
-        elseif(($data['item'] == 'picture') && ($this->config['navigation']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        elseif(($data['item'] == 'picture') && ($this->config['navigation']['img_size_max'] <= filesize($data['postData']['tmp_name'])))
         {
             $data['error'][] = "Max picture size allowed: {$this->config['navigation']['img_size_max']} bytes";
         }
@@ -273,7 +273,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
      */    
     private function getMime( &$file )
     {
-        include_once(JAPA_BASE_DIR.'modules/common/includes/JapaCommonFileMime.php');
+        include_once(JAPA_MODULES_DIR.'common/includes/JapaCommonFileMime.php');
         return JapaCommonFileMime::getMime($file);
     }     
     /**
@@ -284,7 +284,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
      */       
     private function isAllowedExtension( &$data )
     {
-        if(preg_match("/(\.[^.]+)$/i",$_FILES[$data['postName']]['name'],$file_ext))
+        if(preg_match("/(\.[^.]+)$/i",$data['postData']['name'],$file_ext))
         {
             $disallowed_ext = explode(",",$this->config['rejected_files']);
             foreach($disallowed_ext as $ext)
@@ -306,7 +306,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
      */       
     private function isAllowedImageExtension( &$data )
     {
-        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
+        if(preg_match("/\.(gif|jpg|png)$/i",$data['postData']['name']))
         {
             return TRUE;
         }

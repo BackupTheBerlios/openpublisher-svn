@@ -30,7 +30,7 @@ class ActionNavigationUpdateSubNodes extends JapaAction
      */
     protected $tblFields_node = array('id_sector' => 'Int',
                                       'status'    => 'Int',
-                                      'id_view'   => 'Int');
+                                      'id_controller' => 'Int');
     /**
      * update data of subnodes
      *

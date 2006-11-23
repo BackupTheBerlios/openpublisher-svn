@@ -18,7 +18,7 @@
  *                      'fields'  => array('id_node'      => 'Int',
  *                                         'id_parent'    => 'Int',
  *                                         'id_sector'    => 'Int',
- *                                         'id_view'      => 'Int',
+ *                                         'id_controller' => 'Int',
  *                                         'status'       => 'Int',
  *                                         'rank'         => 'Int',
  *                                         'format'       => 'Int',
@@ -30,7 +30,7 @@
  *                                         'body'         => 'String')))
  */
 
-include_once(JAPA_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
+include_once(JAPA_MODULES_DIR . 'navigation/includes/ActionNavigation.php');
  
 class ActionNavigationUpdateNode extends ActionNavigation
 {
