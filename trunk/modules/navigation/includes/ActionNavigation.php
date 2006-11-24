@@ -25,7 +25,7 @@ class ActionNavigation extends JapaAction
                       array('id_node'      => 'Int',
                             'id_parent'    => 'Int',
                             'id_sector'    => 'Int',
-                            'id_view'      => 'Int',
+                            'id_controller' => 'Int',
                             'status'       => 'Int',
                             'rank'         => 'Int',
                             'format'       => 'Int',
