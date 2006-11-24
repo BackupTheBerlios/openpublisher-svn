@@ -148,7 +148,7 @@ class ActionNavigationSetup extends JapaAction
                    ('navigation',
                     'Navigation Nodes Management',
                     2,
-                    '0.1',
+                    '0.2',
                     1,
                     20,
                     'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
