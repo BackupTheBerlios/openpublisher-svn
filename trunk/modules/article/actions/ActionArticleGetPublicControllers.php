@@ -14,15 +14,15 @@
  *
  * USAGE:
  *
- * $model->action('article','getPublicViews',
+ * $model->action('article','getPublicControllers',
  *                array('result' => & array))
  *
  */
  
-class ActionArticleGetPublicViews extends JapaAction
+class ActionArticleGetPublicControllers extends JapaAction
 {
-    private $tblFields_view = array('id_view'     => TRUE,
-                                    'name'        => TRUE);
+    private $tblFields_controller = array('id_controller' => TRUE,
+                                          'name'          => TRUE);
     /**
      * get all registered node related public views
      *
@@ -42,7 +42,7 @@ class ActionArticleGetPublicViews extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_view
+                {$this->config['dbTablePrefix']}article_public_controller
             ORDER BY `name`";
 
         $rs = $this->model->dba->query($sql);
@@ -65,7 +65,7 @@ class ActionArticleGetPublicViews extends JapaAction
         
         foreach($data['fields'] as $key)
         {
-            if(!isset($this->tblFields_view[$key]))
+            if(!isset($this->tblFields_controller[$key]))
             {
                 throw new JapaModelException("Field '".$key."' dosent exists!");
             }

@@ -10,17 +10,17 @@
 // ---------------------------------------------
 
 /**
- * ActionArticleGetNodeAssociatedView class 
+ * ActionArticleGetNodeAssociatedController class 
  *
  * USAGE:
- * $model->action( 'article', 'getNodeAssociatedView',
+ * $model->action( 'article', 'getNodeAssociatedController',
  *                 array('id_node' => int,
  *                       'result'  => & array ));
  *
  *
  */
  
-class ActionArticleGetNodeAssociatedView extends JapaAction
+class ActionArticleGetNodeAssociatedController extends JapaAction
 {
     /**
      * get article node related view
@@ -32,14 +32,14 @@ class ActionArticleGetNodeAssociatedView extends JapaAction
         $sql = "
             SELECT
                 v.`name`,
-                v.`id_view`
+                v.`id_controller`
             FROM
-                {$this->config['dbTablePrefix']}article_node_view_rel AS an,
-                {$this->config['dbTablePrefix']}article_view AS v
+                {$this->config['dbTablePrefix']}article_node_controller_rel AS an,
+                {$this->config['dbTablePrefix']}article_public_controller AS v
             WHERE
                 an.`id_node`={$data['id_node']} 
             AND
-                an.`id_view`=v.`id_view`";
+                an.`id_controller`=v.`id_controller`";
 
         $rs = $this->model->dba->query($sql);
        

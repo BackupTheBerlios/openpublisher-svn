@@ -57,6 +57,13 @@ class ActionArticleUpgrade extends JapaAction
             $this->config['module']['article']['version'] = '0.5';
         }
         
+        if(1 == version_compare('0.5', $this->config['module']['article']['version'], '=') )
+        {
+            // upgrade from module version 04 to 0.5
+            $this->upgrade_0_5_to_0_6();     
+            $this->config['module']['article']['version'] = '0.6';
+        }
+        
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
     }
@@ -170,6 +177,33 @@ class ActionArticleUpgrade extends JapaAction
                         `id_module`={$this->config['module']['article']['id_module']}";
 
         $this->model->dba->query($sql);     
+    }
+    
+    /**
+     * upgrade from module version 0.5 to 0.6
+     *
+     */
+    private function upgrade_0_5_to_0_6()
+    {
+        $sql = "RENAME TABLE 
+                   {$this->config['dbTablePrefix']}article_node_view_rel 
+                   TO
+                   {$this->config['dbTablePrefix']}article_node_controller_rel";
+        $this->model->dba->query($sql);   
+        
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_node_controller_rel
+                  CHANGE `id_view` `id_controller` INT(11) unsigned";
+        $this->model->dba->query($sql);
+        
+        $sql = "RENAME TABLE 
+                   {$this->config['dbTablePrefix']}article_view
+                   TO
+                   {$this->config['dbTablePrefix']}article_public_controller";
+        $this->model->dba->query($sql);   
+        
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_public_controller
+                  CHANGE `id_view` `id_controller` INT(11) unsigned NOT NULL auto_increment";
+        $this->model->dba->query($sql);      
     }
     
     /**

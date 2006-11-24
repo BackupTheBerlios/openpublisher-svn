@@ -10,28 +10,16 @@
 // ---------------------------------------------
 
 /**
- * ActionNavigationUpdateNode class 
+ * ActionArticleUpdateNodeController class 
  *
  * USAGE:
- * $model->action('navigation','UpdateNode',
+ * $model->action('article','updateNodeController',
  *                array('id_node' => int,
- *                      'fields'  => array('id_node'      => 'Int',
- *                                         'id_parent'    => 'Int',
- *                                         'id_sector'    => 'Int',
- *                                         'id_view'      => 'Int',
- *                                         'status'       => 'Int',
- *                                         'rank'         => 'Int',
- *                                         'format'       => 'Int',
- *                                         'logo'         => 'String',
- *                                         'media_folder' => 'String',
- *                                         'lang'         => 'String',
- *                                         'title'        => 'String',
- *                                         'short_text'   => 'String',
- *                                         'body'         => 'String')))
+ *                      'id_controller' => int))
  */
 
  
-class ActionArticleUpdateNodeView extends ActionNavigation
+class ActionArticleUpdateNodeController extends JapaAction
 {
     /**
      * update navigation node
@@ -41,10 +29,10 @@ class ActionArticleUpdateNodeView extends ActionNavigation
      */
     function perform( $data = FALSE )
     {
-        $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_node_view_rel
-                   (`id_node`,`id_view`)
+        $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_node_controller_rel
+                   (`id_node`,`id_controller`)
                 VALUES
-                   ({$data['id_node']},{$data['id_view']})";
+                   ({$data['id_node']},{$data['id_controller']})";
 
         $this->model->dba->query($sql); 
     } 
@@ -64,13 +52,13 @@ class ActionArticleUpdateNodeView extends ActionNavigation
         {
             throw new JapaModelException('"id_node" isnt from type int');        
         }
-        if(!isset($data['id_view']))
+        if(!isset($data['id_controller']))
         {
-            throw new JapaModelException('"id_view" isnt defined');        
+            throw new JapaModelException('"id_controller" isnt defined');        
         }    
-        if(!is_int($data['id_view']))
+        if(!is_int($data['id_controller']))
         {
-            throw new JapaModelException('"id_view" isnt from type int');        
+            throw new JapaModelException('"id_controller" isnt from type int');        
         }        
         return TRUE;
     }
