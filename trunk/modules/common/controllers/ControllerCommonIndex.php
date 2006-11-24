@@ -43,7 +43,7 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
         {
             $this->viewVar['disableMainMenu'] = false;   
         }
-        
+       
         // assign some template variables
         $this->viewVar['japaVersionNumber'] = $this->config['japa_version'];
         $this->viewVar['moduleList'] = $this->model->getModuleInfo();
@@ -89,9 +89,9 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
             throw new JapaViewException('Wrong view fromat: ' . $moduleView);
         }
 
-        if(!@file_exists(JAPA_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php'))
+        if(!@file_exists(JAPA_MODULES_DIR . $module . '/views/View' . $moduleView . '.php'))
         {
-            throw new JapaViewException('View dosent exists: ' . JAPA_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php');
+            throw new JapaViewException('View dosent exists: ' . JAPA_MODULES_DIR . $module . '/views/View' . $moduleView . '.php');
         }
     }
     
