@@ -181,24 +181,24 @@ class ActionArticleSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_node_view_rel (
-                   `id_view`      int(11) unsigned NOT NULL default 0,
-                   `id_node`      int(11) unsigned NOT NULL default 0,
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_node_controller_rel (
+                   `id_controller` int(11) unsigned NOT NULL default 0,
+                   `id_node`       int(11) unsigned NOT NULL default 0,
                    UNIQUE KEY `id_node` (`id_node`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);      
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_view_rel (
-                   `id_view`      int(11) unsigned NOT NULL default 0,
-                   `id_article`   int(11) unsigned NOT NULL default 0,
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_controller_rel (
+                   `id_controller` int(11) unsigned NOT NULL default 0,
+                   `id_article`    int(11) unsigned NOT NULL default 0,
                    UNIQUE KEY `id_article` (`id_article`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_view (
-                   `id_view`      int(11) unsigned NOT NULL auto_increment,
-                   `name`         varchar(255) NOT NULL default '',
-                   PRIMARY KEY    (`id_view`)) 
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_public_controller (
+                   `id_controller` int(11) unsigned NOT NULL auto_increment,
+                   `name`          varchar(255) NOT NULL default '',
+                   PRIMARY KEY    (`id_controller`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);      
 
@@ -214,7 +214,7 @@ class ActionArticleSetup extends JapaAction
                    ('article',
                     'Article Management',
                     3,
-                    '0.4',
+                    '0.6',
                     1,
                     60,
                     'DATE: 28.12.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
