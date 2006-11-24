@@ -10,23 +10,17 @@
 // ---------------------------------------------
 
 /**
- * ViewArticleNodeRelatedPublicView class
+ * ControllerArticleNodeRelatedPublicController class
  *
  */
 
-class ViewArticleNodeRelatedPublicView extends JapaControllerAbstractPage
+class ControllerArticleNodeRelatedPublicController extends JapaControllerAbstractPage
 {
-     /**
-     * Template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'nodeRelatedPublicView';
-    
-     /**
-     * Template folder for this view
-     * @var string $templateFolder
-     */    
-    public $templateFolder = 'modules/article/templates/';
+    public $returnView = true;
     
     /**
      * Execute the view
@@ -34,56 +28,64 @@ class ViewArticleNodeRelatedPublicView extends JapaControllerAbstractPage
      */
     public function perform()
     {
-        if( isset($_POST['modifynodedata']) )
+        $modifynodedata = $this->httpRequest->getParameter('modifynodedata', 'post', 'alnum');
+        $id_node = $this->httpRequest->getParameter('id_node', 'request', 'digits');
+        
+        if( !empty($modifynodedata) )
         {
-            if($_POST['article_id_view'] != 0)
+            $article_id_controller = $this->httpRequest->getParameter('article_id_controller', 'post', 'int');
+            
+            if($article_id_controller != 0)
             {
-                $this->updateArticleNodeView( (int)$_REQUEST['id_node'], (int)$_POST['article_id_view'] );
+                $this->updateArticleNodeView( (int)$id_node, (int)$article_id_controller );
+                
                 // update subnodes
-                if(isset($_POST['articleviewssubnodes']) && ($_POST['articleviewssubnodes'] == 1))
+                $articleviewssubnodes = $this->httpRequest->getParameter('articleviewssubnodes', 'post', 'digits');
+                
+                if(!empty($articleviewssubnodes) && ($articleviewssubnodes == 1))
                 {
                     // check if the nodeTree array was previously init by an other view
-                    if( !isset($this->viewVar['nodeTree']) )
+                    if( !isset($this->controllerVar['nodeTree']) )
                     {
-                        $this->viewVar['nodeTree'] = array();
+                        $this->controllerVar['nodeTree'] = array();
                         $this->model->action('navigation','getTree',
-                                             array('id_node' => (int)$_REQUEST['id_node'],
-                                                   'result'  => &$this->viewVar['nodeTree'], 
+                                             array('id_node' => (int)$id_node,
+                                                   'result'  => &$this->controllerVar['nodeTree'], 
                                                    'status'  => array('>',0),
                                                    'fields'  => array('id_node','id_parent','status')));
                     }
-                    foreach($this->viewVar['nodeTree'] as $node)
+                    foreach($this->controllerVar['nodeTree'] as $node)
                     {
-                        $this->updateArticleNodeView( (int)$node['id_node'], (int)$_POST['article_id_view'] );
+                        $this->updateArticleNodeController( (int)$node['id_node'], (int)$article_id_controller );
                     }
                 }
             }
         }        
 
-        // get article associated public view
-        $this->tplVar['articleAssociatedPublicView'] = array();
-        $this->tplVar['articleAssociatedPublicView']['id_view'] = 0;
+        // get article associated public Controller
+        $this->viewVar['articleAssociatedPublicController'] = array();
+        $this->viewVar['articleAssociatedPublicController']['id_controller'] = 0;
         
-        $this->model->action( 'article','getNodeAssociatedView',
-                              array('result'  => &$this->tplVar['articleAssociatedPublicView'],
-                                    'id_node' => (int)$_REQUEST['id_node']) );     
+        $this->model->action( 'article','getNodeAssociatedController',
+                              array('result'  => &$this->viewVar['articleAssociatedPublicController'],
+                                    'id_node' => (int)$id_node) );     
         
-        // get all available registered article public views
-        $this->tplVar['articlePublicViews'] = array();
-        $this->model->action( 'article','getPublicViews',
-                              array('result' => &$this->tplVar['articlePublicViews'],
-                                    'fields' => array('id_view','name')) );         
+        // get all available registered article public Controllers
+        $this->viewVar['articlePublicControllers'] = array();
+        $this->model->action( 'article','getPublicControllers',
+                              array('result' => &$this->viewVar['articlePublicControllers'],
+                                    'fields' => array('id_controller','name')) );         
     }     
 
     /**
-     * update node related article view
+     * update node related article controller
      *
      */   
-    private function updateArticleNodeView( $id_node, $id_view )
+    private function updateArticleNodeController( $id_node, $id_controller )
     {
         $this->model->action( 'article','updateNodeView',
-                              array('id_node' => (int)$id_node,
-                                    'id_view' => (int)$id_view) );     
+                              array('id_node'       => (int)$id_node,
+                                    'id_controller' => (int)$id_controller) );     
     }
     
     
