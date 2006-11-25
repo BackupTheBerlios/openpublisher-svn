@@ -73,19 +73,14 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         }    
         
         // check if postName exists
-        if( !isset($data['postName']) || empty($data['postName']) )
+        if( !isset($data['postData']) || empty($data['postData']) )
         {        
-            throw new JapaModelException ('"post_name" must be defined in view class'); 
+            throw new JapaModelException ('"postData" must be defined in view class'); 
         }
-        elseif(!is_string($data['postName']))
+        elseif(!is_array($data['postData']))
         {
-            throw new JapaModelException("'postName' isnt from type string");
-        }         
-        // validate postName name
-        elseif( !isset($data['postData']) )
-        {
-            $data['error'][] = 'You have to select a local file to upload';
-        }    
+            throw new JapaModelException("'postData' isnt from type string");
+        }          
         elseif( !file_exists($data['postData']['tmp_name']) )
         {
             $data['error'][] = 'File upload failed';
