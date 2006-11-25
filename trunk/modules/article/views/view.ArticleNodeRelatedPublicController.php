@@ -6,8 +6,8 @@
     <td width="10%" align="left" valign="top">
       <select name="article_id_view" size="1" id="id_view" class="treeselectbox">
         <option value="0">No View</option>
-          <?php foreach($tpl['articlePublicViews'] as $view):  ?>
-            <option value="<?php echo $view['id_view']; ?>" <?php if($view['id_view'] == $tpl['articleAssociatedPublicView']['id_view'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo $view['name']; ?></option>
+          <?php foreach($view['articlePublicControllers'] as $controller):  ?>
+            <option value="<?php echo $controller['id_controller']; ?>" <?php if($controller['id_controller'] == $view['articleAssociatedPublicController']['id_controller'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo $controller['name']; ?></option>
           <?php endforeach; ?>
       </select>
     </td>
