@@ -81,11 +81,11 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         }
 
         $canceledit = $this->httpRequest->getParameter('canceledit', 'post', 'digits');
+        $this->node_id_parent = $this->httpRequest->getParameter('id_parent', 'post', 'digits');
 
         // change nothing and switch back
         if(!empty($canceledit) && ($canceledit == '1'))
         {
-            $this->node_id_parent = $this->httpRequest->getParameter('id_parent', 'post', 'digits');
             $this->unlocknode();
             $this->redirect((int)$this->node_id_parent);        
         }
@@ -619,11 +619,11 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         
         }
 
-        $viewssubnodes = $this->httpRequest->getParameter('viewssubnodes', 'post', 'alnum');
+        $controllerssubnodes = $this->httpRequest->getParameter('controllerssubnodes', 'post', 'alnum');
         $id_controller = $this->httpRequest->getParameter('id_controller', 'post', 'digits');   
             
         // set id_controller of subnodes
-        if(false !== $viewssubnodes)
+        if(false !== $controllerssubnodes)
         {
             // updates status of subnodes
             $this->model->action('navigation','updateSubNodes',
