@@ -23,16 +23,16 @@
 class ActionArticleRelatedController extends JapaAction
 {
     /**
-     * get article related view
+     * get article related controller
      *
      * @param array $data
      */
     function perform( $data = FALSE )
     {  
         // First check if there is a view assigned to this specific article
-        if($this->config['article']['use_article_view'] == 1)
+        if($this->config['article']['use_article_controller'] == 1)
         {
-            if($this->getArticleView( $data ) != FALSE )
+            if($this->getArticleController( $data ) != FALSE )
             {
                 return;
             }
@@ -44,14 +44,14 @@ class ActionArticleRelatedController extends JapaAction
                 v.`name`
             FROM
                 {$this->config['dbTablePrefix']}article_article AS aa,
-                {$this->config['dbTablePrefix']}article_node_view_rel AS an,
-                {$this->config['dbTablePrefix']}article_view AS v
+                {$this->config['dbTablePrefix']}article_node_controller_rel AS an,
+                {$this->config['dbTablePrefix']}article_public_controller AS v
             WHERE
                 aa.`id_article`={$data['id_article']} 
             AND
                 aa.`id_node`=an.`id_node`
             AND
-                an.`id_view`=v.`id_view`";
+                an.`id_controller`=v.`id_controller`";
 
         $rs = $this->model->dba->query($sql);
        
@@ -85,22 +85,22 @@ class ActionArticleRelatedController extends JapaAction
         return TRUE;
     }
     /**
-     * get article related view
+     * get article related controller
      *
      * @param array $data
      */
-    private function getArticleView( & $data )
+    private function getArticleController( & $data )
     {   
         $sql = "
             SELECT
                 v.`name`
             FROM
-                {$this->config['dbTablePrefix']}article_view_rel AS an,
-                {$this->config['dbTablePrefix']}article_view AS v
+                {$this->config['dbTablePrefix']}article_controller_rel AS an,
+                {$this->config['dbTablePrefix']}article_public_controller AS v
             WHERE
                 an.`id_article`={$data['id_article']} 
             AND
-                an.`id_view`=v.`id_view`";
+                an.`id_controller`=v.`id_controller`";
 
         $rs = $this->model->dba->query($sql);
        
