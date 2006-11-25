@@ -10,19 +10,8 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewNodePicture class
+ * ControllerPicture class
  *
- * The parent variables are:
- * $tplVar  - Array that may contains template variables
- * $viewVar - Array that may contains view variables, which
- *            are needed by some followed nested views.
- * $model   - The model object
- *            We need it to call modules actions
- * $template - Here you can define an other template name as the default
- * $renderTemplate - Is there a template associated with this view?
- *                   SMART_TEMPLATE_RENDER or SMART_TEMPLATE_RENDER_NONE
- * $viewData - Data passed to this view by the caller
- * $cacheExpire - Expire time in seconds of the cache for this view. 0 means cache disabled
  */
 
 class ControllerPicture extends JapaControllerAbstractPage
@@ -31,15 +20,10 @@ class ControllerPicture extends JapaControllerAbstractPage
      * Cache expire time in seconds for this view
      * 0 = cache disabled
      */
-    public $cacheExpire = 3600;
+    public $cacheExpire = 0;
     
     /**
-     * Html template associated with this view
-     */
-    public $template = 'picture';
-    
-    /**
-     * Execute the view of the "nodePicture" template
+     * Execute the controller to show full size image
      */
     function perform()
     { 
@@ -90,35 +74,36 @@ class ControllerPicture extends JapaControllerAbstractPage
      */
     public function prependFilterChain()
     {
+        $this->current_id_pic  = $this->httpRequest->getParameter('id_pic', 'get', 'int');
+        $id_node = $this->httpRequest->getParameter('id_node', 'get', 'int');
+        $id_article = $this->httpRequest->getParameter('id_article', 'get', 'int');
+        $id_text = $this->httpRequest->getParameter('id_text', 'get', 'int');
+              
         // fetch the current id_pic. If no id_pic defined or not numeric
         // this view class loads the error template
-        if( !isset($_REQUEST['id_pic']) || preg_match("/[^0-9]+/",$_REQUEST['id_pic']) ) 
+        if( false === $this->current_id_pic ) 
         {
-            $this->template  = 'error';     
+            $this->view  = 'error';     
         }       
-        else
-        {
-            $this->current_id_pic    = (int)$_REQUEST['id_pic'];          
-        }
 
         // check wether to fetch a picture from the
         // navigation, article or misc module
         // 
-        if( isset($_REQUEST['id_node']) ) 
+        if( false !== $id_node ) 
         {
             $this->module  = 'navigation';     
         } 
-        elseif( isset($_REQUEST['id_article']) ) 
+        elseif( false !== $id_article ) 
         {
             $this->module  = 'article';     
         } 
-        elseif( isset($_REQUEST['id_text']) ) 
+        elseif( false !== $id_text ) 
         {
             $this->module  = 'misc';     
         }        
         else 
         {
-            $this->template     = 'error'; 
+            $this->view      = 'error'; 
             $this->dontPerform  = TRUE; 
         }  
         
