@@ -9,6 +9,9 @@ RewriteEngine on
 
 #RewriteBase /open_publisher/
 
+# stop when fetching robots.txt
+RewriteRule (robots.\txt)$ $1 [L]
+
 # ajax server call
 RewriteRule .*ajaxserver\.php(.*)$ ajaxserver.php$1 [L] 
 
