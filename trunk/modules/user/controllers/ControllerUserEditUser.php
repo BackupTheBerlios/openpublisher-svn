@@ -223,10 +223,11 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
         // add picture
         elseif(!empty($uploadpicture))
         {   
+            $picture = $this->httpRequest->getParameter( 'picture', 'files', 'raw' );
             $this->model->action('user','addItem',
                                  array('item'     => 'picture',
                                        'id_user'  => (int)$this->id_user,
-                                       'postName' => 'picture',
+                                       'postData' => &$picture,
                                        'error'    => & $this->viewVar['error']) ); 
                                          
             $dont_forward = true;
@@ -280,11 +281,12 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
         } 
         // add file
         elseif(!empty($uploadfile))
-        {          
+        {   
+            $ufile = $this->httpRequest->getParameter( 'ufile', 'files', 'raw' ); 
             $this->model->action('user','addItem',
                                  array('item'     => 'file',
                                        'id_user'  => (int)$this->id_user,
-                                       'postName' => 'ufile',
+                                       'postData' => &$ufile,
                                        'error'    => & $this->viewVar['error']) ); 
                                      
             $dont_forward = true;
@@ -314,8 +316,8 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
         // update file descriptions if there file attachments
         if(!empty($fid))
         {
-            $filedesc = $this->httpRequest->getParameter( 'picdesc', 'post', 'raw' );
-            $filetitle = $this->httpRequest->getParameter( 'pictitle', 'post', 'raw' );
+            $filedesc = $this->httpRequest->getParameter( 'filedesc', 'post', 'raw' );
+            $filetitle = $this->httpRequest->getParameter( 'filetitle', 'post', 'raw' );
             $this->model->action( 'user','updateItem',
                                   array('item'    => 'file',
                                         'ids'     => &$_POST['fid'],
