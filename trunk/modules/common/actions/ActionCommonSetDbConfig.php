@@ -64,7 +64,7 @@ class ActionCommonSetDbConfig extends JapaAction
      */    
     private function buildContent( & $data )
     {
-        $str = "<?php \n\n if (!defined( 'JAPA_SECURE_INCLUDE' )) \n  exit;\n\n";
+        $str = "<?php \n\n";
         
         $str .= '$db'." = array();\n\n";
         
