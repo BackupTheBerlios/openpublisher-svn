@@ -34,7 +34,7 @@ function insertFileDesc(desc)
 function insertImage(controller,path,file,title,id_pic,id_user,width,height,jsc)
 {
   if(jsc==1){
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'?view=picture&id_user='+id_user+'&id_pic='+id_pic+'\','+width+','+height+');" title="'+title+'"><img src="'+path+file+'" title="'+title+'" border="0" class="smart3thumbimage" /></a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'/cntr/picture/id_user/'+id_user+'/id_pic/'+id_pic+'\','+width+','+height+');" title="'+title+'"><img src="'+path+file+'" title="'+title+'" border="0" class="smart3thumbimage" /></a>');
     }
   else {
     tinyMCE.execCommand('mceInsertContent',0,'<img src="'+path+file+'" title="'+title+'" border="0" width="'+width+'" height="'+height+'" class="smart3image" />'); 
@@ -398,7 +398,7 @@ function MM_swapImage() { //v3.0
                   </tr>
                   <tr>
                     <td align="right" valign="top">
-          <a href="javascript:insertImage('<?php echo $view['publicWebController']; ?>','data/user/<?php echo $view['user']['media_folder']; ?>/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $view['id_user']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 0);">
+          <a href="javascript:insertImage('<?php echo $view['publicWebController']; ?>','<?php echo $view['url_base']; ?>/data/user/<?php echo $view['user']['media_folder']; ?>/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $view['id_user']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 0);">
           <img src="<?php echo $view['url_base']; ?>/data/user/<?php echo $view['user']['media_folder']; ?>/thumb/<?php echo $thumb['file']; ?>" alt="<?php echo $thumb['description']; ?>" name="<?php echo $thumb['file']; ?>" width="120" border="0" title="<?php echo $thumb['file']; ?>">
                     </a>
                 </td>
@@ -409,7 +409,7 @@ function MM_swapImage() { //v3.0
                   </tr>
                   <tr>
                     <td align="right" valign="top">
-          <a href="javascript:insertImage('<?php echo $view['publicWebController']; ?>','data/user/<?php echo $view['user']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo addslashes($thumb['title']); ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $view['id_user']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
+          <a href="javascript:insertImage('<?php echo $view['publicWebController']; ?>','<?php echo $view['url_base']; ?>/data/user/<?php echo $view['user']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo addslashes($thumb['title']); ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $view['id_user']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:deletepic(document.forms['edituser'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/deleteover.png',0)"><img id="Image6" name="Image<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/delete.png" title="Delete <?php echo $thumb['file']; ?>" alt="Delete <?php echo $thumb['file']; ?>" width="30" height="29" border="0"></a></td>
                     <td align="left" valign="top">&nbsp;</td>
                   </tr>
