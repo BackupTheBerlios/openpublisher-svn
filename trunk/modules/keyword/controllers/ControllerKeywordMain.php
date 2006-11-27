@@ -10,23 +10,17 @@
 // ---------------------------------------------
 
 /**
- * ViewKeywordMain
+ * ControllerKeywordMain
  *
  */
  
-class ViewKeywordMain extends JapaControllerAbstractPage
+class ControllerKeywordMain extends JapaControllerAbstractPage
 {
-   /**
-     * template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'main';
-    
-   /**
-     * template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/keyword/templates/';
+    public $returnView = true;
     
    /**
      * current id_key
@@ -47,24 +41,24 @@ class ViewKeywordMain extends JapaControllerAbstractPage
         if($this->current_id_key != 0)
         {
             $this->model->action('keyword','getKeyword', 
-                                 array('result' => & $this->tplVar['key'],
+                                 array('result' => & $this->viewVar['key'],
                                        'id_key' => (int)$this->current_id_key,
-                                       'error'  => & $this->tplVar['error'],
+                                       'error'  => & $this->viewVar['error'],
                                        'fields' => array('title','id_key')));        
         }
     
         // get child navigation nodes
         $this->model->action('keyword','getChilds', 
-                             array('result'  => & $this->tplVar['keys'],
+                             array('result'  => & $this->viewVar['keys'],
                                    'id_key'  => (int)$this->current_id_key,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_key','id_parent','status')));
  
         // get navigation node branch of the current node
         $this->model->action('keyword','getBranch', 
-                             array('result'  => & $this->tplVar['branch'],
+                             array('result'  => & $this->viewVar['branch'],
                                    'id_key' => (int)$this->current_id_key,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_key')));                 
 
         // get keyword locks
@@ -79,21 +73,21 @@ class ViewKeywordMain extends JapaControllerAbstractPage
     {
         $row = 0;
         
-        foreach($this->tplVar['keys'] as $node)
+        foreach($this->viewVar['keys'] as $node)
         {
             // lock the user to edit
             $result = $this->model->action('keyword','lock',
                                      array('job'        => 'is_locked',
                                            'id_key'     => (int)$node['id_key'],
-                                           'by_id_user' => (int)$this->viewVar['loggedUserId']) );
+                                           'by_id_user' => (int)$this->controllerVar['loggedUserId']) );
                                            
             if(($result !== TRUE) && ($result !== FALSE))
             {
-                $this->tplVar['keys'][$row]['lock'] = TRUE;  
+                $this->viewVar['keys'][$row]['lock'] = TRUE;  
             } 
             else
             {
-                $this->tplVar['keys'][$row]['lock'] = FALSE;  
+                $this->viewVar['keys'][$row]['lock'] = FALSE;  
             }
             
             $row++;
@@ -105,29 +99,31 @@ class ViewKeywordMain extends JapaControllerAbstractPage
      */      
     private function initVars()
     {
+        $this->current_id_key = $this->httpRequest->getParameter('id_key', 'request', 'int');
+        
         // fetch the current id_key. If no node the script assums that
         // we are at the top level with id_parent 0
-        if( !isset($_REQUEST['id_key']) || preg_match("/[^0-9]+/",$_REQUEST['id_key']) ) 
+        if( false === $this->current_id_key ) 
         {
-            $this->tplVar['id_key']  = 0;
+            $this->viewVar['id_key']  = 0;
             $this->current_id_key    = 0;      
         }
         else
         {
-            $this->tplVar['id_key']  = (int)$_REQUEST['id_key'];
-            $this->current_id_key    = (int)$_REQUEST['id_key'];          
+            $this->viewVar['id_key']  = (int)$this->current_id_key;
+            $this->current_id_key    = (int)$this->current_id_key;          
         }   
         
         // template variables
         //
         // data of the current node
-        $this->tplVar['key']   = array();
+        $this->viewVar['key']   = array();
         // data of the child nodes
-        $this->tplVar['keys']  = array();
+        $this->viewVar['keys']  = array();
         // data of the branch nodes
-        $this->tplVar['branch'] = array();  
+        $this->viewVar['branch'] = array();  
         // errors
-        $this->tplVar['error']  = FALSE;    
+        $this->viewVar['error']  = FALSE;    
     }
 }
 

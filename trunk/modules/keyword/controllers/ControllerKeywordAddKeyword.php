@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewNavigationMain
+ * ControllerKeywordAddKeyword
  *
  */
  
-class ViewKeywordAddKeyword extends JapaControllerAbstractPage
+class ControllerKeywordAddKeyword extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'addkeyword';
+    public $returnView = true;
     
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/keyword/templates/';
-        
    /**
     * Perform on the main view
     *
@@ -35,31 +29,35 @@ class ViewKeywordAddKeyword extends JapaControllerAbstractPage
     public function perform()
     {
         // init template array to fill with node data
-        $this->tplVar['title']  = '';
-        $this->tplVar['branch'] = array();  
-        $this->tplVar['childs'] = array();
+        $this->viewVar['title']  = '';
+        $this->viewVar['branch'] = array();  
+        $this->viewVar['childs'] = array();
         // Init template form field values
-        $this->tplVar['error']            = FALSE;
+        $this->viewVar['error']  = FALSE;
+
+        $id_key = $this->httpRequest->getParameter('id_key', 'request', 'int');
 
         // fetch the current id_key. If no node the script assums that
         // we are at the top level with id_parent 0
-        if(!isset($_REQUEST['id_key'])) 
+        if( false === $id_key ) 
         {
-            $this->tplVar['id_key']  = 0;
+            $this->viewVar['id_key']  = 0;
             $id_key = 0;
         }
         else
         {
-            $this->tplVar['id_key']  = $_REQUEST['id_key'];
-            $id_key = (int)$_REQUEST['id_key'];
+            $this->viewVar['id_key']  = $id_key;
+            $id_key = (int)$id_key;
         }
+
+        $addkeyword = $this->httpRequest->getParameter('addkeyword', 'post', 'alnum');
         
         // add node
-        if( isset($_POST['addkeyword']) )
+        if( !empty($addkeyword) )
         {
             if(FALSE !== ($new_id_key = $this->addKeyword( $id_key )))
             {
-                @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=keyword&view=editKeyword&id_key='.$new_id_key);
+                @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'] . '/mod/keyword/cntr/editKeyword/id_key/'.$new_id_key);
                 exit;
             }
         }
@@ -69,25 +67,25 @@ class ViewKeywordAddKeyword extends JapaControllerAbstractPage
                              array('id_key'  => (int)$id_key,
                                    'status'  => array('>=', 0),
                                    'fields'  => array('id_key','title','status'),
-                                   'result'  => & $this->tplVar['childs'],
-                                   'error'   => & $this->tplVar['error']));
+                                   'result'  => & $this->viewVar['childs'],
+                                   'error'   => & $this->viewVar['error']));
                  
         // assign the template array $B->tpl_nodes with navigation nodes
         $this->model->action('keyword','getBranch', 
-                             array('result'  => & $this->tplVar['branch'],
+                             array('result'  => & $this->viewVar['branch'],
                                    'id_key'  => (int)$id_key,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_key')));                 
 
         // set template variable that show the link to add users
         // only if the logged user have at least editor rights
-        if($this->viewVar['loggedUserRole'] <= 40)
+        if($this->controllerVar['loggedUserRole'] <= 40)
         {
-            $this->tplVar['showAddKeywordLink'] = TRUE;
+            $this->viewVar['showAddKeywordLink'] = TRUE;
         }
         else
         {
-            $this->tplVar['showAddKeywordLink'] = FALSE;
+            $this->viewVar['showAddKeywordLink'] = FALSE;
         }
     }   
    /**
@@ -97,14 +95,16 @@ class ViewKeywordAddKeyword extends JapaControllerAbstractPage
     */    
     private function addKeyword( $id_parent )
     {
-        if(!isset($_POST['title']) || empty($_POST['title']))
+        $title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
+        
+        if( empty($title) )
         {
-            $this->tplVar['error'] = 'Title is empty';
+            $this->viewVar['error'] = 'Title is empty';
             return FALSE;
         }
         
         return $this->model->action('keyword', 'add', 
-                             array('fields' => array('title'     => JapaCommonUtil::stripSlashes((string)$_POST['title']),
+                             array('fields' => array('title'     => JapaCommonUtil::stripSlashes((string)$title),
                                                      'id_parent' => (int)$id_parent,
                                                      'status'    => 1)));        
     }

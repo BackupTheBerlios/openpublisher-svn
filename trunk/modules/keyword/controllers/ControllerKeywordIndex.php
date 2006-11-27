@@ -27,6 +27,8 @@ class ControllerKeywordIndex extends JapaControllerAbstractPage
      */
     public function perform()
     {
+        $this->viewVar['requestedModule']   = 'keyword';
+        
         // set template var to show user options link
         // only on user main page and if the user role is at least an "admin"
         if($this->controllerVar['loggedUserRole'] > 20)
