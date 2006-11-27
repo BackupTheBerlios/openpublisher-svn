@@ -8,7 +8,7 @@
     
     <!-- show link to the administration interface -->
     <?php if($view['loggedUserRole'] < 100): ?>
-      <a href="<?php echo $view['adminWebController']; ?>">Admin</a> &nbsp;&nbsp;
+      <a href="<?php echo $view['urlBase']; ?>/<?php echo $view['adminWebController']; ?>">Admin</a> &nbsp;&nbsp;
     <?php endif; ?>  
   <?php endif; ?>
   
