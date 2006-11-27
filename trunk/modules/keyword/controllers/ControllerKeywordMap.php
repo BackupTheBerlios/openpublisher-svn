@@ -10,48 +10,45 @@
 // ---------------------------------------------
 
 /**
- * ViewKeywordMap
+ * ControllerKeywordMap
  *
  */
  
-class ViewKeywordMap extends JapaControllerAbstractPage
+class ControllerKeywordMap extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'map';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/keyword/templates/';
-    
+    public $returnView = true;
+
    /**
     * Perform on the main view
     *
     */
     public function perform()
     {   
+        $openerModule = $this->httpRequest->getParameter('openerModule', 'request', 'alnum');
+        
         // get the opener module
-        if(isset($_REQUEST['openerModule']))
+        if(!empty($openerModule))
         {
-            $this->tplVar['mod'] = (string)$_REQUEST['openerModule'];
-            $this->tplVar['opener_url_vars'] = '&addkey=1&' . base64_decode((string)$_REQUEST['opener_url_vars']);
+            $opener_url_vars = $this->httpRequest->getParameter('opener_url_vars', 'request', 'alnum');
+            $this->viewVar['mod'] = (string)$openerModule;
+            $this->viewVar['opener_url_vars'] = '/addkey/1/' . base64_decode((string)$opener_url_vars);
         }
         else
         {
-            $this->tplVar['mod'] = 'keyword';
-            $this->tplVar['opener_url_vars'] = '';
+            $this->viewVar['mod'] = 'keyword';
+            $this->viewVar['opener_url_vars'] = '';
         }
         
-        $this->tplVar['tree'] = array();
+        $this->viewVar['tree'] = array();
         
         // get whole node tree
         $this->model->action('keyword','getTree', 
                              array('id_key' => 0,
-                                   'result'  => & $this->tplVar['tree'],
+                                   'result'  => & $this->viewVar['tree'],
                                    'status'  => array('>', 0),
                                    'fields'  => array('id_parent','status','id_key','title')));   
     }   

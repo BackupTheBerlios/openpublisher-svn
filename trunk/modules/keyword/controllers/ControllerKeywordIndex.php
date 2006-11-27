@@ -14,20 +14,14 @@
  *
  */
  
-class ViewKeywordIndex extends JapaControllerAbstractPage
+class ControllerKeywordIndex extends JapaControllerAbstractPage
 {
-     /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'index';
-    
-     /**
-     * Default template folder for this view
-     * @var string $templateFolder
-     */    
-    public  $templateFolder = 'modules/keyword/templates/';
-    
+    public $returnView = true;
+
     /**
      * Perform on the index view
      */
@@ -35,14 +29,23 @@ class ViewKeywordIndex extends JapaControllerAbstractPage
     {
         // set template var to show user options link
         // only on user main page and if the user role is at least an "admin"
-        if(isset($_REQUEST['view']) && ($this->viewVar['loggedUserRole'] > 20))
+        if($this->controllerVar['loggedUserRole'] > 20)
         {
-            $this->tplVar['show_admin_link'] = FALSE;
+            $this->viewVar['show_admin_link'] = FALSE;
         }
         else
         {
-            $this->tplVar['show_admin_link'] = TRUE;
+            $this->viewVar['show_admin_link'] = TRUE;
         }
+        
+        // get requested module controller name
+        $module_controller = $this->getRequestedModuleController();
+
+        // execute the requested module controller and assign template variable
+        // with the result.
+        // here we load the requested modul controller output
+        // into a view variable
+        $this->viewVar['module_keyword_controller'] = $this->controllerLoader->$module_controller(); 
     }  
     /**
      * prepend filter chain
@@ -50,18 +53,40 @@ class ViewKeywordIndex extends JapaControllerAbstractPage
      */
     public function prependFilterChain()
     {
+        $this->controller_request = $this->router->getVar('cntr');
+        
         // all accounts can access the map view
-        if( isset($_REQUEST['view']) && ($_REQUEST['view'] != "map") )
+        if( 'map' !== $this->controller_request )
         {
             // only administrators can access keyword module
-            if($this->viewVar['loggedUserRole'] > $this->model->config['module']['keyword']['perm'])
+            if($this->controllerVar['loggedUserRole'] > $this->model->config['module']['keyword']['perm'])
             {
                 // reload admin
-                @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER);
+                @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
                 exit;  
             }
         }
-    }     
+    }    
+    /**
+     * get requested module controller name
+     *
+     * @return string
+     */
+    public function getRequestedModuleController()
+    {
+        // check if there is a module request
+        if( false === $this->controller_request )
+        {
+            $this->controller_request = 'Main';
+        }
+        elseif($this->controllerVar['loggedUserRole'] > 20)
+        {
+            $this->viewVar['show_options_link'] = false;
+        }
+
+        // build the whole module controller name
+        return 'Keyword' . ucfirst($this->controller_request);                    
+    }
 }
 
 ?>
