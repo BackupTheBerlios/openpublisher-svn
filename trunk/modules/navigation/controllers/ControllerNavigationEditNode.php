@@ -365,7 +365,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         {
             $this->model->action('navigation','moveItemRank',
                                  array('id_node' => (int)$this->current_id_node,
-                                       'id_file' => (int)$_POST['fileIDmoveUp'],
+                                       'id_file' => (int)$this->node_fileIDmoveUp,
                                        'dir'     => 'up') );                                                 
         }
         // move file rank down
