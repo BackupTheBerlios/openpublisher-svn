@@ -14,19 +14,13 @@
  *
  */
  
-class ViewKeywordEditKeyword extends JapaControllerAbstractPage
+class ControllerKeywordEditKeyword extends JapaControllerAbstractPage
 {
-   /**
-     * template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'editkeyword';
-    
-   /**
-     * template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/keyword/templates/';
+    public $returnView = true;
     
    /**
      * current id_key
@@ -49,7 +43,7 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
         {
             $this->template        = 'error';
             $this->templateFolder  = 'modules/common/templates/';
-            $this->tplVar['error'] = 'You have not the rights to edit a node!';
+            $this->viewVar['error'] = 'You have not the rights to edit a node!';
             $this->dontPerform = TRUE;
         }
 
@@ -61,7 +55,7 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
         {
             $this->template        = 'error';
             $this->templateFolder  = 'modules/common/templates/';
-            $this->tplVar['error'] = 'This node is locked by an other user!';
+            $this->viewVar['error'] = 'This node is locked by an other user!';
             $this->dontPerform = TRUE;      
         }
     }        
@@ -76,21 +70,29 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
             return;
         }
 
+        $gotokey = $this->httpRequest->getParameter('gotokey', 'post', 'alnum');
+
         // forward to node x without update
-        if(isset($_POST['gotokey']) && ($_POST['gotokey'] != ''))
+        if( !empty($gotokey) )
         {
             $this->unlockKeyword();
-            $this->redirect((int)$_POST['gotokey']);        
+            $this->redirect((int)$gotokey);        
         }
 
+        $canceledit = $this->httpRequest->getParameter('canceledit', 'post', 'alnum');
+        $this->key_id_parent = $this->httpRequest->getParameter('id_parent', 'post', 'int');
+        $this->key_key_id_parent = $this->httpRequest->getParameter('key_id_parent', 'post', 'int');
+
         // change nothing and switch back
-        if(isset($_POST['canceledit']) && ($_POST['canceledit'] == '1'))
+        if(! empty($canceledit) )
         {
             $this->unlockKeyword();
-            $this->redirect((int)$_POST['id_parent']);        
+            $this->redirect((int)$this->key_id_parent);        
         }
+
+        $modifykeyworddata = $this->httpRequest->getParameter('modifykeyworddata', 'post', 'alnum');
         
-        if( isset($_POST['modifykeyworddata']) )
+        if( !empty($modifykeyworddata) )
         {      
             $this->updateKeywordData();
         }
@@ -98,25 +100,25 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
         // get whole node tree
         $this->model->action('keyword','getTree', 
                              array('id_key' => 0,
-                                   'result' => & $this->tplVar['tree'],
+                                   'result' => & $this->viewVar['tree'],
                                    'fields' => array('id_parent','status','id_key','title')));   
         
         // get current node data
         $this->model->action('keyword','getKeyword', 
-                             array('result' => & $this->tplVar['key'],
+                             array('result' => & $this->viewVar['key'],
                                    'id_key' => (int)$this->current_id_key,
-                                   'error'  => & $this->tplVar['error'],
+                                   'error'  => & $this->viewVar['error'],
                                    'fields' => array('title','description',
                                                      'id_parent','status','id_key')));
 
         // convert some field values to safely include it in template html form fields
-        $this->convertHtmlSpecialChars( $this->tplVar['key'], array('title') );        
+        $this->convertHtmlSpecialChars( $this->viewVar['key'], array('title') );        
     
         // get navigation node branch of the current node
         $this->model->action('keyword','getBranch', 
-                             array('result' => & $this->tplVar['branch'],
+                             array('result' => & $this->viewVar['branch'],
                                    'id_key' => (int)$this->current_id_key,
-                                   'error'  => & $this->tplVar['error'],
+                                   'error'  => & $this->viewVar['error'],
                                    'fields' => array('title','id_key')));                           
     }  
 
@@ -124,44 +126,50 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
     {
         $this->key_was_moved  = FALSE;
 
-        if(empty($_POST['title']))
+        $this->key_title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
+
+        if(empty($this->key_title))
         {
-            $this->tplVar['error'] = 'Keyword title is empty!';
+            $this->viewVar['error'] = 'Keyword title is empty!';
             return;
         }
         
         // check if id_parent has changed
-        if($_POST['id_parent'] != $_POST['key_id_parent'])
+        if($this->key_id_parent != $this->key_key_id_parent)
         {
-            $id_parent = (string)$_POST['key_id_parent'];
+            $id_parent = (string)$this->key_key_id_parent;
             // check if the new id_parent isnt a subnode of the current node
-            if(FALSE == $this->isSubKeyword( $id_parent, $_POST['id_key'] ))
+            if(FALSE == $this->isSubKeyword( $id_parent, $this->current_id_key ))
             {
                 $this->node_was_moved = TRUE;
             }
             else
             {
-                $this->tplVar['error'][] = "Circular error! A new parent keyword cannot be a subkeyword of the current keyword.";
+                $this->viewVar['error'][] = "Circular error! A new parent keyword cannot be a subkeyword of the current keyword.";
             }
         }
         else
         {
-            $id_parent = (int)$_POST['id_parent'];
+            $id_parent = (int)$this->key_id_parent;
         }
+
+        $delete_key = $this->httpRequest->getParameter('delete_key', 'post', 'alnum');
             
-        if($_POST['delete_key'] == '1')
+        if(!empty($delete_key))
         {
             $this->unlockKeyword();
-            $this->deleteKeyword( $_POST['id_key'] );
+            $this->deleteKeyword( $this->current_id_key );
             $this->redirect( $id_parent );
         }           
 
         // if no error occure update node data
-        if(count($this->tplVar['error']) == 0)
+        if(count($this->viewVar['error']) == 0)
         {
+            $finishupdate = $this->httpRequest->getParameter('finishupdate', 'post', 'alnum');
+            
             // update node data
             $this->updateKeyword();
-            if( isset($_POST['finishupdate']) )
+            if( !empty($finishupdate) )
             {
                 $this->unlockKeyword();
                 $this->redirect( $id_parent );
@@ -177,7 +185,7 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
         return $this->model->action('keyword','lock',
                                     array('job'        => 'lock',
                                           'id_key'     => (int)$this->current_id_key,
-                                          'by_id_user' => (int)$this->viewVar['loggedUserId']) );  
+                                          'by_id_user' => (int)$this->controllerVar['loggedUserId']) );  
     }   
      /**
      * init variables for this view
@@ -185,31 +193,32 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
      */      
     private function initVars()
     {
+        $this->current_id_key = $this->httpRequest->getParameter('id_key', 'request', 'int');
+        
         // fetch the current id_key. If no node the script assums that
         // we are at the top level with id_parent 0
-        if( !isset($_REQUEST['id_key']) || preg_match("/[^0-9]+/",$_REQUEST['id_key']) ) 
+        if( false === $this->current_id_key ) 
         {
-            $this->tplVar['id_key']  = 0;
+            $this->viewVar['id_key']  = 0;
             $this->current_id_key    = 0;      
         }
         else
         {
-            $this->tplVar['id_key']  = (int)$_REQUEST['id_key'];
-            $this->current_id_key    = (int)$_REQUEST['id_key'];          
+            $this->viewVar['id_key']  = (int)$this->current_id_key;          
         }     
 
-        $this->tplVar['lock_key']    = 'unlock';
+        $this->viewVar['lock_key']    = 'unlock';
         
         // template variables
         //
         // node tree data
-        $this->tplVar['tree']   = array();
+        $this->viewVar['tree']   = array();
         // data of the current node
-        $this->tplVar['key']    = array();
+        $this->viewVar['key']    = array();
         // data of the branch nodes
-        $this->tplVar['branch'] = array();         
+        $this->viewVar['branch'] = array();         
         // errors
-        $this->tplVar['error']  = array();    
+        $this->viewVar['error']  = array();    
     }
      /**
      * has the logged the rights to modify?
@@ -218,7 +227,7 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
+        if($this->controllerVar['loggedUserRole'] <= 40 )
         {
             return TRUE;
         }
@@ -247,17 +256,20 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
      */
     private function updateKeyword()
     { 
-        $fields = array('id_parent'   => (int)$_POST['key_id_parent'],
-                        'status'      => (int)$_POST['status'],
-                        'title'       => JapaCommonUtil::stripSlashes((string)$_POST['title']),
-                        'description' => JapaCommonUtil::stripSlashes((string)$_POST['description']));
+        $this->key_status = trim($this->httpRequest->getParameter('status', 'post', 'int'));
+        $this->key_description = trim($this->httpRequest->getParameter('description', 'post', 'raw'));
+        
+        $fields = array('id_parent'   => (int)$this->key_key_id_parent,
+                        'status'      => (int)$this->key_status,
+                        'title'       => JapaCommonUtil::stripSlashes((string)$this->key_title),
+                        'description' => JapaCommonUtil::stripSlashes((string)$this->key_description));
 
         if($this->key_was_moved == TRUE)
         {
             // get id_sector and status of the new parent node
             $new_parent_node_data = array();
             $this->model->action('keyword','getKeyword',
-                                  array('id_key' => (int)$_POST['key_id_parent'],
+                                  array('id_key' => (int)$this->key_key_id_parent,
                                         'result'  => & $new_parent_node_data,
                                         'fields'  => array('status')));
             
@@ -269,20 +281,20 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
             
             // updates id_sector and status of subnodes
             $this->model->action('keyword','updateSubKeywords',
-                                  array('id_key' => (int)$_REQUEST['id_key'],
+                                  array('id_key' => (int)$this->current_id_key,
                                         'fields'  => array('status' => (int)$fields['status'])));    
         }
         elseif($_POST['old_status'] != $_POST['status'])
         {
             // updates status of subnodes
             $this->model->action('keyword','updateSubKeywords',
-                                  array('id_key' => (int)$_REQUEST['id_key'],
+                                  array('id_key' => (int)$this->current_id_key,
                                         'fields'  => array('status' => (int)$fields['status'])));                                        
         
         }
         
         $this->model->action('keyword','update',
-                             array('id_key' => (int)$_REQUEST['id_key'],
+                             array('id_key' => (int)$this->current_id_key,
                                    'fields'  => $fields));    
     }
     /**
@@ -319,7 +331,7 @@ class ViewKeywordEditKeyword extends JapaControllerAbstractPage
     private function redirect( $id_key = 0 )
     {
         // reload the user module
-        @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=keyword&id_key='.$id_key);
+        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/keyword/id_key/'.$id_key);
         exit;      
     }  
     /**
