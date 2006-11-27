@@ -35,7 +35,7 @@ class ControllerKeywordMap extends JapaControllerAbstractPage
         {
             $opener_url_vars = $this->httpRequest->getParameter('opener_url_vars', 'request', 'alnum');
             $this->viewVar['mod'] = (string)$openerModule;
-            $this->viewVar['opener_url_vars'] = '/addkey/1/' . base64_decode((string)$opener_url_vars);
+            $this->viewVar['opener_url_vars'] = '/addkey/1' . base64_decode((string)$opener_url_vars);
         }
         else
         {
