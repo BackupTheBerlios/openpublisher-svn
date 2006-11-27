@@ -1,6 +1,6 @@
 <script language="JavaScript" type="text/JavaScript">
 </script>
-<form accept-charset="<?php echo $view['charset']; ?>" name="addkeyword" method="post" action="<<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/keyword/cntr/addKeyword/id_key/<?php echo $view['id_key']; ?>">
+<form accept-charset="<?php echo $view['charset']; ?>" name="addkeyword" method="post" action="<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/keyword/cntr/addKeyword/id_key/<?php echo $view['id_key']; ?>">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" class="moduleheader2">Add Keyword </td>
