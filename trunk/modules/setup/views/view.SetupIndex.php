@@ -48,20 +48,20 @@ function subok(s){
 </head>
 <body>
 <?php $show_button=TRUE; ?>
-<?php if(count($tpl['folder_error'])>0): ?>
-   <?php foreach($tpl['folder_error'] as $err): ?>
+<?php if(count($view['folder_error'])>0): ?>
+   <?php foreach($view['folder_error'] as $err): ?>
     <div class="error"><?php echo $err; ?></div>
    <?php endforeach; ?>
 <?php $show_button=FALSE; endif; ?>
 <?php if($show_button==FALSE): ?>
    <br><div class="error"><br>Please change the folder rights and reload this page!</div><br><br>
 <?php endif; ?>
-<?php if(count($tpl['error'])>0): ?>
-    <?php foreach($tpl['error'] as $err): ?>
+<?php if(count($view['error'])>0): ?>
+    <?php foreach($view['error'] as $err): ?>
     <div class="error"><?php echo $err; ?><br><br></div>
   <?php endforeach; ?>
 <?php endif; ?>
-<form name="setup" id="setup" method="post" action="<?php echo JAPA_CONTROLLER; ?>">
+<form name="setup" id="setup" method="post" action="<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td align="center" valign="middle" bgcolor="#3366CC"><span class="title">Open Publisher Project Setup</span></td>
@@ -104,30 +104,30 @@ function subok(s){
       <tr>
         <td width="19%" align="left" valign="top"><span class="normal">Host:</span></td>
         <td width="81%" align="left" valign="top">
-          <input name="dbhost" type="text" size="50" maxlength="255" value="<?php if(isset($tpl['form_dbhost'])) echo $tpl['form_dbhost']; ?>"/> 
+          <input name="dbhost" type="text" size="50" maxlength="255" value="<?php if(isset($view['form_dbhost'])) echo $view['form_dbhost']; ?>"/> 
           <span class="normal">Port:</span>
-          <input name="dbport" type="text" size="6" maxlength="6" value="<?php if(isset($tpl['form_dbport'])) echo $tpl['form_dbport']; ?>"/>
+          <input name="dbport" type="text" size="6" maxlength="6" value="<?php if(isset($view['form_dbport'])) echo $view['form_dbport']; ?>"/>
         </td>
       </tr>
       <tr>
         <td align="left" valign="top"><span class="normal">User:</span></td>
         <td align="left" valign="top">
-          <input name="dbuser" type="text" size="50" maxlength="255"  value="<?php if(isset($tpl['form_dbuser'])) echo $tpl['form_dbuser']; ?>"/>
+          <input name="dbuser" type="text" size="50" maxlength="255"  value="<?php if(isset($view['form_dbuser'])) echo $view['form_dbuser']; ?>"/>
         </td>
       </tr>
       <tr>
         <td align="left" valign="top" class="normal">Password:</td>
-        <td align="left" valign="top"><input name="dbpasswd" type="password" id="login" size="50" maxlength="255"  value="<?php if(isset($tpl['form_dbpasswd'])) echo $tpl['form_dbpasswd'] ?>"/></td>
+        <td align="left" valign="top"><input name="dbpasswd" type="password" id="login" size="50" maxlength="255"  value="<?php if(isset($view['form_dbpasswd'])) echo $view['form_dbpasswd'] ?>"/></td>
       </tr>
       <tr>
         <td align="left" valign="top"><span class="normal">DB Name :</span></td>
         <td align="left" valign="top">
-          <input name="dbname" type="text" size="50" maxlength="255" value="<?php if(isset($tpl['form_dbname'])) echo $tpl['form_dbname'] ?>"/> 
+          <input name="dbname" type="text" size="50" maxlength="255" value="<?php if(isset($view['form_dbname'])) echo $view['form_dbname'] ?>"/> 
           </td>      
       <tr>
         <td align="left" valign="top"><span class="normal">Tables Prefix :</span></td>
         <td align="left" valign="top">
-          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($tpl['form_dbtableprefix'])) echo 'op_';else echo $tpl['form_dbtableprefix']; ?>"/>
+          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($view['form_dbtableprefix'])) echo 'op_';else echo $view['form_dbtableprefix']; ?>"/>
         </td>
       </tr>
     </table>
@@ -142,7 +142,7 @@ function subok(s){
       <tr>
         <td align="left" valign="top"><span class="normal">Password:</span></td>
         <td align="left" valign="top">
-          <input name="syspassword" type="text" size="50" maxlength="255" value="<?php if(isset($tpl['form_syspassword'])) echo $tpl['form_syspassword'] ?>"/>
+          <input name="syspassword" type="text" size="50" maxlength="255" value="<?php if(isset($view['form_syspassword'])) echo $view['form_syspassword'] ?>"/>
         </td>
       </tr>
       <tr bgcolor="#CCCCCC">
