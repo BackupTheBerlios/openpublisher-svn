@@ -18,8 +18,8 @@ class ActionOptionsUpdateConfigOptions extends JapaAction
 {
     protected $tblFields_config = 
                       array('site_url'            => 'String',
-                            'templates_folder'    => 'String',
-                            'css_folder'          => 'String',
+                            'controllers_folder'  => 'String',
+                            'styles_folder'       => 'String',
                             'views_folder'        => 'String',
                             'disable_cache'       => 'Int',
                             'recycler_time'       => 'Int',

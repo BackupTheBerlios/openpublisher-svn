@@ -24,13 +24,13 @@ class ActionOptionsDeletePublicCache extends JapaAction
      */
     function perform( $data = FALSE )
     {
-        $cache_dir = JAPA_BASE_DIR . 'cache' ;
+        $cache_dir = JAPA_APPLICATION_DIR . 'cache' ;
           
         if ( (($handle = @opendir( $cache_dir ))) != FALSE )
         {
             while ( (( $_file = readdir( $handle ) )) != false )
             {
-                if ( ( $_file == "." ) || ( $_file == ".." ) || ($_file == '.htaccess') )
+                if ( ( $_file == "." ) || ( $_file == ".." ) || ($_file == '.svn') || ($_file == '.htaccess') )
                 {
                     continue;
                 }
@@ -50,8 +50,12 @@ class ActionOptionsDeletePublicCache extends JapaAction
         {
             trigger_error( "Can not open folder to read: ".$cache_dir, E_USER_WARNING  );
         }
-        return TRUE;
+        return true;
     } 
+    public function validate( $data = FALSE )
+    { 
+        return true;
+    }
 }
 
 ?>
