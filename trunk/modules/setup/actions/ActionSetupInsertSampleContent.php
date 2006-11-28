@@ -26,9 +26,9 @@ class ActionSetupInsertSampleContent extends JapaAction
      */
     function perform( $data = FALSE )
     { 
-        if(is_readable(JAPA_BASE_DIR."modules/setup/sample_content/example.sql"))
+        if(is_readable(JAPA_MODULES_DIR."setup/sample_content/example.sql"))
         {
-            $file_c = file(JAPA_BASE_DIR."modules/setup/sample_content/example.sql");
+            $file_c = file(JAPA_MODULES_DIR."setup/sample_content/example.sql");
             foreach($file_c as $line)
             {
                 if(preg_match("/^INSERT/",$line))
