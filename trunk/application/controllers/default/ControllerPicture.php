@@ -17,10 +17,10 @@
 class ControllerPicture extends JapaControllerAbstractPage
 {
     /**
-     * Cache expire time in seconds for this view
+     * Cache expire time in seconds
      * 0 = cache disabled
      */
-    public $cacheExpire = 0;
+    public $cacheExpire = 3600;
     
     /**
      * Execute the controller to show full size image

@@ -23,12 +23,6 @@ class ControllerRightBorder extends JapaControllerAbstractPage
     public $returnView = true;
     
     /**
-     * Cache expire time in seconds for this view
-     * 0 = cache disabled
-     */
-    public $cacheExpire = 3600;
-    
-    /**
      * Execute the view of the "RightBorder" template
      */
     public function perform()

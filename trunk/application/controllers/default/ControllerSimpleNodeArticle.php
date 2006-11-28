@@ -19,7 +19,7 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
      * Cache expire time in seconds
      * 0 = cache disabled
      */
-    public $cacheExpire = 300;
+    public $cacheExpire = 3600;
     
     /**
      * Execute the view of the "simpleNodeArticle" template
