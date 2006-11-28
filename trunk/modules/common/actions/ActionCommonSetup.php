@@ -119,7 +119,7 @@ class ActionCommonSetup extends JapaAction
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                 VALUES
-                 ('common','', 0,'0.5',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
+                 ('common','', 0,'0.6',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
         $this->model->dba->query($sql);            
 
         return TRUE;
