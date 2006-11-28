@@ -169,20 +169,20 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
         
         if(!empty($this->views_folder))
         {
-            $this->fields['views_folder'] = (string)$this->views_folder;
-            $this->config['views_folder'] = (string)$this->views_folder;
+            $this->fields['views_folder'] = (string)$this->views_folder.'/';
+            $this->config['views_folder'] = (string)$this->views_folder.'/';
         }  
 
         if(!empty($this->styles_folder))
         {
-            $this->fields['styles_folder'] = (string)$this->styles_folder;
-            $this->config['styles_folder'] = (string)$this->styles_folder;
+            $this->fields['styles_folder'] = (string)$this->styles_folder.'/';
+            $this->config['styles_folder'] = (string)$this->styles_folder.'/';
         }  
 
         if(!empty($this->controllers_folder))
         {
-            $this->fields['controllers_folder'] = (string)$this->controllers_folder;
-            $this->config['controllers_folder'] = (string)$this->controllers_folder;
+            $this->fields['controllers_folder'] = (string)$this->controllers_folder.'/';
+            $this->config['controllers_folder'] = (string)$this->controllers_folder.'/';
         }  
         
        if(!empty($this->disable_cache) && ($this->disable_cache == '1'))

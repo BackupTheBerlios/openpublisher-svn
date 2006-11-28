@@ -27,7 +27,7 @@ class ControllerOptionsIndex extends JapaControllerAbstractPage
      */
     public function perform()
     {
-        $this->viewVar['requestedModule']   = 'link';
+        $this->viewVar['requestedModule']   = 'options';
         $this->viewVar['show_options_link'] = true;
                 
         // get requested module controller name
