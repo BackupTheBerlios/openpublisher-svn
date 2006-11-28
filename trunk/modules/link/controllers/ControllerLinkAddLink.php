@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewLinkAddLink
+ * ControllerLinkAddLink
  *
  */
  
-class ViewLinkAddLink extends JapaControllerAbstractPage
+class ControllerLinkAddLink extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'addlink';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/link/templates/';
-        
+    public $returnView = true;
+
    /**
     * Perform on the main view
     *
@@ -35,43 +29,53 @@ class ViewLinkAddLink extends JapaControllerAbstractPage
     public function perform()
     {
         // init template array to fill with node data
-        $this->tplVar['status']      = 1;
-        $this->tplVar['title']       = '';
-        $this->tplVar['url']         = '';
-        $this->tplVar['description'] = '';
-        $this->tplVar['branch'] = array();  
-        $this->tplVar['childs'] = array();
-        $this->tplVar['tree']   = array();
+        $this->viewVar['status']      = 1;
+        $this->viewVar['title']       = '';
+        $this->viewVar['url']         = '';
+        $this->viewVar['description'] = '';
+        $this->viewVar['branch'] = array();  
+        $this->viewVar['childs'] = array();
+        $this->viewVar['tree']   = array();
         
         // Init error array
-        $this->tplVar['error']  = array();
+        $this->viewVar['error']  = array();
 
-        if(isset($_REQUEST['id_node']))
+        $this->current_id_node = $this->httpRequest->getParameter('id_node', 'request', 'int');
+
+        if(false !== $this->current_id_node)
         {
-            $this->tplVar['id_node'] = $_REQUEST['id_node'];
+            $this->viewVar['id_node'] = $this->current_id_node;
         }
         else
         {
-            $this->tplVar['id_node'] = '0';
+            $this->viewVar['id_node'] = '0';
         }
 
+        $addlink = $this->httpRequest->getParameter('addlink', 'post', 'alnum');
+
         // add link
-        if( isset($_POST['addlink']) )
+        if( !empty($addlink) )
         {
+            $this->link_id_node = $this->httpRequest->getParameter('link_id_node', 'request', 'int');
+            $this->link_status = $this->httpRequest->getParameter('status', 'request', 'int');
+            $this->link_title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
+            $this->link_url = trim($this->httpRequest->getParameter('url', 'post', 'raw'));
+            $this->link_description = trim($this->httpRequest->getParameter('description', 'post', 'raw'));
+            
             if(TRUE === $this->validate())
             {
                 // check if id_node has changed
-                if($_REQUEST['id_node'] != $_REQUEST['link_id_node'])
+                if($this->current_id_node != $this->link_id_node)
                 {
-                    $id_node = $_REQUEST['link_id_node'];
+                    $id_node = $this->link_id_node;
                 } 
                 else
                 {
-                    $id_node = $_REQUEST['id_node'];
+                    $id_node = $this->current_id_node;
                 }
                 if(FALSE !== ($new_id_link = $this->addLink( $id_node )))
                 {
-                    @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=link&id_node='.$id_node);
+                    @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/link/id_node/'.$id_node);
                     exit;
                 }
             }
@@ -81,19 +85,19 @@ class ViewLinkAddLink extends JapaControllerAbstractPage
         // get whole node tree
         $this->model->action('navigation','getTree', 
                              array('id_node' => 0,
-                                   'result'  => & $this->tplVar['tree'],
+                                   'result'  => & $this->viewVar['tree'],
                                    'fields'  => array('id_parent','status','id_node','title')));   
 
 
         // set template variable that show the link to add users
         // only if the logged user have at least editor rights
-        if($this->viewVar['loggedUserRole'] <= 40)
+        if($this->controllerVar['loggedUserRole'] <= 40)
         {
-            $this->tplVar['showAddNodeLink'] = TRUE;
+            $this->viewVar['showAddNodeLink'] = TRUE;
         }
         else
         {
-            $this->tplVar['showAddNodeLink'] = FALSE;
+            $this->viewVar['showAddNodeLink'] = FALSE;
         }
     }   
    /**
@@ -105,52 +109,52 @@ class ViewLinkAddLink extends JapaControllerAbstractPage
     { 
         $this->model->action('link', 'addLink', 
                              array('id_node' => (int)$id_node,
-                                   'fields'  => array('title'       => JapaCommonUtil::stripSlashes((string)$_POST['title']),
-                                                      'url'         => JapaCommonUtil::stripSlashes((string)$_POST['url']),
-                                                      'description' => JapaCommonUtil::stripSlashes((string)$_POST['description']),
-                                                      'status'      => (int)$_POST['status'])));        
+                                   'fields'  => array('title'       => JapaCommonUtil::stripSlashes((string)$this->link_title),
+                                                      'url'         => JapaCommonUtil::stripSlashes((string)$this->link_url),
+                                                      'description' => JapaCommonUtil::stripSlashes((string)$this->link_description),
+                                                      'status'      => (int)$this->link_status)));        
     }
     
     private function validate()
     {
-        if(!isset($_REQUEST['id_node']))
+        if(false === $this->current_id_node)
         {
-            $this->tplVar['error'][] = '"id_node" isnt defined';
+            $this->viewVar['error'][] = '"id_node" isnt defined';
         }
 
-        if($_REQUEST['link_id_node'] == 0)
+        if($this->link_id_node == 0)
         {
-            $this->tplVar['error'][] = '"Top" navigation node isnt allowed';
+            $this->viewVar['error'][] = '"Top" navigation node isnt allowed';
         }        
         // fetch the current id_node. If no node the script assums that
         // we are at the top level with id_parent 0
-        if(!isset($_REQUEST['title'])) 
+        if(false === $this->link_title) 
         {
-            $this->tplVar['error'][] = 'Field "title" isnt defined';
+            $this->viewVar['error'][] = 'Field "title" isnt defined';
         }
-        elseif(!is_string($_REQUEST['title']))
+        elseif(!is_string($this->link_title))
         {
-            $this->tplVar['error'][] = 'Field "title" isnt from type string';
+            $this->viewVar['error'][] = 'Field "title" isnt from type string';
         }   
-        elseif(empty($_REQUEST['title']))
+        elseif(empty($this->link_title))
         {
-            $this->tplVar['error'][] = 'Field "title" is empty';
+            $this->viewVar['error'][] = 'Field "title" is empty';
         }          
 
-        if(!isset($_REQUEST['url'])) 
+        if(false === $this->link_url) 
         {
-            $this->tplVar['error'][] = 'Field "url" isnt set';
+            $this->viewVar['error'][] = 'Field "url" isnt set';
         }
-        elseif(!is_string($_REQUEST['url']))
+        elseif(!is_string($this->link_url))
         {
-            $this->tplVar['error'][] = 'Field "url" isnt from type string';
+            $this->viewVar['error'][] = 'Field "url" isnt from type string';
         }   
-        elseif(empty($_REQUEST['url']))
+        elseif(empty($this->link_url))
         {
-            $this->tplVar['error'][] = 'Field "url" is empty';
+            $this->viewVar['error'][] = 'Field "url" is empty';
         }         
 
-        if(count($this->tplVar['error']) > 0)
+        if(count($this->viewVar['error']) > 0)
         {
             return FALSE;
         }
@@ -163,10 +167,10 @@ class ViewLinkAddLink extends JapaControllerAbstractPage
      */       
     private function resetFormData()
     {
-        $this->tplVar['status']      = JapaCommonUtil::stripSlashes($_POST['status']);
-        $this->tplVar['title']       = htmlspecialchars ( JapaCommonUtil::stripSlashes($_POST['title']), ENT_COMPAT, $this->config['charset'] );
-        $this->tplVar['url']         = htmlspecialchars ( JapaCommonUtil::stripSlashes($_POST['url']), ENT_COMPAT, $this->config['charset'] );
-        $this->tplVar['description'] = JapaCommonUtil::stripSlashes($_POST['description']);         
+        $this->viewVar['status']      = JapaCommonUtil::stripSlashes($this->link_status);
+        $this->viewVar['title']       = htmlspecialchars ( JapaCommonUtil::stripSlashes($this->link_title), ENT_COMPAT, $this->config['charset'] );
+        $this->viewVar['url']         = htmlspecialchars ( JapaCommonUtil::stripSlashes($this->link_url), ENT_COMPAT, $this->config['charset'] );
+        $this->viewVar['description'] = JapaCommonUtil::stripSlashes($this->link_description);         
     }      
 }
 

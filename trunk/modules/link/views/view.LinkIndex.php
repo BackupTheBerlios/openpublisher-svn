@@ -1,6 +1,5 @@
-<?php if (!defined('JAPA_SECURE_INCLUDE')) exit; ?>
-<?php if($tpl['showHeaderFooter'] == TRUE): ?>
-<?php if($tpl['isUserLogged'] == TRUE): ?>
+<?php if($view['showHeaderFooter'] == TRUE): ?>
+<?php if($view['isUserLogged'] == TRUE): ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="38%" class="moduleheader">Links Management</td>
@@ -12,9 +11,11 @@
     <td colspan="4">
 <?php endif; ?>
 <?php endif; ?>
-  <?php $viewLoader->{$tpl['moduleChildView']}(); ?>
-<?php if($tpl['showHeaderFooter'] == TRUE): ?>  
-  <?php if($tpl['isUserLogged'] == TRUE): ?>  
+
+  <?php echo $view['module_link_controller']; ?>
+  
+<?php if($view['showHeaderFooter'] == TRUE): ?>  
+  <?php if($view['isUserLogged'] == TRUE): ?>  
   </td>
   </tr>
 </table>

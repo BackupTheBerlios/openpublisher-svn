@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewLinkMain
+ * ControllerLinkMain
  *
  */
  
-class ViewLinkMain extends JapaControllerAbstractPage
+class ControllerLinkMain extends JapaControllerAbstractPage
 {
-   /**
-     * template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'main';
-    
-   /**
-     * template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/link/templates/';
-    
+    public $returnView = true;
+
    /**
      * current id_node
      * @var int $current_id_node
@@ -47,31 +41,31 @@ class ViewLinkMain extends JapaControllerAbstractPage
         if($this->current_id_node != 0)
         {
             $this->model->action('navigation','getNode', 
-                                 array('result'  => & $this->tplVar['node'],
+                                 array('result'  => & $this->viewVar['node'],
                                        'id_node' => (int)$this->current_id_node,
-                                       'error'   => & $this->tplVar['error'],
+                                       'error'   => & $this->viewVar['error'],
                                        'fields'  => array('title','id_node')));        
         }
     
         // get child navigation nodes
         $this->model->action('navigation','getChilds', 
-                             array('result'  => & $this->tplVar['nodes'],
+                             array('result'  => & $this->viewVar['nodes'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_node','id_parent','status')));
     
         // get navigation node branch of the current node
         $this->model->action('navigation','getBranch', 
-                             array('result'  => & $this->tplVar['branch'],
+                             array('result'  => & $this->viewVar['branch'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_node')));                 
 
         // get node related links
         $this->model->action('link','getLinks', 
-                             array('result'  => & $this->tplVar['links'],
+                             array('result'  => & $this->viewVar['links'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','url','id_link',
                                                       'description','status')));
 
@@ -86,44 +80,45 @@ class ViewLinkMain extends JapaControllerAbstractPage
     private function initVars()
     {
         // set template variable to show edit links        
-        $this->tplVar['showLink'] = $this->allowModify();    
+        $this->viewVar['showLink'] = $this->allowModify();    
+        
+        $this->current_id_node = $this->httpRequest->getParameter('id_node', 'request', 'int');
         
         // fetch the current id_node. If no node the script assums that
         // we are at the top level with id_parent 0
-        if( !isset($_REQUEST['id_node']) || preg_match("/[^0-9]+/",$_REQUEST['id_node']) ) 
+        if( false === $this->current_id_node ) 
         {
-            $this->tplVar['id_node']  = 0;
-            $this->current_id_node    = 0;  
+            $this->viewVar['id_node']  = 0;
+            $this->current_id_node    = 0;      
         }
         else
         {
-            $this->tplVar['id_node']  = (int)$_REQUEST['id_node'];
-            $this->current_id_node    = (int)$_REQUEST['id_node'];          
-        }
+            $this->viewVar['id_node']  = (int)$this->current_id_node;       
+        }    
         
         if($this->current_id_node == 0)
         {
-            $this->tplVar['showAddLink'] = FALSE;        
+            $this->viewVar['showAddLink'] = FALSE;        
         }
         else
         {
-            $this->tplVar['showAddLink'] = TRUE;
+            $this->viewVar['showAddLink'] = TRUE;
         }
 
         // template variables
         //
         // data of the current node
-        $this->tplVar['node']   = array();
+        $this->viewVar['node']   = array();
         // data of the child nodes
-        $this->tplVar['nodes']  = array();
+        $this->viewVar['nodes']  = array();
         // data of the branch nodes
-        $this->tplVar['branch'] = array();  
+        $this->viewVar['branch'] = array();  
         // data of the node links
-        $this->tplVar['links'] = array(); 
+        $this->viewVar['links'] = array(); 
         // links to the next/previous pages
-        $this->tplVar['pageLinks'] = '';
+        $this->viewVar['pageLinks'] = '';
         // errors
-        $this->tplVar['error']  = FALSE;    
+        $this->viewVar['error']  = FALSE;    
     }
      /**
      * has the logged the rights to modify?
@@ -132,7 +127,7 @@ class ViewLinkMain extends JapaControllerAbstractPage
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] < 100 )
+        if($this->controllerVar['loggedUserRole'] < 100 )
         {
             return TRUE;
         }
@@ -149,21 +144,21 @@ class ViewLinkMain extends JapaControllerAbstractPage
     {
         $row = 0;
         
-        foreach($this->tplVar['links'] as $link)
+        foreach($this->viewVar['links'] as $link)
         {
             // lock the user to edit
             $result = $this->model->action('link','lock',
                                      array('job'        => 'is_locked',
                                            'id_link'    => (int)$link['id_link'],
-                                           'by_id_user' => (int)$this->viewVar['loggedUserId']) );
+                                           'by_id_user' => (int)$this->controllerVar['loggedUserId']) );
                                            
             if(($result !== TRUE) && ($result !== FALSE))
             {
-                $this->tplVar['links'][$row]['lock'] = TRUE;  
+                $this->viewVar['links'][$row]['lock'] = TRUE;  
             } 
             else
             {
-                $this->tplVar['links'][$row]['lock'] = FALSE;  
+                $this->viewVar['links'][$row]['lock'] = FALSE;  
             }
             
             $row++;
