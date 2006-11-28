@@ -13,7 +13,7 @@
  *
  */
  
-class JapaFileViewCache extends JapaCache
+class JapaFileControllerCache extends JapaCache
 {
     /**
      * Cache file (full path)
@@ -118,7 +118,7 @@ class JapaFileViewCache extends JapaCache
         }    
                 
         $this->cacheTimeFileTmp = $this->cacheTimeFile.'.'.getmypid();
-        $this->cacheTimefp = fopen($this->cacheTimeFileTmp, 'w');        
+        $this->cacheTimefp = fopen($this->cacheTimeFileTmp, 'w');     
         $this->cacheFileTmp = $this->cacheFile.'.'.getmypid();
         $this->cachefp = fopen($this->cacheFileTmp, 'w');
     } 

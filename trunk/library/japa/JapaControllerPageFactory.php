@@ -92,7 +92,7 @@ class JapaControllerPageFactory
         // set view engine type
         $controller->viewEngine = $this->setViewEngine( $controller );
 
-        $this->startViewEngine( $controller );
+        $this->startViewEngine( $controller, $controllername );
         
         // run authentication
         $controller->auth();
@@ -101,7 +101,7 @@ class JapaControllerPageFactory
         $controller->prependFilterChain();
 
         // start caching
-        if( false == $this->startViewCache( $controller ) )
+        if( false == $this->startControllerCache( $controller, $controllername ) )
         {
             return;
         }
@@ -134,7 +134,7 @@ class JapaControllerPageFactory
         $controller->appendFilterChain( $this->viewEngine->viewBufferContent );
 
         // write view content to cache
-        $this->writeViewCache( $controller, $this->viewEngine->viewBufferContent );
+        $this->writeControllerCache( $controller, $this->viewEngine->viewBufferContent );
         
         // echo the context in simple views
         if( $controller->returnView == false )
@@ -274,7 +274,7 @@ class JapaControllerPageFactory
      *
      * @param object $controller Controller instance
      */ 
-    protected function startViewCache( $controller )
+    protected function startControllerCache( $controller, $controllername )
     {
         // get cache view content if cache enabled
         if(($controller->cacheExpire != 0) && ($this->model->config['disable_cache'] == 0))
@@ -282,7 +282,7 @@ class JapaControllerPageFactory
             $this->cache = JapaCache::newInstance($this->model->config['cache_type'], $this->model->config);
             if(($cacheid = $controller->cacheId) == false)
             {
-                $cacheid = $requestedController.serialize($args).serialize($_REQUEST).$_SERVER['PHP_SELF'];
+                $cacheid = $controllername.serialize($_REQUEST).$_SERVER['PHP_SELF'];
             }
             if($this->cache->cacheIdExists( $controller->cacheExpire, $cacheid))
             {
@@ -298,7 +298,7 @@ class JapaControllerPageFactory
      * @param object $controller Controller instance
      * @param string $content View content
      */ 
-    protected function writeViewCache( $controller, & $content )
+    protected function writeControllerCache( $controller, & $content )
     {
         // write view content to cache if cache enabled
         if(($controller->cacheExpire != 0) && ($this->model->config['disable_cache'] == 0))

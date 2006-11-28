@@ -70,7 +70,7 @@ class JapaViewEngine
         {
             try
             {
-                $class_file = JAPA_BASE_DIR . 'library/japa/'.$class.'.php';
+                $class_file = JAPA_LIBRARY_DIR . 'japa/'.$class.'.php';
                 
                 if(!@file_exists($class_file))
                 {

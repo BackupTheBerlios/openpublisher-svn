@@ -71,7 +71,7 @@ $JapaConfig['setup_module'] = 'setup';
 /**
  * Name of the cache type class
  */
-$JapaConfig['cache_type'] = 'JapaFileViewCache';
+$JapaConfig['cache_type'] = 'JapaFileControllerCache';
 
 /**
  * cache time type       // filemtime or filestime
