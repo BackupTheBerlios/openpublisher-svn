@@ -49,7 +49,13 @@ class ActionCommonUpgrade extends JapaAction
             // upgrade from module version 0.3 to 0.4
             $this->upgrade_0_4_to_0_5();          
         }
-        
+
+        if(1 == version_compare('0.5', $this->config['module']['common']['version'], '=') )
+        {
+            // upgrade from module version 0.5 to 0.6
+            $this->upgrade_0_5_to_0_6();          
+        }
+       
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
     }
@@ -146,6 +152,28 @@ class ActionCommonUpgrade extends JapaAction
         $this->model->dba->query($sql);
         
         $this->config['module']['common']['version'] = '0.5';
+    }
+
+    /**
+     * upgrade from module version 0.4 to 0.5
+     * Open Publisher
+     *
+     */
+    private function upgrade_0_5_to_0_6()
+    {
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+                  CHANGE `views_folder` `controllers_folder` varchar(255) NOT NULL default ''";
+        $this->model->dba->query($sql);   
+        
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+                  CHANGE `templates_folder` `views_folder` varchar(255) NOT NULL default ''";
+        $this->model->dba->query($sql); 
+        
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+                  CHANGE `css_folder` `styles_folder` varchar(255) NOT NULL default ''";
+        $this->model->dba->query($sql);  
+        
+        $this->config['module']['common']['version'] = '0.6';
     }
 
     /**

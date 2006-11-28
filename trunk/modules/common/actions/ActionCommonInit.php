@@ -41,7 +41,7 @@ class ActionCommonInit extends JapaAction
     /**
      * Common Module Version
      */
-    const MOD_VERSION = '0.5';    
+    const MOD_VERSION = '0.6';    
     
     /**
      * Run init process of this module
