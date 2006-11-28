@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewLinkEditLink
+ * ControllerLinkEditLink
  *
  */
  
-class ViewLinkEditLink extends JapaControllerAbstractPage
+class ControllerLinkEditLink extends JapaControllerAbstractPage
 {
-   /**
-     * template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'editlink';
-    
-   /**
-     * template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/link/templates/';
-    
+    public $returnView = true;
+
    /**
      * current id_node
      * @var int $current_id_node
@@ -49,7 +43,7 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
         {
             $this->template       = 'error';
             $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'You have not the rights to edit a link!';
+            $this->viewVar['error'] = 'You have not the rights to edit a link!';
             $this->dontPerform = TRUE;
         }
 
@@ -61,7 +55,7 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
         {
             $this->template       = 'error';
             $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'This link is locked by an other user!';
+            $this->viewVar['error'] = 'This link is locked by an other user!';
             $this->dontPerform = TRUE;      
         }
     }        
@@ -76,21 +70,27 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
             return;
         }
 
+        $gotonode = $this->httpRequest->getParameter('gotonode', 'request', 'digits');
+
         // forward to node x without update
-        if(isset($_POST['gotonode']) && ($_POST['gotonode'] != ''))
+        if(!empty($gotonode))
         {
             $this->unlockLink();
-            $this->redirect((int)$_POST['gotonode']);        
+            $this->redirect((int)$gotonode);        
         }
 
+        $canceledit = $this->httpRequest->getParameter('canceledit', 'post', 'digits');
+
         // change nothing and switch back
-        if(isset($_POST['canceledit']) && ($_POST['canceledit'] == '1'))
+        if( $canceledit == '1')
         {
             $this->unlockLink();
-            $this->redirect((int)$_POST['id_node']);        
+            $this->redirect((int)$this->current_id_node);        
         }
+
+        $modifylinkdata = $this->httpRequest->getParameter('modifylinkdata', 'post', 'alnum');
         
-        if( isset($_POST['modifylinkdata']) )
+        if( !empty($modifylinkdata) )
         {
             $this->updateLinkData();
         }
@@ -98,38 +98,39 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
         // get whole node tree
         $this->model->action('navigation','getTree', 
                              array('id_node' => 0,
-                                   'result'  => & $this->tplVar['tree'],
+                                   'result'  => & $this->viewVar['tree'],
                                    'fields'  => array('id_parent','status','id_node','title')));   
         
         // get demanded link data
         $this->model->action('link','getLink', 
-                             array('result'  => & $this->tplVar['link'],
-                                   'id_link' => (int)$_REQUEST['id_link'],
-                                   'error'   => & $this->tplVar['error'],
+                             array('result'  => & $this->viewVar['link'],
+                                   'id_link' => (int)$this->id_link,
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('id_link','title','url',
                                                       'description','status','hits')));
 
         // convert some field values to safely include it in template html form fields
-        $this->convertHtmlSpecialChars( $this->tplVar['link'], array('title','url') );        
+        $this->convertHtmlSpecialChars( $this->viewVar['link'], array('title','url') );        
 
         // get node data of this link
         $this->model->action('navigation','getNode', 
-                             array('result'  => & $this->tplVar['node'],
+                             array('result'  => & $this->viewVar['node'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_node')));  
     
         // get navigation node branch of the current node
         $this->model->action('navigation','getBranch', 
-                             array('result'  => & $this->tplVar['branch'],
+                             array('result'  => & $this->viewVar['branch'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_node')));                             
 
         // we need the url vars to open this page by the keyword map window
         if($this->config['link']['use_keywords'] == 1)
         {
-            if(isset($_REQUEST['addkey']))
+            $addkey = $this->httpRequest->getParameter('addkey', 'request', 'alnum');
+            if(!empty($addkey))
             {
                 $this->addKeyword();
             }
@@ -144,57 +145,66 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
         // should we remove link related keywords
         $this->deleteLinkKeywords();
 
-        if(empty($_POST['title']))
+        $this->link_id_node = $this->httpRequest->getParameter('link_id_node', 'request', 'int');
+        $this->link_status = $this->httpRequest->getParameter('status', 'request', 'int');
+        $this->link_title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
+        $this->link_url = trim($this->httpRequest->getParameter('url', 'post', 'raw'));
+        $this->link_description = trim($this->httpRequest->getParameter('description', 'post', 'raw'));
+
+        if(empty($this->link_title))
         {
-            $this->tplVar['error'][] = 'Link title is empty!';
+            $this->viewVar['error'][] = 'Link title is empty!';
         }
-        if(empty($_POST['url']))
+        if(empty($this->link_url))
         {
-            $this->tplVar['error'][] = 'Url is empty!';
+            $this->viewVar['error'][] = 'Url is empty!';
         }
 
-        if(count($this->tplVar['error']) > 0)
+        if(count($this->viewVar['error']) > 0)
         {
             return FALSE;
         }
         
-        if($_POST['link_id_node'] == 0)
+        if($this->link_id_node == 0)
         {
-            $this->tplVar['id_node']  = (int)$_REQUEST['id_node'];
-            $this->current_id_node    = (int)$_REQUEST['id_node'];
-            $this->tplVar['error'][] = 'Top node isnt allowed!';
+            $this->viewVar['id_node']  = (int)$this->link_id_node;
+            $this->current_id_node    = (int)$this->link_id_node;
+            $this->viewVar['error'][] = 'Top node isnt allowed!';
             return FALSE;
         }
         
         // check if id_parent has change
-        if($_POST['id_node'] != $_POST['link_id_node'])
+        if($this->id_node != $this->link_id_node)
         {
-            $id_node = (string)$_POST['link_id_node'];
-            $this->tplVar['id_node']  = (int)$_POST['link_id_node'];
-            $this->current_id_node    = (int)$_POST['link_id_node'];
+            $id_node = (string)$this->link_id_node;
+            $this->viewVar['id_node']  = (int)$this->link_id_node;
+            $this->current_id_node    = (int)$this->link_id_node;
         }
         else
         {
-            $id_node = (int)$_POST['id_node'];
+            $id_node = (int)$this->id_node;
         }
+
+        $delete_link = $this->httpRequest->getParameter('delete_link', 'post', 'digits');
             
-        if($_POST['delete_link'] == '1')
+        if($delete_link == '1')
         {
-            if($this->viewVar['loggedUserRole'] >= 60 )
+            if($this->controllerVar['loggedUserRole'] >= 60 )
             {
                 return;
             }
             $this->unlockLink();
-            $this->deleteLink( $_POST['id_link'], $_POST['id_node'] );
-            $this->redirect( $_POST['id_node'] );
+            $this->deleteLink( $this->id_link, $this->id_node );
+            $this->redirect( $this->id_node );
         }                
 
         // if no error occure update node data
-        if(count($this->tplVar['error']) == 0)
+        if(count($this->viewVar['error']) == 0)
         {
             // update node data
             $this->updateLink();
-            if( isset($_POST['finishupdate']) )
+            $finishupdate = $this->httpRequest->getParameter('finishupdate', 'post', 'alnum');
+            if( !empty($finishupdate) )
             {
                 $this->unlockLink();
                 $this->redirect( $id_node );
@@ -209,8 +219,8 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
     {
         return $this->model->action('link','lock',
                                     array('job'        => 'lock',
-                                          'id_link'    => (int)$_REQUEST['id_link'],
-                                          'by_id_user' => (int)$this->viewVar['loggedUserId']) );  
+                                          'id_link'    => (int)$this->id_link,
+                                          'by_id_user' => (int)$this->controllerVar['loggedUserId']) );  
     }   
      /**
      * init variables for this view
@@ -218,51 +228,54 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
      */      
     private function initVars()
     {
+        $this->id_node = $this->httpRequest->getParameter('id_node', 'request', 'int');
+        $this->id_link = $this->httpRequest->getParameter('id_link', 'request', 'int');
+        
         // fetch the current id_node. If no node the script assums that
         // we are at the top level with id_parent 0
-        if( !isset($_REQUEST['id_node']) || preg_match("/[^0-9]+/",$_REQUEST['id_node']) ) 
+        if( false === $this->id_node ) 
         {
-            $this->tplVar['id_node']  = 0;
+            $this->viewVar['id_node']  = 0;
             $this->current_id_node    = 0;      
         }
         else
         {
-            $this->tplVar['id_node']  = (int)$_REQUEST['id_node'];
-            $this->current_id_node    = (int)$_REQUEST['id_node'];          
+            $this->viewVar['id_node']  = (int)$this->id_node;
+            $this->current_id_node    = (int)$this->id_node;          
         }     
 
-        $this->tplVar['lock_text']     = 'unlock';
+        $this->viewVar['lock_text']     = 'unlock';
         
         // template variables
         //
         // node tree data
-        $this->tplVar['tree']   = array();
+        $this->viewVar['tree']   = array();
         // data of the current node
-        $this->tplVar['node']   = array();
+        $this->viewVar['node']   = array();
         // data of the branch nodes
-        $this->tplVar['branch'] = array();  
+        $this->viewVar['branch'] = array();  
         // link data
-        $this->tplVar['link']  = array();
+        $this->viewVar['link']  = array();
        
         // errors
-        $this->tplVar['error']  = array();   
+        $this->viewVar['error']  = array();   
         
         // use keywords or not
-        $this->tplVar['use_keywords'] = $this->config['link']['use_keywords']; 
+        $this->viewVar['use_keywords'] = $this->config['link']['use_keywords']; 
 
         if(isset($_REQUEST['disableMainMenu']))
         {
-            $this->tplVar['disableMainMenu']  = "1";  
+            $this->viewVar['disableMainMenu']  = "1";  
         }
         else
         {
-            $this->tplVar['disableMainMenu']  = FALSE;  
+            $this->viewVar['disableMainMenu']  = FALSE;  
         }
         
         // we need the url vars to open this page by the keyword map window
         if($this->config['link']['use_keywords'] == 1)
         {
-            $this->tplVar['opener_url_vars'] = base64_encode('&view=editLink&id_link='.(int)$_REQUEST['id_link'].'&id_node='.$this->current_id_node.'&disableMainMenu=1');
+            $this->viewVar['opener_url_vars'] = base64_encode('/cntr/editLink/id_link/'.$this->id_link.'/id_node/'.$this->current_id_node.'/disableMainMenu/1');
         }        
     }
      /**
@@ -272,7 +285,7 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] < 100 )
+        if($this->controllerVar['loggedUserRole'] < 100 )
         {
             return TRUE;
         }
@@ -301,14 +314,14 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
      */
     private function updateLink()
     {
-        $fields = array('id_node'     => (int)$_POST['link_id_node'],
-                        'status'      => (int)$_POST['status'],
-                        'title'       => JapaCommonUtil::stripSlashes((string)$_POST['title']),
-                        'description' => JapaCommonUtil::stripSlashes((string)$_POST['description']),
-                        'url'         => JapaCommonUtil::stripSlashes((string)$_POST['url']));
+        $fields = array('id_node'     => (int)$this->current_id_node,
+                        'status'      => (int)$this->link_status,
+                        'title'       => JapaCommonUtil::stripSlashes((string)$this->link_title),
+                        'description' => JapaCommonUtil::stripSlashes((string)$this->link_description),
+                        'url'         => JapaCommonUtil::stripSlashes((string)$this->link_url));
     
         $this->model->action('link','updateLink',
-                             array('id_link' => (int)$_REQUEST['id_link'],
+                             array('id_link' => (int)$this->id_link,
                                    'fields'  => $fields));    
     }
     /**
@@ -329,7 +342,7 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
     private function redirect( $id_node = 0 )
     {
         // reload the link module
-        @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=link&id_node='.$id_node);
+        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/link/id_node/'.$id_node);
         exit;      
     }  
     /**
@@ -340,7 +353,7 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
     {
         $this->model->action('link','lock',
                              array('job'     => 'unlock',
-                                   'id_link' => (int)$_REQUEST['id_link']));    
+                                   'id_link' => (int)$this->id_link));    
     }    
     /**
      * reorder rank list when moving a node
@@ -349,10 +362,11 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
      */      
     private function addKeyword()
     {
+        $id_key = $this->httpRequest->getParameter('id_key', 'request', 'int');
         // get demanded link data
         $this->model->action('link','addKeyword', 
-                             array('id_key'  => (int)$_REQUEST['id_key'],
-                                   'id_link' => (int)$_REQUEST['id_link']));
+                             array('id_key'  => (int)$id_key,
+                                   'id_link' => (int)$this->id_link));
     }  
     
     /**
@@ -362,14 +376,14 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
      */      
     private function getLinkKeywords()
     {
-        $this->tplVar['keys'] = array();
+        $this->viewVar['keys'] = array();
         
         $keywords = array();
         
         // get demanded link data
         $this->model->action('link','getKeywordIds', 
                              array('result'  => & $keywords,
-                                   'id_link' => (int)$_REQUEST['id_link']));
+                                   'id_link' => (int)$this->id_link));
 
         foreach($keywords as $key)
         {
@@ -397,21 +411,22 @@ class ViewLinkEditLink extends JapaControllerAbstractPage
             
             $tmp['branch'] .= '/<strong>'.$keyword['title'].'</strong>';
             
-            $this->tplVar['keys'][] = $tmp;
+            $this->viewVar['keys'][] = $tmp;
         }
-        sort($this->tplVar['keys']);    
+        sort($this->viewVar['keys']);    
     }   
     
     private function deleteLinkKeywords()
     {
-        if(isset($_POST['id_key']) && is_array($_POST['id_key']))
+        $id_keys = $this->httpRequest->getParameter('id_key', 'request', 'raw');
+        if(!empty($id_keys) && is_array($id_keys))
         {
-            foreach($_POST['id_key'] as $id_key)
+            foreach($id_keys as $id_key)
             {
                 // get navigation node branch of the current node
                 $this->model->action('link','removeKeyword', 
                                  array('id_key'  => (int)$id_key,
-                                       'id_link' => (int)$_REQUEST['id_link']));                 
+                                       'id_link' => (int)$this->id_link));                 
             
             }
         }

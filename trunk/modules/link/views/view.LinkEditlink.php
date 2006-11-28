@@ -2,7 +2,7 @@
 <!--
 function keywordmap(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
-newwindow= window.open('<?php echo JAPA_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=link&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+newwindow= window.open('<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/nodecoration/1/mod/keyword/cntr/map/openerModule/link/opener_url_vars/<?php echo $view['opener_url_vars']; ?>','',mm); }
 
 function deletelink(f, mes)
 {
@@ -46,22 +46,22 @@ function cancel_edit(f)
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo JAPA_CONTROLLER; ?>?mod=link&view=editLink" method="post" enctype="multipart/form-data" name="editlink" id="editlink">
+<form accept-charset="<?php echo $view['charset']; ?>" action="<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/link/cntr/editLink" method="post" enctype="multipart/form-data" name="editlink" id="editlink">
 <input name="gotonode" type="hidden" value="">
 <input name="modifylinkdata" type="hidden" value="true">
-<input name="disableMainMenu" type="hidden" value="<?php echo $tpl['disableMainMenu']; ?>">
+<input name="disableMainMenu" type="hidden" value="<?php echo $view['disableMainMenu']; ?>">
 <input name="canceledit" type="hidden" id="canceledit" value="">
-<input name="id_node" type="hidden" value="<?php echo $tpl['id_node']; ?>">
-<input name="id_link" type="hidden" value="<?php echo $tpl['link']['id_link']; ?>">
+<input name="id_node" type="hidden" value="<?php echo $view['id_node']; ?>">
+<input name="id_link" type="hidden" value="<?php echo $view['link']['id_link']; ?>">
 <input name="delete_link" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
-    <td class="moduleheader2">Edit Link ID: <?php echo $tpl['link']['id_link']; ?></td>
+    <td class="moduleheader2">Edit Link ID: <?php echo $view['link']['id_link']; ?></td>
     </tr>
   <tr>
     <td width="80%" align="left" valign="top">      <table width="100%" border="0" cellspacing="3" cellpadding="3">
-      <?php if(count($tpl['error'])>0): ?>
-    <?php foreach($tpl['error'] as $error): ?>
+      <?php if(count($view['error'])>0): ?>
+    <?php foreach($view['error'] as $error): ?>
       <tr>
         <td width="312" align="left" valign="top" class="itemerror"><?php echo $error; ?></td>
       </tr>
@@ -71,10 +71,10 @@ function cancel_edit(f)
         <td align="left" valign="top" >
          <div class="font12 indent5">
             <a href="javascript:gotonode(document.forms['editlink'],0);">Top</a>
-            <?php foreach($tpl['branch'] as $node): ?>
+            <?php foreach($view['branch'] as $node): ?>
              / <a href="javascript:gotonode(document.forms['editlink'],<?php echo $node['id_node']; ?>);"><?php echo $node['title']; ?></a>            
              <?php endforeach; ?> 
-             / <a href="javascript:gotonode(document.forms['editlink'],<?php echo $tpl['node']['id_node']; ?>);"><?php echo $tpl['node']['title']; ?></a></div>    
+             / <a href="javascript:gotonode(document.forms['editlink'],<?php echo $view['node']['id_node']; ?>);"><?php echo $view['node']['title']; ?></a></div>    
     </td>
         </tr>      
       <tr>
@@ -89,13 +89,13 @@ function cancel_edit(f)
             </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
-                <option value="2" <?php if($tpl['link']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
-                <option value="1" <?php if($tpl['link']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
+                <option value="2" <?php if($view['link']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
+                <option value="1" <?php if($view['link']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
               </select></td>
               <td align="left" valign="top"><select name="link_id_node" size="1" id="node_id_node" class="treeselectbox">
                 <option value="0">Top</option>
-                <?php foreach($tpl['tree'] as $val):  ?>
-                <option value="<?php echo $val['id_node']; ?>" <?php if($val['id_node'] == $tpl['id_node'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
+                <?php foreach($view['tree'] as $val):  ?>
+                <option value="<?php echo $val['id_node']; ?>" <?php if($val['id_node'] == $view['id_node'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
                 <?php endforeach; ?>
               </select></td>
               <td align="right" valign="top">&nbsp;</td>
@@ -106,28 +106,28 @@ function cancel_edit(f)
         <td align="left" valign="top" class="font10bold">Url</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="url" type="text" id="url" size="90" maxlength="1024" value="<?php echo $tpl['link']['url']; ?>"></td>
+        <td align="left" valign="top"><input name="url" type="text" id="url" size="90" maxlength="1024" value="<?php echo $view['link']['url']; ?>"></td>
       </tr>    
       <tr>
         <td align="left" valign="top" class="font10bold">Title</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="title" type="text" id="title" size="90" maxlength="1024" value="<?php echo $tpl['link']['title']; ?>"></td>
+        <td align="left" valign="top"><input name="title" type="text" id="title" size="90" maxlength="1024" value="<?php echo $view['link']['title']; ?>"></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Description</td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold"><textarea name="description" cols="90" rows="5" id="description"><?php echo $tpl['link']['description']; ?></textarea></td>
+        <td align="left" valign="top" class="font10bold"><textarea name="description" cols="90" rows="5" id="description"><?php echo $view['link']['description']; ?></textarea></td>
       </tr>
-      <?php if($tpl['userRole']<60): ?>
+      <?php if($view['userRole']<60): ?>
       <tr>
         <td align="left" valign="top" class="font9"> 
           <div align="right"><input name="delete" type="button" id="delete" value="Delete this link" onclick="deletelink(this.form, 'Delete this link?');" class="button">
           </div></td>
       </tr>
       <?php endif; ?>
-  <?php if($tpl['use_keywords']==1): ?>
+  <?php if($view['use_keywords']==1): ?>
         <tr>
         <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
       </tr>
@@ -136,10 +136,10 @@ function cancel_edit(f)
       </tr>   
       <tr>
         <td align="left" valign="top" class="font12"> 
-          <?php foreach($tpl['keys'] as $keybranch): ?>
+          <?php foreach($view['keys'] as $keybranch): ?>
       <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
       <?php endforeach; ?>
-      <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
+      <?php if(is_array($view['keys']) && (count($view['keys'])>0)): ?>
       <div><br />To remove keywords check the keywords and hit refresh or submit</div>
       <?php endif; ?>
       </td>
