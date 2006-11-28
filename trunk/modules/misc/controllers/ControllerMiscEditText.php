@@ -200,6 +200,7 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
         // add picture
         elseif(!empty($this->uploadpicture))
         {   
+            $picture = $this->httpRequest->getParameter( 'picture', 'files', 'raw' );
             $this->model->action('misc','addItem',
                                  array('item'     => 'picture',
                                        'id_text'  => (int)$this->current_id_text,
@@ -248,6 +249,7 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
         // add file
         elseif(!empty($this->uploadfile))
         {          
+            $ufile = $this->httpRequest->getParameter( 'ufile', 'files', 'raw' );
             $this->model->action('misc','addItem',
                                  array('item'     => 'file',
                                        'id_text'  => (int)$this->current_id_text,

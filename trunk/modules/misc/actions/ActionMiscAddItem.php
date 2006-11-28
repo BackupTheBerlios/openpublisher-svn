@@ -15,7 +15,7 @@
  * $model->action('misc','addItem',
  *                array('error' => & array(),
  *                      'item'  => string,      // 'picture' or 'file'
- *                      'postName' => string,   // $_FILES[$data['postName']]
+ *                      'postData' => string,   // $_FILES[$data['postData']]
  *                      'id_text'  => int))
  *
  */
@@ -33,9 +33,9 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
     { 
         $media_folder = $this->getMiscMediaFolder( $data['id_text'] );
         
-        $file_info = $this->getUniqueMediaFileName($media_folder, $_FILES[$data['postName']]['name']);
+        $file_info = $this->getUniqueMediaFileName($media_folder, $_FILES[$data['postData']]['name']);
 
-        if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
+        if(FALSE == $this->moveUploadedFile($data['postData']['tmp_name'], $file_info['file_path']))
         { 
             throw new JapaModelException ('Cant upload file');   
         }
@@ -71,16 +71,16 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
         }
         
         // check if postName exists
-        if( !isset($data['postName']) || empty($data['postName']) )
+        if( !isset($data['postData']) || empty($data['postData']) )
         {        
-            throw new JapaModelException ('"post_name" must be defined in view class'); 
+            throw new JapaModelException ('"postData" must be defined in view class'); 
         }
         // validate postName name
-        elseif( !isset($_FILES[$data['postName']]) )
+        elseif( !isset($data['postData']) )
         {
             $data['error'][] = 'You have to select a local file to upload';
         }    
-        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
+        elseif( !file_exists($data['postData']['tmp_name']) )
         {
             $data['error'][] = 'File upload failed';
         }  
@@ -106,11 +106,11 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
         {
             throw new JapaModelException("'id_text' isnt from type int");
         }  
-        elseif(($data['item'] == 'file') && ($this->config['misc']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        elseif(($data['item'] == 'file') && ($this->config['misc']['file_size_max'] <= filesize($data['postData']['tmp_name'])))
         {
             $data['error'][] = "Max file size allowed: {$this->config['misc']['file_size_max']} bytes";
         }
-        elseif(($data['item'] == 'picture') && ($this->config['misc']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        elseif(($data['item'] == 'picture') && ($this->config['misc']['img_size_max'] <= filesize($data['postData']['tmp_name'])))
         {
             $data['error'][] = "Max picture size allowed: {$this->config['misc']['img_size_max']} bytes";
         }
@@ -249,7 +249,7 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
      */    
     private function getMime( &$file )
     {
-        include_once(JAPA_BASE_DIR.'modules/common/includes/JapaCommonFileMime.php');
+        include_once(JAPA_MODULES_DIR.'common/includes/JapaCommonFileMime.php');
         return JapaCommonFileMime::getMime($file);
     } 
     /**
@@ -260,7 +260,7 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
      */       
     private function isAllowedExtension( &$data )
     {
-        if(preg_match("/(\.[^.]+)$/i",$_FILES[$data['postName']]['name'],$file_ext))
+        if(preg_match("/(\.[^.]+)$/i",$data['postData']['name'],$file_ext))
         {
             $disallowed_ext = explode(",",$this->config['rejected_files']);
             foreach($disallowed_ext as $ext)
