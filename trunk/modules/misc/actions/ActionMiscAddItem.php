@@ -33,7 +33,7 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
     { 
         $media_folder = $this->getMiscMediaFolder( $data['id_text'] );
         
-        $file_info = $this->getUniqueMediaFileName($media_folder, $_FILES[$data['postData']]['name']);
+        $file_info = $this->getUniqueMediaFileName($media_folder, $data['postData']['name']);
 
         if(FALSE == $this->moveUploadedFile($data['postData']['tmp_name'], $file_info['file_path']))
         { 
