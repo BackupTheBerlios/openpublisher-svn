@@ -17,15 +17,6 @@
  *
  */
 
-/*
- * Check if this script is included in the Japa environment
- * (Do not remove/change this check)
- */
-if (!defined( 'JAPA_SECURE_INCLUDE' ))
-{
-    exit;
-}
-
 /**
  * Path to the config dir
  */
@@ -43,12 +34,13 @@ $JapaConfig['cache_path'] = JAPA_APPLICATION_DIR . 'cache/';
 /**
  * Default controllers and views folders
  */
-$JapaConfig['public_views_folder']       = JAPA_APPLICATION_DIR . 'views/default/';
+
 $JapaConfig['public_controllers_folder'] = JAPA_APPLICATION_DIR . 'controllers/default/';
 
 /**
  * Default public images, scripts and styles folders
  */
+$JapaConfig['public_views_folder']    = JAPA_PUBLIC_DIR . 'views/default/';
 $JapaConfig['public_images_folder']   = JAPA_PUBLIC_DIR . 'images/default/';
 $JapaConfig['public_scripts_folder']  = JAPA_PUBLIC_DIR . 'scripts/default/';
 $JapaConfig['public_styles_folder']   = JAPA_PUBLIC_DIR . 'styles/default/';
@@ -56,7 +48,7 @@ $JapaConfig['public_styles_folder']   = JAPA_PUBLIC_DIR . 'styles/default/';
 /**
  * The common module name. This module is required!
  */
-$JapaConfig['base_module'] = false;
+$JapaConfig['base_module'] = 'common';
 
 /**
  * The common module name. This module is required!
@@ -76,7 +68,7 @@ $JapaConfig['setup_module'] = 'setup';
 /**
  * Name of the cache type class
  */
-$JapaConfig['cache_type'] = 'JapaFileViewCache';
+$JapaConfig['cache_type'] = 'JapaFileControllerCache';
 
 /**
  * cache time type       // filemtime or filestime
@@ -86,7 +78,7 @@ $JapaConfig['cache_time_type'] = 'filemtime';
 /**
  * Name of the template engine class used for the public templates
  */
-$JapaConfig['public_view_engine'] = 'JapaViewContainerPhp';
+$JapaConfig['public_view_engine'] = 'JapaViewEnginePhp';
 
 /**
  * Name of the template engine class used for the module templates
@@ -124,9 +116,11 @@ $JapaConfig['admin_view_folder'] = 'views/';
 /**
  * Default and error controller.
  */
-$JapaConfig['application_controllers']        = array("Web", "Module");
+$JapaConfig['application_controllers']        = array("Web", "Module", "Ajax", "Rpc");
 $JapaConfig['default_application_controller'] = "Web";
+$JapaConfig['default_module_application_controller'] = "Module";
 $JapaConfig['default_controller'] = 'index';
+$JapaConfig['default_ajax_controller'] = 'ajax';
 $JapaConfig['error_controller']   = 'error';
 
 /**
@@ -147,7 +141,7 @@ $JapaConfig['system_email'] = '';
 /**
  * message log types ('LOG|SHOW|MAIL')
  */
-$JapaConfig['message_handle'] = 'LOG';
+$JapaConfig['message_handle'] = 'LOG|SHOW';
  
 /**
  * error reporting
@@ -164,5 +158,4 @@ $JapaConfig['debug'] = true;
  */
 $JapaConfig['media_folder_rights'] = 0777;
 $JapaConfig['media_file_rights']   = 0777;
-
 ?>
