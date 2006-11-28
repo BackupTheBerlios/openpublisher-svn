@@ -52,7 +52,7 @@ class ControllerIndex extends JapaControllerAbstractPage
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->controllerVar['loggedUserRole'];
         $this->viewVar['isUserLogged']       = $this->controllerVar['isUserLogged'];
-        $this->viewVar['adminWebController'] = 'Module'; 
+        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
         
         $this->viewVar['text']    = array();
 

@@ -101,7 +101,7 @@ class ControllerLogin extends JapaControllerAbstractPage
         
         // template var with charset used for the html pages
         $this->viewVar['charset']   = & $this->config['charset'];
-        $this->viewVar['adminWebController']  = 'Module';        
+        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller'];        
         // template var with css folder
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
         $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();

@@ -190,7 +190,7 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
         
         // template var with charset used for the html pages
         $this->viewVar['charset']   = & $this->config['charset'];
-
+        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
         
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole']; 

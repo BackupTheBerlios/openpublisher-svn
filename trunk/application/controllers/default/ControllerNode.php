@@ -247,8 +247,8 @@ class ControllerNode extends JapaControllerAbstractPage
         $this->viewVar['keywordLink'] = array();   
 
         // we need this template vars to show admin links if the user is logged
-        $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController']  = 'Module';        
+        $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
+        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller'];        
         // template var with css folder
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
         $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();

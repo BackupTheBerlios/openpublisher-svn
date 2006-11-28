@@ -272,8 +272,8 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         $this->viewVar['cssFolder'] = & $this->config['css_folder'];
         
         // we need this template vars to show admin links if the user is logged
-        $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController']  = $this->config['admin_web_controller'];
+        $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
+        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
     }
 
     /**
