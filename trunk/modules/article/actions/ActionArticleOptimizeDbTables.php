@@ -33,13 +33,24 @@ class ActionArticleOptimizeDbTables extends JapaAction
                   {$this->config['dbTablePrefix']}article_media_pic,
                   {$this->config['dbTablePrefix']}article_media_file,
                   {$this->config['dbTablePrefix']}article_keyword,
-                  {$this->config['dbTablePrefix']}article_node_view_rel,
-                  {$this->config['dbTablePrefix']}article_view_rel,
+                  {$this->config['dbTablePrefix']}article_node_controller_rel,
+                  {$this->config['dbTablePrefix']}article_controller_rel,
+                  {$this->config['dbTablePrefix']}article_public_controller,
                   {$this->config['dbTablePrefix']}article_comment,
                   {$this->config['dbTablePrefix']}article_user";
         
         $this->model->dba->query($sql);
     } 
+    /**
+     * validate data
+     *
+     * @param array $data 
+     * @return bool 
+     */    
+    public function validate( $data = FALSE )
+    {     
+        return true;
+    }
 }
 
 ?>

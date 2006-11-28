@@ -34,6 +34,16 @@ class ActionUserOptimizeDbTables extends JapaAction
         
         $this->model->dba->query($sql);
     } 
+    /**
+     * validate data
+     *
+     * @param array $data 
+     * @return bool 
+     */    
+    public function validate( $data = FALSE )
+    {     
+        return true;
+    }
 }
 
 ?>
