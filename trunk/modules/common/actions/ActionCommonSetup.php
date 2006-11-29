@@ -105,13 +105,13 @@ class ActionCommonSetup extends JapaAction
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_module (
                  `id_module`   int(11) NOT NULL auto_increment,
                  `rank`        smallint(3) NOT NULL default 0,
-                 `name`        varchar(255) NOT NULL default '',
-                 `alias`       varchar(255) NOT NULL default '',
-                 `version`     varchar(255) NOT NULL default '',
+                 `name`        varchar(255) NOT NULL,
+                 `alias`       varchar(255) NOT NULL,
+                 `version`     varchar(255) NOT NULL,
                  `visibility`  tinyint(1) NOT NULL default 0,
                  `perm`        tinyint(3) NOT NULL default 0,
-                 `release`     text NOT NULL default '',
-                 `config`      text NOT NULL default '',
+                 `release`     text latin1_general_ci NOT NULL,
+                 `config`      text latin1_general_ci NOT NULL,
                  PRIMARY KEY   (`id_module`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
