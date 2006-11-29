@@ -1,5 +1,3 @@
-<script language="JavaScript" type="text/JavaScript">
-</script>
 <form name="options" method="post" action="<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/navigation/cntr/options">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
