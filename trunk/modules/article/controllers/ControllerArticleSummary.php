@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewArticleSummary
+ * ControllerArticleSummary
  *
  */
  
-class ViewArticleSummary extends JapaControllerAbstractPage
+class ControllerArticleSummary extends JapaControllerAbstractPage
 {
-   /**
-     * template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'summary';
-    
-   /**
-     * template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/article/templates/'; 
-        
+    public $returnView = true;
+      
    /**
     * Perform on the main view
     *
@@ -39,15 +33,15 @@ class ViewArticleSummary extends JapaControllerAbstractPage
 
         // get last published articles                                                   
         $this->model->action('article','select',
-                             array('result'  => & $this->tplVar['art_pubdate'], 
-                                   'limit'   => array('perPage' => 10,
+                             array('result'  => & $this->viewVar['art_pubdate'], 
+                                   'limit'   => array('perPage' => 15,
                                                       'numPage' => 1),  
                                    'order'   => array('pubdate','desc'),
                                    'fields'  => array('id_article','title','id_node',
                                                       'status','pubdate') )); 
 
         // get node + node branch of each article
-        foreach($this->tplVar['art_pubdate'] as & $article)
+        foreach($this->viewVar['art_pubdate'] as & $article)
         {
             $article['nodeBranch'] = array();
             $article['node']       = array();
@@ -71,15 +65,15 @@ class ViewArticleSummary extends JapaControllerAbstractPage
         
         // get last modified articles                                                    
         $this->model->action('article','select',
-                             array('result'  => & $this->tplVar['art_modifydate'], 
-                                   'limit'   => array('perPage' => 10,
+                             array('result'  => & $this->viewVar['art_modifydate'], 
+                                   'limit'   => array('perPage' => 15,
                                                       'numPage' => 1), 
                                    'order'   => array('modifydate','desc'),
                                    'fields'  => array('id_article','title','id_node',
                                                       'status','modifydate') )); 
 
         // get node + node branch of each article
-        foreach($this->tplVar['art_modifydate'] as & $article)
+        foreach($this->viewVar['art_modifydate'] as & $article)
         {
             $article['nodeBranch'] = array();
             $article['node']       = array();
@@ -112,7 +106,7 @@ class ViewArticleSummary extends JapaControllerAbstractPage
         $result = $this->model->action('article','lock',
                                      array('job'        => 'is_locked',
                                            'id_article' => (int)$article['id_article'],
-                                           'by_id_user' => (int)$this->viewVar['loggedUserId']) );
+                                           'by_id_user' => (int)$this->controllerVar['loggedUserId']) );
                                            
         if(($result !== TRUE) && ($result !== FALSE))
         {
@@ -131,8 +125,8 @@ class ViewArticleSummary extends JapaControllerAbstractPage
     private function initVars()
     {
         // template array variables
-        $this->tplVar['art_pubdate']    = array();
-        $this->tplVar['art_modifydate'] = array();
+        $this->viewVar['art_pubdate']    = array();
+        $this->viewVar['art_modifydate'] = array();
     }
     
      /**
@@ -143,14 +137,14 @@ class ViewArticleSummary extends JapaControllerAbstractPage
     private function assignArticleRights( & $article )
     {
         // if author is logged check if he has access to edit articles
-        if($this->viewVar['loggedUserRole'] < 60 )
+        if($this->controllerVar['loggedUserRole'] < 60 )
         {
             $article['hasAccess'] = true;
             return;
         }
         $article['hasAccess'] = $this->model->action('article','checkUserRights',
                                     array('id_article' => (int)$article['id_article'],
-                                          'id_user'    => (int)$this->viewVar['loggedUserId']));
+                                          'id_user'    => (int)$this->controllerVar['loggedUserId']));
     }    
     
      /**
@@ -160,7 +154,7 @@ class ViewArticleSummary extends JapaControllerAbstractPage
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] < 100 )
+        if($this->controllerVar['loggedUserRole'] < 100 )
         {
             return true;
         }
