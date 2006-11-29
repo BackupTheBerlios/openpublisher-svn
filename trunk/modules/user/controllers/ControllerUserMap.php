@@ -10,47 +10,45 @@
 // ---------------------------------------------
 
 /**
- * ViewUserMap
+ * ControllerUserMap
  *
  */
  
-class ViewUserMap extends JapaControllerAbstractPage
+class ControllerUserMap extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'map';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/user/templates/';
-    
+    public $returnView = true;
+        
    /**
     * Perform on the main view
     *
     */
     public function perform()
     {   
+        $openerModule = $this->httpRequest->getParameter('openerModule', 'request', 'alnum');
+        
         // get the opener module
-        if(isset($_REQUEST['openerModule']))
+        if(!empty($openerModule))
         {
-            $this->tplVar['mod'] = (string)$_REQUEST['openerModule'];
-            $this->tplVar['opener_url_vars'] = '&adduser=1&' . base64_decode((string)$_REQUEST['opener_url_vars']);
+            $opener_url_vars = $this->httpRequest->getParameter('opener_url_vars', 'request', 'alnum');
+            $this->viewVar['mod'] = (string)$openerModule;
+            $this->viewVar['opener_url_vars'] = '/adduser/1/' . base64_decode((string)$opener_url_vars);
         }
         else
         {
-            $this->tplVar['mod'] = 'user';
-            $this->tplVar['opener_url_vars'] = '';
+            $this->viewVar['mod'] = 'user';
+            $this->viewVar['opener_url_vars'] = '';
         }
         
-        $this->tplVar['users'] = array();
+        $this->viewVar['show_options_link'] = false;
+        $this->viewVar['users'] = array();
         
         // assign template variable with users
         $this->model->action('user', 'getUsers',
-                             array('result'         => & $this->tplVar['users'],
+                             array('result'         => & $this->viewVar['users'],
                                    'translate_role' => TRUE,
                                    'role'           => array('>',10),
                                    'fields' => array('id_user','status',
