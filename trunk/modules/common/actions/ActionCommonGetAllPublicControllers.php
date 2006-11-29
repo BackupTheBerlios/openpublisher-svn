@@ -54,7 +54,7 @@ class ActionCommonGetAllPublicControllers extends JapaAction
         
         sort( $controller_name );
         
-        $view_dir = JAPA_PUBLIC_DIR . 'views/' . $this->model->config['templates_folder'];
+        $view_dir = JAPA_PUBLIC_DIR . 'views/' . $this->model->config['views_folder'];
         
         $data['result'] = array();
         
