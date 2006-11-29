@@ -29,7 +29,7 @@
  *
  *
  */
-include_once(JAPA_BASE_DIR . 'modules/common/includes/JapaPager.php');
+include_once(JAPA_MODULES_DIR . 'common/includes/JapaPager.php');
  
 class ActionArticlePager extends JapaAction
 {

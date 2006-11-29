@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewArticleMain
+ * ControllerArticleMain
  *
  */
  
-class ViewArticleSearch extends JapaControllerAbstractPage
+class ControllerArticleSearch extends JapaControllerAbstractPage
 {
-   /**
-     * template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'search';
-    
-   /**
-     * template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/article/templates/'; 
-        
+    public $returnView = true;
+      
    /**
     * Perform on the main view
     *
@@ -39,7 +33,7 @@ class ViewArticleSearch extends JapaControllerAbstractPage
 
         // search articles                                                   
         $this->model->action('article','search',
-                             array('result'  => & $this->tplVar['articles'], 
+                             array('result'  => & $this->viewVar['articles'], 
                                    'search'  => (string)$this->searchString,
                                    'limit'   => array('perPage' => $this->articlesPerPage,
                                                       'numPage' => (int)$this->pageNumber),                                   
@@ -47,7 +41,7 @@ class ViewArticleSearch extends JapaControllerAbstractPage
                                                       'id_node','pubdate','modifydate') )); 
 
         // get node + node branch of each article
-        foreach($this->tplVar['articles'] as & $article)
+        foreach($this->viewVar['articles'] as & $article)
         {
             $article['nodeBranch'] = array();
             $article['node']       = array();
@@ -70,7 +64,7 @@ class ViewArticleSearch extends JapaControllerAbstractPage
                                    
         // create article pager links
         $this->model->action('article','pager', 
-                             array('result'     => & $this->tplVar['pager'],
+                             array('result'     => & $this->viewVar['pager'],
                                    'search'     => (string)$this->searchString,
                                    'perPage'    => $this->articlesPerPage,
                                    'numPage'    => (int)$this->pageNumber,
@@ -91,21 +85,21 @@ class ViewArticleSearch extends JapaControllerAbstractPage
     {
         $row = 0;
         
-        foreach($this->tplVar['articles'] as $article)
+        foreach($this->viewVar['articles'] as $article)
         {
             // lock the user to edit
             $result = $this->model->action('article','lock',
                                      array('job'        => 'is_locked',
                                            'id_article' => (int)$article['id_article'],
-                                           'by_id_user' => (int)$this->viewVar['loggedUserId']) );
+                                           'by_id_user' => (int)$this->controllerVar['loggedUserId']) );
                                            
             if(($result !== TRUE) && ($result !== FALSE))
             {
-                $this->tplVar['articles'][$row]['lock'] = TRUE;  
+                $this->viewVar['articles'][$row]['lock'] = TRUE;  
             } 
             else
             {
-                $this->tplVar['articles'][$row]['lock'] = FALSE;  
+                $this->viewVar['articles'][$row]['lock'] = FALSE;  
             }
             
             $row++;
@@ -117,15 +111,18 @@ class ViewArticleSearch extends JapaControllerAbstractPage
      */      
     private function initVars()
     {
-        if( isset($_POST['search']) )
+        $post_search = $this->httpRequest->getParameter('search', 'post', 'raw');
+        $get_search  = $this->httpRequest->getParameter('search', 'get', 'raw');
+        
+        if( !empty($post_search) )
         {
-            $this->searchString = JapaCommonUtil::stripSlashes((string)$_POST['search']);
-            $this->pagerUrlSearchString = urlencode(JapaCommonUtil::stripSlashes((string)$_POST['search']));
+            $this->searchString = JapaCommonUtil::stripSlashes((string)$post_search);
+            $this->pagerUrlSearchString = urlencode(JapaCommonUtil::stripSlashes((string)$post_search));
         }
-        elseif( isset($_GET['search']) )
+        elseif( !empty($get_search) )
         {
-            $this->searchString = urldecode(JapaCommonUtil::stripSlashes((string)$_GET['search']));
-            $this->pagerUrlSearchString = JapaCommonUtil::stripSlashes((string)$_GET['search']);
+            $this->searchString = urldecode(JapaCommonUtil::stripSlashes((string)$get_search));
+            $this->pagerUrlSearchString = JapaCommonUtil::stripSlashes((string)$get_search);
         }        
         else
         {
@@ -134,60 +131,65 @@ class ViewArticleSearch extends JapaControllerAbstractPage
         }
         
         // assign template variable with search string
-        $this->tplVar['search'] = & $this->searchString;
+        $this->viewVar['search'] = & $this->searchString;
         
         // template array variables
-        $this->tplVar['articles'] = array();
-        $this->tplVar['pager']    = '';
+        $this->viewVar['articles'] = array();
+        $this->viewVar['pager']    = '';
 
         // set articles limit per page
         $this->articlesPerPage = 15;
         
+        $search_page  = $this->httpRequest->getParameter('search_page', 'get', 'int');       
+        
         // get current article pager page
-        if(isset($_GET['search_page']))
+        if(!empty($search_page))
         {
-            $this->pageNumber = (int)$_GET['search_page'];
-            $this->tplVar['search_page'] = (int)$_GET['search_page'];
-            $this->model->session->set('article_page', (int)$_GET['search_page']);        
+            $this->pageNumber = (int)$search_page;
+            $this->viewVar['search_page'] = (int)$search_page;
+            $this->model->session->set('article_page', (int)$search_page);        
         }
         elseif(NULL !== ($search_page = $this->model->session->get('search_page')))
         {
             $this->pageNumber = $search_page;
-            $this->tplVar['search_page'] = $search_page;
+            $this->viewVar['search_page'] = $search_page;
         }        
         else
         {
             $this->pageNumber = 1;
-            $this->tplVar['search_page'] = 1;
+            $this->viewVar['search_page'] = 1;
             $this->model->session->set('search_page', 1);
         } 
         
         // The url passed to the pager action
-        $this->pagerUrl = JAPA_CONTROLLER.'?nodecoration=1&mod=article&view=search&search='.$this->pagerUrlSearchString;    
+        $this->pagerUrl = $this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/nodecoration/1/mod/article/cntr/search/search/'.$this->pagerUrlSearchString;    
+
+        $order     = $this->httpRequest->getParameter('order', 'post', 'raw');
+        $ordertype = $this->httpRequest->getParameter('ordertype', 'post', 'alpha');   
              
         // set article order
-        if(isset($_POST['order']))
+        if(!empty($order))
         {
-            $this->order = array((string)$_POST['order'],(string)$_POST['ordertype']);
-            $this->tplVar['order'] = (string)$_POST['order']; 
-            $this->tplVar['ordertype'] = (string)$_POST['ordertype'];
-            $this->model->session->set('article_order', (string)$_POST['order']);
-            $this->model->session->set('ordertype', (string)$_POST['ordertype']);
+            $this->order = array((string)$order,(string)$ordertype);
+            $this->viewVar['order'] = (string)$order; 
+            $this->viewVar['ordertype'] = (string)$ordertype;
+            $this->model->session->set('article_order', (string)$order);
+            $this->model->session->set('ordertype', (string)$ordertype);
             $this->model->session->del('article_page');
         }
         elseif(NULL !== ($order = $this->model->session->get('article_order')))
         {
             $ordertype = $this->model->session->get('ordertype');
             $this->order = array($order,$ordertype);
-            $this->tplVar['order'] = $order;
-            $this->tplVar['ordertype'] = (string)$ordertype;
+            $this->viewVar['order'] = $order;
+            $this->viewVar['ordertype'] = (string)$ordertype;
         }        
         else
         {
             $this->order = array($this->model->config['article']['default_order'],
                                  $this->model->config['article']['default_ordertype']);
-            $this->tplVar['order'] = $this->model->config['article']['default_order'];
-            $this->tplVar['ordertype'] = $this->model->config['article']['default_ordertype'];
+            $this->viewVar['order'] = $this->model->config['article']['default_order'];
+            $this->viewVar['ordertype'] = $this->model->config['article']['default_ordertype'];
             $this->model->session->set('article_order', 
                                        $this->model->config['article']['default_order']);
             $this->model->session->set('ordertype', 
@@ -203,14 +205,14 @@ class ViewArticleSearch extends JapaControllerAbstractPage
     private function assignArticleRights( & $article )
     {
         // if author is logged check if he has access to edit articles
-        if($this->viewVar['loggedUserRole'] < 60 )
+        if($this->controllerVar['loggedUserRole'] < 60 )
         {
             $article['hasAccess'] = true;
             return;
         }
         $article['hasAccess'] = $this->model->action('article','checkUserRights',
                                     array('id_article' => (int)$article['id_article'],
-                                          'id_user'    => (int)$this->viewVar['loggedUserId']));
+                                          'id_user'    => (int)$this->controllerVar['loggedUserId']));
     }    
     
      /**
@@ -220,7 +222,7 @@ class ViewArticleSearch extends JapaControllerAbstractPage
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] < 100 )
+        if($this->controllerVar['loggedUserRole'] < 100 )
         {
             return true;
         }
