@@ -20,7 +20,7 @@
  *                      'id_article'  => int))
  *
  */
-include_once(JAPA_BASE_DIR . 'modules/article/includes/ActionArticleFileUploadBase.php');
+include_once(JAPA_MODULES_DIR . 'article/includes/ActionArticleFileUploadBase.php');
 
 class ActionArticleAddItem extends ActionArticleFileUploadBase
 {
@@ -34,9 +34,9 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
     { 
         $media_folder = $this->getArticleMediaFolder( $data['id_article'] );
         
-        $file_info = $this->getUniqueMediaFileName($media_folder, $_FILES[$data['postName']]['name']);
+        $file_info = $this->getUniqueMediaFileName($media_folder, $data['postData']['name']);
 
-        if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
+        if(FALSE == $this->moveUploadedFile($data['postData']['tmp_name'], $file_info['file_path']))
         { 
             $data['error'][] = 'File upload failed';
             return FALSE;
@@ -72,21 +72,21 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
             throw new JapaModelException("'error' var isnt from type array!");
         }    
         
-        // check if postName exists
-        if( !isset($data['postName']) || empty($data['postName']) )
+        // check if postData exists
+        if( !isset($data['postData']) || empty($data['postData']) )
         {        
-            throw new JapaModelException ('"post_name" must be defined in view class'); 
+            throw new JapaModelException ('"postData" must be defined in view class'); 
         }
-        elseif(!is_string($data['postName']))
+        elseif(!is_array($data['postData']))
         {
-            throw new JapaModelException("'postName' isnt from type string");
+            throw new JapaModelException("'postData' isnt from type string");
         }         
-        // validate postName name
-        elseif( !isset($_FILES[$data['postName']]) )
+        // validate postData name
+        elseif( !isset($data['postData']) )
         {
             $data['error'][] = 'You have to select a local file to upload';
         }    
-        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
+        elseif( !file_exists($data['postData']['tmp_name']) )
         {
             $data['error'][] = 'File upload failed';
         }        
@@ -130,11 +130,11 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
         {
             throw new JapaModelException("'id_article' isnt numeric");
         }  
-        elseif(($data['item'] == 'file') && ($this->config['article']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        elseif(($data['item'] == 'file') && ($this->config['article']['file_size_max'] <= filesize($data['postData']['tmp_name'])))
         {
             $data['error'][] = "Max file size allowed: {$this->config['article']['file_size_max']} bytes";
         }
-        elseif(($data['item'] == 'picture') && ($this->config['article']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        elseif(($data['item'] == 'picture') && ($this->config['article']['img_size_max'] <= filesize($data['postData']['tmp_name'])))
         {
             $data['error'][] = "Max picture size allowed: {$this->config['article']['img_size_max']} bytes";
         }
@@ -284,7 +284,7 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
      */       
     private function isAllowedExtension( &$data )
     {
-        if(preg_match("/(\.[^.]+)$/i",$_FILES[$data['postName']]['name'],$file_ext))
+        if(preg_match("/(\.[^.]+)$/i",$data['postData']['name'],$file_ext))
         {
             $disallowed_ext = explode(",",$this->config['rejected_files']);
             foreach($disallowed_ext as $ext)
@@ -307,7 +307,7 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
      */       
     private function isAllowedImageExtension( &$data )
     {
-        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
+        if(preg_match("/\.(gif|jpg|png)$/i",$data['postData']['name']))
         {
             return TRUE;
         }

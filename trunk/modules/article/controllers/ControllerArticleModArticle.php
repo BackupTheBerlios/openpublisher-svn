@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewArticleModArticle
+ * ControllerArticleModArticle
  *
  */
  
-class ViewArticleModArticle extends JapaControllerAbstractPage
+class ControllerArticleModArticle extends JapaControllerAbstractPage
 {
-   /**
-     * template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'modarticle';
-    
-   /**
-     * template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/article/templates/';
-    
+    public $returnView = true;
+      
    /**
      * current id_node
      * @var int $current_id_node
@@ -58,36 +52,30 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
      */
     public function prependFilterChain()
     {
+        $this->current_id_article = $this->httpRequest->getParameter('id_article', 'request', 'digits');
+        $this->current_id_node    = $this->httpRequest->getParameter('id_node', 'request', 'digits');
+        
         // if no rights for the logged user, show error template
         if( FALSE == $this->allowModify() )
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'You have not the rights to edit a link!';
-            $this->dontPerform = TRUE;
+            $this->redirect();
         }
 
         // init variables for this view
         if(FALSE == $this->initVars())
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'Fatal error: No/Wrong "id_node" or "id_article" var defined';
-            $this->dontPerform = TRUE;          
+            $this->redirect();        
         }
         
         // is article locked by an other user
         $is_locked = $this->model->action('article','lock',
                                           array('job'        => 'is_locked',
                                                 'id_article' => (int)$this->current_id_article,
-                                                'by_id_user' => (int)$this->viewVar['loggedUserId']));
+                                                'by_id_user' => (int)$this->controllerVar['loggedUserId']));
 
         if( (TRUE !== $is_locked) && (FALSE !== $is_locked) )
         {
-            $this->template        = 'error';
-            $this->templateFolder  = 'modules/common/templates/';
-            $this->tplVar['error'] = 'This article is locked by an other user!';
-            $this->dontPerform = TRUE;      
+            $this->redirect();     
         }
     }        
    /**
@@ -101,13 +89,17 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
             return;
         }
 
+        $back = $this->httpRequest->getParameter('back', 'post', 'alpha');
+
         // change nothing and switch back
-        if(isset($_POST['back']) && ($_POST['back'] == 'Back'))
+        if($back == 'Back')
         {
             $this->redirect();        
         }
         
-        if( isset($_POST['modifyarticledata']) )
+        $modifyarticledata = $this->httpRequest->getParameter('modifyarticledata', 'post', 'alpha');
+        
+        if( !empty($modifyarticledata) )
         {      
             $this->updateArticleData();
         }
@@ -119,18 +111,18 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
         
         // get demanded article data
         $this->model->action('article','getArticle', 
-                             array('result'     => & $this->tplVar['article'],
+                             array('result'     => & $this->viewVar['article'],
                                    'id_article' => (int)$this->current_id_article,
-                                   'error'      => & $this->tplVar['error'],
+                                   'error'      => & $this->viewVar['error'],
                                    'fields'     => $articleFields));
 
         // convert some field values to safely include it in template html form fields
-        $this->convertHtmlSpecialChars( $this->tplVar['article'], 
+        $this->convertHtmlSpecialChars( $this->viewVar['article'], 
                                         $articleFields );                            
 
         // get user picture thumbnails
         $this->model->action('article','getAllThumbs',
-                             array('result'     => & $this->tplVar['thumb'],
+                             array('result'     => & $this->viewVar['thumb'],
                                    'id_article' => array((int)$this->current_id_article),
                                    'order'      => array('rank','ASC'),
                                    'status'     => array('>=',0),
@@ -141,17 +133,17 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
 
         // convert description field to safely include into javascript function call
         $x=0;
-        foreach($this->tplVar['thumb'] as $thumb)
+        foreach($this->viewVar['thumb'] as $thumb)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['thumb'][$x], array('description','title') );
-            //$this->tplVar['thumb'][$x]['description'] = $this->tplVar['thumb'][$x]['description'];
-            //$this->tplVar['thumb'][$x]['title'] = $this->tplVar['thumb'][$x]['title'];
+            $this->convertHtmlSpecialChars( $this->viewVar['thumb'][$x], array('description','title') );
+            //$this->viewVar['thumb'][$x]['description'] = $this->viewVar['thumb'][$x]['description'];
+            //$this->viewVar['thumb'][$x]['title'] = $this->viewVar['thumb'][$x]['title'];
             $x++;
         }
 
         // get user files
         $this->model->action('article','getAllFiles',
-                             array('result'     => & $this->tplVar['file'],
+                             array('result'     => & $this->viewVar['file'],
                                    'id_article' => array((int)$this->current_id_article),
                                    'status'     => array('>=',0),
                                    'order'      => array('rank','ASC'),
@@ -161,10 +153,10 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
 
         // convert files description field to safely include into javascript function call
         $x=0;
-        foreach($this->tplVar['file'] as $file)
+        foreach($this->viewVar['file'] as $file)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['file'][$x], array('description','title') );
-            //$this->tplVar['file'][$x]['description'] = $this->tplVar['file'][$x]['description'];
+            $this->convertHtmlSpecialChars( $this->viewVar['file'][$x], array('description','title') );
+            //$this->viewVar['file'][$x]['description'] = $this->viewVar['file'][$x]['description'];
             $x++;
         }   
     }  
@@ -172,175 +164,202 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
     private function updateArticleData()
     {
         $noRedirect = FALSE;
-        
-        if(empty($_POST['title']))
+
+        $this->article_body  = trim($this->httpRequest->getParameter('body', 'post', 'raw'));
+        $this->article_old_status = $this->httpRequest->getParameter('old_status', 'post', 'digits');
+        $this->article_delete_node = $this->httpRequest->getParameter('delete_node', 'post', 'digits');
+        $this->article_title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
+        $this->article_uploadlogo = $this->httpRequest->getParameter( 'uploadlogo', 'post', 'alnum' );
+        $this->article_deletelogo = $this->httpRequest->getParameter( 'deletelogo', 'post', 'alnum' );
+        $this->article_uploadpicture = $this->httpRequest->getParameter( 'uploadpicture', 'post', 'alnum' );
+        $this->article_imageID2del = $this->httpRequest->getParameter( 'imageID2del', 'post', 'raw' );
+        $this->article_imageIDmoveUp = $this->httpRequest->getParameter( 'imageIDmoveUp', 'post', 'digits' );
+        $this->article_imageIDmoveDown = $this->httpRequest->getParameter( 'imageIDmoveDown', 'post', 'digits' );      
+        $this->article_fileIDmoveUp = $this->httpRequest->getParameter( 'fileIDmoveUp', 'post', 'digits' );
+        $this->article_fileIDmoveDown = $this->httpRequest->getParameter( 'fileIDmoveDown', 'post', 'digits' );        
+        $this->article_uploadfile = $this->httpRequest->getParameter( 'uploadfile', 'post', 'alnum' );
+        $this->article_fileID2del = $this->httpRequest->getParameter( 'fileID2del', 'post', 'digits' );
+        $this->article_picid = $this->httpRequest->getParameter( 'picid', 'post', 'raw' );
+        $this->article_fileid = $this->httpRequest->getParameter( 'fileid', 'post', 'raw' );
+       
+        if(empty($this->article_title))
         {
-            $this->tplVar['error'][] = 'Article title is empty!';
+            $this->viewVar['error'][] = 'Article title is empty!';
             return FALSE;
         }
 
-        if(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
+        if(!empty($this->article_uploadpicture))
         {   
+            $picture = $this->httpRequest->getParameter( 'picture', 'files', 'raw' );
             $this->model->action('article','addItem',
                                  array('item'        => 'picture',
-                                       'error'       => & $this->tplVar['error'],
+                                       'error'       => & $this->viewVar['error'],
                                        'id_article'  => (int)$this->current_id_article,
-                                       'postName'    => 'picture',
-                                       'error'       => & $this->tplVar['error']) ); 
+                                       'postData'    => &$picture,
+                                       'error'       => & $this->viewVar['error']) ); 
                                        
             $this->addLogMessage( "Upload picture" );
             $noRedirect = TRUE;
         }
         // upload logo
-        elseif(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
+        elseif(!empty($this->article_uploadlogo))
         {   
+            $logo = $this->httpRequest->getParameter( 'logo', 'files', 'raw' );
             $this->model->action('article','uploadLogo',
                                  array('id_article' => (int)$this->current_id_article,
-                                       'error'      => & $this->tplVar['error'],
-                                       'postName'   => 'logo') );  
+                                       'error'      => & $this->viewVar['error'],
+                                       'postData'   => & $logo,) );  
                                        
             $this->addLogMessage( "Upload logo" );
             $noRedirect = TRUE;
         }
         // delete logo
-        elseif(isset($_POST['deletelogo']) && !empty($_POST['deletelogo']))
+        elseif(!empty($this->article_deletelogo))
         {   
             $this->model->action('article','deleteLogo',
                                  array('id_article' => (int)$this->current_id_article,
-                                       'error'      => & $this->tplVar['error']) ); 
+                                       'error'      => & $this->viewVar['error']) ); 
                                        
             $this->addLogMessage( "Delete logo" );
             $noRedirect = TRUE;
         }           
         // delete picture
-        elseif(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
+        elseif(!empty($this->article_imageID2del))
         {
             $this->model->action('article','deleteItem',
                                  array('id_article' => (int)$this->current_id_article,
-                                       'error'      => & $this->tplVar['error'],
-                                       'id_pic'     => (int)$_POST['imageID2del']) ); 
+                                       'error'      => & $this->viewVar['error'],
+                                       'id_pic'     => (int)$this->article_imageID2del) ); 
                                        
             $this->addLogMessage( "Delete images" );
             $noRedirect = TRUE;
         }
         // move image rank up
-        elseif(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
+        elseif(!empty($this->article_imageIDmoveUp))
         {   
             $this->model->action('article','moveItemRank',
                                  array('id_article' => (int)$this->current_id_article,
-                                       'error'      => & $this->tplVar['error'],
-                                       'id_pic'     => (int)$_POST['imageIDmoveUp'],
+                                       'error'      => & $this->viewVar['error'],
+                                       'id_pic'     => (int)$this->article_imageIDmoveUp,
                                        'dir'        => 'up') ); 
                                        
             $this->addLogMessage( "Move image rank up" );
             $noRedirect = TRUE;
         }  
         // move image rank down
-        elseif(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
+        elseif(!empty($this->article_imageIDmoveDown))
         {   
             $this->model->action('article','moveItemRank',
                                  array('id_article' => (int)$this->current_id_article,
-                                       'id_pic'     => (int)$_POST['imageIDmoveDown'],
-                                       'error'      => & $this->tplVar['error'],
+                                       'id_pic'     => (int)$this->article_imageIDmoveDown,
+                                       'error'      => & $this->viewVar['error'],
                                        'dir'        => 'down') ); 
                                        
             $this->addLogMessage( "Move image rank down" );
             $noRedirect = TRUE;
         } 
         // move file rank up
-        elseif(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
+        elseif(!empty($this->article_fileIDmoveUp))
         {
             $this->model->action('article','moveItemRank',
                                  array('id_article' => (int)$this->current_id_article,
-                                       'id_file'    => (int)$_POST['fileIDmoveUp'],
-                                       'error'      => & $this->tplVar['error'],
+                                       'id_file'    => (int)$this->article_fileIDmoveUp,
+                                       'error'      => & $this->viewVar['error'],
                                        'dir'        => 'up') );  
                                        
             $this->addLogMessage( "Move file rank up" );
             $noRedirect = TRUE;
         }
         // move file rank down
-        elseif(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
+        elseif(!empty($this->article_imageIDmoveDown))
         {   
             $this->model->action('article','moveItemRank',
                                  array('id_article' => (int)$this->current_id_article,
-                                       'id_file'    => (int)$_POST['fileIDmoveDown'],
-                                       'error'      => & $this->tplVar['error'],
+                                       'id_file'    => (int)$this->article_imageIDmoveDown,
+                                       'error'      => & $this->viewVar['error'],
                                        'dir'        => 'down') );  
                                        
             $this->addLogMessage( "Move file rank down" );
             $noRedirect = TRUE;
         } 
         // add file
-        elseif(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
+        elseif(!empty($this->article_uploadfile))
         {          
+            $ufile = $this->httpRequest->getParameter( 'ufile', 'files', 'raw' ); 
             $this->model->action('article','addItem',
                                  array('item'        => 'file',
                                        'id_article'  => (int)$this->current_id_article,
-                                       'postName'    => 'ufile',
-                                       'error'       => & $this->tplVar['error']) );
+                                       'postData'    => &$ufile,
+                                       'error'       => & $this->viewVar['error']) );
                                        
             $this->addLogMessage( "Upload file" );
             $noRedirect = TRUE;
         }
         // delete file
-        elseif(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
+        elseif(!empty($this->article_imageID2del))
         {   
             $this->model->action('article','deleteItem',
                                  array('id_article' => (int)$this->current_id_article,
-                                       'error'      => & $this->tplVar['error'],
-                                       'id_file'    => (int)$_POST['fileID2del']) );
+                                       'error'      => & $this->viewVar['error'],
+                                       'id_file'    => (int)$this->article_imageID2del) );
                                        
             $this->addLogMessage( "Delete files" );
             $noRedirect = TRUE;
         }  
         
         // update picture data if there images
-        if(isset($_POST['picid']) && is_array($_POST['picid']))
+        if(!empty($this->article_picid) && is_array($this->article_picid))
         {
+            $picdesc = $this->httpRequest->getParameter( 'picdesc', 'post', 'raw' );
+            $pictitle = $this->httpRequest->getParameter( 'pictitle', 'post', 'raw' );
+            
             $this->model->action( 'article','updateItem',
                                   array('item'    => 'pic',
-                                        'error'   => & $this->tplVar['error'],
-                                        'ids'     => &$_POST['picid'],
-                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['picdesc']),
-                                                           'title'       => $this->stripSlashesArray($_POST['pictitle']))));
+                                        'error'   => & $this->viewVar['error'],
+                                        'ids'     => &$this->article_picid,
+                                        'fields'  => array('description' => $this->stripSlashesArray($picdesc),
+                                                           'title'       => $this->stripSlashesArray($pictitle))));
 
             $this->addLogMessage( "Update pictures data" );
             $noRedirect = TRUE;
         }        
 
         // update file data if there file attachments
-        if(isset($_POST['fileid']) && is_array($_POST['fileid']))
+        if(!empty($this->article_fileid) && is_array($this->article_fileid))
         {
+            $filedesc = $this->httpRequest->getParameter( 'filedesc', 'post', 'raw' );
+            $filetitle = $this->httpRequest->getParameter( 'filetitle', 'post', 'raw' );
+            
             $this->model->action( 'article','updateItem',
                                   array('item'    => 'file',
-                                        'error'   => & $this->tplVar['error'],
-                                        'ids'     => &$_POST['fileid'],
-                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['filedesc']),
-                                                           'title'       => $this->stripSlashesArray($_POST['filetitle']))));
+                                        'error'   => & $this->viewVar['error'],
+                                        'ids'     => &$this->article_fileid,
+                                        'fields'  => array('description' => $this->stripSlashesArray($filedesc),
+                                                           'title'       => $this->stripSlashesArray($filetitle))));
             
             $this->addLogMessage( "Update files data" );
             $noRedirect = TRUE;
         }  
 
         // if no error occure update text data
-        if(count($this->tplVar['error']) == 0)
+        if(count($this->viewVar['error']) == 0)
         {
-            $articleFields = array('title'  => JapaCommonUtil::stripSlashes((string)$_POST['title']),
-                                   'body'   => JapaCommonUtil::stripSlashes((string)$_POST['body']));
+            $articleFields = array('title'  => JapaCommonUtil::stripSlashes((string)$this->article_title),
+                                   'body'   => JapaCommonUtil::stripSlashes((string)$this->article_body));
 
             // add fields depended on configuration settings
             $this->addSetArticleFields( $articleFields );         
     
             $this->model->action('article','updateArticle',
                                  array('id_article' => (int)$this->current_id_article,
-                                       'error'      => & $this->tplVar['error'],
+                                       'error'      => & $this->viewVar['error'],
                                        'fields'     => $articleFields));   
                                        
             $this->addLogMessage( "Update article data fields" );
             $this->addLogEvent( 3 );
 
-            if(isset($_POST['finishupdate']) && ($_POST['finishupdate']=='Submit'))
+            $finishupdate = $this->httpRequest->getParameter( 'finishupdate', 'post', 'alnum' );
+            if( !empty($finishupdate) )
             {
                 $this->redirect(); 
             }
@@ -353,62 +372,53 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
     private function initVars()
     {
         // get node Id of the demanded article
-        if(!isset($_REQUEST['id_node']) || 
-           preg_match("/[^0-9]+/",$_REQUEST['id_node']) )
+        if( false === $this->current_id_node )
         {
                 return FALSE;
         } 
-        $this->current_id_node = (int)$_REQUEST['id_node'];
-                   
-
-        // get article ID
-        if(!isset($_REQUEST['id_article']) || 
-           preg_match("/[^0-9]+/",$_REQUEST['id_article']) )
-        {
-            return FALSE;
-        } 
-        $this->current_id_article = (int)$_REQUEST['id_article'];
         
         // template variables
         //
         // article data
-        $this->tplVar['id_article'] = $this->current_id_article;
-        $this->tplVar['id_node']    = $this->current_id_node;
+        $this->viewVar['id_article'] = $this->current_id_article;
+        $this->viewVar['id_node']    = $this->current_id_node;
         
-        $this->tplVar['article']  = array();
-        $this->tplVar['file']     = array();
-        $this->tplVar['thumb']    = array();
+        $this->viewVar['article']  = array();
+        $this->viewVar['file']     = array();
+        $this->viewVar['thumb']    = array();
        
         // errors
-        $this->tplVar['error']  = array(); 
+        $this->viewVar['error']  = array(); 
 
         // assign template config vars
         foreach($this->config['article'] as $key => $val)
         {
-            $this->tplVar[$key] = $val;
+            $this->viewVar[$key] = $val;
         }
+
+        $format = $this->httpRequest->getParameter('format', 'post', 'digits');
         
         // set format template var, means how to format textarea content -> editor/wikki ?
         // 1 = text_wikki
         // 2 = tiny_mce
         if($this->config['article']['force_format'] != 0)
         {
-            $this->tplVar['format'] = $this->config['article']['force_format'];
-            $this->tplVar['show_format_switch'] = FALSE;
+            $this->viewVar['format'] = $this->config['article']['force_format'];
+            $this->viewVar['show_format_switch'] = FALSE;
         }
-        elseif(isset($_POST['format']))
+        elseif(false !== $format)
         {
-            if(!preg_match("/(1|2){1}/",$_POST['format']))
+            if(!preg_match("/(1|2){1}/",$format))
             {
-                $this->tplVar['format'] = $this->config['article']['default_format'];
+                $this->viewVar['format'] = $this->config['article']['default_format'];
             }
-            $this->tplVar['format'] = $_POST['format'];
-            $this->tplVar['show_format_switch'] = TRUE;
+            $this->viewVar['format'] = $format;
+            $this->viewVar['show_format_switch'] = TRUE;
         }
         else
         {
-            $this->tplVar['format'] = $this->config['article']['default_format'];
-            $this->tplVar['show_format_switch'] = TRUE;
+            $this->viewVar['format'] = $this->config['article']['default_format'];
+            $this->viewVar['show_format_switch'] = TRUE;
         }
         
         return TRUE;
@@ -423,16 +433,16 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] < 60 )
+        if($this->controllerVar['loggedUserRole'] < 60 )
         {
             return $this->allowModify = true;
         }
-        elseif(($this->viewVar['loggedUserRole'] >= 60) &&
-               ($this->viewVar['loggedUserRole'] < 100))
+        elseif(($this->controllerVar['loggedUserRole'] >= 60) &&
+               ($this->controllerVar['loggedUserRole'] < 100))
         {
             return $this->allowModify = $this->model->action('article','checkUserRights',
-                                        array('id_article' => (int)$_REQUEST['id_article'],
-                                              'id_user'    => (int)$this->viewVar['loggedUserId']));
+                                        array('id_article' => (int)$this->current_id_article,
+                                              'id_user'    => (int)$this->controllerVar['loggedUserId']));
         }
         
         return $this->allowModify = false;
@@ -473,7 +483,7 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
      */
     private function redirect()
     {
-        @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=article&view=editArticle&disableMainMenu=1&id_article='.$this->current_id_article.'&id_node='.$this->current_id_node);
+        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/article/cntr/editArticle/disableMainMenu/1/id_article/'.$this->current_id_article.'/id_node/'.$this->current_id_node);
         exit;      
     }  
     
@@ -517,23 +527,28 @@ class ViewArticleModArticle extends JapaControllerAbstractPage
     {
         if($this->config['article']['use_overtitle'] == 1)
         {
-            $articleFields['overtitle'] = JapaCommonUtil::stripSlashes((string)$_POST['overtitle']);
+            $overtitle = trim($this->httpRequest->getParameter('overtitle', 'post', 'raw'));
+            $articleFields['overtitle'] = JapaCommonUtil::stripSlashes((string)$overtitle);
         }
         if($this->config['article']['use_subtitle'] == 1)
         {
-            $articleFields['subtitle'] = JapaCommonUtil::stripSlashes((string)$_POST['subtitle']);
+            $subtitle  = trim($this->httpRequest->getParameter('subtitle', 'post', 'raw'));
+            $articleFields['subtitle'] = JapaCommonUtil::stripSlashes((string)$subtitle);
         }   
         if($this->config['article']['use_description'] == 1)
         {
-            $articleFields['description'] = JapaCommonUtil::stripSlashes((string)$_POST['description']);
+            $description  = trim($this->httpRequest->getParameter('description', 'post', 'raw'));
+            $articleFields['description'] = JapaCommonUtil::stripSlashes((string)$description);
         }
         if($this->config['article']['use_header'] == 1)
         {
-            $articleFields['header'] = JapaCommonUtil::stripSlashes((string)$_POST['header']);
+            $header  = trim($this->httpRequest->getParameter('header', 'post', 'raw'));
+            $articleFields['header'] = JapaCommonUtil::stripSlashes((string)$header);
         }   
         if($this->config['article']['use_ps'] == 1)
         {
-            $articleFields['ps'] = JapaCommonUtil::stripSlashes((string)$_POST['ps']);
+            $ps  = trim($this->httpRequest->getParameter('ps', 'post', 'raw'));
+            $articleFields['ps'] = JapaCommonUtil::stripSlashes((string)$ps);
         }               
     }  
     

@@ -400,11 +400,11 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
      */    
     private function buildDate( $_date )
     {
-        $year   = $this->httpRequest->getParameter($_date.'year', 'post', 'digits');
-        $month  = $this->httpRequest->getParameter($_date.'month', 'post', 'digits');
-        $day    = $this->httpRequest->getParameter($_date.'day', 'post', 'digits');
-        $hour   = $this->httpRequest->getParameter($_date.'hour', 'post', 'digits');
-        $minute = $this->httpRequest->getParameter($_date.'minute', 'post', 'digits');
+        $year   = $this->httpRequest->getParameter($_date.'_year', 'post', 'digits');
+        $month  = $this->httpRequest->getParameter($_date.'_month', 'post', 'digits');
+        $day    = $this->httpRequest->getParameter($_date.'_day', 'post', 'digits');
+        $hour   = $this->httpRequest->getParameter($_date.'_hour', 'post', 'digits');
+        $minute = $this->httpRequest->getParameter($_date.'_minute', 'post', 'digits');
         
         return $year.'-'.$month.'-'.$day.' '.$hour.':'.$minute.':00';
     }
