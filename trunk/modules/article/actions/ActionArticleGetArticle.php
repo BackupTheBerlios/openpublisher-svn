@@ -164,28 +164,28 @@ class ActionArticleGetArticle extends JapaAction
         {
             $sql = "
                 SELECT
-                    avr.`id_view`,
+                    avr.`id_controller`,
                     av.`name`
                 FROM
-                    {$this->config['dbTablePrefix']}article_view_rel AS avr,
-                    {$this->config['dbTablePrefix']}article_view AS av
+                    {$this->config['dbTablePrefix']}article_controller_rel AS avr,
+                    {$this->config['dbTablePrefix']}article_public_controller AS av
                 WHERE
                     avr.`id_article`={$data['id_article']}
                 AND
-                    avr.`id_view`=av.`id_view`";
+                    avr.`id_controller`=av.`id_controller`";
         
             $rs = $this->model->dba->query($sql);
             
             if( $rs->numRows() > 0 )
             {
                 $row = $rs->fetchAssoc();
-                $data['result']['id_view']   = $row['id_view'];
-                $data['result']['view_name'] = $row['name'];   
+                $data['result']['id_controller']   = $row['id_controller'];
+                $data['result']['controller_name'] = $row['name'];   
             }
             else
             {
-                $data['result']['id_view']   = FALSE;
-                $data['result']['view_name'] = FALSE;            
+                $data['result']['id_controller']   = FALSE;
+                $data['result']['controller_name'] = FALSE;            
             }
         }        
     } 

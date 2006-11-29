@@ -10,7 +10,7 @@
 // ---------------------------------------------
 
 /**
- * ViewArticleEditArticle
+ * ControllerArticleEditArticle
  *
  * Article Status:
  * 0 = delete
@@ -22,20 +22,14 @@
  *
  */
  
-class ViewArticleEditArticle extends JapaControllerAbstractPage
+class ControllerArticleEditArticle extends JapaControllerAbstractPage
 {
-   /**
-     * template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public $template = 'editarticle';
-    
-   /**
-     * template folder for this view
-     * @var string $template_folder
-     */    
-    public $templateFolder = 'modules/article/templates/';
-    
+    public $returnView = true;
+      
    /**
      * current id_node
      * @var int $current_id_node
@@ -66,31 +60,24 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */
     public function prependFilterChain()
     {
+        $this->current_id_article = $this->httpRequest->getParameter('id_article', 'request', 'digits');
+        
         // if no rights for the logged user, show error template
         if( FALSE == $this->allowModify() )
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'You have not the rights to edit a article!';
-            $this->dontPerform = TRUE;
+            $this->redirect();
         }
 
         // init variables for this view
         if(FALSE == $this->initVars())
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'Fatal error during variables init for this view';
-            $this->dontPerform = TRUE;          
+            $this->redirect();         
         }
 
         // is node locked by an other user
         if( TRUE !== $this->lockArticle() )
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'This article is locked by an other user!';
-            $this->dontPerform = TRUE;      
+            $this->redirect();     
         }
     }        
    /**
@@ -104,22 +91,28 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
             return;
         }
 
+        $gotonode = $this->httpRequest->getParameter('gotonode', 'post', 'digits');
+
         // forward to node x without update
-        if(isset($_POST['gotonode']) && ($_POST['gotonode'] != ''))
+        if(!empty($gotonode))
         {
             $this->unlockArticle();
-            $this->redirect((int)$_POST['gotonode']);        
+            $this->redirect((int)$gotonode);        
         }
 
+        $canceledit = $this->httpRequest->getParameter('canceledit', 'post', 'digits');
+
         // change nothing and switch back
-        if(isset($_POST['canceledit']) && ($_POST['canceledit'] == '1'))
+        if($canceledit == '1')
         {
             $this->unlockArticle();
             $this->redirect((int)$this->current_id_node);        
         }
+
+        $modifyarticledata = $this->httpRequest->getParameter('modifyarticledata', 'post', 'alnum');
         
         // update article data
-        if( isset($_POST['modifyarticledata']) )
+        if( !empty($modifyarticledata) )
         {      
             $this->updateArticleData();
         }
@@ -127,7 +120,7 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
         // get whole node tree
         $this->model->action('navigation','getTree', 
                              array('id_node' => 0,
-                                   'result'  => & $this->tplVar['tree'],
+                                   'result'  => & $this->viewVar['tree'],
                                    'fields'  => array('id_parent','status',
                                                       'id_node','title')));   
 
@@ -140,10 +133,10 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
 
         // get demanded article data
         $this->model->action('article','getArticle', 
-                             array('result'     => & $this->tplVar['article'],
+                             array('result'     => & $this->viewVar['article'],
                                    'id_article' => (int)$this->current_id_article,
                                    'get_view'   => TRUE,
-                                   'error'      => & $this->tplVar['error'],
+                                   'error'      => & $this->viewVar['error'],
                                    'fields'     => $articleFields));
 
         // assign template date variables
@@ -151,22 +144,23 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
 
         // get current node data
         $this->model->action('navigation','getNode', 
-                             array('result'  => & $this->tplVar['node'],
+                             array('result'  => & $this->viewVar['node'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_node')));    
     
         // get navigation node branch of the current node
         $this->model->action('navigation','getBranch', 
-                             array('result'  => & $this->tplVar['branch'],
+                             array('result'  => & $this->viewVar['branch'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'error'   => & $this->tplVar['error'],
+                                   'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','id_node')));                             
 
         // we need the url vars to open this page by the keyword map window
         if($this->config['article']['use_keywords'] == 1)
         {
-            if(isset($_REQUEST['addkey']))
+            $addkey = $this->httpRequest->getParameter('addkey', 'request', 'alnum');
+            if(!empty($addkey))
             {
                 $this->addKeyword();
             }
@@ -174,21 +168,21 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
         }
         
         // we need the url vars to open this page by the keyword map window
-        if($this->config['article']['use_article_view'] == 1)
+        if($this->config['article']['use_article_controller'] == 1)
         {
             // get all available registered article public views
-            $this->tplVar['articlePublicViews'] = array();
+            $this->viewVar['articlePublicControllers'] = array();
             $this->model->action( 'article','getPublicViews',
-                                  array('result' => &$this->tplVar['articlePublicViews'],
-                                        'fields' => array('id_view','name')) );             
+                                  array('result' => &$this->viewVar['articlePublicControllers'],
+                                        'fields' => array('id_controller','name')) );             
        } 
        
        if($this->config['article']['use_comment'] == 1)
        {
-          $this->tplVar['articleComments'] = array();
+          $this->viewVar['articleComments'] = array();
           
           $this->model->action('article','comments',
-                               array('result' => & $this->tplVar['articleComments'],
+                               array('result' => & $this->viewVar['articleComments'],
                                      'id_article' => (int)$this->current_id_article,
                                      'status' => array('>=', 0),
                                      'fields' => array('id_comment','status',
@@ -199,18 +193,19 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
        
        if($this->config['user']['use_log'] == 1)
        {
-           $this->tplVar['showLogLink'] = 1;
+           $this->viewVar['showLogLink'] = 1;
        }
 
-       if(isset($_REQUEST['adduser']))
+       $adduser = $this->httpRequest->getParameter('adduser', 'request', 'alnum');
+       if(!empty($adduser))
        {
            $this->addUser();
        }
        
        // get user of this article
-       $this->tplVar['articleUsers'] = array();
+       $this->viewVar['articleUsers'] = array();
        $this->model->action('article','getArticleUsers', 
-                            array('result'     => & $this->tplVar['articleUsers'],
+                            array('result'     => & $this->viewVar['articleUsers'],
                                   'id_article' => (int)$this->current_id_article,
                                   'order'      => array('lastname','asc'),
                                   'fields'     => array('id_user','role',
@@ -224,22 +219,24 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
     */
     private function updateArticleData()
     {   
-        if(count($this->tplVar['error']) == 0)
+        if(count($this->viewVar['error']) == 0)
         {
             // get the node ID of this article
             $this->getNewIdNode();
 
-            if($this->config['article']['use_article_view'] == 1)
+            if($this->config['article']['use_article_controller'] == 1)
             {
-                $this->updateArticleView();
+                $this->updateArticleController();
             }
 
             $this->deleteArticleKeywords();
             $this->deleteArticleUsers();
             $this->updateArticle();
             $this->addLogEvent( 3 );
+
+            $refresh = $this->httpRequest->getParameter('refresh', 'post', 'alnum');
             
-            if(!isset($_POST['refresh']))
+            if(empty($refresh))
             {
                 $this->unlockArticle();           
                 $this->redirect( $this->current_id_node );
@@ -255,7 +252,7 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
         return $this->model->action('article','lock',
                 array('job'        => 'lock',
                       'id_article' => (int)$this->current_id_article,
-                      'by_id_user' => (int)$this->viewVar['loggedUserId']) );  
+                      'by_id_user' => (int)$this->controllerVar['loggedUserId']) );  
     }   
      /**
      * init variables for this view
@@ -263,56 +260,53 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */      
     private function initVars()
     {
+        $id_node = $this->httpRequest->getParameter('id_node', 'request', 'digits');
+
         // get node Id of the demanded article
-        if(!isset($_REQUEST['id_node']) || 
-           preg_match("/[^0-9]+/",$_REQUEST['id_node']) )
+        if(false === $id_node)
         {
                 return FALSE;
         } 
-        $this->current_id_node = (int)$_REQUEST['id_node'];
-                   
+        $this->current_id_node = (int)$id_node;                 
 
         // get article ID
-        if(!isset($_REQUEST['id_article']) || 
-           preg_match("/[^0-9]+/",$_REQUEST['id_article']) )
+        if(false === $this->current_id_article)
         {
             return FALSE;
         } 
-        $this->current_id_article = (int)$_REQUEST['id_article'];
-
 
         // template variables
         //
         // article data
-        $this->tplVar['id_article'] = $this->current_id_article;
-        $this->tplVar['id_node']    = $this->current_id_node;
+        $this->viewVar['id_article'] = $this->current_id_article;
+        $this->viewVar['id_node']    = $this->current_id_node;
         
         // node tree data
-        $this->tplVar['tree']   = array();
+        $this->viewVar['tree']   = array();
         // data of the current node
-        $this->tplVar['node']   = array();
+        $this->viewVar['node']   = array();
         // data of the branch nodes
-        $this->tplVar['branch'] = array();  
+        $this->viewVar['branch'] = array();  
         // article data
-        $this->tplVar['article']  = array();
+        $this->viewVar['article']  = array();
        
         // errors
-        $this->tplVar['error']  = array();   
+        $this->viewVar['error']  = array();   
 
-        $this->tplVar['use_comment']  = $this->config['article']['use_comment']; 
+        $this->viewVar['use_comment']  = $this->config['article']['use_comment']; 
 
         // assign template config vars
         foreach($this->config['article'] as $key => $val)
         {
-            $this->tplVar[$key] = $val;
+            $this->viewVar[$key] = $val;
         }
 
         // we need the url vars to open this page by the keyword map window
         if($this->config['article']['use_keywords'] == 1)
         {
-            $this->tplVar['opener_url_vars'] = base64_encode('&view=editArticle&id_article='.$this->current_id_article.'&id_node='.$this->current_id_node.'&disableMainMenu=1');
+            $this->viewVar['opener_url_vars'] = base64_encode('/cntr/editArticle/id_article/'.$this->current_id_article.'/id_node/'.$this->current_id_node.'/disableMainMenu=1');
         }
-        $this->tplVar['use_keywords'] = $this->config['article']['use_keywords'];
+        $this->viewVar['use_keywords'] = $this->config['article']['use_keywords'];
         
         return TRUE;
     }
@@ -325,16 +319,16 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] < 60 )
+        if($this->controllerVar['loggedUserRole'] < 60 )
         {
             return $this->allowModify = true;
         }
-        elseif(($this->viewVar['loggedUserRole'] >= 60) &&
-               ($this->viewVar['loggedUserRole'] < 100))
+        elseif(($this->controllerVar['loggedUserRole'] >= 60) &&
+               ($this->controllerVar['loggedUserRole'] < 100))
         {
             return $this->allowModify = $this->model->action('article','checkUserRights',
-                                        array('id_article' => (int)$_REQUEST['id_article'],
-                                              'id_user'    => (int)$this->viewVar['loggedUserId']));
+                                        array('id_article' => (int)$this->current_id_article,
+                                              'id_user'    => (int)$this->controllerVar['loggedUserId']));
         }
         
         return $this->allowModify = false;
@@ -347,14 +341,19 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
     private function updateArticle()
     {
         $this->getNewIdNode();
+
+        $status = $this->httpRequest->getParameter('status', 'post', 'digits');
         
         $articleFields = array('id_node'  => (int)$this->current_id_node,
-                               'status'   => (int)$_POST['status'],
+                               'status'   => (int)$status,
                                'pubdate'  => $this->buildDate('pubdate'));
 
         if( $this->config['article']['use_comment'] == 1 )
         {
-            if(isset($_POST['allow_comment']))
+            $allow_comment = $this->httpRequest->getParameter('allow_comment', 'post', 'digits');
+            $close_comment = $this->httpRequest->getParameter('close_comment', 'post', 'digits');
+            
+            if(!empty($allow_comment))
             {
                 $articleFields['allow_comment'] = 1;
             }
@@ -362,7 +361,7 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
             {
                 $articleFields['allow_comment'] = 0;
             }
-            if(isset($_POST['close_comment']))
+            if(!empty($close_comment))
             {
                 $articleFields['close_comment'] = 1;
             }
@@ -384,14 +383,14 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
         
         $this->model->action('article','updateArticle',
                              array('id_article' => (int)$this->current_id_article,
-                                   'error'      => &$this->tplVar['error'],
+                                   'error'      => &$this->viewVar['error'],
                                    'fields'     => $articleFields));    
 
         $this->addLogMessage( "Updated fields: \n". var_export( $articleFields, true ) );
 
         if(isset($this->node_has_changed))
         {
-            $this->reorderRank( $_REQUEST['id_node'] );
+            $this->reorderRank( $this->current_id_node );
         }
     }
     
@@ -401,7 +400,13 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */    
     private function buildDate( $_date )
     {
-        return $_POST[$_date.'_year'].'-'.$_POST[$_date.'_month'].'-'.$_POST[$_date.'_day'].' '.$_POST[$_date.'_hour'].':'.$_POST[$_date.'_minute'].':00';
+        $year   = $this->httpRequest->getParameter($_date.'year', 'post', 'digits');
+        $month  = $this->httpRequest->getParameter($_date.'month', 'post', 'digits');
+        $day    = $this->httpRequest->getParameter($_date.'day', 'post', 'digits');
+        $hour   = $this->httpRequest->getParameter($_date.'hour', 'post', 'digits');
+        $minute = $this->httpRequest->getParameter($_date.'minute', 'post', 'digits');
+        
+        return $year.'-'.$month.'-'.$day.' '.$hour.':'.$minute.':00';
     }
         
     /**
@@ -409,7 +414,7 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */
     private function redirect( $id_node = 0 )
     {
-        @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=article&id_node='.$id_node);
+        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/article/id_node/'.$id_node);
         exit;      
     }  
     
@@ -430,57 +435,57 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */      
     private function assignTemplateDates()  
     {                   
-        if( isset($this->tplVar['article']['pubdate']) )
+        if( isset($this->viewVar['article']['pubdate']) )
         {
             if( preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/",
-                           $this->tplVar['article']['pubdate'], $d) )
+                           $this->viewVar['article']['pubdate'], $d) )
             {
-                $this->tplVar['article']['pubdate'] = array();
-                $this->tplVar['article']['pubdate']['year']   = $d[1]; 
-                $this->tplVar['article']['pubdate']['month']  = $d[2];
-                $this->tplVar['article']['pubdate']['day']    = $d[3];
-                $this->tplVar['article']['pubdate']['hour']   = $d[4];
-                $this->tplVar['article']['pubdate']['minute'] = $d[5];
+                $this->viewVar['article']['pubdate'] = array();
+                $this->viewVar['article']['pubdate']['year']   = $d[1]; 
+                $this->viewVar['article']['pubdate']['month']  = $d[2];
+                $this->viewVar['article']['pubdate']['day']    = $d[3];
+                $this->viewVar['article']['pubdate']['hour']   = $d[4];
+                $this->viewVar['article']['pubdate']['minute'] = $d[5];
             }
         }
-        if( isset($this->tplVar['article']['articledate']) )
+        if( isset($this->viewVar['article']['articledate']) )
         {
             if( preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/",
-                           $this->tplVar['article']['articledate'], $d2) )
+                           $this->viewVar['article']['articledate'], $d2) )
             {
-                $this->tplVar['article']['articledate'] = array();
-                $this->tplVar['article']['articledate']['year']   = $d2[1]; 
-                $this->tplVar['article']['articledate']['month']  = $d2[2];
-                $this->tplVar['article']['articledate']['day']    = $d2[3];
-                $this->tplVar['article']['articledate']['hour']   = $d2[4];
-                $this->tplVar['article']['articledate']['minute'] = $d2[5];
+                $this->viewVar['article']['articledate'] = array();
+                $this->viewVar['article']['articledate']['year']   = $d2[1]; 
+                $this->viewVar['article']['articledate']['month']  = $d2[2];
+                $this->viewVar['article']['articledate']['day']    = $d2[3];
+                $this->viewVar['article']['articledate']['hour']   = $d2[4];
+                $this->viewVar['article']['articledate']['minute'] = $d2[5];
             }
         }  
-        if( isset($this->tplVar['article']['changedate']) )
+        if( isset($this->viewVar['article']['changedate']) )
         {
             if( preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/",
-                           $this->tplVar['article']['changedate'], $d3) )
+                           $this->viewVar['article']['changedate'], $d3) )
             {
-                $this->tplVar['article']['changedate'] = array();
-                $this->tplVar['article']['changedate']['year']   = $d3[1]; 
-                $this->tplVar['article']['changedate']['month']  = $d3[2];
-                $this->tplVar['article']['changedate']['day']    = $d3[3];
-                $this->tplVar['article']['changedate']['hour']   = $d3[4];
-                $this->tplVar['article']['changedate']['minute'] = $d3[5];
-                $this->tplVar['article']['changestatus']         = (int)$this->tplVar['article']['changestatus'];
-                $this->tplVar['cd_disable'] = FALSE;
+                $this->viewVar['article']['changedate'] = array();
+                $this->viewVar['article']['changedate']['year']   = $d3[1]; 
+                $this->viewVar['article']['changedate']['month']  = $d3[2];
+                $this->viewVar['article']['changedate']['day']    = $d3[3];
+                $this->viewVar['article']['changedate']['hour']   = $d3[4];
+                $this->viewVar['article']['changedate']['minute'] = $d3[5];
+                $this->viewVar['article']['changestatus']         = (int)$this->viewVar['article']['changestatus'];
+                $this->viewVar['cd_disable'] = FALSE;
             }
         }
         elseif($this->config['article']['use_changedate'] == 1)
         {
-                $this->tplVar['article']['changedate'] = array();
-                $this->tplVar['article']['changedate']['year']   = date("Y", time()); 
-                $this->tplVar['article']['changedate']['month']  = date("m", time());
-                $this->tplVar['article']['changedate']['day']    = date("d", time());
-                $this->tplVar['article']['changedate']['hour']   = date("H", time());
-                $this->tplVar['article']['changedate']['minute'] = date("i", time());  
-                $this->tplVar['article']['changestatus']         = 1;
-                $this->tplVar['cd_disable'] = TRUE;
+                $this->viewVar['article']['changedate'] = array();
+                $this->viewVar['article']['changedate']['year']   = date("Y", time()); 
+                $this->viewVar['article']['changedate']['month']  = date("m", time());
+                $this->viewVar['article']['changedate']['day']    = date("d", time());
+                $this->viewVar['article']['changedate']['hour']   = date("H", time());
+                $this->viewVar['article']['changedate']['minute'] = date("i", time());  
+                $this->viewVar['article']['changestatus']         = 1;
+                $this->viewVar['cd_disable'] = TRUE;
         }
     }
 
@@ -512,14 +517,16 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
         }
         if(($this->config['article']['use_changedate'] == 1))
         {
-            if(!isset($_POST['changedate_year']))
+            $changedate_year = $this->httpRequest->getParameter('changedate_year', 'post', 'alnum');
+            if(empty($changedate_year))
             {
                 $articleFields['changedate'] = FALSE;
             }
             else
             {
+                $changestatus = $this->httpRequest->getParameter('changestatus', 'post', 'int');
                 $articleFields['changedate']   = $this->buildDate('changedate');
-                $articleFields['changestatus'] = (int)$_POST['changestatus'];
+                $articleFields['changestatus'] = (int)$changestatus;
             }
         }        
     } 
@@ -530,12 +537,14 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */      
     private function getNewIdNode()
     {
-        if($_POST['article_id_node'] != $this->current_id_node)
+        $this->article_id_node = $this->httpRequest->getParameter('article_id_node', 'post', 'digits');
+        
+        if($this->article_id_node != $this->current_id_node)
         {
-            if($_POST['article_id_node'] !== '0')
+            if($this->article_id_node !== '0')
             {
-                $this->current_id_node   = (int)$_POST['article_id_node'];
-                $this->tplVar['id_node'] = $this->current_id_node;
+                $this->current_id_node   = (int)$this->article_id_node;
+                $this->viewVar['id_node'] = $this->current_id_node;
                 $this->node_has_changed = TRUE;
                 $this->addLogMessage( "Change article node: {$this->current_id_node}" );
             }
@@ -577,11 +586,13 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */      
     private function addKeyword()
     {
+        $id_key = $this->httpRequest->getParameter('id_key', 'request', 'digits');
+        
         // get demanded article data
         $this->model->action('article','addKeyword', 
-                             array('id_key'     => (int)$_REQUEST['id_key'],
+                             array('id_key'     => (int)$id_key,
                                    'id_article' => (int)$this->current_id_article));
-        $this->addLogMessage( "Add article keyword: {$_REQUEST['id_key']}" );
+        $this->addLogMessage( "Add article keyword: {$id_key}" );
     }  
 
     /**
@@ -596,11 +607,13 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
             return;
         }
         
+        $id_user = $this->httpRequest->getParameter('id_user', 'request', 'digits');
+        
         // get demanded article data
         $this->model->action('article','addUser', 
-                             array('id_user'     => (int)$_REQUEST['id_user'],
+                             array('id_user'     => (int)$id_user,
                                    'id_article'  => (int)$this->current_id_article));
-        $this->addLogMessage( "Add article user: {$_REQUEST['id_user']}" );
+        $this->addLogMessage( "Add article user: {$id_user}" );
     }  
     
     /**
@@ -610,7 +623,7 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */      
     private function getArticleKeywords()
     {
-        $this->tplVar['keys'] = array();
+        $this->viewVar['keys'] = array();
         
         $keywords = array();
         
@@ -645,9 +658,9 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
             
             $tmp['branch'] .= '/<strong>'.$keyword['title'].'</strong>';
             
-            $this->tplVar['keys'][] = $tmp;
+            $this->viewVar['keys'][] = $tmp;
         }
-        sort($this->tplVar['keys']);    
+        sort($this->viewVar['keys']);    
     }   
     /**
      * remove article keyword relations
@@ -655,16 +668,18 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */     
     private function deleteArticleKeywords()
     {
-        if(isset($_POST['id_key']) && is_array($_POST['id_key']))
+        $id_key = $this->httpRequest->getParameter('id_key', 'request', 'raw');
+        
+        if((false !== $id_key) && is_array($id_key))
         {
-            foreach($_POST['id_key'] as $id_key)
+            foreach($id_key as $id)
             {
                 // get navigation node branch of the current node
                 $this->model->action('article','removeKeyword', 
-                                 array('id_key'     => (int)$id_key,
+                                 array('id_key'     => (int)$id,
                                        'id_article' => (int)$this->current_id_article)); 
                                        
-                $this->addLogMessage( "Remove article keyword: {$id_key}" );
+                $this->addLogMessage( "Remove article keyword: {$id}" );
             }
         }
     }
@@ -676,21 +691,23 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
     private function deleteArticleUsers()
     {
         // authors have no rights to remove article users
-        if($this->viewVar['loggedUserRole'] >= 60)
+        if($this->controllerVar['loggedUserRole'] >= 60)
         {
             return;
         }
+
+        $id_user = $this->httpRequest->getParameter('id_user', 'request', 'raw');
         
-        if(isset($_POST['id_user']) && is_array($_POST['id_user']))
+        if((false !== $id_user) && is_array($id_user))
         {
-            foreach($_POST['id_user'] as $id_user)
+            foreach($id_user as $id)
             {
                 // get navigation node branch of the current node
                 $this->model->action('article','removeUser', 
-                                 array('id_user'     => (int)$id_user,
+                                 array('id_user'     => (int)$id,
                                        'id_article'  => (int)$this->current_id_article)); 
                                        
-                $this->addLogMessage( "Remove article user: {$id_user}" );
+                $this->addLogMessage( "Remove article user: {$id}" );
             }
         }
     }
@@ -698,13 +715,14 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      * update article related view
      *
      */      
-    private function updateArticleView()
+    private function updateArticleController()
     {
-        if($_POST['article_view'] != 0)
+        $article_controller = $this->httpRequest->getParameter('article_controller', 'request', 'int');
+        if($article_controller != 0)
         {
             $this->model->action( 'article','updateView',
-                                  array('id_article' => (int)$this->current_id_article,
-                                        'id_view'    => (int)$_POST['article_view']) );
+                                  array('id_article'    => (int)$this->current_id_article,
+                                        'id_controller' => (int)$article_controller) );
         }
         else
         {
@@ -719,26 +737,30 @@ class ViewArticleEditArticle extends JapaControllerAbstractPage
      */      
     private function updateComments()
     {
-        if(isset($_POST['id_comment_val']) && is_array($_POST['id_comment_val']))
+        $id_comment_val = $this->httpRequest->getParameter('id_comment_val', 'request', 'raw');
+        
+        if((false !== $id_comment_val) && is_array($id_comment_val))
         {
-            foreach($_POST['id_comment_val'] as $id_comment)
+            foreach($id_comment_val as $id)
             {
                 $this->model->action( 'article','updateComment',
-                                      array('id_comment' => (int)$id_comment,
+                                      array('id_comment' => (int)$id,
                                             'fields'     => array('status' => 2) ) ); 
                                             
-                $this->addLogMessage( "Validate article comment: {$id_comment}" );
+                $this->addLogMessage( "Validate article comment: {$id}" );
             }
         }
         
-        if(isset($_POST['id_comment_del']) && is_array($_POST['id_comment_del']))
+        $id_comment_del = $this->httpRequest->getParameter('id_comment_del', 'request', 'raw');
+        
+        if((false !== $id_comment_del) && is_array($id_comment_del))
         {
-            foreach($_POST['id_comment_del'] as $id_comment)
+            foreach($id_comment_del as $id)
             {
                 $this->model->action( 'article','deleteComment',
-                                      array('id_comment' => (int)$id_comment ));
+                                      array('id_comment' => (int)$id ));
                                       
-                $this->addLogMessage( "Delete article comment: {$id_comment}" );
+                $this->addLogMessage( "Delete article comment: {$id}" );
             }
         }
     } 
