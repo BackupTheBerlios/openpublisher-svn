@@ -89,28 +89,6 @@ class ControllerNavigationControllers extends JapaControllerAbstractPage
         
         return true;
     }   
-    
-    private function isRegisteredPublicView()
-    {
-        $this->current_reg_nodes = array();
-        $this->model->action( 'navigation','getNodePublicControllers',
-                              array('result' => &$this->current_reg_nodes,
-                                    'fields' => array('id_controller','name')) );  
-
-        $controller = $this->httpRequest->getParameter('controller', 'post', 'raw');
-                                   
-        foreach($controller as $c_name)
-        {
-            foreach($this->current_reg_nodes as $_c)
-            {
-                if($c_name == $_c['name'])
-                {
-                    return $_c['id_controller'];
-                }
-            }
-        }
-        return false;
-    }
 }
 
 ?>
