@@ -10,24 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ViewArticleAddArticle
+ * ControllerArticleAddArticle
  *
  */
  
-class ViewArticleAddArticle extends JapaControllerAbstractPage
+class ControllerArticleAddArticle extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'addarticle';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/article/templates/';
-        
+    public $returnView = true;
+      
    /**
     * Perform on the main view
     *
@@ -35,33 +29,38 @@ class ViewArticleAddArticle extends JapaControllerAbstractPage
     public function perform()
     {
         // init template array to fill with node data
-        $this->tplVar['title']  = '';
+        $this->viewVar['title']  = '';
         // Init error array
-        $this->tplVar['error']  = array();
-        $this->tplVar['tree']   = array();
+        $this->viewVar['error']  = array();
+        $this->viewVar['tree']   = array();
 
-        if(isset($_REQUEST['id_node']))
+        $this->id_node         = $this->httpRequest->getParameter('id_node', 'request', 'digits');
+        $this->article_id_node = $this->httpRequest->getParameter('article_id_node', 'request', 'digits');
+        $this->title           = trim($this->httpRequest->getParameter('title', 'request', 'raw'));
+        $addarticle            = $this->httpRequest->getParameter('addarticle', 'post', 'alpha');
+
+        if(!empty($this->id_node))
         {
-            $this->tplVar['id_node'] = $_REQUEST['id_node'];
+            $this->viewVar['id_node'] = $this->id_node;
         }
         else
         {
-            $this->tplVar['id_node'] = '0';
+            $this->viewVar['id_node'] = '0';
         }
 
         // add link
-        if( isset($_POST['addarticle']) )
+        if( !empty($addarticle) )
         {
             if(TRUE === $this->validate())
             {
                 // check if id_node has changed
-                if($_REQUEST['id_node'] != $_REQUEST['article_id_node'])
+                if($this->id_node != $this->article_id_node)
                 {
-                    $id_node = $_REQUEST['article_id_node'];
+                    $id_node = $this->article_id_node;
                 } 
                 else
                 {
-                    $id_node = $_REQUEST['id_node'];
+                    $id_node = $this->id_node;
                 }
                 if(FALSE !== ($new_id_article = $this->addArticle( $id_node )))
                 {
@@ -69,18 +68,18 @@ class ViewArticleAddArticle extends JapaControllerAbstractPage
                     $this->model->action('article','lock',
                                          array('job'        => 'lock',
                                                'id_article' => (int)$new_id_article,
-                                               'by_id_user' => (int)$this->viewVar['loggedUserId']) );  
+                                               'by_id_user' => (int)$this->controllerVar['loggedUserId']) );  
 
-                    if($this->viewVar['loggedUserRole'] >= 60)
+                    if($this->controllerVar['loggedUserRole'] >= 60)
                     {
                         // get demanded article data
                         $this->model->action('article','addUser', 
-                                             array('id_user'     => (int)$this->viewVar['loggedUserId'],
+                                             array('id_user'     => (int)$this->controllerVar['loggedUserId'],
                                                    'id_article'  => (int)$new_id_article));
                     }
                     
                     // goto modarticle view
-                    @header('Location: '.$this->model->baseUrlLocation.'/'.JAPA_CONTROLLER.'?mod=article&view=modArticle&id_node='.$id_node.'&id_article='.$new_id_article);
+                    @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/article/cntr/modArticle/id_node/'.$id_node.'/id_article/'.$new_id_article);
                     exit;
                 }
             }
@@ -90,19 +89,19 @@ class ViewArticleAddArticle extends JapaControllerAbstractPage
         // get whole node tree
         $this->model->action('navigation','getTree', 
                              array('id_node' => 0,
-                                   'result'  => & $this->tplVar['tree'],
+                                   'result'  => & $this->viewVar['tree'],
                                    'fields'  => array('id_parent','status','id_node','title')));   
 
 
         // set template variable that show the link to add users
         // only if the logged user have at least editor rights
-        if($this->viewVar['loggedUserRole'] <= 40)
+        if($this->controllerVar['loggedUserRole'] <= 40)
         {
-            $this->tplVar['showAddArticleLink'] = TRUE;
+            $this->viewVar['showAddArticleLink'] = TRUE;
         }
         else
         {
-            $this->tplVar['showAddArticleLink'] = FALSE;
+            $this->viewVar['showAddArticleLink'] = FALSE;
         }
     }   
    /**
@@ -114,40 +113,40 @@ class ViewArticleAddArticle extends JapaControllerAbstractPage
     { 
         return $this->model->action('article', 'addArticle', 
                               array('id_node' => (int)$id_node,
-                                    'id_user' => (int)$this->viewVar['loggedUserId'],
-                                    'error'   => & $this->tplVar['error'],
-                                    'fields'  => array('title'  => JapaCommonUtil::stripSlashes((string)$_POST['title']),
+                                    'id_user' => (int)$this->controllerVar['loggedUserId'],
+                                    'error'   => & $this->viewVar['error'],
+                                    'fields'  => array('title'  => JapaCommonUtil::stripSlashes((string)$this->title),
                                                        'status'  => 2,
                                                        'format'  => $this->config['article']['default_format'])));        
     }
     
     private function validate()
     {
-        if(!isset($_REQUEST['id_node']))
+        if( false === $this->id_node)
         {
-            $this->tplVar['error'][] = '"id_node" isnt defined';
+            $this->viewVar['error'][] = '"id_node" isnt defined';
         }
 
-        if($_REQUEST['article_id_node'] == 0)
+        if($this->article_id_node == 0)
         {
-            $this->tplVar['error'][] = '"Top" navigation node isnt allowed';
+            $this->viewVar['error'][] = '"Top" navigation node isnt allowed';
         }        
         // fetch the current id_node. If no node the script assums that
         // we are at the top level with id_parent 0
-        if(!isset($_REQUEST['title'])) 
+        if(false === $this->title) 
         {
-            $this->tplVar['error'][] = 'Field "title" isnt defined';
+            $this->viewVar['error'][] = 'Field "title" isnt defined';
         }
-        elseif(!is_string($_REQUEST['title']))
+        elseif(!is_string($this->title))
         {
-            $this->tplVar['error'][] = 'Field "title" isnt from type string';
+            $this->viewVar['error'][] = 'Field "title" isnt from type string';
         }   
-        elseif(empty($_REQUEST['title']))
+        elseif(empty($this->title))
         {
-            $this->tplVar['error'][] = 'Field "title" is empty';
+            $this->viewVar['error'][] = 'Field "title" is empty';
         }             
 
-        if(count($this->tplVar['error']) > 0)
+        if(count($this->viewVar['error']) > 0)
         {
             return FALSE;
         }
@@ -160,7 +159,7 @@ class ViewArticleAddArticle extends JapaControllerAbstractPage
      */       
     private function resetFormData()
     {
-        $this->tplVar['title'] = htmlspecialchars ( JapaCommonUtil::stripSlashes((string)$_POST['title']), ENT_COMPAT, $this->config['charset'] );
+        $this->viewVar['title'] = htmlspecialchars ( JapaCommonUtil::stripSlashes((string)$this->title), ENT_COMPAT, $this->config['charset'] );
     }      
 }
 
