@@ -6,7 +6,7 @@
     <td width="21%" class="moduleheader">&nbsp;</td>
     <td width="19%" align="center" valign="middle" class="moduleheader">
   <?php if($view['disableMainMenu']!=TRUE): ?>
-     <a href="<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/article/cntr/views" class="font10">articles views</a>
+     <a href="<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/article/cntr/controllers" class="font10">article public controllers</a>
   <?php endif; ?> 
   </td>    
     <td width="17%" align="center" valign="middle" class="moduleheader">

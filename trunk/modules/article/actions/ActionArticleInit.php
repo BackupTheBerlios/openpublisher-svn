@@ -79,7 +79,7 @@ class ActionArticleInit extends JapaAction
             $this->config['article'][$key] = $val; 
         }
         
-        // this module try to find the view on the related public request var 'id_article'
+        // this module try to find the controller for a related public request var 'id_article'
         $this->config['controller_map']['id_article'] = 'article';        
     }     
     

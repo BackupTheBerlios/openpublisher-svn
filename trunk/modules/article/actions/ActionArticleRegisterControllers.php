@@ -10,18 +10,18 @@
 // ---------------------------------------------
 
 /**
- * ActionArticleRegisterViews
+ * ActionArticleRegisterControllers
  *
  * USAGE:
  *
- * $model->action('article','registerViews',
+ * $model->action('article','registerControllers',
  *                array('action'  => string,    // 'register' or 'unregister'
- *                      'id_view' => int,       // if action = 'unregister'
+ *                      'id_controller' => int,       // if action = 'unregister'
  *                      'name'    => string))   // if action = 'register'
  *
  */
  
-class ActionArticleRegisterViews extends JapaAction
+class ActionArticleRegisterControllers extends JapaAction
 {
     /**
      * register/unregister a node related view
@@ -33,7 +33,7 @@ class ActionArticleRegisterViews extends JapaAction
         if($data['action'] == 'register')
         {
             $sql = "
-                SELECT `id_view` FROM {$this->config['dbTablePrefix']}article_view
+                SELECT `id_controller` FROM {$this->config['dbTablePrefix']}article_public_controller
                  WHERE `name`='{$data['name']}'";
 
             $rs = $this->model->dba->query($sql);    
@@ -41,7 +41,7 @@ class ActionArticleRegisterViews extends JapaAction
             if($rs->numRows() == 0)
             {    
                 $sql = "
-                    INSERT INTO {$this->config['dbTablePrefix']}article_view
+                    INSERT INTO {$this->config['dbTablePrefix']}article_public_controller
                      (`name`)
                     VALUES
                      ('{$data['name']}')";
@@ -52,16 +52,16 @@ class ActionArticleRegisterViews extends JapaAction
         elseif($data['action'] == 'unregister')
         {
             $sql = "
-                DELETE FROM {$this->config['dbTablePrefix']}article_view
+                DELETE FROM {$this->config['dbTablePrefix']}article_public_controller
                 WHERE
-                   `id_view`={$data['id_view']}";
+                   `id_controller`={$data['id_controller']}";
 
             $this->model->dba->query($sql);
             
             $sql = "
-                DELETE FROM {$this->config['dbTablePrefix']}article_node_view_rel
+                DELETE FROM {$this->config['dbTablePrefix']}article_node_controller_rel
                 WHERE
-                   `id_view`={$data['id_view']}";
+                   `id_controller`={$data['id_controller']}";
 
             $this->model->dba->query($sql);            
         }        
@@ -83,9 +83,9 @@ class ActionArticleRegisterViews extends JapaAction
         {
             throw new JapaModelException ('"name" isnt defined or is empty');                 
         }
-        elseif( ($data['action'] == 'unregister') && (!isset($data['id_view']) || !is_int($data['id_view'])))
+        elseif( ($data['action'] == 'unregister') && (!isset($data['id_controller']) || !is_int($data['id_controller'])))
         {
-            throw new JapaModelException ('"id_view" isnt defined or is not from type int');                 
+            throw new JapaModelException ('"id_controller" isnt defined or is not from type int');                 
         }        
         return TRUE;
     }
