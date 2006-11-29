@@ -378,7 +378,7 @@ function cancel_edit(f)
           <select name="article_controller"> 
           <option value="0">none</option>          
           <?php foreach($view['articlePublicControllers'] as $controller): ?>
-              <option value="<?php echo $controller['id_controller']; ?>" <?php if($controller['article']['id_controller'] == $controller['id_controller']) echo 'selected="selected"'; ?>><?php echo $controller['name']; ?></option>
+              <option value="<?php echo $controller['id_controller']; ?>" <?php if($view['article']['id_controller'] == $controller['id_controller']) echo 'selected="selected"'; ?>><?php echo $controller['name']; ?></option>
           <?php endforeach; ?>
           </select>
       </td>

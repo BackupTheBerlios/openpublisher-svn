@@ -172,9 +172,9 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
         {
             // get all available registered article public views
             $this->viewVar['articlePublicControllers'] = array();
-            $this->model->action( 'article','getPublicViews',
+            $this->model->action( 'article','getPublicControllers',
                                   array('result' => &$this->viewVar['articlePublicControllers'],
-                                        'fields' => array('id_controller','name')) );             
+                                        'fields' => array('id_controller','name')) );           
        } 
        
        if($this->config['article']['use_comment'] == 1)
