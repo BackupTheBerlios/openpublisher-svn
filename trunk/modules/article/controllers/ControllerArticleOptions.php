@@ -10,23 +10,17 @@
 // ---------------------------------------------
 
 /**
- * ViewArticleOptions
+ * ControllerArticleOptions
  *
  */
  
-class ViewArticleOptions extends JapaControllerAbstractPage
+class ControllerArticleOptions extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'options';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/article/templates/';
+    public $returnView = true;
     
     /**
      * Submited config options data array
@@ -40,13 +34,12 @@ class ViewArticleOptions extends JapaControllerAbstractPage
     public function prependFilterChain()
     {
         // if no rights for the logged user, show error template
-        // only administrators can change options
-        if($this->viewVar['loggedUserRole'] > 20)
+        // Only administrators 
+        if($this->controllerVar['loggedUserRole'] > 20)
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'][] = 'You have not the rights to change navigation module options!';
-            $this->dontPerform = TRUE;
+            // reload admin
+            @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
+            exit;  
         }
     } 
     
@@ -61,10 +54,12 @@ class ViewArticleOptions extends JapaControllerAbstractPage
             return;
         }
         
-        $this->tplVar['error'] = array();
+        $this->viewVar['error'] = array();
         $this->fields  = array();
+
+        $updateOptions = $this->httpRequest->getParameter('updateOptions', 'post', 'alnum');
         
-        if(isset($_POST['updateOptions']))
+        if(!empty($updateOptions))
         {
             if(TRUE == $this->validatePostData())
             {
@@ -74,9 +69,9 @@ class ViewArticleOptions extends JapaControllerAbstractPage
         }
 
         // get all available public views
-        $this->tplVar['option'] = array();
+        $this->viewVar['option'] = array();
         $this->model->action( 'article','getAllConfigOptions',
-                              array('result' => &$this->tplVar['option']) );   
+                              array('result' => &$this->viewVar['option']) );   
                                            
         return TRUE;
     }   
@@ -86,55 +81,77 @@ class ViewArticleOptions extends JapaControllerAbstractPage
     */    
     private function validatePostData()
     {
-        if(isset($_POST['thumb_width']) && !empty($_POST['thumb_width']))
+        $thumb_width   = $this->httpRequest->getParameter('thumb_width', 'post', 'digits');
+        $img_size_max  = $this->httpRequest->getParameter('img_size_max', 'post', 'digits');
+        $file_size_max = $this->httpRequest->getParameter('file_size_max', 'post', 'digits');
+        $use_comment = $this->httpRequest->getParameter('use_comment', 'post', 'digits');
+        $default_comment_status = $this->httpRequest->getParameter('default_comment_status', 'post', 'digits');
+        $use_article_controller = $this->httpRequest->getParameter('use_article_controller', 'post', 'digits');
+        $use_article_controller = $this->httpRequest->getParameter('use_article_controller', 'post', 'digits');
+        $force_format  = $this->httpRequest->getParameter('force_format', 'post', 'digits');
+        $use_overtitle  = $this->httpRequest->getParameter('use_overtitle', 'post', 'digits');
+        $use_subtitle  = $this->httpRequest->getParameter('use_subtitle', 'post', 'digits');
+        $use_description  = $this->httpRequest->getParameter('use_description', 'post', 'digits');
+        $use_header  = $this->httpRequest->getParameter('use_header', 'post', 'digits');
+        $use_ps  = $this->httpRequest->getParameter('use_ps', 'post', 'digits');
+        $use_changedate  = $this->httpRequest->getParameter('use_changedate', 'post', 'digits');
+        $use_articledate  = $this->httpRequest->getParameter('use_articledate', 'post', 'digits');
+        $use_logo  = $this->httpRequest->getParameter('use_logo', 'post', 'digits');
+        $use_images  = $this->httpRequest->getParameter('use_images', 'post', 'digits');
+        $use_files  = $this->httpRequest->getParameter('use_files', 'post', 'digits');
+        $use_keywords  = $this->httpRequest->getParameter('use_keywords', 'post', 'digits');
+        $default_order  = $this->httpRequest->getParameter('default_order', 'post', 'raw');
+        $default_order_type  = $this->httpRequest->getParameter('default_order_type', 'post', 'alpha');
+        
+        if(!empty($thumb_width))
         {
-            if(($_POST['thumb_width'] > 10) && ($_POST['thumb_width'] <= 250))
+            if(($thumb_width > 10) && ($thumb_width <= 350))
             {
-                $this->fields['thumb_width'] = (int)$_POST['thumb_width'];
+                $this->fields['thumb_width'] = (int)$thumb_width;
             }
             else
             {
-                $this->tplVar['error'][] = "Thumbnail width must be between 10 and 250!";
+                $this->viewVar['error'][] = "Thumbnail width must be between 10 and 350!";
             }
         }
         else
         {
-            $this->tplVar['error'][] = "Thumbnail width field is empty!";
+            $this->viewVar['error'][] = "Thumbnail width field is empty!";
         }   
         
-        if(isset($_POST['img_size_max']) && !empty($_POST['img_size_max']))
+        if(!empty($img_size_max))
         {
-            if(($_POST['img_size_max'] > 0) && ($_POST['img_size_max'] <= 5000000))
+            if(($img_size_max > 0) && ($img_size_max <= 2000000))
             {
-                $this->fields['img_size_max'] = (int)$_POST['img_size_max'];
+                $this->fields['img_size_max'] = (int)$img_size_max;
             }
             else
             {
-                $this->tplVar['error'][] = "Image file size must be between 100 and 5000000!";
+                $this->viewVar['error'][] = "Image file size must be between 0 and 2000000!";
             }
         }
         else
         {
-            $this->tplVar['error'][] = "Image file size field is empty!";
+            $this->viewVar['error'][] = "Image file size field is empty!";
         }  
         
-        if(isset($_POST['file_size_max']) && !empty($_POST['file_size_max']))
+        if(!empty($file_size_max))
         {
-            if(($_POST['file_size_max'] > 0) && ($_POST['file_size_max'] <= 25000000))
+            if(($file_size_max > 0) && ($file_size_max <= 25000000))
             {
-                $this->fields['file_size_max'] = (int)$_POST['file_size_max'];
+                $this->fields['file_size_max'] = (int)$file_size_max;
             }
             else
             {
-                $this->tplVar['error'][] = "File size must be between 100 and 25000000!";
+                $this->viewVar['error'][] = "File size must be between 100 and 25000000!";
             }
         }
         else
         {
-            $this->tplVar['error'][] = "File size field is empty!";
+            $this->viewVar['error'][] = "File size field is empty!";
         }   
 
-        if(isset($_POST['use_comment']))
+        if(!empty($use_comment))
         {
             $this->fields['use_comment'] = 1;
         }
@@ -143,219 +160,159 @@ class ViewArticleOptions extends JapaControllerAbstractPage
             $this->fields['use_comment'] = 0;
         }  
 
-        if(isset($_POST['default_comment_status']))
+        if(!empty($default_comment_status))
         {
-            $this->fields['default_comment_status'] = (int)$_POST['default_comment_status'];
+            $this->fields['default_comment_status'] = (int)$default_comment_status;
         }  
 
-        if(isset($_POST['use_article_view']))
+        if(!empty($use_article_controller))
         {
-            $this->fields['use_article_view'] = 1;
+            $this->fields['use_article_controller'] = 1;
         }
         else
         {
-            $this->fields['use_article_view'] = 0;
+            $this->fields['use_article_controller'] = 0;
         }  
         
-        if(isset($_POST['force_format']) && !empty($_POST['force_format']))
+        if(!empty($force_format))
         {
-            if(($_POST['force_format'] >= 0) && ($_POST['force_format'] <= 2))
+            if(($force_format >= 0) && ($force_format <= 2))
             {
-                $this->fields['force_format'] = (int)$_POST['force_format'];
+                $this->fields['force_format'] = (int)$force_format;
             }
         } 
         
-        if(isset($_POST['default_format']) && !empty($_POST['default_format']))
+        if(!empty($default_format))
         {
-            if(($_POST['default_format'] >= 0) && ($_POST['default_format'] <= 2))
+            if(($default_format >= 0) && ($default_format <= 2))
             {
-                $this->fields['default_format'] = (int)$_POST['default_format'];
+                $this->fields['default_format'] = (int)$default_format;
             }
         }  
         
-        if(isset($_POST['use_overtitle']) && ($_POST['use_overtitle'] == '1'))
+        if(!empty($use_overtitle))
         {
-            $this->fields['use_overtitle'] = (int)$_POST['use_overtitle'];
+            $this->fields['use_overtitle'] = 1;
         }
         else
         {
             $this->fields['use_overtitle'] = 0;
         }
         
-        if(isset($_POST['use_subtitle']) && ($_POST['use_subtitle'] == '1'))
+        if(!empty($use_subtitle))
         {
-            $this->fields['use_subtitle'] = (int)$_POST['use_subtitle'];
+            $this->fields['use_subtitle'] = 1;
         } 
         else
         {
             $this->fields['use_subtitle'] = 0;
         }
         
-        if(isset($_POST['use_description']) && ($_POST['use_description'] == '1'))
+        if(!empty($use_description))
         {
-            $this->fields['use_description'] = (int)$_POST['use_description'];
+            $this->fields['use_description'] = 1;
         }
         else
         {
             $this->fields['use_description'] = 0;
         }
         
-        if(isset($_POST['use_header']) && ($_POST['use_header'] == '1'))
+        if(!empty($use_header))
         {
-            $this->fields['use_header'] = (int)$_POST['use_header'];
+            $this->fields['use_header'] = 1;
         } 
         else
         {
             $this->fields['use_header'] = 0;
         }  
         
-        if(isset($_POST['use_ps']) && ($_POST['use_ps'] == '1'))
+        if(!empty($use_ps))
         {
-            $this->fields['use_ps'] = (int)$_POST['use_ps'];
+            $this->fields['use_ps'] = 1;
         } 
         else
         {
             $this->fields['use_ps'] = 0;
         }         
 
-        if(isset($_POST['use_changedate']) && ($_POST['use_changedate'] == '1'))
+        if(!empty($use_changedate))
         {
-            $this->fields['use_changedate'] = (int)$_POST['use_changedate'];
+            $this->fields['use_changedate'] = 1;
         } 
         else
         {
             $this->fields['use_changedate'] = 0;
         }  
         
-        if(isset($_POST['use_articledate']) && ($_POST['use_articledate'] == '1'))
+        if(!empty($use_articledate))
         {
-            $this->fields['use_articledate'] = (int)$_POST['use_articledate'];
+            $this->fields['use_articledate'] = 1;
         } 
         else
         {
             $this->fields['use_articledate'] = 0;
         }         
         
-        if(isset($_POST['use_logo']) && ($_POST['use_logo'] == '1'))
+        if(!empty($use_logo))
         {
-            $this->fields['use_logo'] = (int)$_POST['use_logo'];
+            $this->fields['use_logo'] = 1;
         } 
         else
         {
             $this->fields['use_logo'] = 0;
         }        
         
-        if(isset($_POST['use_images']) && ($_POST['use_images'] == '1'))
+        if(!empty($use_images))
         {
-            $this->fields['use_images'] = (int)$_POST['use_images'];
+            $this->fields['use_images'] = 1;
         } 
         else
         {
             $this->fields['use_images'] = 0;
         }
         
-        if(isset($_POST['use_files']) && ($_POST['use_files'] == '1'))
+        if(!empty($use_files))
         {
-            $this->fields['use_files'] = (int)$_POST['use_files'];
+            $this->fields['use_files'] = 1;
         } 
         else
         {
-            $this->fields['use_files'] = (int)$_POST['use_files'];
+            $this->fields['use_files'] = 0;
         }
 
-        if(isset($_POST['default_order']))
+        if(!empty($default_order))
         {
-            $this->fields['default_order'] = (string)$_POST['default_order'];
+            $this->fields['default_order'] = (string)$default_order;
         } 
         else
         {
             $this->fields['default_order'] = 'rank';
         }
         
-        if(isset($_POST['default_ordertype']))
+        if(!empty($default_ordertype))
         {
-            $this->fields['default_ordertype'] = (string)$_POST['default_ordertype'];
+            $this->fields['default_ordertype'] = (string)$default_ordertype;
         } 
         else
         {
             $this->fields['default_ordertype'] = 'asc';
         }
 
-        if(isset($_POST['use_keywords']))
+        if(!empty($use_keywords))
         {
-            $this->fields['use_keywords'] = (int)$_POST['use_keywords'];
+            $this->fields['use_keywords'] = 1;
         } 
         else
         {
             $this->fields['use_keywords'] = 0;
         }
         
-        if(count($this->tplVar['error']) > 0)
+        if(count($this->viewVar['error']) > 0)
         {
-            $this->resetFields();
             return FALSE;
         }
         
         return TRUE;
-    }
-   /**
-    * reset form data
-    *
-    */      
-    private function resetFields()
-    {
-        $this->tplVar['option'] = array();
-        if(isset($_POST['thumb_width']))
-        {
-            $this->tplVar['option']['thumb_width']  = (int)JapaCommonUtil::stripSlashes($_POST['thumb_width']);   
-        }
-        if(isset($_POST['img_size_max']))
-        {
-            $this->tplVar['option']['img_size_max'] = (int)JapaCommonUtil::stripSlashes($_POST['img_size_max']);   
-        }
-        if(isset($_POST['file_size_max']))
-        {
-            $this->tplVar['option']['file_size_max'] = (int)JapaCommonUtil::stripSlashes($_POST['file_size_max']);   
-        }
-        if(isset($_POST['use_overtitle']))
-        {
-            $this->tplVar['option']['use_overtitle']  = (int)JapaCommonUtil::stripSlashes($_POST['use_overtitle']);   
-        }
-        if(isset($_POST['use_subtitle']))
-        {
-            $this->tplVar['option']['use_subtitle'] = (int)JapaCommonUtil::stripSlashes($_POST['use_subtitle']);   
-        }
-        if(isset($_POST['use_description']))
-        {        
-            $this->tplVar['option']['use_description'] = (int)JapaCommonUtil::stripSlashes($_POST['use_description']);   
-        }
-        if(isset($_POST['use_header']))
-        {           
-            $this->tplVar['option']['use_header']  = (int)JapaCommonUtil::stripSlashes($_POST['use_header']);   
-        }
-        if(isset($_POST['use_ps']))
-        {         
-            $this->tplVar['option']['use_ps'] = (int)JapaCommonUtil::stripSlashes($_POST['use_ps']);   
-        }
-        if(isset($_POST['use_changedate']))
-        { 
-            $this->tplVar['option']['use_changedate'] = (int)JapaCommonUtil::stripSlashes($_POST['use_changedate']);   
-        }
-        if(isset($_POST['use_articledate']))
-        { 
-            $this->tplVar['option']['use_articledate']  = (int)JapaCommonUtil::stripSlashes($_POST['use_articledate']);   
-        }
-        if(isset($_POST['use_logo']))
-        { 
-            $this->tplVar['option']['use_logo'] = (int)JapaCommonUtil::stripSlashes($_POST['use_logo']);   
-        }
-        if(isset($_POST['use_images']))
-        { 
-            $this->tplVar['option']['use_images'] = (int)JapaCommonUtil::stripSlashes($_POST['use_images']);   
-        }
-        $this->tplVar['option']['default_order'] = (string)JapaCommonUtil::stripSlashes($_POST['default_order']);   
-        $this->tplVar['option']['default_ordertype'] = (string)JapaCommonUtil::stripSlashes($_POST['default_ordertype']);   
-        $this->tplVar['option']['default_comment_status'] = (int)JapaCommonUtil::stripSlashes($_POST['default_comment_status']);   
     }
 }
 
