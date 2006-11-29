@@ -149,7 +149,7 @@ class ActionArticleSetup extends JapaAction
                  `default_ordertype` varchar(4) NOT NULL default '',
                  `default_comment_status` tinyint(1) NOT NULL default 2,
                  `use_comment`       tinyint(1) NOT NULL default 1,
-                 `use_article_view`  tinyint(1) NOT NULL default 1,
+                 `use_article_controller`  tinyint(1) NOT NULL default 1,
                  `use_users`         tinyint(1) NOT NULL default 0,
                  `use_keywords`      tinyint(1) NOT NULL default 1,
                  `use_articledate`   tinyint(1) NOT NULL default 0,
@@ -236,9 +236,9 @@ class ActionArticleSetup extends JapaAction
                                      {$data['dbtablesprefix']}article_media_file,
                                      {$data['dbtablesprefix']}article_config,
                                      {$data['dbtablesprefix']}article_comment,
-                                     {$data['dbtablesprefix']}article_view,
-                                     {$data['dbtablesprefix']}article_view_rel,
-                                     {$data['dbtablesprefix']}article_node_view_rel";
+                                     {$data['dbtablesprefix']}article_controller,
+                                     {$data['dbtablesprefix']}article_controller_rel,
+                                     {$data['dbtablesprefix']}article_node_controller_rel";
         $this->model->dba->query($sql);  
     }
 }
