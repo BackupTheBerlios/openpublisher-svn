@@ -296,12 +296,12 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
             $noRedirect = TRUE;
         }
         // delete file
-        elseif(!empty($this->article_imageID2del))
+        elseif(!empty($this->article_fileID2del))
         {   
             $this->model->action('article','deleteItem',
                                  array('id_article' => (int)$this->current_id_article,
                                        'error'      => & $this->viewVar['error'],
-                                       'id_file'    => (int)$this->article_imageID2del) );
+                                       'id_file'    => (int)$this->article_fileID2del) );
                                        
             $this->addLogMessage( "Delete files" );
             $noRedirect = TRUE;
@@ -310,7 +310,7 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
         // update picture data if there images
         if(!empty($this->article_picid) && is_array($this->article_picid))
         {
-            $picdesc = $this->httpRequest->getParameter( 'picdesc', 'post', 'raw' );
+            $picdesc  = $this->httpRequest->getParameter( 'picdesc', 'post', 'raw' );
             $pictitle = $this->httpRequest->getParameter( 'pictitle', 'post', 'raw' );
             
             $this->model->action( 'article','updateItem',
@@ -327,7 +327,7 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
         // update file data if there file attachments
         if(!empty($this->article_fileid) && is_array($this->article_fileid))
         {
-            $filedesc = $this->httpRequest->getParameter( 'filedesc', 'post', 'raw' );
+            $filedesc  = $this->httpRequest->getParameter( 'filedesc', 'post', 'raw' );
             $filetitle = $this->httpRequest->getParameter( 'filetitle', 'post', 'raw' );
             
             $this->model->action( 'article','updateItem',
