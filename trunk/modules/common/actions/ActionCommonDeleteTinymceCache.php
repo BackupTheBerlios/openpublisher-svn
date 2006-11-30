@@ -30,7 +30,7 @@ class ActionCommonDeleteTinymceCache extends JapaAction
         {
             while ( (( $_file = readdir( $handle ) )) != false )
             {
-                if ( ( $_file == "." ) || ( $_file == ".." ) || ($_file == '.htaccess') )
+                if ( ( $_file == "." ) || ( $_file == ".." ) || ($_file == '.htaccess') || ($_file == '.svn') )
                 {
                     continue;
                 }
@@ -52,6 +52,11 @@ class ActionCommonDeleteTinymceCache extends JapaAction
         }
         return TRUE;
     } 
+    
+    public function validate( $data = false )
+    { 
+        return true;
+    }
 }
 
 ?>

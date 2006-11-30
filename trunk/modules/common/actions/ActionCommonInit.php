@@ -36,7 +36,7 @@ class ActionCommonInit extends JapaAction
     /**
      * Open Publisher Version
      */
-    const OPEN_PUBLISHER_VERSION = '1.0a';   
+    const OPEN_PUBLISHER_VERSION = '1.1a';   
     
     /**
      * Common Module Version
@@ -115,7 +115,7 @@ class ActionCommonInit extends JapaAction
         // set base url and logged user vars, except if the cli controller is used
         if($this->config['controller_type'] != 'cli')
         {
-            $this->model->baseUrlLocation = $this->base_location();
+            //$this->model->baseUrlLocation = $this->base_location();
             
             $this->config['loggedUserId']   = $this->model->session->get('loggedUserId');
             $this->config['loggedUserRole'] = $this->model->session->get('loggedUserRole');
@@ -163,6 +163,7 @@ class ActionCommonInit extends JapaAction
         while($row = $rs->fetchAssoc())
         {
             $this->config['module'][$row['name']] = $row;
+            $this->config[$row['name']] = unserialize($row['config']);
             $this->model->register($row['name'], $row); 
         } 
     }
@@ -206,9 +207,9 @@ class ActionCommonInit extends JapaAction
      */    
     private function checkOpenPublisherVersion()
     {
-        if(0 != version_compare(self::OPEN_PUBLISHER_VERSION, $this->config['op_version']))
+        if(0 != version_compare($this->config['op_version'], self::OPEN_PUBLISHER_VERSION))
         {
-            $this->model->broadcast('smartCoreNewVersion',
+            $this->model->action('common','japaCoreNewVersion',
                                  array('new_version' => (string)self::OPEN_PUBLISHER_VERSION));           
         }
     } 
@@ -232,54 +233,7 @@ class ActionCommonInit extends JapaAction
             throw new JapaModelException( "It seem that there isnt the php extension 'mysql' nor 'mysqli' installed on your system. Check this!" );        
         }
     }    
-    
-    /**
-     * Get the base location
-     *
-     * @return string base location
-     */
-    private function base_location()
-    {
-        $base_dirname = dirname($_SERVER['PHP_SELF']);
-
-        if($base_dirname == '/' )
-            $base_dirname = '';
-
-        if(isset($_SERVER['SCRIPT_URI']))
-        {
-            $referer = $_SERVER['SCRIPT_URI'];
-        }
-        elseif(isset($_SERVER["HTTP_REFERER"]))
-        {
-            $referer = $_SERVER["HTTP_REFERER"];
-        }
-        elseif(isset($_ENV["HTTPS"]))
-        {
-            $referer = $_ENV["HTTPS"];
-        }
-        else
-        {
-            $referer = 'http://';
-        }
-        
-        // Build the http protocol referrer
-        //
-        if(preg_match("/^http([s]?)/i", $referer, $tmp))
-        {
-            $http = 'http' . $tmp[1] . '://';
-        }
-        elseif(preg_match("/^on$/i", $referer))
-        {
-            $http = 'https://';
-        }    
-        else
-        {
-            $http = $referer;
-        }    
-        
-        return $http . $_SERVER['HTTP_HOST'] . $base_dirname;
-    }   
-    
+       
     /**
      * init and start session
      *
