@@ -46,7 +46,7 @@ class ControllerLogout extends JapaControllerAbstractPage
         
         }
         // reload the public web controller
-        @header('Location: ' . $this->config['public_web_controller']);
+        @header('Location: ' . $this->httpRequest->getBaseUrl());
         exit; 
     }
 }
