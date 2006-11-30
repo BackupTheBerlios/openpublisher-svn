@@ -6,9 +6,10 @@
 <head>
 
 <!-- --- AJAX --- -->
-<script type='text/javascript' src='ajaxserver.php?client=all&amp;stub=all&amp;cntr=articleAjax'></script>
-<script type='text/javascript' src='<?php echo $view['urlScripts']; ?>ArticleAjax.js'></script>
+<script type='text/javascript' src='<?php echo $view['urlAjax']; ?>/ajaxserver.php?client=all&amp;stub=all&amp;cntr=articleAjax'></script>
+<script type='text/javascript' src='<?php echo $view['urlScripts']; ?>/ArticleAjax.js'></script>
 
+<!-- --- show fullsize image--- -->
 <script language="JavaScript" type="text/JavaScript">
     function showimage(theURL,widthx,heightx){
         w = widthx+20;
@@ -17,7 +18,7 @@
 } 
 </script>
 
-<title>SMART3 PHP5 Framework - Ajax</title>
+<title>Open Publisher PHP5 CMS - <?php echo $view['article']['title'];  ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
 <meta name="robots" content="index, follow" />
 
