@@ -297,7 +297,7 @@ class ControllerArticle extends JapaControllerAbstractPage
                 // set url vars to come back to this page after login
                 $this->model->session->set('url','id_article/'.$this->current_id_article);
                 // switch to the login page
-                @header('Location: '.$this->viewVar['urlBase'].'/cntr/login');
+                @header('Location: '.$this->httpRequest->getBaseUrl().'/cntr/login');
                 exit;
             }
         }
