@@ -98,7 +98,7 @@
          <div id="commentmessage"><?php echo $view['commentMessage']; ?></div>
        <?php endif; ?>                      
                         
-       <form name="comment" accept-charset="<?php echo $view['charset']; ?>" method="post" action="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $view['article']['id_article']; ?>#commentform">
+       <form name="comment" accept-charset="<?php echo $view['charset']; ?>" method="post" action="<?php echo $view['urlBase']; ?>/id_article/<?php echo $view['article']['id_article']; ?>#commentform">
        <dl id="commentformelements">
          <dd class="commentFormCol1">
            Author: 

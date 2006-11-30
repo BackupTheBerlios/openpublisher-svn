@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewArticle class
+ * ControllerArticle class
  *
  * 
  *
@@ -120,7 +120,7 @@ class ControllerArticle extends JapaControllerAbstractPage
         // Allow comments for just this article
         //
         //
-        if(( $this->config['article']['use_comment']   == 1 ) &&
+        if(( $this->config['article']['use_comment']    == 1 ) &&
              $this->viewVar['article']['allow_comment'] == 1 )
         {
             $this->viewVar['commentMessage'] = '';
@@ -134,15 +134,19 @@ class ControllerArticle extends JapaControllerAbstractPage
             //
             if($this->viewVar['article']['close_comment'] == 0)
             {
-                $this->viewVar['showCommentForm'] = TRUE;
+                $this->viewVar['showCommentForm'] = true;
                 // create capcha picture and public key
                 $this->model->action( 'common','captchaMake',
                                       array( 'captcha_pic' => &$this->viewVar['captcha_pic'],
                                              'public_key'  => &$this->viewVar['public_key'],
-                                             'configPath'  => &$this->config['config_path']));                
+                                             'configPath'  => &$this->config['config_path'],
+                                             'picture_folder' => $this->viewVar['urlBase'].'/data/common/captcha',));                
+
+                $addComment     = $this->httpRequest->getParameter('addComment', 'post', 'alpha');
+                $previewComment = $this->httpRequest->getParameter('previewComment', 'post', 'alpha');
 
                 // add comment
-                if(isset($_POST['addComment']) || isset($_POST['previewComment']))
+                if(!empty($addComment) || !empty($previewComment))
                 {
                     $this->addComment();
                 }
@@ -163,6 +167,8 @@ class ControllerArticle extends JapaControllerAbstractPage
                 $comment['body'] = $this->addHtmlToComments( $comment['body'] );
             }
         }
+        
+        // get results from header,footer and rightBorder controllers
         $this->viewVar['header']      = $this->controllerLoader->header();
         $this->viewVar['footer']      = $this->controllerLoader->footer();  
         $this->viewVar['rightBorder'] = $this->controllerLoader->rightBorder();   
@@ -176,20 +182,20 @@ class ControllerArticle extends JapaControllerAbstractPage
     {
         // Check if the visitor is a logged user
         //
-        if(NULL == ($this->viewVar['loggedUserId'] = $this->model->session->get('loggedUserId')))
+        if(null == ($this->viewVar['loggedUserId'] = $this->model->session->get('loggedUserId')))
         {
-            $this->viewVar['isUserLogged'] = FALSE; 
+            $this->viewVar['isUserLogged'] = false; 
         }
         else
         {
-            $this->viewVar['isUserLogged'] = TRUE;
+            $this->viewVar['isUserLogged'] = true;
         }
 
         $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');
         
-        if( ($this->viewVar['isUserLogged'] == TRUE) && ($this->viewVar['loggedUserRole'] < 100) )
+        if( ($this->viewVar['isUserLogged'] == true) && ($this->viewVar['loggedUserRole'] < 100) )
         {
-            $this->viewVar['showEditLink'] = TRUE; 
+            $this->viewVar['showEditLink'] = true; 
         } 
     }
 
@@ -202,21 +208,8 @@ class ControllerArticle extends JapaControllerAbstractPage
         // filter action of the common module to prevent browser caching
         $this->model->action( 'common', 'filterDisableBrowserCache');    
         
-        // validate id_article and view request var
-        // 
-        if( !isset($_GET['id_article'])   || 
-            is_array($_GET['id_article']) || 
-            preg_match("/[^0-9]+/",$_GET['id_article']) ) 
-        {
-            $this->template          = 'error';   
-            $this->viewVar['message'] = "Wrong id_article value";
-            $this->dontPerform = TRUE;
-            return; 
-        }           
-        else
-        {
-            $this->current_id_article = (int)$_GET['id_article'];         
-        }
+        // get id_article
+        $this->current_id_article = $this->httpRequest->getParameter('id_article', 'get', 'int');
         
         // check permission to access this article if it has status protected
         $this->checkPermission();
@@ -255,11 +248,11 @@ class ControllerArticle extends JapaControllerAbstractPage
         $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
         
         // template var with css folder
-        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
+        $this->viewVar['cssFolder']    = JAPA_PUBLIC_DIR . 'styles/default/';
         $this->viewVar['scriptFolder'] = JAPA_PUBLIC_DIR . 'scripts/default/';
         $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
         $this->viewVar['urlAjax'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'];
-        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
+        $this->viewVar['urlCss']  = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
         $this->viewVar['urlScripts'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['scriptFolder'];
     }
 
@@ -276,31 +269,31 @@ class ControllerArticle extends JapaControllerAbstractPage
                                        array('id_article' => (int)$this->current_id_article,
                                              'result'     => & $result));  
 
-        if( ($valide == FALSE)             ||
+        if( ($valide == false)             ||
             ($result['nodeStatus']    < 2) || 
             ($result['articleStatus'] < 4))
         {
-            $this->template          = 'error'; 
+            $this->view               = 'error'; 
             $this->viewVar['message'] = "The requested article isnt accessible";
             // template var with charset used for the html pages
             $this->viewVar['charset'] = & $this->config['charset'];   
             
-            $this->dontPerform = TRUE;
+            $this->dontPerform = true;
             // disable caching
             $this->cacheExpire = 0;
             return;
         } 
 
-        if( $this->viewVar['isUserLogged'] == FALSE )
+        if( $this->viewVar['isUserLogged'] == false )
         {
             // the requested article is only available for registered users
             if( ($result['nodeStatus']    == 3) || 
                 ($result['articleStatus'] == 5) )
             {
                 // set url vars to come back to this page after login
-                $this->model->session->set('url','id_article='.$this->current_id_article);
+                $this->model->session->set('url','id_article/'.$this->current_id_article);
                 // switch to the login page
-                @header('Location: '.SMART_CONTROLLER.'?view=login');
+                @header('Location: '.$this->viewVar['urlBase'].'/cntr/login');
                 exit;
             }
         }
@@ -311,50 +304,64 @@ class ControllerArticle extends JapaControllerAbstractPage
      */     
     private function addComment()
     {
+        $captcha_turing_key = trim($this->httpRequest->getParameter('captcha_turing_key', 'post', 'alnum'));
+        $captcha_public_key = trim($this->httpRequest->getParameter('captcha_public_key', 'post', 'alnum'));
+
+        $this->cauthor = trim($this->httpRequest->getParameter('cauthor', 'post', 'raw'));
+        $this->curl    = trim($this->httpRequest->getParameter('curl', 'post', 'raw'));
+        $this->cemail  = trim($this->httpRequest->getParameter('cemail', 'post', 'raw'));
+        $this->cbody   = trim($this->httpRequest->getParameter('cbody', 'post', 'raw'));
+        
         // validate captcha turing/public keys
-        if (FALSE == $this->model->action( 'common','captchaValidate',
-                                           array('turing_key'  => (string)$_POST['captcha_turing_key'],
-                                                 'public_key'  => (string)$_POST['captcha_public_key'],
+        if (false == $this->model->action( 'common','captchaValidate',
+                                           array('turing_key'  => (string)$captcha_turing_key,
+                                                 'public_key'  => (string)$captcha_public_key,
                                                  'configPath'  => (string)$this->config['config_path'])))
         {
             $this->viewVar['commentMessage'] = 'Wrong turing key';
             $this->resetFormData();
-            return TRUE;
-        }
-        
-        if( FALSE == $this->validateEmail( $_POST['cemail'] )  )
-        {
-            $this->resetFormData();
-            return TRUE;
+            return true;
         }
 
-        if( empty($_POST['author']) )
+        $cemail = $this->httpRequest->getParameter('cemail', 'post', 'raw');
+        
+        if( false == $this->validateEmail( $cemail )  )
         {
-            $_POST['author'] = 'annonymous';
+            $this->resetFormData();
+            return true;
+        }
+
+        $author = $this->httpRequest->getParameter('author', 'post', 'raw');
+
+        if( empty($author) )
+        {
+            $author = 'annonymous';
         }  
+
+        $previewComment = $this->httpRequest->getParameter('previewComment', 'post', 'alnum');
         
         // assign template vars for comment preview
         //
-        if( isset($_POST['previewComment']) )
+        if( !empty($previewComment) )
         {
-            $this->viewVar['showCommentPreview'] = TRUE;
+            $this->viewVar['showCommentPreview'] = true;
             
-            $this->viewVar['commentPreview']['author'] = $this->strip( $_POST['cauthor'] );
-            $this->viewVar['commentPreview']['url']    = $this->strip( $_POST['curl'] );
-            $this->viewVar['commentPreview']['email']  = $this->strip( $_POST['cemail'] );
-            $this->viewVar['commentPreview']['body']   = $this->addHtmlToComments( $this->strip( $_POST['cbody'] ) );
+            $this->viewVar['commentPreview']['author'] = $this->strip( $this->cauthor );
+            $this->viewVar['commentPreview']['url']    = $this->strip( $this->curl );
+            $this->viewVar['commentPreview']['email']  = $this->strip( $this->cemail );
+            $this->viewVar['commentPreview']['body']   = $this->addHtmlToComments( $this->strip( $this->cbody ) );
             $this->resetFormData();
-            return TRUE;
+            return true;
         }
         
-        if(!empty($_POST['cbody']))
+        if(!empty($this->cbody))
         {
             $this->model->action('article', 'addComment',
                    array('fields' => array('id_article' => (int)$this->current_id_article,
-                                           'author'     => (string) $this->strip( $_POST['cauthor'] ),
-                                           'url'        => (string) $this->strip( $_POST['curl'] ),
-                                           'email'      => (string) $this->strip( $_POST['cemail'] ),
-                                           'body'       => (string) $this->strip( $_POST['cbody'] )) ));
+                                           'author'     => (string) $this->strip( $this->cauthor ),
+                                           'url'        => (string) $this->strip( $this->curl ),
+                                           'email'      => (string) $this->strip( $this->cemail ),
+                                           'body'       => (string) $this->strip( $this->cbody )) ));
 
 
             // Send emails if a new comment was made?
@@ -367,7 +374,7 @@ class ControllerArticle extends JapaControllerAbstractPage
             }
             else
             {
-                header('Location: index.php?id_article='.$this->current_id_article.'#comments');
+                header('Location: '.$this->viewVar['urlBase'].'/id_article/'.$this->current_id_article.'#comments');
                 exit;
             }
         }
@@ -386,12 +393,12 @@ class ControllerArticle extends JapaControllerAbstractPage
         if(!strstr($email, "\n")  &&
            (strlen($email) < 255) )
         {
-            return TRUE;
+            return true;
         }
         else
         {
             $this->viewVar['commentMessage'] = "The email field has wrong values!";
-            return FALSE;
+            return false;
         }    
     }
     /**
@@ -408,10 +415,10 @@ class ControllerArticle extends JapaControllerAbstractPage
      */     
     private function resetFormData()
     {
-        $this->viewVar['cauthor'] = htmlentities($this->strip($_POST['cauthor']), ENT_COMPAT, $this->config['charset']);     
-        $this->viewVar['cemail']  = htmlentities($this->strip($_POST['cemail']), ENT_COMPAT, $this->config['charset']);     
-        $this->viewVar['curl']    = htmlentities($this->strip($_POST['curl']), ENT_COMPAT, $this->config['charset']);     
-        $this->viewVar['cbody']   = htmlentities($this->strip($_POST['cbody']), ENT_COMPAT, $this->config['charset']); 
+        $this->viewVar['cauthor'] = htmlentities($this->strip($this->cauthor), ENT_COMPAT, $this->config['charset']);     
+        $this->viewVar['cemail']  = htmlentities($this->strip($this->cemail), ENT_COMPAT, $this->config['charset']);     
+        $this->viewVar['curl']    = htmlentities($this->strip($this->curl), ENT_COMPAT, $this->config['charset']);     
+        $this->viewVar['cbody']   = htmlentities($this->strip($this->cbody), ENT_COMPAT, $this->config['charset']); 
     }  
     /**
      * send email(s) on new comments
@@ -428,7 +435,7 @@ class ControllerArticle extends JapaControllerAbstractPage
                                    'fields'  => array('email') ));   
 
         $adminBody  = 'Hi,<br>A new comment was added to the following article:';        
-        $adminBody .= '<a href="'.$this->config['site_url'].'?id_article='.$this->viewVar['article']['id_article'].'">'.$this->viewVar['article']['title'].'</a>';
+        $adminBody .= '<a href="'.$this->httpRequest->getBaseUrl().'/id_article/'.$this->viewVar['article']['id_article'].'">'.$this->viewVar['article']['title'].'</a>';
         
         if($this->config['article']['default_comment_status'] == 1)
         {
