@@ -2,7 +2,7 @@
 <?php if($view['use_keywords']==1): ?>
   function keywordmap(){
     mm='scrollbars=1,toolbar=0,menubar=0,resizable=yes,width=500,height=450';
-    newwindow= window.open('<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/nodecoration/1/mod/keyword/cntr/map/openerModule/article/opener_url_vars=<?php echo $view['opener_url_vars']; ?>','',mm); }
+    newwindow= window.open('<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/nodecoration/1/mod/keyword/cntr/map/openerModule/article/opener_url_vars/<?php echo $view['opener_url_vars']; ?>','',mm); }
 <?php endif; ?>
 
   function usermap(){
