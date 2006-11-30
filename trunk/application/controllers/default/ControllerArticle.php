@@ -439,7 +439,7 @@ class ControllerArticle extends JapaControllerAbstractPage
                                    'fields'  => array('email') ));   
 
         $adminBody  = 'Hi,<br>A new comment was added to the following article:';        
-        $adminBody .= '<a href="'.$this->httpRequest->getBaseUrl().'/id_article/'.$this->viewVar['article']['id_article'].'">'.$this->viewVar['article']['title'].'</a>';
+        $adminBody .= '<a href="http://'.$this->httpRequest->getBaseUrl().'/id_article/'.$this->viewVar['article']['id_article'].'">'.$this->viewVar['article']['title'].'</a>';
         
         if($this->config['article']['default_comment_status'] == 1)
         {
