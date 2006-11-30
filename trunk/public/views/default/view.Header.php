@@ -14,7 +14,7 @@
   
   <!-- show logout links if user is logged -->
   <?php if($view['isUserLogged'] == TRUE): ?>
-    <a href="<?php echo $view['urlBase']; ?>/ctnr/logout">Logout</a>
+    <a href="<?php echo $view['urlBase']; ?>/cntr/logout">Logout</a>
   <?php else: ?>
     <a href="<?php echo $view['urlBase']; ?>/cntr/login">Login</a>
   <?php endif; ?> &nbsp;&nbsp;   
