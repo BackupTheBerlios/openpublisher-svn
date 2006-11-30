@@ -211,6 +211,14 @@ class ControllerArticle extends JapaControllerAbstractPage
         // get id_article
         $this->current_id_article = $this->httpRequest->getParameter('id_article', 'get', 'int');
         
+        // get cache var
+        // when post comments the cache is disabled
+        $get_cache_time = $this->httpRequest->getParameter('cache', 'get', 'int');
+        if((false !== $get_cache_time) && ($get_cache_time == 0))
+        {
+            $this->cacheExpire = 0;
+        }
+        
         // check permission to access this article if it has status protected
         $this->checkPermission();
     }
