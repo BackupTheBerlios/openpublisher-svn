@@ -38,8 +38,7 @@ class ControllerArticle extends JapaControllerAbstractPage
         // init variables (see private function below)
         $this->initVars();
 
-        // We need an other template for the ajax demonstration (german/english article)
-        // "Smart3 and Ajax" article
+        // We need an other template for the ajax demonstration
         if($this->current_id_article == 7)
         {
             $this->view = 'ArticleAjax';
@@ -89,8 +88,7 @@ class ControllerArticle extends JapaControllerAbstractPage
         // if there are article related keywords, 
         if(count($keywords) > 0)
         {
-            // get articles which have the same keywords
-            // except the current article
+            // get articles which have the same keywords as the current article
             $exclude_id_article = array( $this->current_id_article );
             $this->model->action('article','fromKeyword',
                                  array('id_key_list' => & $keywords,
@@ -145,7 +143,7 @@ class ControllerArticle extends JapaControllerAbstractPage
                 $addComment     = $this->httpRequest->getParameter('addComment', 'post', 'alpha');
                 $previewComment = $this->httpRequest->getParameter('previewComment', 'post', 'alpha');
 
-                // add comment
+                // add or preview comment
                 if(!empty($addComment) || !empty($previewComment))
                 {
                     $this->addComment();
@@ -161,7 +159,7 @@ class ControllerArticle extends JapaControllerAbstractPage
                                                            'body','id_user',
                                                            'author','email','url') )); 
 
-            // add html code to comments (ex.: nl2br)
+            // add html code to comments
             foreach($this->viewVar['articleComments'] as & $comment)
             {
                 $comment['body'] = $this->addHtmlToComments( $comment['body'] );
@@ -248,19 +246,17 @@ class ControllerArticle extends JapaControllerAbstractPage
         
         // template var with charset used for the html pages
         $this->viewVar['charset']   = & $this->config['charset'];
-        // template var with css folder
-        $this->viewVar['cssFolder'] = & $this->config['css_folder'];
         
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
         $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
         
         // template var with css folder
-        $this->viewVar['cssFolder']    = JAPA_PUBLIC_DIR . 'styles/default/';
-        $this->viewVar['scriptFolder'] = JAPA_PUBLIC_DIR . 'scripts/default/';
+        $this->viewVar['cssFolder']    = 'public/styles/'.$this->config['styles_folder'];
+        $this->viewVar['scriptFolder'] = 'public/scripts/default';
         $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
         $this->viewVar['urlAjax'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'];
-        $this->viewVar['urlCss']  = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
+        $this->viewVar['urlCss']  = $this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
         $this->viewVar['urlScripts'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['scriptFolder'];
     }
 
