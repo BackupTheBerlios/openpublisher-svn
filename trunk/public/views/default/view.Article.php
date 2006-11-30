@@ -1,13 +1,10 @@
-<!-- this line puts IE in quirk mode -->
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>SMART3 PHP5 Framework</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
-<meta name="robots" content="index, follow" />
 
+<meta name="robots" content="index, follow" />
 <meta name="author" content="" />
 <meta name="description" content="" />
 <meta name="keywords" content="" />
@@ -23,6 +20,8 @@
 } 
 </script>
 
+<title>Open Publisher PHP5 CMS - <?php echo $view['article']['title'];  ?></title>
+
 </head>
 
 <body>
@@ -30,8 +29,10 @@
 <!-- --- include header view --- -->
 <?php echo $view['header'];?>
 
+<!-- --- Middle + right column --- -->
 <div id="main">
 
+<!-- --- Left column of main --- -->
 <div id="mainleft"> 
    <!-- --- show current navigation node branche --- -->
    <div id="branch">
@@ -42,28 +43,37 @@
     <hr class="hr" />
    </div>
    
-   <!-- print title and body of a navigation node -->
+   <!-- print article overtitle -->
    <?php if(!empty($view['article']['overtitle'])): ?>
       <div class="overtitle"><?php echo $view['article']['overtitle'];  ?></div>
    <?php endif; ?>
+   
+   <!-- print article title -->
    <h3><?php echo $view['article']['title'];  ?></h3>
    
+   <!-- print article subtitle -->
    <?php if(!empty($view['article']['subtitle'])): ?>
       <div class="subtitle"><?php echo $view['article']['subtitle'];  ?></div>
    <?php endif; ?>
    
+   <!-- print article pubdate + modifydate -->
    <div class="date">Publish date: <?php echo $view['article']['pubdate']; ?></div>
    <div class="date">Modify date:  <?php echo $view['article']['modifydate']; ?></div>
 
-   <!-- --- show edit link if user is logged --- -->
+   <!-- --- show edit article link if user is logged --- -->
    <?php if(isset($view['showEditLink'])): ?>
      <div style="text-align: right;font-size: 1.2em;"><a href="<?php echo $view['urlBase']; ?>/Module/mod/article/cntr/editArticle/id_node/<?php echo $view['article']['id_node'];  ?>/id_article/<?php echo $view['article']['id_article'];  ?>&disableMainMenu=1">edit this article</a></div>
    <?php endif; ?>  
    
+   <!-- print article header -->
    <?php if(!empty($view['article']['header'])): ?>
       <div class="header"><?php echo $view['article']['header'];  ?></div>
    <?php endif; ?>
+   
+   <!-- print article body -->
    <div class="body"><?php echo $view['article']['body'];  ?></div>
+   
+   <!-- print article ps -->
    <?php if(!empty($view['article']['ps'])): ?>
       <div class="ps"><?php echo $view['article']['ps'];  ?></div>
    <?php endif; ?>
@@ -143,7 +153,8 @@
          </dd>
        </dl>
      <?php endif; ?>   
-                      
+     
+     <!-- show comment preview -->                 
      <?php if(isset($view['showCommentPreview'])): ?>
        <a name="preview"></a>
        <h2>Article comment preview: </h2>
@@ -162,14 +173,43 @@
    
 </div>
 
+<!-- --- Right column of main --- -->
 <div id="mainright">
+
     <!-- --- include right border view --- -->
-    <?php echo $view['rightBorder'];?>
-</div>
- <br style="clear:both;" />
+    <?php echo $view['rightBorder']; ?>
+
+    <!-- --- show keywords related articles if any --- -->
+    <?php if(count($view['keywordArticle'])): ?>   
+      <div class="keybloc">
+        <h5>Key related articles</h5>
+        <ul>
+          <?php foreach($view['keywordArticle'] as $karticle): ?>
+            <li><a href="<?php echo $view['urlBase']; ?>/id_article/<?php echo $karticle['id_article']; ?>"><?php echo $karticle['title'] ?></a></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+
+    <!-- --- show keywords related links if any --- -->
+    <?php if(count($view['keywordLink'])): ?>       
+      <div class="keybloc">
+        <h5>Key related links</h5>
+        <ul>
+          <?php foreach($view['keywordLink'] as $klink): ?>
+            <li><a href="<?php echo $klink['url']; ?>"><?php echo $klink['title'] ?></a></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+    
 </div>
 
-<!-- --- include header view --- -->
+ <br style="clear:both;" />
+ 
+</div>
+
+<!-- --- include footer view --- -->
 <?php echo $view['footer'];?>
 
 </body>

@@ -192,3 +192,11 @@ dl.rpcarticles{
 dl.rpcarticles dd{
         font-size: 1.2em;
 }
+
+/****  keyword related items of the right column ****/
+.keybloc{
+    margin-top: 20px;
+}
+.keybloc a{
+    font-size: 0.75em;
+}
