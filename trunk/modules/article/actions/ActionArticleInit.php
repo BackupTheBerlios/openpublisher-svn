@@ -32,7 +32,7 @@ class ActionArticleInit extends JapaAction
      */
     public function perform( $data = FALSE )
     {
-        $this->loadConfig();
+        //$this->loadConfig();
         $this->checkModuleVersion();
         
         $this->model->action('article','changedateStatus');

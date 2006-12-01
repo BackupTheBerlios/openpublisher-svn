@@ -38,8 +38,7 @@ class ControllerArticleOptions extends JapaControllerAbstractPage
         if($this->controllerVar['loggedUserRole'] > 20)
         {
             // reload admin
-            @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
-            exit;  
+            $this->router->redirect( $this->controllerVar['adminWebController'] ); 
         }
     } 
     
@@ -61,20 +60,23 @@ class ControllerArticleOptions extends JapaControllerAbstractPage
         
         if(!empty($updateOptions))
         {
-            if(TRUE == $this->validatePostData())
+            if(true == $this->validatePostData())
             {
-                $this->model->action( 'article','updateConfigOptions',
-                                      array('fields' => &$this->fields)); 
+                $this->model->action( 'common','updateConfig',
+                                      array('data'   => $this->fields,
+                                            'module' => 'article')); 
+                
+                // reload                        
+                $this->router->redirect( $this->controllerVar['adminWebController'].'/mod/article/cntr/options' );
             }
         }
 
-        // get all available public views
-        $this->viewVar['option'] = array();
-        $this->model->action( 'article','getAllConfigOptions',
-                              array('result' => &$this->viewVar['option']) );   
+        // assign view vars of options
+        $this->viewVar['option'] = $this->config['article'];
                                            
         return TRUE;
     }   
+    
    /**
     * Validate form data
     *
