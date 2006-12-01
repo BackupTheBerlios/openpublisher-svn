@@ -52,6 +52,8 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
         $this->viewVar['textarea_rows'] = $this->config['textarea_rows'];
         $this->viewVar['publicWebController'] = $this->config['default_application_controller'];
         $this->viewVar['adminWebController']  = $this->config['default_module_application_controller'];
+        $this->controllerVar['adminWebController'] = $this->config['default_module_application_controller'];
+        
         
         // assign template var to show the admin header and footer
         // some views dosent need it

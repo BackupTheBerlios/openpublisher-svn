@@ -51,7 +51,7 @@ class ActionCommonInit extends JapaAction
     {
         $mysqlExtension = $this->getMySqlExtensionType();
         // db class
-        require_once(JAPA_MODULES_DIR . 'common/includes/Japa'.$mysqlExtension.'.php');
+        include_once(JAPA_MODULES_DIR . 'common/includes/Japa'.$mysqlExtension.'.php');
          
         // Check if a setup was successfull done else launch setup > 'setup' module
         if(file_exists($this->config['config_path'] . 'dbConnect.php'))
