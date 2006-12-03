@@ -91,7 +91,7 @@ class ActionCommonInit extends JapaAction
         }
 
         // load global config variables of the common module   
-        $this->loadConfig(); 
+        //$this->loadConfig(); 
 
         // load module descriptions into config array   
         $this->loadModulesInfo();         
@@ -109,7 +109,7 @@ class ActionCommonInit extends JapaAction
         $this->checkOpenPublisherVersion();
         
         // build gmt time and date
-        $this->config['gmtTime'] = time() - $this->config['server_gmt'] * 3600;
+        $this->config['gmtTime'] = time() - $this->config['common']['server_gmt'] * 3600;
         $this->config['gmtDate'] = date("Y-m-d H:i:s", $this->config['gmtTime']);
 
         // set base url and logged user vars, except if the cli controller is used
@@ -144,8 +144,8 @@ class ActionCommonInit extends JapaAction
         }
         
         // set charset
-        ini_set( "default_charset",$this->config['charset']);
-        @header( "Content-type: text/html; charset={$this->config['charset']}" );         
+        ini_set( "default_charset",$this->config['common']['charset']);
+        @header( "Content-type: text/html; charset={$this->config['common']['charset']}" );         
     } 
 
     /**
@@ -166,6 +166,7 @@ class ActionCommonInit extends JapaAction
             $this->config[$row['name']] = unserialize($row['config']);
             $this->model->register($row['name'], $row); 
         } 
+        //var_dump( $this->config['common']);die();
     }
 
     /**
@@ -182,7 +183,7 @@ class ActionCommonInit extends JapaAction
 
         foreach($fields as $key => $val)
         {
-            $this->config[$key] = $val;    
+            $this->config['common'][$key] = $val;    
         } 
     }
     
@@ -207,7 +208,7 @@ class ActionCommonInit extends JapaAction
      */    
     private function checkOpenPublisherVersion()
     {
-        if(0 != version_compare($this->config['op_version'], self::OPEN_PUBLISHER_VERSION))
+        if(0 != version_compare($this->config['common']['op_version'], self::OPEN_PUBLISHER_VERSION))
         {
             $this->model->action('common','japaCoreNewVersion',
                                  array('new_version' => (string)self::OPEN_PUBLISHER_VERSION));           
@@ -241,7 +242,7 @@ class ActionCommonInit extends JapaAction
     private function startSession()
     {
         ini_set('session.gc_probability', 10);
-        ini_set('session.gc_maxlifetime', $this->config['session_maxlifetime']);
+        ini_set('session.gc_maxlifetime', $this->config['common']['session_maxlifetime']);
         
         $this->model->session = new JapaCommonSession();
         // delete only expired session of the current user

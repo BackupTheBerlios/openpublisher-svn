@@ -160,7 +160,7 @@ class ActionArticleGetArticle extends JapaAction
             }
         }   
         
-        if(isset($data['get_view']))
+        if(isset($data['get_controller']))
         {
             $sql = "
                 SELECT
@@ -278,11 +278,11 @@ class ActionArticleGetArticle extends JapaAction
             $this->sqlCache = 'SQL_NO_CACHE';
         }
 
-        if(isset($data['get_view']))
+        if(isset($data['get_controller']))
         {
-            if(!is_bool($data['get_view']) )
+            if(!is_bool($data['get_controller']) )
             {
-                throw new JapaModelException('"get_view" isnt from type bool'); 
+                throw new JapaModelException('"get_controller" isnt from type bool'); 
             }
         }
 

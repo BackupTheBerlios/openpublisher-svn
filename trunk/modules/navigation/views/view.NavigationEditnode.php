@@ -1,4 +1,3 @@
-<?php if($view['format']==2): ?>
 <!-- tinyMCE -->
 <script language="javascript" type="text/javascript" src="<?php echo $view['url_base']; ?>/modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
@@ -46,12 +45,7 @@ function insertImgDesc(desc)
 } 
 </script>
 <!-- /tinyMCE -->
-<?php elseif($view['format']==1): ?>
-<!-- PEAR text_wikki -->
-<script language="javascript" type="text/javascript" src="<?php echo $view['url_base']; ?>/modules/common/media/textarea.js"></script>
-<script language="javascript" type="text/javascript" src="<?php echo $view['url_base']; ?>/modules/navigation/media/text_wikki_func.js"></script>
-<!-- /PEAR text_wikki -->
-<?php endif; ?>
+
 <script language="JavaScript" type="text/JavaScript">
 function keywordmap(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
@@ -164,13 +158,7 @@ function deletefile(f, id_file)
         }
     }
 }
-function switch_format(f)
-{
-  f.switchformat.value=1;
-    with(f){
-        submit();
-    }
-}
+
 function MM_swapImgRestore() { //v3.0
   var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
 }

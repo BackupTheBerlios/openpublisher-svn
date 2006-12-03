@@ -30,7 +30,7 @@ class ActionCommonGetAllPublicControllers extends JapaAction
     public function perform( $data = FALSE )
     {
         $controller_name = array();
-        $controller_dir  = JAPA_APPLICATION_DIR . 'controllers/' . $this->model->config['views_folder'];
+        $controller_dir  = JAPA_APPLICATION_DIR . 'controllers/' . $this->model->config['common']['views_folder'];
           
         if ( (($handle = @opendir( $controller_dir ))) != FALSE )
         {
@@ -54,7 +54,7 @@ class ActionCommonGetAllPublicControllers extends JapaAction
         
         sort( $controller_name );
         
-        $view_dir = JAPA_PUBLIC_DIR . 'views/' . $this->model->config['views_folder'];
+        $view_dir = JAPA_PUBLIC_DIR . 'views/' . $this->model->config['common']['views_folder'];
         
         $data['result'] = array();
         

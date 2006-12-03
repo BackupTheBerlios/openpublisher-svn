@@ -35,6 +35,9 @@ class ActionArticleInit extends JapaAction
         //$this->loadConfig();
         $this->checkModuleVersion();
         
+        // this module try to find the controller for a related public request var 'id_article'
+        $this->config['controller_map']['id_article'] = 'article';  
+        
         $this->model->action('article','changedateStatus');
         
         // delete expired articles
@@ -60,28 +63,7 @@ class ActionArticleInit extends JapaAction
         }
         
         unset($info);
-    }
-    
-    /**
-     * Load config values
-     *
-     */    
-    private function loadConfig()
-    {
-        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}article_config";
-        
-        $rs = $this->model->dba->query($sql);
-        
-        $fields = $rs->fetchAssoc();
-
-        foreach($fields as $key => $val)
-        {
-            $this->config['article'][$key] = $val; 
-        }
-        
-        // this module try to find the controller for a related public request var 'id_article'
-        $this->config['controller_map']['id_article'] = 'article';        
-    }     
+    }    
     
     public function validate( $data = false )
     { 

@@ -10,7 +10,7 @@
         <td align="left" valign="top" class="font10bold">Site Url</td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold"><input name="site_url" type="text" id="site_url" value="<?php echo $view['siteUrl']; ?>" size="55" maxlength="255"></td>
+        <td align="left" valign="top" class="font10bold"><input name="site_url" type="text" id="site_url" value="<?php echo $view['option']['site_url']; ?>" size="55" maxlength="255"></td>
       </tr>
       
       <tr>
@@ -20,9 +20,9 @@
         <td align="left" valign="top" class="font10">
     <?php foreach($view['allPublicViewFolders'] as $_tpl): ?>
     <?php if(empty($_tpl)): ?>
-       <input name="views_folder" type="radio" value=""<?php if($view['publicViewFolder']==$_tpl) echo " checked"; ?>> /<br /><br />    
+       <input name="view_folder" type="radio" value=""<?php if($view['option']['views_folder']==$_tpl) echo " checked"; ?>> /<br /><br />    
     <?php else: ?>
-       <input name="views_folder" type="radio" value="<?php echo $_tpl; ?>"<?php if($view['publicViewFolder']==$_tpl) echo " checked"; ?>> 
+       <input name="view_folder" type="radio" value="<?php echo $_tpl; ?>"<?php if($view['option']['views_folder']==$_tpl) echo " checked"; ?>> 
        <?php echo $_tpl; ?><br /><br />
     <?php endif; ?>
     <?php endforeach; ?>
@@ -35,9 +35,9 @@
         <td align="left" valign="top" class="font10">
     <?php foreach($view['allPublicStyleFolders'] as $_tpl): ?>
     <?php if(empty($_tpl)): ?>
-       <input name="style_folder" type="radio" value=""<?php if($view['publicStyleFolder']==$_tpl) echo " checked"; ?>> /<br /><br />    
+       <input name="style_folder" type="radio" value=""<?php if($view['option']['styles_folder']==$_tpl) echo " checked"; ?>> /<br /><br />    
     <?php else: ?>
-       <input name="style_folder" type="radio" value="<?php echo $_tpl; ?>"<?php if($view['publicStyleFolder']==$_tpl) echo " checked"; ?>> 
+       <input name="style_folder" type="radio" value="<?php echo $_tpl; ?>"<?php if($view['option']['styles_folder']==$_tpl) echo " checked"; ?>> 
        <?php echo $_tpl; ?><br /><br />
     <?php endif; ?>
     <?php endforeach; ?>
@@ -49,7 +49,7 @@
       <tr>
         <td align="left" valign="top" class="font10">
     <?php foreach($view['allPublicControllerFolders'] as $_view): ?>
-    <input name="controllers_folder" type="radio" value="<?php echo $_view; ?>"<?php if($view['publicControllerFolder']==$_view) echo " checked"; ?>> 
+    <input name="controller_folder" type="radio" value="<?php echo $_view; ?>"<?php if($view['option']['controllers_folder']==$_view) echo " checked"; ?>> 
     <?php echo $_view; ?><br /><br />
     <?php endforeach; ?>    
     </td>
@@ -64,14 +64,14 @@
         <td align="left" valign="top"  class="font10bold">Disable public cache</td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10"><input type="checkbox" name="disable_cache" value="1"<?php if($view['disableCache']==1) echo " checked "; ?>> 
+        <td align="left" valign="top" class="font10"><input type="checkbox" name="disable_cache" value="1"<?php if($view['option']['disable_cache']==1) echo " checked "; ?>> 
         </td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Disallowed file uploads</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="rejected_files" cols="80" rows="3"><?php echo $view['rejectedFiles']; ?></textarea></td>
+        <td align="left" valign="top"><textarea name="rejected_files" cols="80" rows="3"><?php echo $view['option']['rejected_files']; ?></textarea></td>
       </tr>   
       <tr>
         <td align="left" valign="top" class="font10bold">Optimize Database Tables</td>
@@ -80,16 +80,22 @@
         <td align="left" valign="top"><input type="submit" name="optimize" value="optimize"></td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Time in Seconds to empty the recycler</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><input name="recycler_time" type="text" id="recycler_time" value="<?php echo $view['option']['recycler_time']; ?>" size="11" maxlength="11"></td>
+      </tr>
+      <tr>
         <td align="left" valign="top" class="font10bold">Session Life Time in Seconds</td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold"><input name="session_maxlifetime" type="text" id="session_maxlifetime" value="<?php echo $view['sessionMaxlifetime']; ?>" size="11" maxlength="11"></td>
+        <td align="left" valign="top" class="font10bold"><input name="session_maxlifetime" type="text" id="session_maxlifetime" value="<?php echo $view['option']['session_maxlifetime']; ?>" size="11" maxlength="11"></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Max Lock Time in Seconds</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="max_lock_time" type="text" id="max_lock_time" value="<?php echo $view['maxLockTime']; ?>" size="11" maxlength="11"></td>
+        <td align="left" valign="top"><input name="max_lock_time" type="text" id="max_lock_time" value="<?php echo $view['option']['max_lock_time']; ?>" size="11" maxlength="11"></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Unlock all</td>
@@ -101,7 +107,7 @@
         <td align="left" valign="top" class="font10bold">Rows of Textareas</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="textarea_rows" type="text" id="textarea_rows" value="<?php echo $view['textareaRows']; ?>" size="2" maxlength="3"></td>
+        <td align="left" valign="top"><input name="textarea_rows" type="text" id="textarea_rows" value="<?php echo $view['option']['textarea_rows']; ?>" size="2" maxlength="3"></td>
       </tr>   
       <tr>
         <td align="left" valign="top" class="font10bold">Server time zone relative to Greenwich (auto GMT = <?php echo $view['serverTimezone']; ?>)</td>
@@ -110,7 +116,7 @@
         <td align="left" valign="top">
         <select name="server_gmt" size="1" id="server_gmt" class="treeselectbox">
         <?php for($gmt=12; $gmt>=-12; $gmt--): ?>
-          <option value="<?php echo $gmt; ?>" <?php if($view['serverGMT'] == $gmt) echo 'selected="selected"'; ?>><?php echo $gmt; ?></option>
+          <option value="<?php echo $gmt; ?>" <?php if($view['option']['server_gmt'] == $gmt) echo 'selected="selected"'; ?>><?php echo $gmt; ?></option>
         <?php endfor; ?>
         </select>
         </td>
@@ -122,7 +128,7 @@
         <td align="left" valign="top">
         <select name="default_gmt" size="1" id="server_gmt" class="treeselectbox">
         <?php for($gmt=12; $gmt>=-12; $gmt--): ?>
-          <option value="<?php echo $gmt; ?>" <?php if($view['defaultGMT'] == $gmt) echo 'selected="selected"'; ?>><?php echo $gmt; ?></option>
+          <option value="<?php echo $gmt; ?>" <?php if($view['option']['default_gmt'] == $gmt) echo 'selected="selected"'; ?>><?php echo $gmt; ?></option>
         <?php endfor; ?>
         </select>
         </td>

@@ -395,33 +395,8 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
         {
             $this->viewVar[$key] = $val;
         }
-
-        $format = $this->httpRequest->getParameter('format', 'post', 'digits');
         
-        // set format template var, means how to format textarea content -> editor/wikki ?
-        // 1 = text_wikki
-        // 2 = tiny_mce
-        if($this->config['article']['force_format'] != 0)
-        {
-            $this->viewVar['format'] = $this->config['article']['force_format'];
-            $this->viewVar['show_format_switch'] = FALSE;
-        }
-        elseif(false !== $format)
-        {
-            if(!preg_match("/(1|2){1}/",$format))
-            {
-                $this->viewVar['format'] = $this->config['article']['default_format'];
-            }
-            $this->viewVar['format'] = $format;
-            $this->viewVar['show_format_switch'] = TRUE;
-        }
-        else
-        {
-            $this->viewVar['format'] = $this->config['article']['default_format'];
-            $this->viewVar['show_format_switch'] = TRUE;
-        }
-        
-        return TRUE;
+        return true;
     }
     
      /**
@@ -458,7 +433,7 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
     {
         foreach($fields as $f)
         {
-            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['charset'] );
+            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['common']['charset'] );
         }
     }  
 

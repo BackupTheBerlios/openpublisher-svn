@@ -55,11 +55,9 @@ class ActionCommonJapaCoreNewVersion extends JapaAction
      */
     private function setNewJapaCoreVersionNumber( $version )
     {
-        $sql = "UPDATE {$this->config['dbTablePrefix']}common_config
-                    SET
-                        `op_version`='{$version}'";
-
-        $this->model->dba->query($sql);          
+        $this->model->action( 'common','setConfigVar',
+                              array('data'   => array('op_version' => $version),
+                                    'module' => 'common'));        
     }       
 }
 

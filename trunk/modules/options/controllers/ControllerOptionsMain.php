@@ -32,10 +32,8 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
         // only administrators can change options
         if($this->controllerVar['loggedUserRole'] > 20)
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->viewVar['error'] = 'You dont have the rights to change global options!';
-            $this->dontPerform = TRUE;
+            // reload admin
+            $this->router->redirect( $this->controllerVar['adminWebController'] ); 
         }
     } 
     
@@ -48,15 +46,18 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
         $deletePublicCache = $this->httpRequest->getParameter('deletePublicCache', 'post', 'alnum');
         $optimize          = $this->httpRequest->getParameter('optimize', 'post', 'alnum');
         $unlockall         = $this->httpRequest->getParameter('unlockall', 'post', 'alnum');
-        
+              
         if(!empty($updateOptions))
         {
             if(TRUE == $this->validatePostData())
             {
-                $this->model->action( 'options','updateConfigOptions',
-                                      array('fields' => &$this->fields)); 
-                
-                $this->model->action( 'options','deletePublicCache'); 
+                $this->model->action( 'common','setConfigVar',
+                                      array('data'   => $this->fields,
+                                            'module' => 'common')); 
+
+                $this->model->action( 'options','deletePublicCache');                 
+                // reload                        
+                $this->router->redirect( $this->controllerVar['adminWebController'].'/mod/options' );
             }        
         }
         elseif(!empty($deletePublicCache))
@@ -71,6 +72,8 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
         {
                 $this->model->broadcast( 'unlockAll');         
         }        
+        
+        $this->viewVar['option'] = $this->config['common'];
         $this->setViewVars();
     }  
     
@@ -79,23 +82,10 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
      */
     private function setViewVars()
     {
-        $this->viewVar['siteUrl']                    = $this->config['site_url'];
-        $this->viewVar['publicViewFolder']           = $this->config['views_folder'];
-        $this->viewVar['publicStyleFolder']          = $this->config['styles_folder'];
-        $this->viewVar['publicControllerFolder']     = $this->config['controllers_folder'];
         $this->viewVar['allPublicControllerFolders'] = $this->getPublicFolders( 'controllers' );
         $this->viewVar['allPublicViewFolders']       = $this->getPublicFolders( 'views' );
         $this->viewVar['allPublicStyleFolders']      = $this->getPublicFolders( 'styles' );
-        $this->viewVar['rejectedFiles']        = $this->config['rejected_files'];
-        $this->viewVar['maxLockTime']          = $this->config['max_lock_time'];
-        $this->viewVar['recyclerTime']         = $this->config['recycler_time'];
-        $this->viewVar['sessionMaxlifetime']   = $this->config['session_maxlifetime'];
-        $this->viewVar['textareaRows']         = $this->config['textarea_rows'];
-        $this->viewVar['serverGMT']            = $this->config['server_gmt'];
-        $this->viewVar['defaultGMT']           = $this->config['default_gmt'];
-
-        $this->viewVar['disableCache']         = $this->config['disable_cache'];
-        $this->viewVar['serverTimezone']       = (int)(date("Z") / 3600);
+        $this->viewVar['serverTimezone']             = (int)(date("Z") / 3600);
     } 
     
     /**
@@ -170,36 +160,30 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
         if(!empty($this->views_folder))
         {
             $this->fields['views_folder'] = (string)$this->views_folder.'/';
-            $this->config['views_folder'] = (string)$this->views_folder.'/';
         }  
 
         if(!empty($this->styles_folder))
         {
             $this->fields['styles_folder'] = (string)$this->styles_folder.'/';
-            $this->config['styles_folder'] = (string)$this->styles_folder.'/';
         }  
 
         if(!empty($this->controllers_folder))
         {
             $this->fields['controllers_folder'] = (string)$this->controllers_folder.'/';
-            $this->config['controllers_folder'] = (string)$this->controllers_folder.'/';
         }  
         
        if(!empty($this->disable_cache) && ($this->disable_cache == '1'))
        {
             $this->fields['disable_cache'] = 1;
-            $this->config['disable_cache'] = 1;
        }
        else
        {
             $this->fields['disable_cache'] = 0;
-            $this->config['disable_cache'] = 0;
        }
 
        if(!empty($this->textarea_rows) && (strlen($this->textarea_rows) <= 2))
        {
             $this->fields['textarea_rows'] = (string)$this->textarea_rows;
-            $this->config['textarea_rows'] = (string)$this->textarea_rows;
        }  
 
        if( !empty($this->server_gmt) )
@@ -207,7 +191,6 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
             if( ($this->server_gmt >= -12) &&  ($this->server_gmt <= 12) )
             {
                 $this->fields['server_gmt'] = (int)$this->server_gmt;
-                $this->config['server_gmt'] = (int)$this->server_gmt;
             }
        }  
        
@@ -216,7 +199,6 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
             if( ($this->default_gmt >= -12) &&  ($this->default_gmt <= 12) )
             {
                 $this->fields['default_gmt'] = (int)$this->default_gmt;
-                $this->config['default_gmt'] = (int)$this->default_gmt;
             }
        }        
 
@@ -225,7 +207,6 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
             if(preg_match("/[0-9]{1,11}/", $this->session_maxlifetime) )
             {
                 $this->fields['session_maxlifetime'] = (int)$this->session_maxlifetime;
-                $this->config['session_maxlifetime'] = (int)$this->session_maxlifetime;
             }
        } 
 
@@ -234,7 +215,6 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
             if(preg_match("/[0-9]{1,11}/", $this->max_lock_time) )
             {
                 $this->fields['max_lock_time'] = (int)$this->max_lock_time;
-                $this->config['max_lock_time'] = (int)$this->max_lock_time;
             }
        }  
        
@@ -243,12 +223,10 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
             if(preg_match("/[0-9]{1,11}/", $this->recycler_time) )
             {
                 $this->fields['recycler_time'] = (int)$this->recycler_time;
-                $this->config['recycler_time'] = (int)$this->recycler_time;
             }
        }  
 
        $this->fields['rejected_files'] = (string)$this->rejected_files;
-       $this->config['rejected_files'] = (string)$this->rejected_files;
         
         return TRUE;
     }    

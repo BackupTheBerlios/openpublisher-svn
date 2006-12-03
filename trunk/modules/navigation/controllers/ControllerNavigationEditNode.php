@@ -471,29 +471,6 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
             $this->current_id_node     = (int)$id_node;          
         }     
 
-        // set format template var, means how to format textarea content -> editor/wikki ?
-        // 1 = text_wikki
-        // 2 = tiny_mce
-        if($this->config['navigation']['force_format'] != 0)
-        {
-            $this->viewVar['format'] = $this->config['navigation']['force_format'];
-            $this->viewVar['show_format_switch'] = FALSE;
-        }
-        elseif(false !== $format)
-        {
-            if(!preg_match("/(1|2){1}/",$format))
-            {
-                $this->viewVar['format'] = $this->config['navigation']['default_format'];
-            }
-            $this->viewVar['format'] = $format;
-            $this->viewVar['show_format_switch'] = TRUE;
-        }
-        else
-        {
-            $this->viewVar['format'] = $this->config['navigation']['default_format'];
-            $this->viewVar['show_format_switch'] = TRUE;
-        }
-
         $this->viewVar['use_logo']      = $this->config['navigation']['use_logo'];
         $this->viewVar['use_images']    = $this->config['navigation']['use_images'];
         $this->viewVar['use_files']     = $this->config['navigation']['use_files'];
@@ -548,7 +525,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
     {
         foreach($fields as $f)
         {
-            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['charset'] );
+            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['common']['charset'] );
         }
     }  
     /**

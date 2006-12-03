@@ -26,7 +26,7 @@ class ActionCommonSessionDeleteExpired extends JapaAction
      */
     public function perform( $data = FALSE )
     {
-        $ts = time() - $this->config['session_maxlifetime'];
+        $ts = time() - $this->config['common']['session_maxlifetime'];
         
         $result = $this->model->dba->query(
                          "SELECT 

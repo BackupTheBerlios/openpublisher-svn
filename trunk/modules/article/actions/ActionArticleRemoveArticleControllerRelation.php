@@ -10,14 +10,12 @@
 // ---------------------------------------------
 
 /**
- * ActionArticleDeleteExpired class 
+ * ActionArticleRemoveArticleControllerRelation class 
  *
- * USAGE:
- * $model->action('article','deleteExpired');
  *
  */
  
-class ActionArticleRemoveArticleViewRelation extends JapaAction
+class ActionArticleRemoveArticleControllerRelation extends JapaAction
 {
     /**
      * delete article with status 0=delete which the last update is 
@@ -30,7 +28,7 @@ class ActionArticleRemoveArticleViewRelation extends JapaAction
         // get articles with status 'delete=0' and older than 1 day
         $sql = "
             DELETE FROM
-                {$this->config['dbTablePrefix']}article_view_rel
+                {$this->config['dbTablePrefix']}article_controller_rel
             WHERE
                 `id_article`={$data['id_article']}";
         

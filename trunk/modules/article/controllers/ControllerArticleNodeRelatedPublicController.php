@@ -83,7 +83,7 @@ class ControllerArticleNodeRelatedPublicController extends JapaControllerAbstrac
      */   
     private function updateArticleNodeController( $id_node, $id_controller )
     {
-        $this->model->action( 'article','updateNodeView',
+        $this->model->action( 'article','updateNodeController',
                               array('id_node'       => (int)$id_node,
                                     'id_controller' => (int)$id_controller) );     
     }

@@ -159,7 +159,7 @@ class ControllerArticleAddArticle extends JapaControllerAbstractPage
      */       
     private function resetFormData()
     {
-        $this->viewVar['title'] = htmlspecialchars ( JapaCommonUtil::stripSlashes((string)$this->title), ENT_COMPAT, $this->config['charset'] );
+        $this->viewVar['title'] = htmlspecialchars ( JapaCommonUtil::stripSlashes((string)$this->title), ENT_COMPAT, $this->config['common']['charset'] );
     }      
 }
 

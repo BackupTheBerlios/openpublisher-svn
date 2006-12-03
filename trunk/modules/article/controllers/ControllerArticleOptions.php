@@ -62,7 +62,7 @@ class ControllerArticleOptions extends JapaControllerAbstractPage
         {
             if(true == $this->validatePostData())
             {
-                $this->model->action( 'common','updateConfig',
+                $this->model->action( 'common','setConfigVar',
                                       array('data'   => $this->fields,
                                             'module' => 'article')); 
                 
@@ -73,8 +73,6 @@ class ControllerArticleOptions extends JapaControllerAbstractPage
 
         // assign view vars of options
         $this->viewVar['option'] = $this->config['article'];
-                                           
-        return TRUE;
     }   
     
    /**

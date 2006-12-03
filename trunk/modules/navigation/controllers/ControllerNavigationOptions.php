@@ -34,8 +34,7 @@ class ControllerNavigationOptions extends JapaControllerAbstractPage
         if($this->controllerVar['loggedUserRole'] > 20)
         {
             // reload admin
-            @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
-            exit;  
+            $this->router->redirect( $this->controllerVar['adminWebController'] );  
         }
     } 
     
@@ -53,17 +52,16 @@ class ControllerNavigationOptions extends JapaControllerAbstractPage
         {
             if(TRUE == $this->validatePostData())
             {
-                $this->model->action( 'navigation','updateConfigOptions',
-                                      array('fields' => &$this->fields)); 
+                $this->model->action( 'common','setConfigVar',
+                                      array('data'   => $this->fields,
+                                            'module' => 'navigation')); 
+                // reload                        
+                $this->router->redirect( $this->controllerVar['adminWebController'].'/mod/navigation/cntr/options' );
             }
         }
 
-        // get all available public views
-        $this->viewVar['option'] = array();
-        $this->model->action( 'navigation','getAllConfigOptions',
-                              array('result' => &$this->viewVar['option']) );   
-                                           
-        return TRUE;
+        // assign view vars of options
+        $this->viewVar['option'] = $this->config['navigation']; 
     }   
    /**
     * Validate form data

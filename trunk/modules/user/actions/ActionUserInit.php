@@ -20,7 +20,7 @@ class ActionUserInit extends JapaAction
     /**
      * User Module Version
      */
-    const MOD_VERSION = '0.2';    
+    const MOD_VERSION = '0.3';    
     
     /**
      * Run init process of this module
@@ -28,10 +28,10 @@ class ActionUserInit extends JapaAction
      */
     public function perform( $data = FALSE )
     {
-        $this->checkModuleVersion();
-        
         // load module config variables
-        $this->loadConfig();
+        //$this->loadConfig();
+
+        $this->checkModuleVersion();
         
         if($this->model->session->exists('loggedUserId'))
         {
@@ -64,24 +64,6 @@ class ActionUserInit extends JapaAction
           
         unset($info);
     }
-    
-    /**
-     * Load config values
-     *
-     */    
-    private function loadConfig()
-    {
-        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}user_config";
-        
-        $rs = $this->model->dba->query($sql);
-        
-        $fields = $rs->fetchAssoc();
-
-        foreach($fields as $key => $val)
-        {
-            $this->config['user'][$key] = $val;      
-        } 
-    }    
     
     public function validate( $data = false )
     {

@@ -135,7 +135,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
         $this->model->action('article','getArticle', 
                              array('result'     => & $this->viewVar['article'],
                                    'id_article' => (int)$this->current_id_article,
-                                   'get_view'   => TRUE,
+                                   'get_controller' => TRUE,
                                    'error'      => & $this->viewVar['error'],
                                    'fields'     => $articleFields));
 
@@ -720,13 +720,13 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
         $article_controller = $this->httpRequest->getParameter('article_controller', 'request', 'int');
         if($article_controller != 0)
         {
-            $this->model->action( 'article','updateView',
+            $this->model->action( 'article','updateController',
                                   array('id_article'    => (int)$this->current_id_article,
                                         'id_controller' => (int)$article_controller) );
         }
         else
         {
-            $this->model->action( 'article','removeArticleViewRelation',
+            $this->model->action( 'article','removeArticleControllerRelation',
                                   array('id_article' => (int)$this->current_id_article) );        
         }
     } 

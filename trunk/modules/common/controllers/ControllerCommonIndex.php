@@ -47,9 +47,9 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
         // assign some template variables
         $this->viewVar['japaVersionNumber'] = $this->config['japa_version'];
         $this->viewVar['moduleList'] = $this->model->getModuleInfo();
-        $this->viewVar['charset']    = $this->config['charset'];
+        $this->viewVar['charset']    = $this->config['common']['charset'];
         $this->viewVar['adminCssFolder'] = 'modules/common/css_home';
-        $this->viewVar['textarea_rows'] = $this->config['textarea_rows'];
+        $this->viewVar['textarea_rows'] = $this->config['common']['textarea_rows'];
         $this->viewVar['publicWebController'] = $this->config['default_application_controller'];
         $this->viewVar['adminWebController']  = $this->config['default_module_application_controller'];
         $this->controllerVar['adminWebController'] = $this->config['default_module_application_controller'];

@@ -29,6 +29,9 @@ class ActionNavigationInit extends JapaAction
     public function perform( $data = FALSE )
     {
         $this->checkModuleVersion();
+        
+        // this module try to find the view on the related public request var 'id_node'
+        $this->config['controller_map']['id_node'] = 'navigation';
     } 
     /**
      * Check module version and upgrade or install this module if necessairy
@@ -39,8 +42,6 @@ class ActionNavigationInit extends JapaAction
         // get user module info
         $info = $this->model->getModuleInfo('navigation');
         
-        $this->loadConfig();
-        
         // need install or upgrade?
         if(0 != version_compare($info['version'], self::MOD_VERSION))
         {
@@ -49,28 +50,7 @@ class ActionNavigationInit extends JapaAction
         }
         
         unset($info);
-    }
-    
-    /**
-     * Load config values
-     *
-     */    
-    private function loadConfig()
-    {
-        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}navigation_config";
-        
-        $rs = $this->model->dba->query($sql);
-        
-        $fields = $rs->fetchAssoc();
-
-        foreach($fields as $key => $val)
-        {
-            $this->config['navigation'][$key] = $val;      
-        } 
-        
-        // this module try to find the view on the related public request var 'id_node'
-        $this->config['controller_map']['id_node'] = 'navigation';
-    }   
+    }  
      
     public function validate( $data = false )
     {

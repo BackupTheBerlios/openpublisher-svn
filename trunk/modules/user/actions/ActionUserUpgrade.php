@@ -35,6 +35,12 @@ class ActionUserUpgrade extends JapaAction
             $this->upgrade_0_1_to_0_2();          
         }
         
+        if(1 == version_compare('0.2', $this->config['module']['user']['version'], '=') )
+        {
+            // upgrade from module version 0.1 to 0.2
+            $this->upgrade_0_2_to_0_3();          
+        }
+        
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
     }
@@ -94,6 +100,36 @@ class ActionUserUpgrade extends JapaAction
     }
     
     /**
+     * upgrade from module version 0.2 to 0.3
+     *
+     */
+    private function upgrade_0_2_to_0_3()
+    {
+        $_modules = $this->model->getAvailaibleModules();
+
+        foreach($_modules as $m)
+        { 
+            if(null === $this->isTable( $m.'_config' ))
+            {
+                continue;
+            }
+            
+            $_config = array();
+            $_config = serialize($this->loadConfig( $m ));
+            
+            $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+                    SET
+                        `config`='{$_config}'
+                    WHERE
+                        `name`='{$m}'";
+
+            $this->model->dba->query($sql); 
+        }
+                
+        $this->config['module']['user']['version'] = '0.3';
+    }
+    
+    /**
      * Validate data passed to this action
      */
     public function validate( $data = FALSE )
@@ -124,7 +160,37 @@ class ActionUserUpgrade extends JapaAction
                         `id_module`={$this->config['module']['user']['id_module']}";
 
         $this->model->dba->query($sql);          
-    }   
+    } 
+    
+    /**
+     * Load config values
+     *
+     */    
+    private function loadConfig( $module )
+    {
+        $config = array();
+        
+        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}{$module}_config";
+        
+        $rs = $this->model->dba->query($sql);
+        
+        $fields = $rs->fetchAssoc();
+
+        foreach($fields as $key => $val)
+        {
+            $config[$key] = $val;      
+        } 
+        return $config;
+    }
+    
+    private function isTable( $table )
+    {
+        $sql = "SHOW TABLE STATUS LIKE '{$this->config['dbTablePrefix']}{$table}'";
+
+        $rs = $this->model->dba->query($sql);
+        
+        return $rs->fetchAssoc();
+    }
 }
 
 ?>
