@@ -277,7 +277,7 @@ class JapaControllerPageFactory
     protected function startControllerCache( $controller, $controllername )
     {
         // get cache view content if cache enabled
-        if(($controller->cacheExpire != 0) && ($this->model->config['disable_cache'] == 0))
+        if(($controller->cacheExpire != 0) && ($this->model->config[$this->model->config['base_module']]['disable_cache'] == 0))
         {
             $this->cache = JapaCache::newInstance($this->model->config['cache_type'], $this->model->config);
             if(($cacheid = $controller->cacheId) == false)
@@ -301,7 +301,7 @@ class JapaControllerPageFactory
     protected function writeControllerCache( $controller, & $content )
     {
         // write view content to cache if cache enabled
-        if(($controller->cacheExpire != 0) && ($this->model->config['disable_cache'] == 0))
+        if(($controller->cacheExpire != 0) && ($this->model->config[$this->model->config['base_module']]['disable_cache'] == 0))
         {
             $this->cache->cacheWrite( $content );
         }
