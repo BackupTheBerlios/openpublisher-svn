@@ -115,7 +115,7 @@ class ActionArticleGetArticles extends JapaAction
         {
             if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_date = $this->config['gmtDate'];
+                $_date = $this->config->getVar('gmtDate');
             }
             else
             {
