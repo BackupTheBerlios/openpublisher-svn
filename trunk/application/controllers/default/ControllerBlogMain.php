@@ -198,19 +198,17 @@ class ControllerBlogMain extends JapaControllerAbstractPage
         }
         
         // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
+        $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
         // template var with css folder
-        $this->viewVar['cssFolder'] = & $this->config['css_folder'];
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');;
         
         // init template variable for keyword related links
         $this->viewVar['keywordLink'] = array();   
 
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];  
-        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
+        $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
         
-        // template var with css folder
-        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
         $this->viewVar['urlBase'] = 'http://'.$this->router->getHost().$this->httpRequest->getBaseUrl();
         $this->viewVar['urlCss'] = $this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];  
     }

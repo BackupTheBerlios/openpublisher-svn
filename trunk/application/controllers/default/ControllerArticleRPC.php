@@ -142,8 +142,8 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         // Allow comments for just this article
         //
         //
-        if(( $this->config['article']['use_comment']   == 1 ) &&
-             $this->viewVar['article']['allow_comment'] == 1 )
+        if(( $this->config->getModuleVar('article', 'use_comment')   == 1 ) &&
+             $this->config->getModuleVar('article', 'allow_comment') == 1 )
         {
             $this->viewVar['commentMessage'] = '';
             $this->viewVar['cauthor'] = '';
@@ -161,7 +161,7 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
                 $this->model->action( 'common','captchaMake',
                                       array( 'captcha_pic' => &$this->viewVar['captcha_pic'],
                                              'public_key'  => &$this->viewVar['public_key'],
-                                             'configPath'  => &$this->config['config_path']));                
+                                             'configPath'  => $this->config->getVar('config_path')));                
 
                 // add comment
                 if(isset($_POST['addComment']) || isset($_POST['previewComment']))
@@ -271,13 +271,13 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         $this->viewVar['public_key']  = '';
         
         // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['common']['charset'];
+        $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
         // template var with css folder
-        $this->viewVar['cssFolder'] = & $this->config['css_folder'];
+        $this->viewVar['cssFolder'] = $this->config->getModuleVar('common', 'css_folder');
         
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
+        $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
         
         // template var with css folder
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
@@ -305,10 +305,10 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
             ($result['nodeStatus']    < 2) || 
             ($result['articleStatus'] < 4))
         {
-            $this->template          = 'error'; 
+            $this->view          = 'error'; 
             $this->viewVar['message'] = "The requested article isnt accessible";
             // template var with charset used for the html pages
-            $this->viewVar['charset'] = & $this->config['charset'];   
+            $this->viewVar['charset'] = $this->config->getModuleVar('common', 'charset');   
             
             $this->dontPerform = TRUE;
             // disable caching
@@ -323,10 +323,9 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
                 ($result['articleStatus'] == 5) )
             {
                 // set url vars to come back to this page after login
-                $this->model->session->set('url','id_article='.$this->current_id_article);
+                $this->model->session->set('url','id_article/'.$this->current_id_article);
                 // switch to the login page
-                @header('Location: '.SMART_CONTROLLER.'?view=login');
-                exit;
+                $this->router->redirect( 'cntr/login' ); 
             }
         }
     }

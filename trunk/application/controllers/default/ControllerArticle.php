@@ -137,7 +137,7 @@ class ControllerArticle extends JapaControllerAbstractPage
                 $this->model->action( 'common','captchaMake',
                                       array( 'captcha_pic' => &$this->viewVar['captcha_pic'],
                                              'public_key'  => &$this->viewVar['public_key'],
-                                             'configPath'  => &$this->config['config_path'],
+                                             'configPath'  => $this->config->getVar('config_path'),
                                              'picture_folder' => $this->viewVar['urlBase'].'/data/common/captcha',));                
 
                 $addComment     = $this->httpRequest->getParameter('addComment', 'post', 'alpha');

@@ -44,7 +44,7 @@ class ControllerLogin extends JapaControllerAbstractPage
             $captcha_turing_key = $this->httpRequest->getParameter('captcha_turing_key', 'post', 'alnum');
             $captcha_public_key = $this->httpRequest->getParameter('captcha_public_key', 'post', 'alnum');
             
-            $login_name = $this->httpRequest->getParameter('login_name', 'post', 'alnum');
+            $login_name = $this->httpRequest->getParameter('login', 'post', 'alnum');
             $password   = $this->httpRequest->getParameter('password', 'post', 'alnum');     
             
             // validate captcha turing/public keys
