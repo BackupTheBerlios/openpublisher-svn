@@ -191,10 +191,9 @@ class ControllerNode extends JapaControllerAbstractPage
         elseif( ($nodeStatus == 3) && ($this->viewVar['isUserLogged'] == FALSE) )
         {
               // set url vars to come back to this page after login
-              $this->model->session->set('url','id_node='.$this->current_id_node);
+              $this->model->session->set('url','id_node/'.$this->current_id_node);
               // switch to the login page
-              @header('Location: '.SMART_CONTROLLER.'?view=login');
-              exit;
+              $this->router->redirect( 'cntr/login' ); 
         }
     }
 
@@ -205,7 +204,7 @@ class ControllerNode extends JapaControllerAbstractPage
     public function appendFilterChain( & $outputBuffer )
     {
         // filter action of the common module that trims the html output
-        $this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
+        //$this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
     }
 
     /**
@@ -236,9 +235,9 @@ class ControllerNode extends JapaControllerAbstractPage
         }
         
         // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
+        $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
         // template var with css folder
-        $this->viewVar['cssFolder'] = & $this->config['css_folder'];
+        $this->viewVar['cssFolder'] = $this->config->getModuleVar('common', 'css_folder');
         
         // relative path to the smart directory
         $this->viewVar['relativePath'] = JAPA_PUBLIC_DIR ;
@@ -248,7 +247,7 @@ class ControllerNode extends JapaControllerAbstractPage
 
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller'];        
+        $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller');        
         // template var with css folder
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
         $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();

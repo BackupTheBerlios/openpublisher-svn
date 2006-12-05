@@ -118,8 +118,8 @@ class ControllerArticle extends JapaControllerAbstractPage
         // Allow comments for just this article
         //
         //
-        if(( $this->config['article']['use_comment']    == 1 ) &&
-             $this->viewVar['article']['allow_comment'] == 1 )
+        if(( $this->config->getModuleVar('article', 'use_comment')   == 1 ) &&
+             $this->config->getModuleVar('article', 'allow_comment') == 1 )
         {
             $this->viewVar['commentMessage'] = '';
             $this->viewVar['cauthor'] = '';
@@ -245,18 +245,19 @@ class ControllerArticle extends JapaControllerAbstractPage
         $this->viewVar['public_key']  = '';
         
         // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
+        $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
         
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
+        $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
         
         // template var with css folder
-        $this->viewVar['cssFolder']    = 'public/styles/'.$this->config['styles_folder'];
+        $this->viewVar['cssFolder']    = 'public/styles/'.$this->config->getModuleVar('common', 'styles_folder');
         $this->viewVar['scriptFolder'] = 'public/scripts/default';
         $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
         $this->viewVar['urlAjax'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'];
-        $this->viewVar['urlCss']  = $this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
+        $this->viewVar['urlCss']  = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
+        
         $this->viewVar['urlScripts'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['scriptFolder'];
     }
 
@@ -297,8 +298,7 @@ class ControllerArticle extends JapaControllerAbstractPage
                 // set url vars to come back to this page after login
                 $this->model->session->set('url','id_article/'.$this->current_id_article);
                 // switch to the login page
-                @header('Location: '.$this->httpRequest->getBaseUrl().'/cntr/login');
-                exit;
+                $this->router->redirect( 'cntr/login' ); 
             }
         }
     }

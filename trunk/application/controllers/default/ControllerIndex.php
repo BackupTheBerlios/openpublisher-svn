@@ -39,7 +39,7 @@ class ControllerIndex extends JapaControllerAbstractPage
     public function perform()
     {
         // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
+        $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
         // template var with css folder
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
         
@@ -52,7 +52,7 @@ class ControllerIndex extends JapaControllerAbstractPage
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->controllerVar['loggedUserRole'];
         $this->viewVar['isUserLogged']       = $this->controllerVar['isUserLogged'];
-        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
+        $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
         
         $this->viewVar['text']    = array();
 

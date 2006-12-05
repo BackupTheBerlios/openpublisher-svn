@@ -267,7 +267,7 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         $this->viewVar['public_key']  = '';
         
         // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
+        $this->viewVar['charset']   = & $this->config['common']['charset'];
         // template var with css folder
         $this->viewVar['cssFolder'] = & $this->config['css_folder'];
         

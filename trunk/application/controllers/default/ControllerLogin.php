@@ -10,13 +10,13 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewLogin class
+ * ControllerLogin class
  */
 
 class ControllerLogin extends JapaControllerAbstractPage
 {   
     /**
-     * Execute the login view
+     * Execute the login controller
      */
     public function perform()
     {
@@ -32,28 +32,36 @@ class ControllerLogin extends JapaControllerAbstractPage
         // create capcha picture and public key
         $this->model->action( 'common','captchaMake',
                               array( 'captcha_pic' => &$this->viewVar['captcha_pic'],
-                                     'picture_folder' => $this->viewVar['urlBase'].'/data/common/captcha',
+                                     'picture_folder' => $this->router->getBase().'/data/common/captcha',
                                      'public_key'  => &$this->viewVar['public_key'],
-                                     'configPath'  => &$this->config['config_path']));
-                     
+                                     'configPath'  => $this->config->getVar('config_path')));
+
+        $dologin = $this->httpRequest->getParameter('dologin', 'post', 'alpha');
+                    
         // Check login data
-        if(isset($_POST['dologin']))
+        if(!empty($dologin))
         {
+            $captcha_turing_key = $this->httpRequest->getParameter('captcha_turing_key', 'post', 'alnum');
+            $captcha_public_key = $this->httpRequest->getParameter('captcha_public_key', 'post', 'alnum');
+            
+            $login_name = $this->httpRequest->getParameter('login_name', 'post', 'alnum');
+            $password   = $this->httpRequest->getParameter('password', 'post', 'alnum');     
+            
             // validate captcha turing/public keys
             if (FALSE == $this->model->action( 'common','captchaValidate',
-                                               array('turing_key'  => (string)$_POST['captcha_turing_key'],
-                                                     'public_key'  => (string)$_POST['captcha_public_key'],
-                                                     'configPath'  => (string)$this->config['config_path'])))
+                                               array('turing_key'  => (string)$captcha_turing_key,
+                                                     'public_key'  => (string)$captcha_public_key,
+                                                     'configPath'  => (string)$this->config->getVar('config_path'))))
             {
-                $this->resetFormData();
+                $this->resetFormData($login_name);
                 return TRUE;
             }
             
             // verify user and password. If those dosent match
             // reload the login page
             $login = $this->model->action( 'user','checkLogin',
-                                           array('login'  => (string)$_POST['login'],
-                                                 'passwd' => (string)$_POST['password']));
+                                           array('login'  => (string)$login_name,
+                                                 'passwd' => (string)$password));
             
             // If login was successfull reload the destination page
             if($login == TRUE)
@@ -62,8 +70,7 @@ class ControllerLogin extends JapaControllerAbstractPage
                 // get url vars to switch to the destination page
                 $url = $this->model->session->get('url');
                 $this->model->session->del('url');
-                @header('Location: '.$this->viewVar['urlBase'].'/'.$url);
-                exit;            
+                $this->router->redirect( $url );          
             }
         }
    
@@ -100,8 +107,8 @@ class ControllerLogin extends JapaControllerAbstractPage
         $this->viewVar['login']       = '';
         
         // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
-        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller'];        
+        $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
+        $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller');        
         // template var with css folder
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
         $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
@@ -111,9 +118,9 @@ class ControllerLogin extends JapaControllerAbstractPage
      * reset form data
      *
      */     
-    private function resetFormData()
+    private function resetFormData($login_name)
     {
-        $this->viewVar['login'] = $this->model->action( 'common', 'safeHtml', strip_tags(SmartCommonUtil::stripSlashes($_POST['login'])) );  
+        $this->viewVar['login'] = $this->model->action( 'common', 'safeHtml', strip_tags(SmartCommonUtil::stripSlashes($login_name)) );  
     }     
 }
 

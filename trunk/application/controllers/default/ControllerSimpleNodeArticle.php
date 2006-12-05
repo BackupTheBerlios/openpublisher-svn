@@ -189,8 +189,8 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
         $this->viewVar['keywordLink'] = array(); 
         
         // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
-        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
+        $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
+        $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
         
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole']; 
@@ -229,8 +229,7 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
                 // set url vars to come back to this page after login
                 $this->model->session->set('url','id_article='.$this->current_id_article);
                 // switch to the login page
-                @header('Location: '.SMART_CONTROLLER.'?view=login');
-                exit;
+                $this->router->redirect( 'cntr/login' ); 
             }
         }
     }    
@@ -240,10 +239,10 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
      */        
     private function noIdArticle()
     {
-            $this->template          = 'error'; 
+            $this->view               = 'error'; 
             $this->viewVar['message'] = "The requested content isnt accessible";
             // template var with charset used for the html pages
-            $this->viewVar['charset'] = & $this->config['charset'];   
+            $this->viewVar['charset'] = $this->config->getModuleVar('common', 'charset');   
             
             $this->dontPerform = TRUE;
             // disable caching
