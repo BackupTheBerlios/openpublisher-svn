@@ -7,7 +7,7 @@
 
 <!-- --- AJAX --- -->
 <script type='text/javascript' src='<?php echo $view['urlAjax']; ?>/ajaxserver.php?client=all&amp;stub=all&amp;cntr=articleAjax'></script>
-<script type='text/javascript' src='<?php echo $view['urlScripts']; ?>/ArticleAjax.js'></script>
+<script type='text/javascript' src='<?php echo $view['scriptFolder']; ?>ArticleAjax.js'></script>
 
 <!-- --- show fullsize image--- -->
 <script language="JavaScript" type="text/JavaScript">
@@ -26,9 +26,9 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>typography.css";</style>
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>search.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>typography.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>search.css";</style>
 
 </head>
 

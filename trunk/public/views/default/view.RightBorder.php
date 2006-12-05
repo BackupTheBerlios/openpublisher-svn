@@ -1,4 +1,4 @@
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>typography_right.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>typography_right.css";</style>
 
 <?php echo $view['borderText']['body']; ?>
 

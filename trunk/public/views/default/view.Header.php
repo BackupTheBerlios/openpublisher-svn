@@ -1,4 +1,4 @@
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>header.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>header.css";</style>
 
 <div id="header">
 <div class="pagetitle"><span class="smart3">Open Publisher</span> -&nbsp;PHP5 Content Management System</div>

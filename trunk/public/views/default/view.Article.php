@@ -9,8 +9,8 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>typography.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>typography.css";</style>
 
 <script language="JavaScript" type="text/JavaScript">
     function showimage(theURL,widthx,heightx){

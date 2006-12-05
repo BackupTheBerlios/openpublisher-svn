@@ -22,9 +22,9 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>typography.css";</style>
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>search.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>typography.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>search.css";</style>
 
 </head>
 
