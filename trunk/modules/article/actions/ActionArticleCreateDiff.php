@@ -71,7 +71,7 @@ class ActionArticleCreateDiff extends JapaAction
             SELECT
                 *
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE
                 `id_article`={$data['id_article']}";
         

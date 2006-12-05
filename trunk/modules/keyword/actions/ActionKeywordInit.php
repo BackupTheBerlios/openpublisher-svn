@@ -39,8 +39,6 @@ class ActionKeywordInit extends JapaAction
     {
         // get user module info
         $info = $this->model->getModuleInfo('keyword');
-
-        $this->loadConfig();
         
         // need install or upgrade?
         if(0 != version_compare($info['version'], self::MOD_VERSION))
@@ -50,25 +48,7 @@ class ActionKeywordInit extends JapaAction
         }
         
         unset($info);
-    }
-    
-    /**
-     * Load config values
-     *
-     */    
-    private function loadConfig()
-    {
-        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}keyword_config";
-        
-        $rs = $this->model->dba->query($sql);
-        
-        $fields = $rs->fetchAssoc();
-
-        foreach($fields as $key => $val)
-        {
-            $this->config['keyword'][$key] = $val; 
-        }
-    }      
+    }   
      
     public function validate( $data = false )
     {

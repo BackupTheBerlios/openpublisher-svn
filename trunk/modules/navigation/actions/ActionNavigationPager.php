@@ -98,13 +98,13 @@ class ActionNavigationPager extends JapaAction
             $where = "MATCH (i.`text1`,i.`text2`,i.`text3`,i.`text4`)
                       AGAINST ('{$search_string}' IN BOOLEAN MODE) 
                       AND i.id_node=n.id_node ";
-            $table = ",{$this->config['dbTablePrefix']}navigation_index AS i";
+            $table = ",{$this->config->dbTablePrefix}navigation_index AS i";
         }        
         
         $sql = "SELECT {$this->sqlCache}
                     count(n.`id_node`) AS numNodes
                 FROM 
-                    {$this->config['dbTablePrefix']}navigation_node AS n
+                    {$this->config->dbTablePrefix}navigation_node AS n
                     {$table}
                 WHERE
                    {$where}

@@ -47,24 +47,24 @@ class ActionNavigationUpgrade extends JapaAction
     private function upgrade_0_1_to_0_2()
     {
         $sql = "RENAME TABLE 
-                   {$this->config['dbTablePrefix']}navigation_view 
+                   {$this->config->dbTablePrefix}navigation_view 
                    TO
-                   {$this->config['dbTablePrefix']}navigation_public_controller";
+                   {$this->config->dbTablePrefix}navigation_public_controller";
         $this->model->dba->query($sql);      
 
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}navigation_public_controller
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}navigation_public_controller
                   CHANGE `id_view` `id_controller` unsigned INT(11) NOT NULL auto_increment";
         $this->model->dba->query($sql);      
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}navigation_node
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}navigation_node
                   CHANGE `id_view` `id_controller` INT(11)";
         $this->model->dba->query($sql);  
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}navigation_node
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}navigation_node
                   DROP INDEX `view`";
         $this->model->dba->query($sql);  
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}navigation_node
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}navigation_node
                   ADD KEY `id_controller` (`id_controller`)";
         $this->model->dba->query($sql);  
     }
@@ -76,7 +76,7 @@ class ActionNavigationUpgrade extends JapaAction
      */
     private function setNewModuleVersionNumber( $version )
     {
-        $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+        $sql = "UPDATE {$this->config->dbTablePrefix}common_module
                     SET
                         `version`='{$version}'
                     WHERE

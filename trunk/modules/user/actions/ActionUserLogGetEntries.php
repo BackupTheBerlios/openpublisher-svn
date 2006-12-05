@@ -69,10 +69,10 @@ class ActionUserLogGetEntries extends JapaAction
                 uu.lastname, uu.name,
                 uu.email
             FROM
-                {$this->config['dbTablePrefix']}user_log AS ul,
-                {$this->config['dbTablePrefix']}user_log_info AS uli,
-                {$this->config['dbTablePrefix']}user_log_session AS uls,
-                {$this->config['dbTablePrefix']}user_user AS uu
+                {$this->config->dbTablePrefix}user_log AS ul,
+                {$this->config->dbTablePrefix}user_log_info AS uli,
+                {$this->config->dbTablePrefix}user_log_session AS uls,
+                {$this->config->dbTablePrefix}user_user AS uu
             WHERE
                 ul.`id_log` = uli.`id_log`
             AND

@@ -55,31 +55,31 @@ class ActionNavigationDeleteNode extends JapaAction
 
     private function deleteNode( $id_node )
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_node_lock
                   WHERE
                    `id_node`={$id_node}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_media_pic
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_media_pic
                   WHERE
                    `id_node`={$id_node}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_media_file
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_media_file
                   WHERE
                    `id_node`={$id_node}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_index
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_index
                   WHERE
                    `id_node`={$id_node}";
 
         $this->model->dba->query($sql);
 
-        $sql = "SELECT `media_folder` FROM {$this->config['dbTablePrefix']}navigation_node
+        $sql = "SELECT `media_folder` FROM {$this->config->dbTablePrefix}navigation_node
                   WHERE
                    `id_node`={$id_node}";
                    
@@ -93,7 +93,7 @@ class ActionNavigationDeleteNode extends JapaAction
             JapaCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/navigation/'.$row['media_folder'] );
         }
         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_node
                   WHERE
                    `id_node`={$id_node}";
 

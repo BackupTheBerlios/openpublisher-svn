@@ -48,7 +48,7 @@ class ActionUserLogAddEvent extends JapaAction
      */
     function perform( $data = FALSE )
     {       
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_log
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}user_log
                    (`id_session`,`logdate`)
                   VALUES
                    ({$this->config['user']['log_id_session']},'{$this->config['gmtDate']}')";
@@ -68,7 +68,7 @@ class ActionUserLogAddEvent extends JapaAction
             $comma   = ",";
         }  
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_log_info
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}user_log_info
                    ($fields)
                   VALUES
                    ($quest)";

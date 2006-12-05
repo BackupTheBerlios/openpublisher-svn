@@ -33,7 +33,6 @@ class ActionLinkInit extends JapaAction
     public function perform( $data = FALSE )
     {
         $this->checkModuleVersion();
-        $this->loadConfig();
     } 
     /**
      * Check module version and upgrade or install this module if necessairy
@@ -52,23 +51,6 @@ class ActionLinkInit extends JapaAction
         }
         
         unset($info);
-    }
-    /**
-     * Load config values
-     *
-     */    
-    private function loadConfig()
-    {
-        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}link_config";
-        
-        $rs = $this->model->dba->query($sql);
-        
-        $fields = $rs->fetchAssoc();
-
-        foreach($fields as $key => $val)
-        {
-            $this->config['link'][$key] = $val; 
-        }
     }
     
     public function validate( $data = false )

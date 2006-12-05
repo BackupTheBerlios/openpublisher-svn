@@ -31,7 +31,7 @@ class ActionNavigationReorderRank extends JapaAction
             SELECT
                 `id_node`
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_parent`={$data['id_parent']} 
             ORDER BY `rank` ASC";
@@ -42,7 +42,7 @@ class ActionNavigationReorderRank extends JapaAction
 
         while($row = $rs->fetchAssoc())
         {
-            $sql = "UPDATE {$this->config['dbTablePrefix']}navigation_node
+            $sql = "UPDATE {$this->config->dbTablePrefix}navigation_node
                     SET `rank`={$rank}
                     WHERE
                         `id_node`={$row['id_node']}";  

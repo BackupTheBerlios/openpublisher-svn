@@ -133,7 +133,7 @@ class ActionUserLock extends JapaAction
         
         if($result == FALSE)
         {
-            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}user_lock
+            $sql = "REPLACE INTO {$this->config->dbTablePrefix}user_lock
                         (`id_user`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_user']},NOW(),{$data['by_id_user']})";
@@ -150,7 +150,7 @@ class ActionUserLock extends JapaAction
      */    
     private function unlockUser($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_lock
                   WHERE
                    `id_user`={$data['id_user']}";
 
@@ -163,7 +163,7 @@ class ActionUserLock extends JapaAction
      */    
     private function deleteExpiredLocks()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_lock
                   WHERE
                    `lock_time` < NOW()-3600";
 
@@ -176,7 +176,7 @@ class ActionUserLock extends JapaAction
      */    
     private function unlockAll()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock";
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_lock";
 
         $this->model->dba->query($sql);        
     }      
@@ -187,7 +187,7 @@ class ActionUserLock extends JapaAction
      */    
     private function unlockByIdUser($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_lock
                 WHERE `by_id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);        
@@ -205,7 +205,7 @@ class ActionUserLock extends JapaAction
         $sql = "SELECT 
                     `by_id_user` 
                 FROM 
-                    {$this->config['dbTablePrefix']}user_lock
+                    {$this->config->dbTablePrefix}user_lock
                 WHERE
                    `id_user`={$data['id_user']}";
 

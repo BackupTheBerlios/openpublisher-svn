@@ -82,7 +82,7 @@ class ActionNavigationUpdatePicture extends JapaAction
     {
         $sql = "
             DELETE FROM
-                {$this->config['dbTablePrefix']}navigation_media_pic
+                {$this->config->dbTablePrefix}navigation_media_pic
             WHERE
                 id_pic='{$data['id_pic']}'";
         
@@ -91,7 +91,7 @@ class ActionNavigationUpdatePicture extends JapaAction
         // Reorder the picture rank
         $sql = "
             SELECT `id_pic` FROM
-                {$this->config['dbTablePrefix']}navigation_media_pic
+                {$this->config->dbTablePrefix}navigation_media_pic
             WHERE
                 id_node='{$data['id_node']}'
             ORDER BY `rank` ASC";
@@ -101,7 +101,7 @@ class ActionNavigationUpdatePicture extends JapaAction
         
         while($row = $stmt->fetchAssoc())
         {
-            $sql = "UPDATE {$this->config['dbTablePrefix']}navigation_media_pic
+            $sql = "UPDATE {$this->config->dbTablePrefix}navigation_media_pic
                       SET
                         `rank`={$rank}
                     WHERE
@@ -123,7 +123,7 @@ class ActionNavigationUpdatePicture extends JapaAction
             $comma   = ",";
         }
         
-        $sql = "UPDATE {$this->config['dbTablePrefix']}navigation_node
+        $sql = "UPDATE {$this->config->dbTablePrefix}navigation_node
                   SET
                    $fields
                   WHERE

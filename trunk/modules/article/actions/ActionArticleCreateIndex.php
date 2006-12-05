@@ -32,7 +32,7 @@ class ActionArticleCreateIndex extends JapaAction
                 `subtitle`,`header`,
                 `description`,`body`,`ps`
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE
                 `id_article`={$data['id_article']}";
         
@@ -79,7 +79,7 @@ class ActionArticleCreateIndex extends JapaAction
      */    
     public function insert( $id_article, & $content )
     { 
-        $sql = "REPLACE DELAYED INTO {$this->config['dbTablePrefix']}article_index 
+        $sql = "REPLACE DELAYED INTO {$this->config->dbTablePrefix}article_index 
                    SET  `id_article`={$id_article},
                         `text1`='{$content[0]}',
                         `text2`='{$content[1]}',

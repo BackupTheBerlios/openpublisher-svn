@@ -82,7 +82,7 @@ class ActionArticleUpdatePicture extends JapaAction
     {
         $sql = "
             DELETE FROM
-                {$this->config['dbTablePrefix']}article_media_pic
+                {$this->config->dbTablePrefix}article_media_pic
             WHERE
                 id_pic='{$data['id_pic']}'";
         
@@ -91,7 +91,7 @@ class ActionArticleUpdatePicture extends JapaAction
         // Reorder the picture rank
         $sql = "
             SELECT `id_pic` FROM
-                {$this->config['dbTablePrefix']}article_media_pic
+                {$this->config->dbTablePrefix}article_media_pic
             WHERE
                 id_article='{$data['id_article']}'
             ORDER BY `rank` ASC";
@@ -101,7 +101,7 @@ class ActionArticleUpdatePicture extends JapaAction
         
         while($row = $stmt->fetchAssoc())
         {
-            $sql = "UPDATE {$this->config['dbTablePrefix']}article_media_pic
+            $sql = "UPDATE {$this->config->dbTablePrefix}article_media_pic
                       SET
                         `rank`={$rank}
                     WHERE
@@ -123,7 +123,7 @@ class ActionArticleUpdatePicture extends JapaAction
             $comma = ",";
         }
         
-        $sql = "UPDATE {$this->config['dbTablePrefix']}article_article
+        $sql = "UPDATE {$this->config->dbTablePrefix}article_article
                   SET
                    $fields
                   WHERE

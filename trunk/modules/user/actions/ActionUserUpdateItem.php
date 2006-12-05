@@ -52,7 +52,7 @@ class ActionUserUpdateItem extends JapaAction
                 $comma   = ",";
             }
 
-            $sql = "UPDATE {$this->config['dbTablePrefix']}{$this->table}
+            $sql = "UPDATE {$this->config->dbTablePrefix}{$this->table}
                       SET
                        $fields
                       WHERE

@@ -58,7 +58,7 @@ class ActionNavigationUpdateConfigOptions extends JapaAction
         }
         
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}navigation_config
+            UPDATE {$this->config->dbTablePrefix}navigation_config
                 SET
                    $fields";
         

@@ -42,7 +42,7 @@ class ActionUserCheckLogin extends JapaAction
                     role,
                     user_gmt
                 FROM
-                    {$this->config['dbTablePrefix']}user_user
+                    {$this->config->dbTablePrefix}user_user
                 WHERE
                     login='{$login}'
                 AND

@@ -27,7 +27,7 @@ class ActionNavigationGetAllConfigOptions extends JapaAction
      */
     public function perform( $data = FALSE )
     {
-        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}navigation_config";
+        $sql = "SELECT * FROM {$this->config->dbTablePrefix}navigation_config";
 
         $rs = $this->model->dba->query($sql);
         

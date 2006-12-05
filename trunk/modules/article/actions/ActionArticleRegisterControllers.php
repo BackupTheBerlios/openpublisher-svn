@@ -33,7 +33,7 @@ class ActionArticleRegisterControllers extends JapaAction
         if($data['action'] == 'register')
         {
             $sql = "
-                SELECT `id_controller` FROM {$this->config['dbTablePrefix']}article_public_controller
+                SELECT `id_controller` FROM {$this->config->dbTablePrefix}article_public_controller
                  WHERE `name`='{$data['name']}'";
 
             $rs = $this->model->dba->query($sql);    
@@ -41,7 +41,7 @@ class ActionArticleRegisterControllers extends JapaAction
             if($rs->numRows() == 0)
             {    
                 $sql = "
-                    INSERT INTO {$this->config['dbTablePrefix']}article_public_controller
+                    INSERT INTO {$this->config->dbTablePrefix}article_public_controller
                      (`name`)
                     VALUES
                      ('{$data['name']}')";
@@ -52,14 +52,14 @@ class ActionArticleRegisterControllers extends JapaAction
         elseif($data['action'] == 'unregister')
         {
             $sql = "
-                DELETE FROM {$this->config['dbTablePrefix']}article_public_controller
+                DELETE FROM {$this->config->dbTablePrefix}article_public_controller
                 WHERE
                    `id_controller`={$data['id_controller']}";
 
             $this->model->dba->query($sql);
             
             $sql = "
-                DELETE FROM {$this->config['dbTablePrefix']}article_node_controller_rel
+                DELETE FROM {$this->config->dbTablePrefix}article_node_controller_rel
                 WHERE
                    `id_controller`={$data['id_controller']}";
 

@@ -165,7 +165,7 @@ class ActionArticleMoveArticleRank extends JapaAction
                 `id_article`,
                 `rank`
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE
                 `id_node`={$id_node}
             AND

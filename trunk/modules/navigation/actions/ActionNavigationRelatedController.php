@@ -33,8 +33,8 @@ class ActionNavigationRelatedController extends JapaAction
             SELECT
                 v.`name`
             FROM
-                {$this->config['dbTablePrefix']}navigation_node AS n,
-                {$this->config['dbTablePrefix']}navigation_public_controller AS v
+                {$this->config->dbTablePrefix}navigation_node AS n,
+                {$this->config->dbTablePrefix}navigation_public_controller AS v
             WHERE
                 n.`id_node`={$data['id_node']} 
             AND

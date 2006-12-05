@@ -52,7 +52,7 @@ class ActionNavigationGetAllFiles extends JapaAction
             SELECT SQL_CACHE 
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_media_file
+                {$this->config->dbTablePrefix}navigation_media_file
             WHERE
                 (`id_node`={$data['id_node']})
             ORDER BY

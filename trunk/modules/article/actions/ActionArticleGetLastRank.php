@@ -32,7 +32,7 @@ class ActionArticleGetLastRank extends JapaAction
             SELECT
                 `rank`
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE
                 `id_node`={$data['id_node']}
             ORDER BY `rank` DESC

@@ -140,7 +140,7 @@ class ActionArticleLock extends JapaAction
         
         if($result == FALSE)
         {
-            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_lock
+            $sql = "REPLACE INTO {$this->config->dbTablePrefix}article_lock
                         (`id_article`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_article']},NOW(),{$data['by_id_user']})";
@@ -157,7 +157,7 @@ class ActionArticleLock extends JapaAction
      */    
     private function unlockArticle($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_lock
                   WHERE
                    `id_article`={$data['id_article']}";
 
@@ -170,7 +170,7 @@ class ActionArticleLock extends JapaAction
      */    
     private function deleteExpiredLocks()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_lock
                   WHERE
                    `lock_time` < (NOW()-{$this->config['common']['max_lock_time']})";
 
@@ -183,7 +183,7 @@ class ActionArticleLock extends JapaAction
      */    
     private function unlockAll()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_lock";
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_lock";
 
         $this->model->dba->query($sql);        
     }      
@@ -194,7 +194,7 @@ class ActionArticleLock extends JapaAction
      */    
     private function unlockByIdUser($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_lock
                 WHERE `by_id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);        
@@ -212,7 +212,7 @@ class ActionArticleLock extends JapaAction
         $sql = "SELECT 
                     `by_id_user` 
                 FROM 
-                    {$this->config['dbTablePrefix']}article_lock
+                    {$this->config->dbTablePrefix}article_lock
                 WHERE
                    `id_article`={$data['id_article']}";
 

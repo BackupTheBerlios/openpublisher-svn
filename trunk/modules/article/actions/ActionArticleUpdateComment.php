@@ -60,7 +60,7 @@ class ActionArticleUpdateComment extends JapaAction
         }
         
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}article_comment
+            UPDATE {$this->config->dbTablePrefix}article_comment
                 SET
                    $fields
                 WHERE

@@ -43,7 +43,7 @@ class ActionNavigationGetNodePublicControllers extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_public_controller
+                {$this->config->dbTablePrefix}navigation_public_controller
             ORDER BY `name`";
 
         $rs = $this->model->dba->query($sql);

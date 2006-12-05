@@ -54,7 +54,7 @@ class ActionUserGetAllThumbs extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}user_media_pic
+                {$this->config->dbTablePrefix}user_media_pic
             WHERE
                 (`id_user`={$data['id_user']})
             ORDER BY

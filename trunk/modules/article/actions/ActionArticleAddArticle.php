@@ -114,7 +114,7 @@ class ActionArticleAddArticle extends JapaAction
             $quest  .= $comma.$this->getRank( $data['id_node'] );        
         }          
 
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_article
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}article_article
                    ($fields,`id_node`)
                   VALUES
                    ({$quest},{$data['id_node']})";
@@ -202,7 +202,7 @@ class ActionArticleAddArticle extends JapaAction
             SELECT
                 `rank`
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE
                 `id_node`={$id_node}
             ORDER BY `rank` DESC

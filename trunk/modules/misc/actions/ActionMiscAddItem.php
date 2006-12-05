@@ -148,7 +148,7 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
 
         $file_size = filesize($_file);
        
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}misc_text_file
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}misc_text_file
                    (id_text,rank,file,size,mime)
                   VALUES
                    ({$data['id_text']},
@@ -195,7 +195,7 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
         
         $rank = $this->getNewLastRank( $data['id_text'], 'misc_text_pic' );
                 
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}misc_text_pic
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}misc_text_pic
                    (id_text,rank,file,size,mime,width,height)
                   VALUES
                    ({$data['id_text']},
@@ -222,7 +222,7 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
             SELECT
                 rank
             FROM
-                {$this->config['dbTablePrefix']}{$table}  
+                {$this->config->dbTablePrefix}{$table}  
             WHERE
                 id_text={$id_text}
             ORDER BY 

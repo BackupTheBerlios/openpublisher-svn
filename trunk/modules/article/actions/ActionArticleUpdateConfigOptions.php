@@ -75,7 +75,7 @@ class ActionArticleUpdateConfigOptions extends JapaAction
         }
         
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}article_config
+            UPDATE {$this->config->dbTablePrefix}article_config
                 SET
                    $fields";
         

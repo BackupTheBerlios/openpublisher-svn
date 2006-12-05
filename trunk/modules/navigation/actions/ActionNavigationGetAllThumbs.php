@@ -54,7 +54,7 @@ class ActionNavigationGetAllThumbs extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_media_pic
+                {$this->config->dbTablePrefix}navigation_media_pic
             WHERE
                 (`id_node`={$data['id_node']})
             ORDER BY

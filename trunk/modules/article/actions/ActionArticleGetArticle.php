@@ -103,7 +103,7 @@ class ActionArticleGetArticle extends JapaAction
         {
             if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_date = $this->config['gmtDate'];
+                $_date = $this->config->getVar('gmtDate');
             }
             else
             {
@@ -120,7 +120,7 @@ class ActionArticleGetArticle extends JapaAction
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE
                 `id_article`={$data['id_article']} 
                 {$sql_where}
@@ -142,7 +142,7 @@ class ActionArticleGetArticle extends JapaAction
                     DATE_ADD(`changedate`,INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR) AS `changedate`,
 					`status` AS `changestatus`
                 FROM
-                    {$this->config['dbTablePrefix']}article_changedate
+                    {$this->config->dbTablePrefix}article_changedate
                 WHERE
                     `id_article`={$data['id_article']}";
         
@@ -167,8 +167,8 @@ class ActionArticleGetArticle extends JapaAction
                     avr.`id_controller`,
                     av.`name`
                 FROM
-                    {$this->config['dbTablePrefix']}article_controller_rel AS avr,
-                    {$this->config['dbTablePrefix']}article_public_controller AS av
+                    {$this->config->dbTablePrefix}article_controller_rel AS avr,
+                    {$this->config->dbTablePrefix}article_public_controller AS av
                 WHERE
                     avr.`id_article`={$data['id_article']}
                 AND

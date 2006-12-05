@@ -94,7 +94,7 @@ class ActionArticleUpdateArticle extends JapaAction
         $fields .= ",`modifydate`='{$this->config['gmtDate']}'";
 
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}article_article
+            UPDATE {$this->config->dbTablePrefix}article_article
                 SET
                    $fields
                 WHERE
@@ -106,7 +106,7 @@ class ActionArticleUpdateArticle extends JapaAction
         {
             if($data['fields']['changedate'] == FALSE)
             {
-                $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_changedate
+                $sql = "DELETE FROM {$this->config->dbTablePrefix}article_changedate
                            WHERE `id_article` = {$data['id_article']}";
 
                 $this->model->dba->query($sql);              
@@ -114,7 +114,7 @@ class ActionArticleUpdateArticle extends JapaAction
             else
             {
                 // update article changed status
-                $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_changedate
+                $sql = "REPLACE INTO {$this->config->dbTablePrefix}article_changedate
                            SET `id_article` = {$data['id_article']},
                                `changedate` = DATE_SUB('{$this->model->dba->escape($data['fields']['changedate'])}',INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR),
                                `status`     = {$data['fields']['changestatus']}";

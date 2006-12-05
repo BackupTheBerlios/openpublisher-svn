@@ -139,7 +139,7 @@ class ActionKeywordLock extends JapaAction
         
         if($result == FALSE)
         {
-            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}keyword_lock
+            $sql = "REPLACE INTO {$this->config->dbTablePrefix}keyword_lock
                         (`id_key`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_key']},NOW(),{$data['by_id_user']})";
@@ -156,7 +156,7 @@ class ActionKeywordLock extends JapaAction
      */    
     private function unlockKeyword($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}keyword_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}keyword_lock
                   WHERE
                    `id_key`={$data['id_key']}";
 
@@ -169,7 +169,7 @@ class ActionKeywordLock extends JapaAction
      */    
     private function deleteExpiredLocks()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}keyword_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}keyword_lock
                   WHERE
                    `lock_time` < NOW()-3600";
 
@@ -182,7 +182,7 @@ class ActionKeywordLock extends JapaAction
      */    
     private function unlockAll()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}keyword_lock";
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}keyword_lock";
 
         $this->model->dba->query($sql);        
     }      
@@ -193,7 +193,7 @@ class ActionKeywordLock extends JapaAction
      */    
     private function unlockByIdUser($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}keyword_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}keyword_lock
                 WHERE `by_id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);        
@@ -211,7 +211,7 @@ class ActionKeywordLock extends JapaAction
         $sql = "SELECT 
                     `by_id_user` 
                 FROM 
-                    {$this->config['dbTablePrefix']}keyword_lock
+                    {$this->config->dbTablePrefix}keyword_lock
                 WHERE
                    `id_key`={$data['id_key']}";
 

@@ -58,7 +58,7 @@ class ActionMiscGetPicture extends JapaAction
         if(in_array('media_folder',$data['fields']))
         {
             $sel = $comma.'n.`media_folder`';
-            $table = ",{$this->config['dbTablePrefix']}misc_text AS n ";
+            $table = ",{$this->config->dbTablePrefix}misc_text AS n ";
             $where = " AND p.id_text=n.id_text";
         }
         else
@@ -73,7 +73,7 @@ class ActionMiscGetPicture extends JapaAction
                 {$_fields}
                 {$sel}
             FROM
-                {$this->config['dbTablePrefix']}misc_text_pic AS p
+                {$this->config->dbTablePrefix}misc_text_pic AS p
                 {$table}
             WHERE
                 p.`id_pic`= {$data['id_pic']}

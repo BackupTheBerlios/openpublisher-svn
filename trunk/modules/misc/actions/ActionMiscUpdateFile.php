@@ -87,7 +87,7 @@ class ActionMiscUpdateFile extends JapaAction
     {
         $sql = "
             DELETE FROM
-                {$this->config['dbTablePrefix']}misc_text_file
+                {$this->config->dbTablePrefix}misc_text_file
             WHERE
                 id_file='{$data['id_file']}'";
         
@@ -96,7 +96,7 @@ class ActionMiscUpdateFile extends JapaAction
         // Reorder the picture rank
         $sql = "
             SELECT `id_file` FROM
-                {$this->config['dbTablePrefix']}misc_text_file
+                {$this->config->dbTablePrefix}misc_text_file
             WHERE
                 id_text='{$data['id_text']}'
             ORDER BY `rank` ASC";
@@ -106,7 +106,7 @@ class ActionMiscUpdateFile extends JapaAction
         
         while($row = $stmt->fetchAssoc())
         {
-            $sql = "UPDATE {$this->config['dbTablePrefix']}misc_text_file
+            $sql = "UPDATE {$this->config->dbTablePrefix}misc_text_file
                       SET
                         `rank`={$rank}
                     WHERE
@@ -128,7 +128,7 @@ class ActionMiscUpdateFile extends JapaAction
             $comma   = ",";
         }
         
-        $sql = "UPDATE {$this->config['dbTablePrefix']}misc_text
+        $sql = "UPDATE {$this->config->dbTablePrefix}misc_text
                   SET
                    $fields
                   WHERE

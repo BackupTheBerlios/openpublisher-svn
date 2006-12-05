@@ -75,7 +75,7 @@ class ActionLinkGetLinks extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}link_links
+                {$this->config->dbTablePrefix}link_links
             WHERE
                 `id_node`={$data['id_node']} 
                 {$sql_where} 

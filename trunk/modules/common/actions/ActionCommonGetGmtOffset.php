@@ -27,15 +27,18 @@ class ActionCommonGetGmtOffset extends JapaAction
      */
     public function perform( $data = FALSE )
     {
+        $_user_gmt    = $this->config->getVar('user_gmt');
+        $_default_gmt = $this->config->getVar('default_gmt');
+        
         // first check if a logged user gmt offset is available
-        if(isset($this->config['user_gmt']))
+        if(null !== $_user_gmt)
         {
-            return (string)$this->config['user_gmt'];
+            return (string)$_user_gmt;
         }
         // else get site default gmt offset
-        elseif(isset($this->config['default_gmt']))
+        elseif(null !== $_default_gmt)
         {
-            return (string)$this->config['default_gmt'];
+            return (string)$_default_gmt;
         }
         
         return '0';

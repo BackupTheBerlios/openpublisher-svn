@@ -69,7 +69,7 @@ class ActionUserFileUploadBase extends JapaAction
         $sql = "SELECT 
                     `media_folder` 
                 FROM 
-                    {$this->config['dbTablePrefix']}user_user
+                    {$this->config->dbTablePrefix}user_user
                 WHERE
                     `id_user`=$id_user";
                   

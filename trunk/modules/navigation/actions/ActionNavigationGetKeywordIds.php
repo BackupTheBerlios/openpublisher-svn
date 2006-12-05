@@ -36,7 +36,7 @@ class ActionNavigationGetKeywordIds extends JapaAction
         {
             $sql_key_status  = " AND nk.`id_key`=k.`id_key`";
             $sql_key_status .= " AND k.`status`{$data['key_status'][0]}{$data['key_status'][1]}";
-            $sql_key_table   = ",{$this->config['dbTablePrefix']}keyword AS k";
+            $sql_key_table   = ",{$this->config->dbTablePrefix}keyword AS k";
         }
         else
         {
@@ -47,7 +47,7 @@ class ActionNavigationGetKeywordIds extends JapaAction
         $sql = "SELECT SQL_CACHE
                   nk.`id_key`
                 FROM 
-                  {$this->config['dbTablePrefix']}navigation_keyword AS nk
+                  {$this->config->dbTablePrefix}navigation_keyword AS nk
                   {$sql_key_table}
                 WHERE
                    nk.`id_node`={$data['id_node']}

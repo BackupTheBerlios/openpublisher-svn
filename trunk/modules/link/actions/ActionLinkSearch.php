@@ -92,7 +92,7 @@ class ActionLinkSearch extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}link_links
+                {$this->config->dbTablePrefix}link_links
             WHERE MATCH 
                 (`title`,`description`) 
             AGAINST 

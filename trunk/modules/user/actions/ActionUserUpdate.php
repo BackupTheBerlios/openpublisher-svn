@@ -41,7 +41,7 @@ class ActionUserUpdate extends ActionUser
             $comma   = ",";
         }
         
-        $sql = "UPDATE {$this->config['dbTablePrefix']}user_user
+        $sql = "UPDATE {$this->config->dbTablePrefix}user_user
                   SET
                    $fields
                   WHERE
@@ -225,7 +225,7 @@ class ActionUserUpdate extends ActionUser
             SELECT
                 id_user
             FROM
-                {$this->config['dbTablePrefix']}user_user
+                {$this->config->dbTablePrefix}user_user
             WHERE
                 id_user=$id_user";
         

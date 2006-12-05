@@ -34,7 +34,7 @@ class ActionArticleRemoveKeyword extends JapaAction
      */
     public function perform( $data = FALSE )
     {         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_keyword
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_keyword
                   WHERE
                    {$this->sqlArticle}
                    {$this->sqlKey}";

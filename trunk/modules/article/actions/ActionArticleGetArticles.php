@@ -250,8 +250,8 @@ class ActionArticleGetArticles extends JapaAction
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_article AS aa,
-                {$this->config['dbTablePrefix']}navigation_node AS nn
+                {$this->config->dbTablePrefix}article_article AS aa,
+                {$this->config->dbTablePrefix}navigation_node AS nn
             WHERE
                 aa.`id_node`=nn.`id_node`
                 {$sql_where} 
@@ -541,7 +541,7 @@ class ActionArticleGetArticles extends JapaAction
             SELECT {$this->sqlCache}
                 count(`id_comment`) AS `num_rows` 
             FROM
-                {$this->config['dbTablePrefix']}article_comment
+                {$this->config->dbTablePrefix}article_comment
             WHERE
                 `id_article`={$id_article}";
 

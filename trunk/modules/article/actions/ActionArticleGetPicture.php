@@ -58,7 +58,7 @@ class ActionArticleGetPicture extends JapaAction
         if(in_array('media_folder',$data['fields']))
         {
             $sel = $comma.'a.`media_folder`';
-            $table = ",{$this->config['dbTablePrefix']}article_article AS a ";
+            $table = ",{$this->config->dbTablePrefix}article_article AS a ";
             $where = " AND m.id_article=a.id_article";
         }
         else
@@ -73,7 +73,7 @@ class ActionArticleGetPicture extends JapaAction
                 {$_fields}
                 {$sel}
             FROM
-                {$this->config['dbTablePrefix']}article_media_pic AS m
+                {$this->config->dbTablePrefix}article_media_pic AS m
                 {$table}
             WHERE
                 m.`id_pic`={$data['id_pic']}

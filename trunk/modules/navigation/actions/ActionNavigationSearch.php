@@ -119,8 +119,8 @@ class ActionNavigationSearch extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_index AS i,
-                {$this->config['dbTablePrefix']}navigation_node  AS n
+                {$this->config->dbTablePrefix}navigation_index AS i,
+                {$this->config->dbTablePrefix}navigation_node  AS n
             WHERE MATCH 
                 (i.`text1`,i.`text2`,i.`text3`,i.`text4`) 
             AGAINST 

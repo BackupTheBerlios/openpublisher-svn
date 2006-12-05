@@ -28,49 +28,49 @@ class ActionArticleDeleteArticle extends JapaAction
      */
     public function perform( $data = FALSE )
     {         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_lock
                   WHERE
                    `id_article`={$data['id_article']}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_media_pic
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_media_pic
                   WHERE
                    `id_article`={$data['id_article']}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_media_file
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_media_file
                   WHERE
                    `id_article`={$data['id_article']}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_index
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_index
                   WHERE
                    `id_article`={$data['id_article']}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_keyword
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_keyword
                   WHERE
                    `id_article`={$data['id_article']}";
 
         $this->model->dba->query($sql);
         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_comment
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_comment
                   WHERE
                    `id_article`={$data['id_article']}";
 
         $this->model->dba->query($sql);  
         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_user
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_user
                   WHERE
                    `id_article`={$data['id_article']}";
 
         $this->model->dba->query($sql);  
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_view_rel
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_view_rel
                   WHERE
                    `id_article`={$data['id_article']}";
 
@@ -80,7 +80,7 @@ class ActionArticleDeleteArticle extends JapaAction
                   `media_folder`,
                   `id_node`
                 FROM 
-                  {$this->config['dbTablePrefix']}article_article
+                  {$this->config->dbTablePrefix}article_article
                 WHERE
                    `id_article`={$data['id_article']}";
                    
@@ -94,7 +94,7 @@ class ActionArticleDeleteArticle extends JapaAction
             JapaCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/article/'.$row['media_folder'] );
         }
         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_article
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_article
                   WHERE
                    `id_article`={$data['id_article']}";
 

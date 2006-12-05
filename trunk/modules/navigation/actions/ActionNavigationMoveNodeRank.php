@@ -146,7 +146,7 @@ class ActionNavigationMoveNodeRank extends JapaAction
                 `id_node`,
                 `rank`
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_parent`={$id_parent} 
             AND

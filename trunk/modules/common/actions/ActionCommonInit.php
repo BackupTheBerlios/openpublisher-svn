@@ -52,25 +52,27 @@ class ActionCommonInit extends JapaAction
         $mysqlExtension = $this->getMySqlExtensionType();
         // db class
         include_once(JAPA_MODULES_DIR . 'common/includes/Japa'.$mysqlExtension.'.php');
-         
+        
+        $_config_path = $this->config->getVar('config_path'); 
+        
         // Check if a setup was successfull done else launch setup > 'setup' module
-        if(file_exists($this->config['config_path'] . 'dbConnect.php'))
+        if(file_exists($_config_path . 'dbConnect.php'))
         {
-            include_once($this->config['config_path'] . 'dbConnect.php');
+            include_once($_config_path . 'dbConnect.php');
         }
         else
         {
-            throw new JapaForwardAdminViewException( $this->config['setup_module'] );        
+            throw new JapaForwardAdminViewException( $this->config->getVar('setup_module') );        
         }
 
         // set db config vars
-        $this->config['dbtype']        = 'mysql';
-        $this->config['dbhost']        = $db['dbhost'];
-        $this->config['dbuser']        = $db['dbuser'];
-        $this->config['dbpasswd']      = $db['dbpasswd'];
-        $this->config['dbname']        = $db['dbname'];
-        $this->config['dbTablePrefix'] = $db['dbTablePrefix'];
-        $this->config['dbcharset']     = $db['dbcharset'];
+        //$this->config['dbtype']        = 'mysql';
+        //$this->config['dbhost']        = $db['dbhost'];
+        //$this->config['dbuser']        = $db['dbuser'];
+        //$this->config['dbpasswd']      = $db['dbpasswd'];
+        //$this->config['dbname']        = $db['dbname'];
+        $this->config->dbTablePrefix     = $db['dbTablePrefix'];
+        //$this->config['dbcharset']     = $db['dbcharset'];
 
         try
         {
@@ -78,7 +80,7 @@ class ActionCommonInit extends JapaAction
                                              $db['dbpasswd'],$db['dbname'] );
 
             // enable debugging of sql queries
-            $this->model->dba->debug = $this->config['debug']; 
+            $this->model->dba->debug = $this->config->getVar('debug'); 
                                               
             //$dbaOptions = array(MYSQLI_OPT_CONNECT_TIMEOUT => 5);
             $this->model->dba->connect();  
@@ -100,7 +102,7 @@ class ActionCommonInit extends JapaAction
         $this->checkModuleVersion();   
        
         // set session handler
-        $this->model->sessionHandler = new JapaSessionHandler( $this->model->dba, $this->config['dbTablePrefix'] );
+        $this->model->sessionHandler = new JapaSessionHandler( $this->model->dba, $db['dbTablePrefix'] );
 
         // init and start session
         $this->startSession();
@@ -109,43 +111,45 @@ class ActionCommonInit extends JapaAction
         $this->checkOpenPublisherVersion();
         
         // build gmt time and date
-        $this->config['gmtTime'] = time() - $this->config['common']['server_gmt'] * 3600;
-        $this->config['gmtDate'] = date("Y-m-d H:i:s", $this->config['gmtTime']);
+        $_gmtTime = time() - $this->config->getModuleVar('common', 'server_gmt') * 3600;
+        $this->config->setVar('gmtTime', $_gmtTime);
+        $this->config->setVar('gmtDate', date("Y-m-d H:i:s", $_gmtTime));
 
         // set base url and logged user vars, except if the cli controller is used
-        if($this->config['controller_type'] != 'cli')
+        if($this->config->getVar('controller_type') != 'cli')
         {
             //$this->model->baseUrlLocation = $this->base_location();
             
-            $this->config['loggedUserId']   = $this->model->session->get('loggedUserId');
-            $this->config['loggedUserRole'] = $this->model->session->get('loggedUserRole');
-            $this->config['loggedUserGmt']  = $this->model->session->get('loggedUserGmt');
-            
-            $this->config['user_gmt']       = $this->config['loggedUserGmt'];
+            $this->config->setVar('loggedUserId',   $this->model->session->get('loggedUserId'), false);
+            $this->config->setVar('loggedUserRole', $this->model->session->get('loggedUserRole'), false);
+            $_loggedUserGmt = $this->model->session->get('loggedUserGmt');
+            $this->config->setVar('loggedUserGmt', $_loggedUserGmt, false);
+            $this->config->setVar('user_gmt', $_loggedUserGmt, false);
 
             // if session var for public templates and css folders are defined
             // overwrite default ones
-            if(  NULL != ($tplFolder = $this->model->session->get('templates_folder')) )
+            if(  NULL != ($viewFolder = $this->model->session->get('views_folder')) )
             {
-                $this->config['templates_folder'] = $tplFolder;
+                $this->config->setVar('templates_folder', $viewFolder);
             }
             if(  NULL != ($cssFolder = $this->model->session->get('css_folder')) )
             {
-                $this->config['css_folder'] = $cssFolder;
+                $this->config->setVar('css_folder', $cssFolder);
             }  
         }
 
         // enable zlib output compression
-        if($this->config['output_compression'] == TRUE)
+        if($this->config->getVar('output_compression') == TRUE)
         {
             ini_set('zlib.output_compression',       '1');     
-            ini_set('zlib.output_compression_level', $this->config['output_compression_level']);
+            ini_set('zlib.output_compression_level', $this->config->getVar('output_compression_level'));
             ini_set('zlib.output_handler',           '');
         }
         
         // set charset
-        ini_set( "default_charset",$this->config['common']['charset']);
-        @header( "Content-type: text/html; charset={$this->config['common']['charset']}" );         
+        $_charset = $this->config->getModuleVar('common', 'charset');
+        ini_set( "default_charset",$_charset);
+        @header( "Content-type: text/html; charset={$_charset}" );         
     } 
 
     /**
@@ -154,37 +158,16 @@ class ActionCommonInit extends JapaAction
      */    
     private function loadModulesInfo()
     {
-        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}common_module ORDER BY `rank` ASC";
+        $sql = "SELECT SQL_CACHE * FROM {$this->config->dbTablePrefix}common_module ORDER BY `rank` ASC";
         
         $rs = $this->model->dba->query($sql);
-        
-        $this->config['module'] = array();
         
         while($row = $rs->fetchAssoc())
         {
-            $this->config['module'][$row['name']] = $row;
-            $this->config[$row['name']] = unserialize($row['config']);
+            $this->config->setModuleArray($row['name'], unserialize($row['config']), false);
+            unset($row['config']);
             $this->model->register($row['name'], $row); 
-        } 
-        //var_dump( $this->config['common']);die();
-    }
-
-    /**
-     * Load config values
-     *
-     */    
-    private function loadConfig()
-    {
-        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}common_config";
-        
-        $rs = $this->model->dba->query($sql);
-        
-        $fields = $rs->fetchAssoc();
-
-        foreach($fields as $key => $val)
-        {
-            $this->config['common'][$key] = $val;    
-        } 
+        }    
     }
     
     /**
@@ -193,8 +176,9 @@ class ActionCommonInit extends JapaAction
      */    
     private function checkModuleVersion()
     {
+        $_mod_info = $this->model->getModuleInfo( 'common' );
         // need upgrade?
-        if(0 != version_compare($this->config['module']['common']['version'], self::MOD_VERSION))
+        if(0 != version_compare($_mod_info['version'], self::MOD_VERSION))
         {
             // Upgrade this module
             $this->model->action('common','upgrade',
@@ -208,7 +192,7 @@ class ActionCommonInit extends JapaAction
      */    
     private function checkOpenPublisherVersion()
     {
-        if(0 != version_compare($this->config['common']['op_version'], self::OPEN_PUBLISHER_VERSION))
+        if(0 != version_compare($this->config->getModuleVar('common', 'op_version'), self::OPEN_PUBLISHER_VERSION))
         {
             $this->model->action('common','japaCoreNewVersion',
                                  array('new_version' => (string)self::OPEN_PUBLISHER_VERSION));           
@@ -242,7 +226,7 @@ class ActionCommonInit extends JapaAction
     private function startSession()
     {
         ini_set('session.gc_probability', 10);
-        ini_set('session.gc_maxlifetime', $this->config['common']['session_maxlifetime']);
+        ini_set('session.gc_maxlifetime', $this->config->getModuleVar('common', 'session_maxlifetime'));
         
         $this->model->session = new JapaCommonSession();
         // delete only expired session of the current user

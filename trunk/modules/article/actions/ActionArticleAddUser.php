@@ -34,7 +34,7 @@ class ActionArticleAddUser extends JapaAction
             return;
         }
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_user
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}article_user
                    (`id_user`,`id_article`)
                   VALUES
                    ({$data['id_user']},{$data['id_article']})";
@@ -80,7 +80,7 @@ class ActionArticleAddUser extends JapaAction
         $sql = "SELECT SQL_CACHE
                   `id_user`
                 FROM 
-                  {$this->config['dbTablePrefix']}article_user
+                  {$this->config->dbTablePrefix}article_user
                 WHERE
                    `id_article`={$id_article}
                 AND

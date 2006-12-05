@@ -46,7 +46,7 @@ class ActionLinkUpgrade extends JapaAction
      */
     private function upgrade_0_1_to_0_2()
     {
-        $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+        $sql = "UPDATE {$this->config->dbTablePrefix}common_module
                     SET
                         `perm`=60
                     WHERE
@@ -79,7 +79,7 @@ class ActionLinkUpgrade extends JapaAction
      */
     private function setNewModuleVersionNumber( $version )
     {
-        $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+        $sql = "UPDATE {$this->config->dbTablePrefix}common_module
                     SET
                         `version`='{$version}'
                     WHERE

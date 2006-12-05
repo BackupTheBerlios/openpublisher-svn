@@ -41,9 +41,9 @@ class ActionUserInit extends JapaAction
                                        'id_user' => (int)$this->model->session->get('loggedUserId')));
         }
         
-        if($this->config['user']['use_log'] == 1)
+        if($this->config->getModuleVar('user', 'use_log') == 1)
         {
-            $this->config['user']['log_id_session'] = $this->model->session->get('logIdSession');
+            $this->config->setModuleVar('user', 'log_id_session', $this->model->session->get('logIdSession'));
         }
     } 
     /**

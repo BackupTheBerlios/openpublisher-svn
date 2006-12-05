@@ -74,14 +74,14 @@ class ActionArticleUpgrade extends JapaAction
      */
     private function upgrade_0_1_to_0_2()
     {
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}article_node_view_rel (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->dbTablePrefix}article_node_view_rel (
                    `id_view`      int(11) unsigned NOT NULL default 0,
                    `id_node`      int(11) unsigned NOT NULL default 0,
                    UNIQUE KEY `id_node` (`id_node`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);      
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}article_view (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->dbTablePrefix}article_view (
                    `id_view`      int(11) unsigned NOT NULL auto_increment,
                    `name`         varchar(255) NOT NULL default '',
                    PRIMARY KEY    (`id_view`)) 
@@ -95,14 +95,14 @@ class ActionArticleUpgrade extends JapaAction
      */
     private function upgrade_0_2_to_0_3()
     {
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}article_view_rel (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->dbTablePrefix}article_view_rel (
                    `id_view`      int(11) unsigned NOT NULL default 0,
                    `id_article`   int(11) unsigned NOT NULL default 0,
                    UNIQUE KEY `id_article` (`id_article`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);    
 
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_config
                 ADD `use_article_view` tinyint(1) NOT NULL default 0 
                 AFTER `default_ordertype`";
                
@@ -121,7 +121,7 @@ class ActionArticleUpgrade extends JapaAction
      */
     private function upgrade_0_3_to_0_4()
     {
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}article_comment (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->dbTablePrefix}article_comment (
                    `id_comment`    int(11) unsigned NOT NULL auto_increment,
                    `id_article`    int(11) unsigned NOT NULL default 1,
                    `id_user`       int(11) unsigned NOT NULL default 0,
@@ -141,13 +141,13 @@ class ActionArticleUpgrade extends JapaAction
         
         $this->model->dba->query($sql);
 
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_article
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_article
                 ADD `allow_comment` tinyint(1) NOT NULL default 0,
                 ADD `close_comment` tinyint(1) NOT NULL default 0";
                
         $this->model->dba->query($sql);
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_config
                 ADD `use_comment` tinyint(1) NOT NULL default 0
                   AFTER `default_ordertype`,
                 ADD `default_comment_status`  tinyint(1) NOT NULL default 1
@@ -162,7 +162,7 @@ class ActionArticleUpgrade extends JapaAction
      */
     private function upgrade_0_4_to_0_5()
     {
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}article_user (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->dbTablePrefix}article_user (
                    `id_article`     int(11) unsigned NOT NULL default 0,
                    `id_user`        int(11) unsigned NOT NULL default 0,
                    KEY `id_article` (`id_article`),
@@ -170,7 +170,7 @@ class ActionArticleUpgrade extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
         
-        $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+        $sql = "UPDATE {$this->config->dbTablePrefix}common_module
                     SET
                         `perm`=60
                     WHERE
@@ -186,36 +186,36 @@ class ActionArticleUpgrade extends JapaAction
     private function upgrade_0_5_to_0_6()
     {
         $sql = "RENAME TABLE 
-                   {$this->config['dbTablePrefix']}article_node_view_rel 
+                   {$this->config->dbTablePrefix}article_node_view_rel 
                    TO
-                   {$this->config['dbTablePrefix']}article_node_controller_rel";
+                   {$this->config->dbTablePrefix}article_node_controller_rel";
         $this->model->dba->query($sql);   
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_node_controller_rel
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_node_controller_rel
                   CHANGE `id_view` `id_controller` INT(11) unsigned";
         $this->model->dba->query($sql);
 
         $sql = "RENAME TABLE 
-                   {$this->config['dbTablePrefix']}article_view_rel
+                   {$this->config->dbTablePrefix}article_view_rel
                    TO
-                   {$this->config['dbTablePrefix']}article_controller_rel";
+                   {$this->config->dbTablePrefix}article_controller_rel";
         $this->model->dba->query($sql);  
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_controller_rel
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_controller_rel
                   CHANGE `id_view` `id_controller` INT(11) unsigned";
         $this->model->dba->query($sql); 
         
         $sql = "RENAME TABLE 
-                   {$this->config['dbTablePrefix']}article_view
+                   {$this->config->dbTablePrefix}article_view
                    TO
-                   {$this->config['dbTablePrefix']}article_public_controller";
+                   {$this->config->dbTablePrefix}article_public_controller";
         $this->model->dba->query($sql);   
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_public_controller
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_public_controller
                   CHANGE `id_view` `id_controller` INT(11) unsigned NOT NULL auto_increment";
         $this->model->dba->query($sql);   
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_config
                   CHANGE `use_article_view` `use_article_controller` tinyint(1) NOT NULL default 0 ";
         $this->model->dba->query($sql); 
     }
@@ -244,7 +244,7 @@ class ActionArticleUpgrade extends JapaAction
      */
     private function setNewModuleVersionNumber( $version )
     {
-        $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+        $sql = "UPDATE {$this->config->dbTablePrefix}common_module
                     SET
                         `version`='{$version}'
                     WHERE

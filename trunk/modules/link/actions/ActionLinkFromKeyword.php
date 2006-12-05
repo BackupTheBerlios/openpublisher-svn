@@ -132,9 +132,9 @@ class ActionLinkFromKeyword extends JapaAction
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}link_links AS ll,
-                {$this->config['dbTablePrefix']}link_keyword AS lk,
-                {$this->config['dbTablePrefix']}navigation_node AS nn
+                {$this->config->dbTablePrefix}link_links AS ll,
+                {$this->config->dbTablePrefix}link_keyword AS lk,
+                {$this->config->dbTablePrefix}navigation_node AS nn
             WHERE
                 lk.`id_key` IN({$this->id_key_list})
            {$sql_exclude}

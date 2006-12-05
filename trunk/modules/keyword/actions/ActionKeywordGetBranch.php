@@ -123,7 +123,7 @@ class ActionKeywordGetBranch extends JapaAction
             SELECT SQL_CACHE
                 {$this->_fields}
             FROM
-                {$this->config['dbTablePrefix']}keyword
+                {$this->config->dbTablePrefix}keyword
             WHERE
                 `id_key`={$data['id_key']}";
 
@@ -143,7 +143,7 @@ class ActionKeywordGetBranch extends JapaAction
             SELECT SQL_CACHE
                 `id_parent`
             FROM
-                {$this->config['dbTablePrefix']}keyword
+                {$this->config->dbTablePrefix}keyword
             WHERE
                 `id_key`={$id_key}";
         

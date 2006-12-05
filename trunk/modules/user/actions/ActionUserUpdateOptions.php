@@ -43,7 +43,7 @@ class ActionUserUpdateOptions extends smartAction
             $comma   = ",";
         }
         
-        $sql = "UPDATE {$this->config['dbTablePrefix']}user_config SET $fields";
+        $sql = "UPDATE {$this->config->dbTablePrefix}user_config SET $fields";
 
         $this->model->dba->query($sql);
     }

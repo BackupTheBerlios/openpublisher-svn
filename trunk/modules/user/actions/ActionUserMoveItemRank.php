@@ -111,7 +111,7 @@ class ActionUserMoveItemRank extends JapaAction
         // get rank of neighbour file
         $sql = "SELECT 
                     `rank`-1 AS rank
-                FROM {$this->config['dbTablePrefix']}{$this->table}
+                FROM {$this->config->dbTablePrefix}{$this->table}
                 WHERE
                     {$this->id_item}={$data[$this->id_item]}
                 AND
@@ -123,7 +123,7 @@ class ActionUserMoveItemRank extends JapaAction
 
         // move rank of neighbour file
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}{$this->table}
+            UPDATE {$this->config->dbTablePrefix}{$this->table}
                SET `rank`=`rank`+1
             WHERE
                 `rank`={$row['rank']}
@@ -135,7 +135,7 @@ class ActionUserMoveItemRank extends JapaAction
         if($this->model->dba->affectedRows() == 1)
         {
             // update the file rank to move
-            $sql = "UPDATE {$this->config['dbTablePrefix']}{$this->table}
+            $sql = "UPDATE {$this->config->dbTablePrefix}{$this->table}
                       SET
                         `rank`=`rank`-1
                     WHERE
@@ -156,7 +156,7 @@ class ActionUserMoveItemRank extends JapaAction
          // get rank of neighbour file
         $sql = "SELECT 
                     rank+1 AS rank
-                FROM {$this->config['dbTablePrefix']}{$this->table}
+                FROM {$this->config->dbTablePrefix}{$this->table}
                 WHERE
                     {$this->id_item}={$data[$this->id_item]}
                 AND
@@ -168,7 +168,7 @@ class ActionUserMoveItemRank extends JapaAction
 
         // move rank of neighbour file
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}{$this->table}
+            UPDATE {$this->config->dbTablePrefix}{$this->table}
                SET `rank`=`rank`-1
             WHERE
                 `rank`={$row['rank']}
@@ -180,7 +180,7 @@ class ActionUserMoveItemRank extends JapaAction
         if($this->model->dba->affectedRows() == 1)
         {
             // update the file rank to move
-            $sql = "UPDATE {$this->config['dbTablePrefix']}{$this->table}
+            $sql = "UPDATE {$this->config->dbTablePrefix}{$this->table}
                       SET
                         `rank`=`rank`+1
                     WHERE

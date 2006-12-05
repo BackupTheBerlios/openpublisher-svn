@@ -69,8 +69,8 @@ class ActionArticleGetArticleUsers extends ActionUser
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}user_user AS uu,
-                {$this->config['dbTablePrefix']}article_user AS au
+                {$this->config->dbTablePrefix}user_user AS uu,
+                {$this->config->dbTablePrefix}article_user AS au
             WHERE
                 au.`id_article`={$data['id_article']}
             AND

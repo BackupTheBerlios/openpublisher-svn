@@ -55,7 +55,7 @@ class ActionNavigationUpdateNode extends ActionNavigation
         $fields .= $comma."`modifydate`='{$this->config['gmtDate']}'";  
         
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}navigation_node
+            UPDATE {$this->config->dbTablePrefix}navigation_node
                 SET
                    $fields
                 WHERE

@@ -34,8 +34,8 @@ class ActionArticleGetNodeAssociatedController extends JapaAction
                 v.`name`,
                 v.`id_controller`
             FROM
-                {$this->config['dbTablePrefix']}article_node_controller_rel AS an,
-                {$this->config['dbTablePrefix']}article_public_controller AS v
+                {$this->config->dbTablePrefix}article_node_controller_rel AS an,
+                {$this->config->dbTablePrefix}article_public_controller AS v
             WHERE
                 an.`id_node`={$data['id_node']} 
             AND

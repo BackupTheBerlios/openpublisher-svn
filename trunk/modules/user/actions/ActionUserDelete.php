@@ -28,31 +28,31 @@ class ActionUserDelete extends JapaAction
      */
     function perform( $data = FALSE )
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_access
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_access
                   WHERE
                    `id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_lock
                   WHERE
                    `id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_media_pic
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_media_pic
                   WHERE
                    `id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_media_file
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_media_file
                   WHERE
                    `id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);
 
-        $sql = "SELECT `media_folder` FROM {$this->config['dbTablePrefix']}user_user
+        $sql = "SELECT `media_folder` FROM {$this->config->dbTablePrefix}user_user
                   WHERE
                    `id_user`={$data['id_user']}";
                    
@@ -66,7 +66,7 @@ class ActionUserDelete extends JapaAction
             JapaCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/user/'.$row['media_folder'] );
         }
         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_user
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_user
                   WHERE
                    `id_user`={$data['id_user']}";
 

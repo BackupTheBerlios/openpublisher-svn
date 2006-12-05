@@ -63,7 +63,7 @@ class ActionKeywordGetKeyword extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}keyword
+                {$this->config->dbTablePrefix}keyword
             WHERE
                 `id_key`={$data['id_key']} 
                 {$sql_where}";

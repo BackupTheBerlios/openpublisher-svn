@@ -66,7 +66,7 @@ class ActionNavigationAddNode extends ActionNavigation
         $fields .= $comma."`modifydate`";
         $quest  .= $comma."'{$this->config['gmtDate']}'";     
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}navigation_node
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}navigation_node
                    ($fields)
                   VALUES
                    ($quest)";
@@ -163,7 +163,7 @@ class ActionNavigationAddNode extends ActionNavigation
             SELECT
                 `rank`
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_parent`={$id_parent} 
             ORDER BY `rank` DESC
@@ -188,7 +188,7 @@ class ActionNavigationAddNode extends ActionNavigation
     {
         $id_node = $this->model->dba->lastInsertID();
         
-        $sql = "UPDATE {$this->config['dbTablePrefix']}navigation_node
+        $sql = "UPDATE {$this->config->dbTablePrefix}navigation_node
                 SET
                    `id_sector`={$id_node}
                 WHERE

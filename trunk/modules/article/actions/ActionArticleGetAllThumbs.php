@@ -85,7 +85,7 @@ class ActionArticleGetAllThumbs extends JapaAction
         {
             $_articlesector_where     = implode(",", $data['id_sector']);
             $sql_articlesector_where  = "AND nn.`id_sector` IN({$_articlesector_where})";
-            $node_table      = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
+            $node_table      = ",{$this->config->dbTablePrefix}navigation_node AS nn";
             $sql_node_where  = "AND nn.`id_node`=aa.`id_node` ";
         }
 
@@ -97,7 +97,7 @@ class ActionArticleGetAllThumbs extends JapaAction
 
         if(isset($data['node_status']))
         {
-            $node_table      = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
+            $node_table      = ",{$this->config->dbTablePrefix}navigation_node AS nn";
             $sql_node_where  = "AND nn.`id_node`=aa.`id_node` "; 
             $sql_node_where .= "AND nn.`status`{$data['node_status'][0]}{$data['node_status'][1]} "; 
         }
@@ -128,8 +128,8 @@ class ActionArticleGetAllThumbs extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_media_pic AS amp,
-                {$this->config['dbTablePrefix']}article_article AS aa
+                {$this->config->dbTablePrefix}article_media_pic AS amp,
+                {$this->config->dbTablePrefix}article_article AS aa
                 {$node_table}
             WHERE
                 {$sql_article_where}

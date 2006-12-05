@@ -36,7 +36,7 @@ class ActionLinkAddKeyword extends JapaAction
             return;
         }
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}link_keyword
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}link_keyword
                    (`id_key`,`id_link`)
                   VALUES
                    ({$data['id_key']},{$data['id_link']})";
@@ -82,7 +82,7 @@ class ActionLinkAddKeyword extends JapaAction
         $sql = "SELECT SQL_CACHE
                   `id_key`
                 FROM 
-                  {$this->config['dbTablePrefix']}link_keyword
+                  {$this->config->dbTablePrefix}link_keyword
                 WHERE
                    `id_link`={$id_link}
                 AND

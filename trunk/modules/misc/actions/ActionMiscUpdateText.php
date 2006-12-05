@@ -57,7 +57,7 @@ class ActionMiscUpdateText extends JapaAction
         }
        
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}misc_text
+            UPDATE {$this->config->dbTablePrefix}misc_text
                 SET
                    $fields
                 WHERE

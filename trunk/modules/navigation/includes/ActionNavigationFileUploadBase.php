@@ -64,7 +64,7 @@ class ActionNavigationFileUploadBase extends JapaAction
         $sql = "SELECT 
                     `media_folder` 
                 FROM 
-                    {$this->config['dbTablePrefix']}navigation_node
+                    {$this->config->dbTablePrefix}navigation_node
                 WHERE
                     `id_node`={$id_node}";
                   

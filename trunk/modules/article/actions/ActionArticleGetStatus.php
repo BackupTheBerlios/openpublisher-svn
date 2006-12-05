@@ -33,8 +33,8 @@ class ActionArticleGetStatus extends JapaAction
                 n.status AS nodeStatus,
                 a.status AS articleStatus
             FROM
-                {$this->config['dbTablePrefix']}article_article as a,
-                {$this->config['dbTablePrefix']}navigation_node as n
+                {$this->config->dbTablePrefix}article_article as a,
+                {$this->config->dbTablePrefix}navigation_node as n
             WHERE
                 a.`id_article`={$data['id_article']}
             AND

@@ -52,7 +52,7 @@ class ActionKeywordUpdate extends JapaAction
         }
         
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}keyword
+            UPDATE {$this->config->dbTablePrefix}keyword
                 SET
                    $fields
                 WHERE

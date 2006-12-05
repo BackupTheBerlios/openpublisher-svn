@@ -172,7 +172,7 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
 
         $file_size = filesize($_file);
        
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_media_file
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}article_media_file
                    (id_article,rank,file,size,mime)
                   VALUES
                    ({$data['id_article']},
@@ -219,7 +219,7 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
         
         $rank = $this->getNewLastRank( $data['id_article'], 'article_media_pic' );
                 
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_media_pic
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}article_media_pic
                    (id_article,rank,file,size,mime,width,height)
                   VALUES
                    ({$data['id_article']},
@@ -246,7 +246,7 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
             SELECT
                 rank
             FROM
-                {$this->config['dbTablePrefix']}{$table}  
+                {$this->config->dbTablePrefix}{$table}  
             WHERE
                 id_article={$id_article}
             ORDER BY 

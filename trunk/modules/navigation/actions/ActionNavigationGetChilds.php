@@ -85,7 +85,7 @@ class ActionNavigationGetChilds extends JapaAction
             SELECT SQL_CACHE 
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_parent`={$data['id_node']} 
                 {$sql_where} 

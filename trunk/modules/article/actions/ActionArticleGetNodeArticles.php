@@ -102,12 +102,14 @@ class ActionArticleGetNodeArticles extends JapaAction
         {
             $sql_where = "";
         }
+        
+        $_gmtDate = $this->config->getVar('gmtDate');
 
         if(isset($data['pubdate']))
         {
             if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_pdate = $this->config['gmtDate'];
+                $_pdate = $_gmtDate;
             }
             else
             {
@@ -125,7 +127,7 @@ class ActionArticleGetNodeArticles extends JapaAction
         {
             if($data['modifydate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_mdate = $this->config['gmtDate'];
+                $_mdate = $_gmtDate;
             }
             else
             {
@@ -173,7 +175,7 @@ class ActionArticleGetNodeArticles extends JapaAction
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE
                 `id_node`={$data['id_node']}
                 {$sql_where} 

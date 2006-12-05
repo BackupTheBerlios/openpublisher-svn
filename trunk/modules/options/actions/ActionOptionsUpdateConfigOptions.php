@@ -53,7 +53,7 @@ class ActionOptionsUpdateConfigOptions extends JapaAction
         }
         
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}common_config
+            UPDATE {$this->config->dbTablePrefix}common_config
                 SET
                    $fields";
         

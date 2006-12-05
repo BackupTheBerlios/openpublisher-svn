@@ -123,7 +123,7 @@ class ActionArticleSearch extends JapaAction
         {
             $sql_nodestatus = " AND a.id_node=n.id_node 
                                 AND n.`status`{$data['nodeStatus'][0]}{$data['nodeStatus'][1]}";
-            $nodetable = ",{$this->config['dbTablePrefix']}navigation_node AS n";
+            $nodetable = ",{$this->config->dbTablePrefix}navigation_node AS n";
         }
         else
         {
@@ -151,8 +151,8 @@ class ActionArticleSearch extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_index    AS i,
-                {$this->config['dbTablePrefix']}article_article  AS a
+                {$this->config->dbTablePrefix}article_index    AS i,
+                {$this->config->dbTablePrefix}article_article  AS a
                 {$nodetable}
             WHERE MATCH 
                 (i.`text1`,i.`text2`,i.`text3`,i.`text4`) 

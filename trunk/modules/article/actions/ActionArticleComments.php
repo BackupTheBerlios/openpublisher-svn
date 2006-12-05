@@ -103,7 +103,7 @@ class ActionArticleComments extends JapaAction
 
         if(isset($data['article_status']))
         {
-            $article_table       = ",{$this->config['dbTablePrefix']}article_article AS aa";
+            $article_table       = ",{$this->config->dbTablePrefix}article_article AS aa";
             $sql_article_status  = "AND aa.`id_article`=ac.`id_article` "; 
             $sql_article_status .= "AND aa.`status`{$data['article_status'][0]}{$data['article_status'][1]} "; 
         }
@@ -115,7 +115,7 @@ class ActionArticleComments extends JapaAction
 
         if(isset($data['node_status']))
         {
-            $node_table       = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
+            $node_table       = ",{$this->config->dbTablePrefix}navigation_node AS nn";
             $sql_node_status  = " AND nn.`id_node`=ac.`id_node` "; 
             $sql_node_status .= " AND nn.`status`{$data['node_status'][0]}{$data['node_status'][1]} "; 
         }
@@ -143,7 +143,7 @@ class ActionArticleComments extends JapaAction
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_comment AS ac
+                {$this->config->dbTablePrefix}article_comment AS ac
                 {$article_table}
                 {$node_table}
             WHERE

@@ -53,7 +53,7 @@ class ActionUserGetAllFiles extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}user_media_file
+                {$this->config->dbTablePrefix}user_media_file
             WHERE
                 (`id_user`={$data['id_user']})
             ORDER BY

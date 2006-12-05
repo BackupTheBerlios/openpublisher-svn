@@ -32,7 +32,7 @@ class ActionLinkDeleteNodeRelatedContent extends JapaAction
      */
     public function perform( $data = FALSE )
     {  
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_links
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}link_links
                   WHERE
                    `id_node`={$data['id_node']}";
 

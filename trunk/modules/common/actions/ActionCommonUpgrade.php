@@ -66,7 +66,7 @@ class ActionCommonUpgrade extends JapaAction
      */
     private function upgrade_0_1_to_0_2()
     {
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 ADD session_maxlifetime int(11) NOT NULL default 7200 
                 AFTER max_lock_time";
                
@@ -80,7 +80,7 @@ class ActionCommonUpgrade extends JapaAction
      */
     private function upgrade_0_2_to_0_3()
     {
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 ADD `smart_version_num` varchar(20) NOT NULL default '{$this->config['smart_version']}' 
                 AFTER `charset`";
                
@@ -94,7 +94,7 @@ class ActionCommonUpgrade extends JapaAction
      */
     private function upgrade_0_3_to_0_4()
     {
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 ADD `smart_version_num` varchar(20) NOT NULL default '{$this->config['smart_version']}' 
                 AFTER `charset`";
                
@@ -116,37 +116,37 @@ class ActionCommonUpgrade extends JapaAction
             $server_timezone = 1;
         }
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 ADD `server_gmt` tinyint(2) NOT NULL default {$server_timezone} 
                 AFTER `textarea_rows`";
                
         $this->model->dba->query($sql);
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 ADD `default_gmt` tinyint(2) NOT NULL default {$server_timezone}  
                 AFTER `textarea_rows`";
                
         $this->model->dba->query($sql);
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 ADD `css_folder` varchar(255) NOT NULL default 'css_home' 
                 AFTER `templates_folder`";
                
         $this->model->dba->query($sql);
 
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 ADD `op_version` varchar(20) NOT NULL default '1.0' 
                 AFTER `smart_version_num`";
                
         $this->model->dba->query($sql);
         $this->config['op_version'] = '1.0';
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 ADD `recycler_time` int(11) NOT NULL default 7200";
                
         $this->model->dba->query($sql);
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 DROP `smart_version_num`";
                
         $this->model->dba->query($sql);
@@ -161,19 +161,19 @@ class ActionCommonUpgrade extends JapaAction
      */
     private function upgrade_0_5_to_0_6()
     {
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                   CHANGE `views_folder` `controllers_folder` varchar(255) NOT NULL default ''";
         $this->model->dba->query($sql);   
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                   CHANGE `templates_folder` `views_folder` varchar(255) NOT NULL default ''";
         $this->model->dba->query($sql); 
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                   CHANGE `css_folder` `styles_folder` varchar(255) NOT NULL default ''";
         $this->model->dba->query($sql);  
         
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
                 ADD `config` text collate latin1_general_ci NOT NULL";
                
         $this->model->dba->query($sql);
@@ -205,7 +205,7 @@ class ActionCommonUpgrade extends JapaAction
      */
     private function setNewModuleVersionNumber( $version )
     {
-        $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+        $sql = "UPDATE {$this->config->dbTablePrefix}common_module
                     SET
                         `version`='{$version}'
                     WHERE

@@ -84,8 +84,8 @@ class ActionMiscGetPictures extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}misc_text_pic AS mtp,
-                {$this->config['dbTablePrefix']}misc_text AS mt
+                {$this->config->dbTablePrefix}misc_text_pic AS mtp,
+                {$this->config->dbTablePrefix}misc_text AS mt
             WHERE
                 mtp.`id_text`={$data['id_text']}
             AND

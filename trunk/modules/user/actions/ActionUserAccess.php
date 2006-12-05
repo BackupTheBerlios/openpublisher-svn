@@ -144,7 +144,7 @@ class ActionUserAccess extends JapaAction
      */    
     private function updateAccess($data)
     {
-        $sql = "REPLACE INTO {$this->config['dbTablePrefix']}user_access
+        $sql = "REPLACE INTO {$this->config->dbTablePrefix}user_access
                     SET
                        `id_user`={$data['id_user']},
                        `access`=NOW()";
@@ -166,7 +166,7 @@ class ActionUserAccess extends JapaAction
                     `access`,
                     `id_user`
                 FROM 
-                    {$this->config['dbTablePrefix']}user_access
+                    {$this->config->dbTablePrefix}user_access
                 LIMIT
                     {$data['num']}
                 ORDER BY
@@ -196,7 +196,7 @@ class ActionUserAccess extends JapaAction
                     `access`,
                     `id_user`
                 FROM 
-                    {$this->config['dbTablePrefix']}user_access
+                    {$this->config->dbTablePrefix}user_access
                 ORDER BY
                     `access` DESC";
 
@@ -218,7 +218,7 @@ class ActionUserAccess extends JapaAction
      */    
     private function deleteAccess($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_access
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}user_access
                 WHERE `id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);         
@@ -236,7 +236,7 @@ class ActionUserAccess extends JapaAction
         $sql = "SELECT 
                     `access` 
                 FROM 
-                    {$this->config['dbTablePrefix']}user_access
+                    {$this->config->dbTablePrefix}user_access
                 WHERE
                    `id_user`={$data['id_user']}";
 

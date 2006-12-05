@@ -53,7 +53,7 @@ class ActionLinkUpdateLink extends JapaAction
         }
         
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}link_links
+            UPDATE {$this->config->dbTablePrefix}link_links
                 SET
                    $fields
                 WHERE

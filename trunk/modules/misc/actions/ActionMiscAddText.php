@@ -57,7 +57,7 @@ class ActionMiscAddText extends JapaAction
             $comma   = ",";
         }      
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}misc_text
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}misc_text
                    ($fields)
                   VALUES
                    ($quest)";

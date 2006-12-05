@@ -72,7 +72,7 @@ class ActionArticleGetNodeStats extends JapaAction
                 MAX(aa.`pubdate`) AS last_publish_date,
                 MIN(aa.`pubdate`) AS first_publish_date
             FROM
-                {$this->config['dbTablePrefix']}article_article AS aa
+                {$this->config->dbTablePrefix}article_article AS aa
                 {$node_table}
             WHERE
                 {$node_where}";
@@ -131,7 +131,7 @@ class ActionArticleGetNodeStats extends JapaAction
             SELECT {$this->sqlCache}
                 `id_node`
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_sector`={$id_sector}
             AND

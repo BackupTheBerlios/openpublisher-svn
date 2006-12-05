@@ -26,7 +26,7 @@ class ActionArticleUpdateController extends JapaAction
      */
     function perform( $data = FALSE )
     {
-        $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_controller_rel
+        $sql = "REPLACE INTO {$this->config->dbTablePrefix}article_controller_rel
                    (`id_article`,`id_controller`)
                 VALUES
                    ({$data['id_article']},{$data['id_controller']})";

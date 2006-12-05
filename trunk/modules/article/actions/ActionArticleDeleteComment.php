@@ -28,7 +28,7 @@ class ActionArticleDeleteComment extends JapaAction
      */
     public function perform( $data = FALSE )
     {         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_comment
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_comment
                   WHERE
                    `id_comment`={$data['id_comment']}";
 

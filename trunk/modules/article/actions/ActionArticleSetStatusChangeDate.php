@@ -31,7 +31,7 @@ class ActionArticleSetStatusChangeDate extends JapaAction
     {
         if(isset($data['remove']) && ($data['remove'] == true))
     	{
-        	$sql = "DELETE FROM {$this->config['dbTablePrefix']}article_changedate
+        	$sql = "DELETE FROM {$this->config->dbTablePrefix}article_changedate
                            WHERE `id_article` = {$data['id_article']}";
 
             $this->model->dba->query($sql);              
@@ -39,7 +39,7 @@ class ActionArticleSetStatusChangeDate extends JapaAction
         else
     	{
         	// update article changed status
-            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_changedate
+            $sql = "REPLACE INTO {$this->config->dbTablePrefix}article_changedate
                         SET `id_article` = {$data['id_article']},
                                `changedate` = DATE_SUB('{$this->model->dba->escape($data['date'])}',INTERVAL {$this->model->action('common', 'getGmtOffset')}  HOUR),
                                `status`     = {$data['status']}";

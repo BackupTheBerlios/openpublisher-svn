@@ -37,7 +37,7 @@ class ActionCommonSetConfigVar extends JapaAction
         $_config = serialize($_vars);
         
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}common_module
+            UPDATE {$this->config->dbTablePrefix}common_module
                 SET `config`='{$_config}'
             WHERE
                 `name`='{$data['module']}'";
@@ -67,7 +67,7 @@ class ActionCommonSetConfigVar extends JapaAction
     
     private function get_vars($module)
     {
-        $sql = "SELECT SQL_CACHE `config` FROM {$this->config['dbTablePrefix']}common_module WHERE `name`='{$module}'";
+        $sql = "SELECT SQL_CACHE `config` FROM {$this->config->dbTablePrefix}common_module WHERE `name`='{$module}'";
         
         $rs = $this->model->dba->query($sql);
         

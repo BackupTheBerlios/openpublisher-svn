@@ -26,13 +26,13 @@ class ActionCommonSessionDeleteExpired extends JapaAction
      */
     public function perform( $data = FALSE )
     {
-        $ts = time() - $this->config['common']['session_maxlifetime'];
+        $ts = time() - $this->config->getModuleVar('common', 'session_maxlifetime');
         
         $result = $this->model->dba->query(
                          "SELECT 
                              `modtime` 
                           FROM 
-                             {$this->config['dbTablePrefix']}common_session
+                             {$this->config->dbTablePrefix}common_session
                           WHERE 
                               `modtime`<{$ts}
                           AND

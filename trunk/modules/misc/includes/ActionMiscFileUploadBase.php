@@ -63,7 +63,7 @@ class ActionMiscFileUploadBase extends JapaAction
         $sql = "SELECT 
                     `media_folder` 
                 FROM 
-                    {$this->config['dbTablePrefix']}misc_text
+                    {$this->config->dbTablePrefix}misc_text
                 WHERE
                     `id_text`={$id_text}";
                   

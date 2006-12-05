@@ -39,8 +39,8 @@ class ActionArticleCountArticlePerUser extends JapaAction
             SELECT {$this->sqlCache}
                 count(aa.`id_article`) AS num_articles
             FROM
-                {$this->config['dbTablePrefix']}article_article AS aa,
-                {$this->config['dbTablePrefix']}article_user AS au
+                {$this->config->dbTablePrefix}article_article AS aa,
+                {$this->config->dbTablePrefix}article_user AS au
             WHERE
                 aa.`status`{$data['article_status'][0]}{$data['article_status'][1]}
             AND

@@ -28,7 +28,7 @@ class ActionArticleRemoveArticleControllerRelation extends JapaAction
         // get articles with status 'delete=0' and older than 1 day
         $sql = "
             DELETE FROM
-                {$this->config['dbTablePrefix']}article_controller_rel
+                {$this->config->dbTablePrefix}article_controller_rel
             WHERE
                 `id_article`={$data['id_article']}";
         

@@ -59,7 +59,7 @@ class ActionUserGetPicture extends JapaAction
         if(in_array('media_folder',$data['fields']))
         {
             $sel = $comma.'u.`media_folder`';
-            $table = ",{$this->config['dbTablePrefix']}user_user AS u ";
+            $table = ",{$this->config->dbTablePrefix}user_user AS u ";
             $where = " AND p.id_user=u.id_user";
         }
         else
@@ -74,7 +74,7 @@ class ActionUserGetPicture extends JapaAction
                 {$_fields}
                 {$sel}
             FROM
-                {$this->config['dbTablePrefix']}user_media_pic AS p
+                {$this->config->dbTablePrefix}user_media_pic AS p
                 {$table}
             WHERE
                 p.`id_pic`= {$data['id_pic']}

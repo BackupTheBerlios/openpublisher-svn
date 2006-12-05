@@ -87,7 +87,7 @@ class ActionUserUpdateFile extends JapaAction
     {
         $sql = "
             DELETE FROM
-                {$this->config['dbTablePrefix']}user_media_file
+                {$this->config->dbTablePrefix}user_media_file
             WHERE
                 id_file='{$data['id_file']}'";
         
@@ -96,7 +96,7 @@ class ActionUserUpdateFile extends JapaAction
         // Reorder the picture rank
         $sql = "
             SELECT `id_file` FROM
-                {$this->config['dbTablePrefix']}user_media_file
+                {$this->config->dbTablePrefix}user_media_file
             WHERE
                 id_user='{$data['id_user']}'
             ORDER BY `rank` ASC";
@@ -106,7 +106,7 @@ class ActionUserUpdateFile extends JapaAction
         
         while($row = $stmt->fetchAssoc())
         {
-            $sql = "UPDATE {$this->config['dbTablePrefix']}user_media_file
+            $sql = "UPDATE {$this->config->dbTablePrefix}user_media_file
                       SET
                         `rank`={$rank}
                     WHERE
@@ -128,7 +128,7 @@ class ActionUserUpdateFile extends JapaAction
             $comma = ',';
         }
         
-        $sql = "UPDATE {$this->config['dbTablePrefix']}user_user
+        $sql = "UPDATE {$this->config->dbTablePrefix}user_user
                   SET
                    $fields
                   WHERE

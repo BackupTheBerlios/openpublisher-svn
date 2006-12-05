@@ -34,7 +34,7 @@ class ActionLinkRemoveKeyword extends JapaAction
      */
     public function perform( $data = FALSE )
     {         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_keyword
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}link_keyword
                   WHERE
                    {$this->sqlLink}
                    {$this->sqlKey}";

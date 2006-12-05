@@ -36,7 +36,7 @@ class ActionMiscAddKeyword extends JapaAction
             return;
         }
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}misc_keyword
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}misc_keyword
                    (`id_key`,`id_text`)
                   VALUES
                    ({$data['id_key']},{$data['id_text']})";
@@ -82,7 +82,7 @@ class ActionMiscAddKeyword extends JapaAction
         $sql = "SELECT SQL_CACHE
                   `id_key`
                 FROM 
-                  {$this->config['dbTablePrefix']}misc_keyword
+                  {$this->config->dbTablePrefix}misc_keyword
                 WHERE
                    `id_text`={$id_text}
                 AND

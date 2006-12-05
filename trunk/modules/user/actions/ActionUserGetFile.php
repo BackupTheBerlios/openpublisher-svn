@@ -53,7 +53,7 @@ class ActionUserGetFile extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}user_media_file
+                {$this->config->dbTablePrefix}user_media_file
             WHERE
                 `id_file`={$data['id_file']}";
 

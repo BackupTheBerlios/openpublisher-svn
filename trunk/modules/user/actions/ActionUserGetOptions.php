@@ -33,7 +33,7 @@ class ActionUserGetOptions extends JapaAction
             SELECT
                 *
             FROM
-                {$this->config['dbTablePrefix']}user_config";
+                {$this->config->dbTablePrefix}user_config";
 
         $rs = $this->model->dba->query($sql);
         

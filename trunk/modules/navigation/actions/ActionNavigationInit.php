@@ -31,7 +31,7 @@ class ActionNavigationInit extends JapaAction
         $this->checkModuleVersion();
         
         // this module try to find the view on the related public request var 'id_node'
-        $this->config['controller_map']['id_node'] = 'navigation';
+        $this->model->addToControllerMap( 'id_node', 'navigation' );
     } 
     /**
      * Check module version and upgrade or install this module if necessairy

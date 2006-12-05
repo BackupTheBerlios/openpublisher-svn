@@ -54,7 +54,7 @@ class ActionMiscGetAllThumbs extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}misc_text_pic
+                {$this->config->dbTablePrefix}misc_text_pic
             WHERE
                 (`id_text`={$data['id_text']})
             ORDER BY

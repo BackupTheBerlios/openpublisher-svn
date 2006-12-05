@@ -147,7 +147,7 @@ class ActionKeywordGetTree extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}keyword 
+                {$this->config->dbTablePrefix}keyword 
             {$sql_where}
             ORDER BY `title`";
         

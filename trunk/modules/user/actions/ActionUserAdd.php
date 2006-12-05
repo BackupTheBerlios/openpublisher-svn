@@ -53,7 +53,7 @@ class ActionUserAdd extends ActionUser
             $comma   = ",";
         }    
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_user
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}user_user
                    ($fields)
                   VALUES
                    ($quest)";
@@ -218,7 +218,7 @@ class ActionUserAdd extends ActionUser
             SELECT
                 id_user
             FROM
-                {$this->config['dbTablePrefix']}user_user
+                {$this->config->dbTablePrefix}user_user
             WHERE
                 login='$login'";
         

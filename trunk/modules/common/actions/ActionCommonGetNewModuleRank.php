@@ -30,7 +30,7 @@ class ActionCommonGetNewModuleRank extends JapaAction
             SELECT
                 `rank`
             FROM
-                {$this->config['dbTablePrefix']}common_module
+                {$this->config->dbTablePrefix}common_module
             ORDER BY `rank` DESC
             LIMIT 1";
     

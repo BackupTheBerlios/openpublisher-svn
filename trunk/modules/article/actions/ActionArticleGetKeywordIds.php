@@ -36,7 +36,7 @@ class ActionArticleGetKeywordIds extends JapaAction
         {
             $sql_key_status  = " AND ak.`id_key`=k.`id_key`";
             $sql_key_status .= " AND k.`status`{$data['key_status'][0]}{$data['key_status'][1]}";
-            $sql_key_table   = ",{$this->config['dbTablePrefix']}keyword AS k";
+            $sql_key_table   = ",{$this->config->dbTablePrefix}keyword AS k";
         }
         else
         {
@@ -47,7 +47,7 @@ class ActionArticleGetKeywordIds extends JapaAction
         $sql = "SELECT SQL_CACHE
                   ak.`id_key`
                 FROM 
-                  {$this->config['dbTablePrefix']}article_keyword AS ak
+                  {$this->config->dbTablePrefix}article_keyword AS ak
                   {$sql_key_table}
                 WHERE
                    ak.`id_article`={$data['id_article']}

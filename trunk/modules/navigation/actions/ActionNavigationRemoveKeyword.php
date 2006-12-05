@@ -34,7 +34,7 @@ class ActionNavigationRemoveKeyword extends JapaAction
      */
     public function perform( $data = FALSE )
     {         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_keyword
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_keyword
                   WHERE
                    {$this->sqlNode}
                    {$this->sqlKey}";

@@ -34,7 +34,7 @@ class ActionMiscRemoveKeyword extends JapaAction
      */
     public function perform( $data = FALSE )
     {         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_keyword
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}misc_keyword
                   WHERE
                    {$this->sqlText}
                    {$this->sqlKey}";

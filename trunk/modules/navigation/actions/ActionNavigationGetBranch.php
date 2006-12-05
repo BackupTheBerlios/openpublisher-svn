@@ -134,7 +134,7 @@ class ActionNavigationGetBranch extends JapaAction
             SELECT SQL_CACHE
                 {$this->_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_node`={$data['id_node']}";
 
@@ -154,7 +154,7 @@ class ActionNavigationGetBranch extends JapaAction
             SELECT SQL_CACHE
                 `id_parent`
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_node`={$id_node}";
         

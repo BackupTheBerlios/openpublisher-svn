@@ -52,7 +52,7 @@ class ActionMiscGetAllFiles extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}misc_text_file
+                {$this->config->dbTablePrefix}misc_text_file
             WHERE
                 (`id_text`={$data['id_text']})
             ORDER BY

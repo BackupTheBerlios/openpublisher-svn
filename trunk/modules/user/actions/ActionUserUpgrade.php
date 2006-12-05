@@ -51,13 +51,13 @@ class ActionUserUpgrade extends JapaAction
      */
     private function upgrade_0_1_to_0_2()
     {
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}user_user 
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}user_user 
                 ADD `user_gmt` tinyint(2) NOT NULL default 1
                 AFTER `status`";
                
         $this->model->dba->query($sql);
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}user_log (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->dbTablePrefix}user_log (
                    `id_log`       int(11) unsigned NOT NULL auto_increment,
                    `id_session`   int(11) unsigned NOT NULL default 0,
                    `logdate`      datetime NOT NULL default '0000-00-00 00:00:00',
@@ -67,7 +67,7 @@ class ActionUserUpgrade extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);   
        
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}user_log_info (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->dbTablePrefix}user_log_info (
                    `id_log`       int(11) unsigned NOT NULL auto_increment,
                    `module`       varchar(30) NOT NULL default '',
                    `type`         tinyint(1) unsigned NOT NULL default 1,
@@ -80,7 +80,7 @@ class ActionUserUpgrade extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);   
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}user_log_session (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->dbTablePrefix}user_log_session (
                    `id_session`   int(11) unsigned NOT NULL auto_increment,
                    `id_user`      int(11) unsigned NOT NULL default 0,
                    `agent`        varchar(255) NOT NULL default '',
@@ -91,7 +91,7 @@ class ActionUserUpgrade extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);  
 
-        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}user_config
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}user_config
                 ADD `use_log` tinyint(1) NOT NULL default 0";
                
         $this->model->dba->query($sql);      
@@ -117,7 +117,7 @@ class ActionUserUpgrade extends JapaAction
             $_config = array();
             $_config = serialize($this->loadConfig( $m ));
             
-            $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+            $sql = "UPDATE {$this->config->dbTablePrefix}common_module
                     SET
                         `config`='{$_config}'
                     WHERE
@@ -153,7 +153,7 @@ class ActionUserUpgrade extends JapaAction
      */
     private function setNewModuleVersionNumber( $version )
     {
-        $sql = "UPDATE {$this->config['dbTablePrefix']}common_module
+        $sql = "UPDATE {$this->config->dbTablePrefix}common_module
                     SET
                         `version`='{$version}'
                     WHERE
@@ -170,7 +170,7 @@ class ActionUserUpgrade extends JapaAction
     {
         $config = array();
         
-        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}{$module}_config";
+        $sql = "SELECT SQL_CACHE * FROM {$this->config->dbTablePrefix}{$module}_config";
         
         $rs = $this->model->dba->query($sql);
         
@@ -185,7 +185,7 @@ class ActionUserUpgrade extends JapaAction
     
     private function isTable( $table )
     {
-        $sql = "SHOW TABLE STATUS LIKE '{$this->config['dbTablePrefix']}{$table}'";
+        $sql = "SHOW TABLE STATUS LIKE '{$this->config->dbTablePrefix}{$table}'";
 
         $rs = $this->model->dba->query($sql);
         

@@ -47,7 +47,7 @@ class ActionArticleCheckUserRights extends JapaAction
             SELECT
                 count(`id_user`) AS numusers
             FROM
-                {$this->config['dbTablePrefix']}article_user
+                {$this->config->dbTablePrefix}article_user
             WHERE
                 `id_article`={$data['id_article']}
             AND

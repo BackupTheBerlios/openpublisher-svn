@@ -159,7 +159,7 @@ class ActionNavigationGetTree extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_node 
+                {$this->config->dbTablePrefix}navigation_node 
             {$sql_where}
             ORDER BY `rank`";
         

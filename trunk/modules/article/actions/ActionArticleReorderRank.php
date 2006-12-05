@@ -31,7 +31,7 @@ class ActionArticleReorderRank extends JapaAction
             SELECT
                 `id_article`
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE
                 `id_node`={$data['id_node']} 
             ORDER BY `rank` ASC";
@@ -42,7 +42,7 @@ class ActionArticleReorderRank extends JapaAction
 
         while($row = $rs->fetchAssoc())
         {
-            $sql = "UPDATE {$this->config['dbTablePrefix']}article_article
+            $sql = "UPDATE {$this->config->dbTablePrefix}article_article
                     SET `rank`={$rank}
                     WHERE
                         `id_article`={$row['id_article']}";  

@@ -30,7 +30,7 @@ class ActionNavigationCreateIndex extends JapaAction
             SELECT
                 `title`,`short_text`,`body`
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_node`={$data['id_node']}";
         
@@ -81,7 +81,7 @@ class ActionNavigationCreateIndex extends JapaAction
      */    
     public function insert( $id_node, & $content )
     { 
-        $sql = "REPLACE DELAYED INTO {$this->config['dbTablePrefix']}navigation_index 
+        $sql = "REPLACE DELAYED INTO {$this->config->dbTablePrefix}navigation_index 
                    SET  `id_node`={$id_node},
                         `text1`='{$content[0]}',
                         `text2`='{$content[1]}',

@@ -49,7 +49,7 @@ class ActionUserLogAddSession extends JapaAction
             $comma   = ",";
         }    
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_log_session
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}user_log_session
                    ($fields)
                   VALUES
                    ($quest)";

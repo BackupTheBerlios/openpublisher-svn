@@ -53,7 +53,7 @@ class ActionNavigationGetFile extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_media_file
+                {$this->config->dbTablePrefix}navigation_media_file
             WHERE
                 `id_file`={$data['id_file']}";
 

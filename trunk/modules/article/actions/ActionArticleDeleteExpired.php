@@ -34,7 +34,7 @@ class ActionArticleDeleteExpired extends JapaAction
             SELECT
                 `id_article`
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE
                 `status`=0
             AND

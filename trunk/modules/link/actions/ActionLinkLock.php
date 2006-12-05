@@ -139,7 +139,7 @@ class ActionLinkLock extends JapaAction
         
         if($result == FALSE)
         {
-            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}link_lock
+            $sql = "REPLACE INTO {$this->config->dbTablePrefix}link_lock
                         (`id_link`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_link']},NOW(),{$data['by_id_user']})";
@@ -156,7 +156,7 @@ class ActionLinkLock extends JapaAction
      */    
     private function unlockLink($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}link_lock
                   WHERE
                    `id_link`={$data['id_link']}";
 
@@ -169,7 +169,7 @@ class ActionLinkLock extends JapaAction
      */    
     private function deleteExpiredLocks()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}link_lock
                   WHERE
                    `lock_time` < NOW()-3600";
 
@@ -182,7 +182,7 @@ class ActionLinkLock extends JapaAction
      */    
     private function unlockAll()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_lock";
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}link_lock";
 
         $this->model->dba->query($sql);        
     }      
@@ -193,7 +193,7 @@ class ActionLinkLock extends JapaAction
      */    
     private function unlockByIdUser($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}link_lock
                 WHERE `by_id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);        
@@ -211,7 +211,7 @@ class ActionLinkLock extends JapaAction
         $sql = "SELECT 
                     `by_id_user` 
                 FROM 
-                    {$this->config['dbTablePrefix']}link_lock
+                    {$this->config->dbTablePrefix}link_lock
                 WHERE
                    `id_link`={$data['id_link']}";
 

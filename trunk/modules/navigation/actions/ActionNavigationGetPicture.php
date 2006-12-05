@@ -58,7 +58,7 @@ class ActionNavigationGetPicture extends JapaAction
         if(in_array('media_folder',$data['fields']))
         {
             $sel = $comma.'n.`media_folder`';
-            $table = ",{$this->config['dbTablePrefix']}navigation_node AS n ";
+            $table = ",{$this->config->dbTablePrefix}navigation_node AS n ";
             $where = " AND p.id_node=n.id_node";
         }
         else
@@ -73,7 +73,7 @@ class ActionNavigationGetPicture extends JapaAction
                 {$_fields}
                 {$sel}
             FROM
-                {$this->config['dbTablePrefix']}navigation_media_pic AS p
+                {$this->config->dbTablePrefix}navigation_media_pic AS p
                 {$table}
             WHERE
                 p.`id_pic`={$data['id_pic']}

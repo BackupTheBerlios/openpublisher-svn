@@ -220,7 +220,7 @@ class ActionArticleSelect extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config->dbTablePrefix}article_article
             WHERE 
                 1=1
                 {$sql_pubdate}

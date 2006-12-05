@@ -47,7 +47,7 @@ class ActionUserGetUser extends ActionUser
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}user_user
+                {$this->config->dbTablePrefix}user_user
             WHERE
                 `id_user`={$data['id_user']}";
         

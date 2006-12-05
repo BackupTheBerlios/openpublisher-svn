@@ -28,13 +28,13 @@ class ActionLinkDeleteLink extends JapaAction
      */
     public function perform( $data = FALSE )
     {        
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_links
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}link_links
                   WHERE
                    `id_link`={$data['id_link']}";
 
         $this->model->dba->query($sql);
         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_keyword
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}link_keyword
                   WHERE
                    `id_link`={$data['id_link']}";
 

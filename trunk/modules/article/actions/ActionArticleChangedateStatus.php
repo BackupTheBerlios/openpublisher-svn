@@ -31,9 +31,9 @@ class ActionArticleChangedateStatus extends JapaAction
             SELECT
                 `id_article`,`status`
             FROM
-                {$this->config['dbTablePrefix']}article_changedate
+                {$this->config->dbTablePrefix}article_changedate
             WHERE
-                `changedate`<='{$this->config['gmtDate']}'";
+                `changedate`<='{$this->config->getVar('gmtDate')}'";
         
         $rs = $this->model->dba->query($sql);
         
@@ -50,7 +50,7 @@ class ActionArticleChangedateStatus extends JapaAction
         {
             $id_article[] = $row['id_article'];
             $sql = "
-                UPDATE {$this->config['dbTablePrefix']}article_article
+                UPDATE {$this->config->dbTablePrefix}article_article
                     SET
                        `status`={$row['status']}
                     WHERE
@@ -61,7 +61,7 @@ class ActionArticleChangedateStatus extends JapaAction
         
         $in_article = implode(",",$id_article);
         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_changedate
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_changedate
                     WHERE
                        `id_article` IN({$in_article})";
 

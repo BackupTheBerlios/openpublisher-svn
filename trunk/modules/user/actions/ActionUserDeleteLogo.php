@@ -87,7 +87,7 @@ class ActionUserDeleteLogo extends JapaAction
             SELECT
                 id_user
             FROM
-                {$this->config['dbTablePrefix']}user_user
+                {$this->config->dbTablePrefix}user_user
             WHERE
                 id_user=$id_user";
         

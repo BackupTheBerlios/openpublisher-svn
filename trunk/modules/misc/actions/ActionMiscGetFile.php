@@ -56,7 +56,7 @@ class ActionMiscGetFile extends JapaAction
         if(in_array('media_folder',$data['fields']))
         {
             $sel = $comma.'t.`media_folder`';
-            $table = ",{$this->config['dbTablePrefix']}misc_text AS t ";
+            $table = ",{$this->config->dbTablePrefix}misc_text AS t ";
             $where = " AND f.id_text=t.id_text";
         }
         else
@@ -71,7 +71,7 @@ class ActionMiscGetFile extends JapaAction
                 {$_fields}
                 {$sel}
             FROM
-                {$this->config['dbTablePrefix']}misc_text_file AS f
+                {$this->config->dbTablePrefix}misc_text_file AS f
                 {$table}
             WHERE
                 f.`id_file`= {$data['id_file']}

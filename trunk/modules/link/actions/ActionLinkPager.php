@@ -83,7 +83,7 @@ class ActionLinkPager extends JapaAction
         $sql = "SELECT SQL_CACHE
                     count(`id_link`) AS numLinks
                 FROM 
-                    {$this->config['dbTablePrefix']}link_links
+                    {$this->config->dbTablePrefix}link_links
                 WHERE
                    {$where}
                    $sql_where";

@@ -26,12 +26,12 @@ class ActionNavigationOptimizeDbTables extends JapaAction
     function perform( $data = FALSE )
     {
         $sql = "OPTIMIZE NO_WRITE_TO_BINLOG TABLE 
-                  {$this->config['dbTablePrefix']}navigation_node,
-                  {$this->config['dbTablePrefix']}navigation_node_lock,
-                  {$this->config['dbTablePrefix']}navigation_media_pic,
-                  {$this->config['dbTablePrefix']}navigation_media_file,
-                  {$this->config['dbTablePrefix']}navigation_public_controller,
-                  {$this->config['dbTablePrefix']}navigation_index";
+                  {$this->config->dbTablePrefix}navigation_node,
+                  {$this->config->dbTablePrefix}navigation_node_lock,
+                  {$this->config->dbTablePrefix}navigation_media_pic,
+                  {$this->config->dbTablePrefix}navigation_media_file,
+                  {$this->config->dbTablePrefix}navigation_public_controller,
+                  {$this->config->dbTablePrefix}navigation_index";
         
         $this->model->dba->query($sql);
     } 

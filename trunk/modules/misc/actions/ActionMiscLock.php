@@ -130,7 +130,7 @@ class ActionMiscLock extends JapaAction
         
         if($result == FALSE)
         {
-            $sql = "INSERT INTO {$this->config['dbTablePrefix']}misc_text_lock
+            $sql = "INSERT INTO {$this->config->dbTablePrefix}misc_text_lock
                         (`id_text`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_text']},NOW(),{$data['by_id_user']})";
@@ -147,7 +147,7 @@ class ActionMiscLock extends JapaAction
      */    
     private function unlockText($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}misc_text_lock
                   WHERE
                    `id_text`={$data['id_text']}";
 
@@ -160,7 +160,7 @@ class ActionMiscLock extends JapaAction
      */    
     private function deleteExpiredLocks()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}misc_text_lock
                   WHERE
                    `lock_time` < NOW()-3600";
 
@@ -173,7 +173,7 @@ class ActionMiscLock extends JapaAction
      */    
     private function unlockAll()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text_lock";
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}misc_text_lock";
 
         $this->model->dba->query($sql);        
     }      
@@ -184,7 +184,7 @@ class ActionMiscLock extends JapaAction
      */    
     private function unlockByIdUser($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}misc_text_lock
                 WHERE `by_id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);        
@@ -202,7 +202,7 @@ class ActionMiscLock extends JapaAction
         $sql = "SELECT 
                     `by_id_user` 
                 FROM 
-                    {$this->config['dbTablePrefix']}misc_text_lock
+                    {$this->config->dbTablePrefix}misc_text_lock
                 WHERE
                    `id_text`={$data['id_text']}";
 

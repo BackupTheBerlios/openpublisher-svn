@@ -139,7 +139,7 @@ class ActionNavigationLock extends JapaAction
         
         if($result == FALSE)
         {
-            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}navigation_node_lock
+            $sql = "REPLACE INTO {$this->config->dbTablePrefix}navigation_node_lock
                         (`id_node`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_node']},NOW(),{$data['by_id_user']})";
@@ -156,7 +156,7 @@ class ActionNavigationLock extends JapaAction
      */    
     private function unlockNode($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_node_lock
                   WHERE
                    `id_node`={$data['id_node']}";
 
@@ -169,7 +169,7 @@ class ActionNavigationLock extends JapaAction
      */    
     private function deleteExpiredLocks()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_node_lock
                   WHERE
                    `lock_time` < NOW()-3600";
 
@@ -182,7 +182,7 @@ class ActionNavigationLock extends JapaAction
      */    
     private function unlockAll()
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node_lock";
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_node_lock";
 
         $this->model->dba->query($sql);        
     }      
@@ -193,7 +193,7 @@ class ActionNavigationLock extends JapaAction
      */    
     private function unlockByIdUser($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_node_lock
                 WHERE `by_id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);        
@@ -211,7 +211,7 @@ class ActionNavigationLock extends JapaAction
         $sql = "SELECT 
                     `by_id_user` 
                 FROM 
-                    {$this->config['dbTablePrefix']}navigation_node_lock
+                    {$this->config->dbTablePrefix}navigation_node_lock
                 WHERE
                    `id_node`={$data['id_node']}";
 

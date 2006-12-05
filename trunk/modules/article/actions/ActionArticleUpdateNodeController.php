@@ -29,7 +29,7 @@ class ActionArticleUpdateNodeController extends JapaAction
      */
     function perform( $data = FALSE )
     {
-        $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_node_controller_rel
+        $sql = "REPLACE INTO {$this->config->dbTablePrefix}article_node_controller_rel
                    (`id_node`,`id_controller`)
                 VALUES
                    ({$data['id_node']},{$data['id_controller']})";

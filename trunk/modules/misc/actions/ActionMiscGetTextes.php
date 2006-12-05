@@ -67,7 +67,7 @@ class ActionMiscGetTextes extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}misc_text 
+                {$this->config->dbTablePrefix}misc_text 
                 {$sql_where}
                 {$sql_order}";
 

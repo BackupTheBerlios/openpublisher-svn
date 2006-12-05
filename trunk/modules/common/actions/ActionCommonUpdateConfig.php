@@ -30,7 +30,7 @@ class ActionCommonUpdateConfig extends JapaAction
         $_config = serialize($data['data']);
         
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}common_module
+            UPDATE {$this->config->dbTablePrefix}common_module
                 SET `config`='{$_config}'
             WHERE
                 `name`='{$data['module']}'";

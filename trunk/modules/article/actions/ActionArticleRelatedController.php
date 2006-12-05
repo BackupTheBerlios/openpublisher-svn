@@ -30,7 +30,7 @@ class ActionArticleRelatedController extends JapaAction
     function perform( $data = FALSE )
     {  
         // First check if there is a view assigned to this specific article
-        if($this->config['article']['use_article_controller'] == 1)
+        if($this->config->getModuleVar('article', 'use_article_controller') == 1)
         {
             if($this->getArticleController( $data ) != FALSE )
             {
@@ -43,9 +43,9 @@ class ActionArticleRelatedController extends JapaAction
             SELECT
                 v.`name`
             FROM
-                {$this->config['dbTablePrefix']}article_article AS aa,
-                {$this->config['dbTablePrefix']}article_node_controller_rel AS an,
-                {$this->config['dbTablePrefix']}article_public_controller AS v
+                {$this->config->dbTablePrefix}article_article AS aa,
+                {$this->config->dbTablePrefix}article_node_controller_rel AS an,
+                {$this->config->dbTablePrefix}article_public_controller AS v
             WHERE
                 aa.`id_article`={$data['id_article']} 
             AND
@@ -95,8 +95,8 @@ class ActionArticleRelatedController extends JapaAction
             SELECT
                 v.`name`
             FROM
-                {$this->config['dbTablePrefix']}article_controller_rel AS an,
-                {$this->config['dbTablePrefix']}article_public_controller AS v
+                {$this->config->dbTablePrefix}article_controller_rel AS an,
+                {$this->config->dbTablePrefix}article_public_controller AS v
             WHERE
                 an.`id_article`={$data['id_article']} 
             AND

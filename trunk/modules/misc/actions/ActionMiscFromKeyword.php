@@ -115,8 +115,8 @@ class ActionMiscFromKeyword extends JapaAction
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}misc_text AS mt,
-                {$this->config['dbTablePrefix']}misc_keyword AS mk
+                {$this->config->dbTablePrefix}misc_text AS mt,
+                {$this->config->dbTablePrefix}misc_keyword AS mk
             WHERE
                 mk.`id_key` IN({$this->id_key_list})
            {$sql_exclude}

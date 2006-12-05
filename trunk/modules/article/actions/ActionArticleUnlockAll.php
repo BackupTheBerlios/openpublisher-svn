@@ -30,7 +30,7 @@ class ActionArticleUnlockAll extends JapaAction
      */
     public function perform( $data = FALSE )
     { 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_lock";
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_lock";
 
         $this->model->dba->query($sql);        
     }

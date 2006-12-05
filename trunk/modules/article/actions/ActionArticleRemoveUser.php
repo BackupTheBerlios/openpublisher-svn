@@ -34,7 +34,7 @@ class ActionArticleRemoveUser extends JapaAction
      */
     public function perform( $data = FALSE )
     {         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_user
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_user
                   WHERE
                    {$this->sqlArticle}
                    {$this->sqlUser}";

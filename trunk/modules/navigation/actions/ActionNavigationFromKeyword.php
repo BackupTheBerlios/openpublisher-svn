@@ -134,8 +134,8 @@ class ActionNavigationFromKeyword extends JapaAction
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_keyword AS nk,
-                {$this->config['dbTablePrefix']}navigation_node AS nn
+                {$this->config->dbTablePrefix}navigation_keyword AS nk,
+                {$this->config->dbTablePrefix}navigation_node AS nn
             WHERE
                 nk.`id_key` IN({$this->id_key_list})
            {$sql_exclude}

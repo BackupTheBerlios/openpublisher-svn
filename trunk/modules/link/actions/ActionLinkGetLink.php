@@ -63,7 +63,7 @@ class ActionLinkGetLink extends JapaAction
             SELECT
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}link_links
+                {$this->config->dbTablePrefix}link_links
             WHERE
                 `id_link`={$data['id_link']} 
                 {$sql_where}";

@@ -73,7 +73,7 @@ class ActionNavigationGetNode extends JapaAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_node`={$data['id_node']} 
                 {$sql_where}";

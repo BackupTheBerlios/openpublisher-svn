@@ -32,7 +32,7 @@ class ActionNavigationGetLastRank extends JapaAction
             SELECT
                 `rank`
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_parent`={$data['id_parent']} 
             ORDER BY `rank` DESC

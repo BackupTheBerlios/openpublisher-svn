@@ -36,7 +36,7 @@ class ActionMiscGetKeywordIds extends JapaAction
         {
             $sql_key_status  = " AND mk.`id_key`=k.`id_key`";
             $sql_key_status .= " AND k.`status`{$data['key_status'][0]}{$data['key_status'][1]}";
-            $sql_key_table   = ",{$this->config['dbTablePrefix']}keyword AS k";
+            $sql_key_table   = ",{$this->config->dbTablePrefix}keyword AS k";
         }
         else
         {
@@ -47,7 +47,7 @@ class ActionMiscGetKeywordIds extends JapaAction
         $sql = "SELECT SQL_CACHE
                   mk.`id_key`
                 FROM 
-                  {$this->config['dbTablePrefix']}misc_keyword AS mk
+                  {$this->config->dbTablePrefix}misc_keyword AS mk
                   {$sql_key_table}
                 WHERE
                    mk.`id_text`={$data['id_text']}

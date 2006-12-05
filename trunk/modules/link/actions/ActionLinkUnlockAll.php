@@ -30,7 +30,7 @@ class ActionLinkUnlockAll extends JapaAction
      */
     public function perform( $data = FALSE )
     { 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_lock";
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}link_lock";
 
         $this->model->dba->query($sql);        
     }

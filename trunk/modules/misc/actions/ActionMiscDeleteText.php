@@ -52,25 +52,25 @@ class ActionMiscDeleteText extends JapaAction
 
     private function deleteText( $id_text )
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}misc_text_lock
                   WHERE
                    `id_text`={$id_text}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text_pic
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}misc_text_pic
                   WHERE
                    `id_text`={$id_text}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text_file
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}misc_text_file
                   WHERE
                    `id_text`={$id_text}";
 
         $this->model->dba->query($sql);
 
-        $sql = "SELECT `media_folder` FROM {$this->config['dbTablePrefix']}misc_text
+        $sql = "SELECT `media_folder` FROM {$this->config->dbTablePrefix}misc_text
                   WHERE
                    `id_text`={$id_text}";
                    
@@ -84,7 +84,7 @@ class ActionMiscDeleteText extends JapaAction
             JapaCommonUtil::deleteDirTree( JAPA_BASE_DIR.'data/misc/'.$row['media_folder'] );
         }
         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}misc_text
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}misc_text
                   WHERE
                    `id_text`={$id_text}";
 

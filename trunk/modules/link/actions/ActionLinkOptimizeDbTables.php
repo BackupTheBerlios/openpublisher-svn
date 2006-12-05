@@ -26,9 +26,9 @@ class ActionLinkOptimizeDbTables extends JapaAction
     function perform( $data = FALSE )
     {
         $sql = "OPTIMIZE NO_WRITE_TO_BINLOG TABLE 
-                  {$this->config['dbTablePrefix']}link_links,
-                  {$this->config['dbTablePrefix']}link_keyword,
-                  {$this->config['dbTablePrefix']}link_lock";
+                  {$this->config->dbTablePrefix}link_links,
+                  {$this->config->dbTablePrefix}link_keyword,
+                  {$this->config->dbTablePrefix}link_lock";
         
         $this->model->dba->query($sql);
     } 

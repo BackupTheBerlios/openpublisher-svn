@@ -51,7 +51,7 @@ class ActionKeywordAdd extends JapaAction
             $comma   = ",";
         }                  
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}keyword
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}keyword
                    ($fields)
                   VALUES
                    ($quest)";

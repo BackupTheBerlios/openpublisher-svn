@@ -58,13 +58,13 @@ class ActionKeywordDelete extends JapaAction
      */    
     private function deleteKeyword( $id_key )
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}keyword_lock
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}keyword_lock
                   WHERE
                    `id_key`={$id_key}";
 
         $this->model->dba->query($sql);
         
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}keyword
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}keyword
                   WHERE
                    `id_key`={$id_key}";
 

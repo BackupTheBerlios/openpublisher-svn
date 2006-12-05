@@ -167,7 +167,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
 
         $file_size = filesize($_file);
        
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}navigation_media_file
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}navigation_media_file
                    (id_node,rank,file,size,mime)
                   VALUES
                    ({$data['id_node']},
@@ -214,7 +214,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         
         $rank = $this->getNewLastRank( $data['id_node'], 'navigation_media_pic' );
                 
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}navigation_media_pic
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}navigation_media_pic
                    (id_node,rank,file,size,mime,width,height)
                   VALUES
                    ({$data['id_node']},
@@ -241,7 +241,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
             SELECT
                 rank
             FROM
-                {$this->config['dbTablePrefix']}{$table}  
+                {$this->config->dbTablePrefix}{$table}  
             WHERE
                 id_node={$id_node}
             ORDER BY 

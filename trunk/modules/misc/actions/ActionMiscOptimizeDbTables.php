@@ -26,13 +26,13 @@ class ActionMiscOptimizeDbTables extends JapaAction
     function perform( $data = FALSE )
     {
         $sql = "OPTIMIZE NO_WRITE_TO_BINLOG TABLE 
-                  {$this->config['dbTablePrefix']}misc_text,
-                  {$this->config['dbTablePrefix']}misc_text_lock,
-                  {$this->config['dbTablePrefix']}misc_text_pic,
-                  {$this->config['dbTablePrefix']}misc_text_file,
-                  {$this->config['dbTablePrefix']}misc_config,
-                  {$this->config['dbTablePrefix']}misc_keyword,
-                  {$this->config['dbTablePrefix']}article_keyword";
+                  {$this->config->dbTablePrefix}misc_text,
+                  {$this->config->dbTablePrefix}misc_text_lock,
+                  {$this->config->dbTablePrefix}misc_text_pic,
+                  {$this->config->dbTablePrefix}misc_text_file,
+                  {$this->config->dbTablePrefix}misc_config,
+                  {$this->config->dbTablePrefix}misc_keyword,
+                  {$this->config->dbTablePrefix}article_keyword";
         
         $this->model->dba->query($sql);
     } 

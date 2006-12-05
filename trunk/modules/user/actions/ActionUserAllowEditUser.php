@@ -38,7 +38,7 @@ class ActionUserAllowEditUser extends JapaAction
         $sql = "SELECT 
                     role
                 FROM
-                    {$this->config['dbTablePrefix']}user_user
+                    {$this->config->dbTablePrefix}user_user
                 WHERE
                     id_user={$data['id_user']}";
         

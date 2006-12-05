@@ -68,7 +68,7 @@ class ActionArticleAddComment extends JapaAction
         $fields .= $comma."`status`";
         $quest  .= $comma."'{$this->model->config['article']['default_comment_status']}'";  
 
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_comment
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}article_comment
                    ($fields)
                   VALUES
                    ({$quest})";

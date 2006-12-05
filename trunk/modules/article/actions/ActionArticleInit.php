@@ -36,12 +36,12 @@ class ActionArticleInit extends JapaAction
         $this->checkModuleVersion();
         
         // this module try to find the controller for a related public request var 'id_article'
-        $this->config['controller_map']['id_article'] = 'article';  
+        $this->model->addToControllerMap( 'id_article',  'article');  
         
         $this->model->action('article','changedateStatus');
         
         // delete expired articles
-        if($this->config['controller_type'] == 'admin')
+        if($this->config->getVar('controller_type') == 'admin')
         {
             $this->model->action('article','deleteExpired');
         }

@@ -56,7 +56,7 @@ class ActionLinkAddLink extends JapaAction
             $comma   = ",";
         }          
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}link_links
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}link_links
                    (`id_node`,$fields)
                   VALUES
                    ({$data['id_node']},$quest)";

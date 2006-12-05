@@ -36,7 +36,7 @@ class ActionNavigationAddKeyword extends JapaAction
             return;
         }
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}navigation_keyword
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}navigation_keyword
                    (`id_key`,`id_node`)
                   VALUES
                    ({$data['id_key']},{$data['id_node']})";
@@ -82,7 +82,7 @@ class ActionNavigationAddKeyword extends JapaAction
         $sql = "SELECT SQL_CACHE
                   `id_key`
                 FROM 
-                  {$this->config['dbTablePrefix']}navigation_keyword
+                  {$this->config->dbTablePrefix}navigation_keyword
                 WHERE
                    `id_node`={$id_node}
                 AND

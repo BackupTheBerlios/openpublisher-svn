@@ -32,7 +32,7 @@ class ActionNavigationGetNodeStatus extends JapaAction
             SELECT SQL_CACHE
                 status
             FROM
-                {$this->config['dbTablePrefix']}navigation_node
+                {$this->config->dbTablePrefix}navigation_node
             WHERE
                 `id_node`={$data['id_node']}";
         
