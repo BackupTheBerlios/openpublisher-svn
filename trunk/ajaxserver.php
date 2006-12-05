@@ -35,7 +35,7 @@ define('JAPA_PUBLIC_DIR', 'public/');
 include( JAPA_LIBRARY_DIR . 'japa/japa_core.php' );
 
 // router which handles url rewrites
-$japaRouter     = JapaRouter::newInstance( $JapaConfig, 'ajax' );
+$japaRouter     = JapaRouter::newInstance( $japaConfig, 'ajax' );
 
 $japaController = JapaController::newInstance( $japaRouter );
 

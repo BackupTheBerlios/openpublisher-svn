@@ -23,6 +23,9 @@ RewriteRule view=picture&amp;id_article=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/pict
 RewriteRule view=picture&amp;id_node=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_node/$1/id_pic/$2 [L]
 RewriteRule view=picture&amp;id_text=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_text/$1/id_pic/$2 [L]
 
+# load references from the public folder
+RewriteRule public(.*)$ public$1 [L] 
+
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-l 
