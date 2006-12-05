@@ -182,7 +182,23 @@ class JapaConfig
         }  
     }
     
-
+    /**
+     * dump config vars
+     *
+     * @param string $module Module name
+     * @return array 
+     */
+    public function dump( $module = false )
+    {
+        if( ($module !== false) && isset($this->config[$module]) )
+        {
+            return var_export($this->config[$module]);
+        }
+        else
+        {
+            return var_export($this->config);
+        }  
+    }
 }
 
 ?>
