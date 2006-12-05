@@ -49,10 +49,10 @@ class JapaControllerRpcApplication extends JapaController
             /*
              * Set controller type
              */
-            $this->config['controller_type'] = 'xml_rpc';   
+            $this->config->setVar('controller_type', 'xml_rpc');   
             
             // disable output compression
-            $this->config['output_compression'] = false;
+            $this->config->setVar('output_compression', false);
  
             // run broadcast action init event to every module
             $this->model->broadcast( 'init' );  
@@ -71,7 +71,7 @@ class JapaControllerRpcApplication extends JapaController
             $this->controller->httpRequest = new JapaHttpRequest;
 
             // set class file path
-            $this->controller->setClassFilePath( $this->model->config['public_controllers_folder'] );
+            $this->controller->setClassFilePath( $this->config->getVar('public_controllers_folder') );
 
             // get the controller which is associated with a request
             $controllerRequest = $this->controller->httpRequest->getParameter( 'cntr', 'get', 'alpha' ); 
@@ -128,22 +128,26 @@ class JapaControllerRpcApplication extends JapaController
      */
     private function validateControllerName( $controller_name )
     {
+        $debug                     = $this->config->getVar('debug');
+        $default_controller        = $this->config->getVar('default_controller');
+        $public_controllers_folder = $this->config->getVar('public_controllers_folder');
+        
         if(preg_match("/[^a-zA-Z0-9_]/", $controller_name))
         {
-            if($this->config['debug'] == true)
+            if($debug == true)
             {
                 throw new JapaViewException('Wrong controller fromat: ' . $controller_name);
             }
-            return $this->config['default_controller'];
+            return $default_controller;
         }
 
-        if(!@file_exists( $this->model->config['public_controllers_folder'] . 'Controller' . ucfirst($controller_name) . '.php'))
+        if(!@file_exists( $public_controllers_folder . 'Controller' . ucfirst($controller_name) . '.php'))
         {
-            if($this->config['debug'] == true)
+            if($debug == true)
             {
-                throw new JapaViewException('Controller class dosent exists: ' . $this->model->config['public_controllers_folder'] . 'Controller' . ucfirst($controller_name) . '.php');
+                throw new JapaViewException('Controller class dosent exists: ' . $public_controllers_folder . 'Controller' . ucfirst($controller_name) . '.php');
             }
-            return $this->config['default_controller'];
+            return $default_controller;
         }
 
         return $controller_name;
