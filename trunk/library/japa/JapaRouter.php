@@ -25,12 +25,12 @@ class JapaRouter
     
     protected $application_controller = false;
                                            
-    public function __construct( & $config )
+    public function __construct( $config )
     {
-        $this->applicationControllers = & $config['application_controllers'];
+        $this->applicationControllers = $config->getVar('application_controllers');
         
         // set default application controller
-        $this->application_controller = 'JapaController' . $config['default_application_controller'] . 'Application';
+        $this->application_controller = 'JapaController' . $config->getVar('default_application_controller') . 'Application';
         
         $this->run();
     }
@@ -60,7 +60,7 @@ class JapaRouter
      * @param array $config Global configuration array
      * @param string $type Router type
      */
-    public static function newInstance( & $config, $type )
+    public static function newInstance( $config, $type )
     {
         try
         {

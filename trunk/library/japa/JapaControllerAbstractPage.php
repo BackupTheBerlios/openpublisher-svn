@@ -39,8 +39,8 @@ abstract class JapaControllerAbstractPage
     public $session;
     
      /**
-     * Japa main configuration array
-     * @var array $config
+     * Japa main configuration object
+     * @var object $config
      */
     public $config;   
 

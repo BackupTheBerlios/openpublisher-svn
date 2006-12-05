@@ -22,11 +22,11 @@ class JapaCache
     /**
      * Constructor
      *
-     * @param string $config Main Japa configuration array
+     * @param string $config Main Japa configuration object
      */
-    function __construct( & $config )
+    function __construct( $config )
     {
-        $this->config = & $config;
+        $this->config = $config;
     }
     
     /**
@@ -34,7 +34,7 @@ class JapaCache
      *
      * @param string $class Cache class name.
      */
-    public static function newInstance($class, & $config)
+    public static function newInstance($class, JapaConfig $config)
     {
         $class_file = JAPA_LIBRARY_DIR . 'japa/'.$class.'.php';
                 

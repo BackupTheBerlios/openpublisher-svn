@@ -56,24 +56,26 @@ abstract class JapaController implements JapaInterfaceController
         try
         {
             // set reference to the config array
-            $this->config = & self::$japaConfig;
+            $this->config = self::$japaConfig;
 
-            if( ($router != false) && !isset($this->config['url_base']) )
+            $url_base = $this->config->getVar('url_base');
+
+            if( ($router != false) && ($url_base == null) )
             {
                 // assign url base config var
-                $this->config['url_base'] = $router->getBase();
+                $this->config->setVar('url_base', $router->getBase());
                 $this->router = & $router;
             }
 
             // display php errors
-            ini_set('display_errors', $this->config['debug']);
+            ini_set('display_errors', $this->config->getVar('debug'));
 
             // log file of php errors
             ini_set('log_errors', true);  
             ini_set('error_log', JAPA_APPLICATION_DIR . 'logs/php_error.log');            
 
             // set error reporting
-            error_reporting( $this->config['error_reporting'] );
+            error_reporting( $this->config->getVar('error_reporting') );
 
             // create japa model instance
             $this->model = new JapaModel( $this->config );          
@@ -103,11 +105,11 @@ abstract class JapaController implements JapaInterfaceController
      */
     protected function setExceptionFlags( $e )
     {
-        $e->flag = array('debug'           => $this->config['debug'],
-                         'logs_path'       => $this->config['logs_path'],
-                         'message_handle'  => $this->config['message_handle'],
-                         'system_email'    => $this->config['system_email'],
-                         'controller_type' => $this->config['controller_type']);  
+        $e->flag = array('debug'           => $this->config->getVar('debug'),
+                         'logs_path'       => $this->config->getVar('logs_path'),
+                         'message_handle'  => $this->config->getVar('message_handle'),
+                         'system_email'    => $this->config->getVar('system_email'),
+                         'controller_type' => $this->config->getVar('controller_type'));  
         return;
     }
     /**
@@ -118,15 +120,18 @@ abstract class JapaController implements JapaInterfaceController
     {
         // A "common" base module must be present
         //
+        $base_module = $this->config->getVar('base_module');
+        $last_module = $this->config->getVar('last_module');
             
-        if( $this->config['base_module'] != false )
+        if( $base_module != false )
         {
-            $mod_common = JAPA_MODULES_DIR . $this->config['base_module'];
+            
+            $mod_common = JAPA_MODULES_DIR . $base_module;
   
             if(file_exists( $mod_common ))
             {
                 // register this module folder
-                $this->model->init( $this->config['base_module'] );
+                $this->model->init( $base_module );
             }
             else
             {
@@ -146,13 +151,13 @@ abstract class JapaController implements JapaInterfaceController
             }
             
             // dont register base module here
-            if( $tmp_dirname == $this->config['base_module'] )
+            if( $tmp_dirname == $base_module )
             {
                 continue;
             }
             
             // dont register last module here
-            if( $tmp_dirname == $this->config['last_module'] )
+            if( $tmp_dirname == $last_module )
             {
                 continue;
             }
@@ -164,15 +169,15 @@ abstract class JapaController implements JapaInterfaceController
         }
   
         $tmp_directory->close();
-
+        
         // register last module
-        if( $this->config['last_module'] != false )
+        if( $last_module != false )
         {
-            $mod_init = JAPA_MODULES_DIR . $this->config['last_module'];
+            $mod_init = JAPA_MODULES_DIR . $last_module;
   
             if ( @is_dir( $mod_init ) )
             {
-                $this->model->init( $this->config['last_module'] );
+                $this->model->init( $last_module );
             }
             else
             {
@@ -186,9 +191,9 @@ abstract class JapaController implements JapaInterfaceController
      *
      * @param array $config Global Config array
      */
-    public static function setConfig( &$config )
+    public static function setConfig( JapaConfig $config )
     {
-        self::$japaConfig = & $config;
+        self::$japaConfig = $config;
     }
 
     /**

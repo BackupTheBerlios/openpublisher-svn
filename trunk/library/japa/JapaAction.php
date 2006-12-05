@@ -27,8 +27,8 @@ abstract class JapaAction
     public $model;    
 
      /**
-     * Japa main configuration array
-     * @var array $config
+     * Japa main configuration object
+     * @var object $config
      */
     public $config;   
 

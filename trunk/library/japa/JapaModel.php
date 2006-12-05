@@ -27,14 +27,20 @@ class JapaModel
     private $availaibleModules = array();
     
     /**
+     * public controller map
+     * @var array $controllerMap
+     */
+    private $controllerMap = array();
+    
+    /**
      * Database resource
      * @var resource $db
      */    
     public $db;
     
     /**
-     * Main Japa configuration array
-     * @var array $config
+     * Japa configuration object
+     * @var object $config
      */  
     public $config;
 
@@ -53,11 +59,11 @@ class JapaModel
     /**
      * Model constructor
      * 
-     * @param array $config Main Japa config array
+     * @param array $config Main Japa config object
      */
-    public function __construct( & $config )
+    public function __construct( JapaConfig $config )
     {
-        $this->config = & $config;
+        $this->config = $config;
     }
 
     /**
@@ -148,9 +154,9 @@ class JapaModel
      */     
     public function addConfigVar( $module, & $data )
     {
-        if( !isset($this->config[$module]) )
+        if( null !== $this->config->getVar($module) )
         {
-            $this->config[$module] = & $data;
+            $this->config->setVar($module, $data);
             return true;
         }
         throw new JapaInitException('Module config array exists: '.$module);
@@ -171,6 +177,33 @@ class JapaModel
         }
         return NULL;
     }
+    
+    /**
+     * add item to public controller map
+     * @param string $name request var to register
+     * @param string $module Module name
+     */
+    public function addToControllerMap( $name, $module  )
+    {
+        if(!isset($this->controllerMap[$name]))
+        {
+            $this->controllerMap[$name] = $module;
+        }
+        else
+        {
+            throw new JapaModelException("Duplicate error in controller map: '{$name}, {$module}'");
+        }
+    } 
+    
+    /**
+     * 
+     * return public controller map
+     * @return array
+     */
+    public function & getControllerMap()
+    {
+        return $this->controllerMap;
+    } 
 
     /**
      * dynamic call of model action classe (Factory)
@@ -226,8 +259,8 @@ class JapaModel
         // aggregate the model object to the action object
         $this->$class_name->model = &$this;
 
-        // Aggregate the main configuration array
-        $this->$class_name->config = & $this->config;
+        // Aggregate the main configuration object
+        $this->$class_name->config = $this->config;
            
         // validate the request
         if( false == $this->$class_name->validate( $data ) )

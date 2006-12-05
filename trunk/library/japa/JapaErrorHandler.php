@@ -22,11 +22,11 @@ class JapaErrorHandler
     *
     * set php error handler callback function
     */    
-    function __construct( & $config )
+    function __construct( JapaConfig $config )
     {
-        set_error_handler (array( &$this, '_php_error_handler' ), $config['error_reporting']);
+        set_error_handler (array( &$this, '_php_error_handler' ), $config->getVar('error_reporting'));
         
-        $this->config = & $config;
+        $this->config = $config;
     }  
     
    /**
@@ -69,14 +69,14 @@ class JapaErrorHandler
     function _log( & $message )
     {
         // Log this message to file
-        if(strstr($this->config['message_handle'], 'LOG'))
+        if(strstr($this->config->getVar('message_handle'), 'LOG'))
         {
-            error_log($message."\n\n", 3, $this->config['logs_path'] . 'japa_error.log');
+            error_log($message."\n\n", 3, $this->config->getVar('logs_path') . 'japa_error.log');
         }  
         // Print this message
-        if(strstr($this->config['message_handle'], 'SHOW'))
+        if(strstr($this->config->getVar('message_handle'), 'SHOW'))
         {
-            if(preg_match("/web|admin/", $this->config['controller_type']))
+            if(preg_match("/web|admin/", $this->config->getVar('controller_type')))
             {        
                 echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
                               font-size: 10px;
@@ -85,19 +85,19 @@ class JapaErrorHandler
                               padding: 5px;
                               border: thin solid #666666;">'.$message.'</pre><br />';
             }
-            elseif(preg_match("/cli/", $this->config['controller_type']))
+            elseif(preg_match("/cli/", $this->config->getVar('controller_type')))
             {
                 fwrite(STDERR, $message, strlen($message));
             }
-            elseif(preg_match("/xml_rpc/", $this->config['controller_type']))
+            elseif(preg_match("/xml_rpc/", $this->config->getVar('controller_type')))
             {
                 return new XML_RPC_Response(0, $GLOBALS['XML_RPC_erruser'], $message);
             }              
         }    
         // email this message
-        if(strstr($this->config['message_handle'], 'MAIL') && !empty($this->config['system_email']))
+        if(strstr($this->config->getVar('message_handle'), 'MAIL') && (null !== $this->config->getVar('system_email')))
         {
-            $header  = "From: Japa System <{$this->config['system_email']}>\r\n";
+            $header  = "From: Japa System <{$this->config->getVar('system_email')}>\r\n";
             $header .= "MIME-Version: 1.0\r\n";
             $header .= "Content-Type: text/plain; charset=\"iso-8859-1\"\r\n";
             $header .= "Content-Transfer-Encoding: 8bit";

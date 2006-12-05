@@ -62,7 +62,7 @@
 
    <!-- --- show edit article link if user is logged --- -->
    <?php if(isset($view['showEditLink'])): ?>
-     <div style="text-align: right;font-size: 1.2em;"><a href="<?php echo $view['urlBase']; ?>/Module/mod/article/cntr/editArticle/id_node/<?php echo $view['article']['id_node'];  ?>/id_article/<?php echo $view['article']['id_article'];  ?>&disableMainMenu=1">edit this article</a></div>
+     <div style="text-align: right;font-size: 1.2em;"><a href="<?php echo $view['urlBase']; ?>/Module/mod/article/cntr/editArticle/id_node/<?php echo $view['article']['id_node'];  ?>/id_article/<?php echo $view['article']['id_article'];  ?>/disableMainMenu/1">edit this article</a></div>
    <?php endif; ?>  
    
    <!-- print article header -->

@@ -18,86 +18,86 @@
 ob_start();
 
 // init japa configuration array
-$JapaConfig = array();
+$_jpconfig = array();
 
 /**
  * Path to the config dir
  */
-$JapaConfig['config_path'] = JAPA_APPLICATION_DIR . 'configs/';
+$_jpconfig['config_path'] = JAPA_APPLICATION_DIR . 'configs/';
 /**
  * Idem for the directory of log files.
  */
-$JapaConfig['logs_path'] = JAPA_APPLICATION_DIR . 'logs/';
+$_jpconfig['logs_path'] = JAPA_APPLICATION_DIR . 'logs/';
 
 /**
  * Cache folder.
  */
-$JapaConfig['cache_path'] = JAPA_APPLICATION_DIR . 'cache/';
+$_jpconfig['cache_path'] = JAPA_APPLICATION_DIR . 'cache/';
 
 /**
  * Default controllers and views folders
  */
 
-$JapaConfig['public_controllers_folder'] = JAPA_APPLICATION_DIR . 'controllers/default/';
+$_jpconfig['public_controllers_folder'] = JAPA_APPLICATION_DIR . 'controllers/default/';
 
 /**
  * Default public images, scripts and styles folders
  */
-$JapaConfig['public_views_folder']    = JAPA_PUBLIC_DIR . 'views/default/';
-$JapaConfig['public_images_folder']   = JAPA_PUBLIC_DIR . 'images/default/';
-$JapaConfig['public_scripts_folder']  = JAPA_PUBLIC_DIR . 'scripts/default/';
-$JapaConfig['public_styles_folder']   = JAPA_PUBLIC_DIR . 'styles/default/';
+$_jpconfig['public_views_folder']    = JAPA_PUBLIC_DIR . 'views/default/';
+$_jpconfig['public_images_folder']   = JAPA_PUBLIC_DIR . 'images/default/';
+$_jpconfig['public_scripts_folder']  = JAPA_PUBLIC_DIR . 'scripts/default/';
+$_jpconfig['public_styles_folder']   = JAPA_PUBLIC_DIR . 'styles/default/';
 
 /**
  * The common module name. This module is required!
  */
-$JapaConfig['base_module'] = 'common';
+$_jpconfig['base_module'] = 'common';
 
 /**
  * The common module name. This module is required!
  */
-$JapaConfig['last_module'] = false;
+$_jpconfig['last_module'] = false;
 
 /**
  * The default module name. This module is required!
  */
-$JapaConfig['default_module'] = 'default';
+$_jpconfig['default_module'] = 'default';
 
 /**
  * The setup module name. This module is required!
  */
-$JapaConfig['setup_module'] = 'setup';
+$_jpconfig['setup_module'] = 'setup';
   
 /**
  * Name of the cache type class
  */
-$JapaConfig['cache_type'] = 'JapaFileControllerCache';
+$_jpconfig['cache_type'] = 'JapaFileControllerCache';
 
 /**
  * cache time type       // filemtime or filestime
  */
-$JapaConfig['cache_time_type'] = 'filemtime';
+$_jpconfig['cache_time_type'] = 'filemtime';
 
 /**
  * Name of the template engine class used for the public templates
  */
-$JapaConfig['public_view_engine'] = 'JapaViewEnginePhp';
+$_jpconfig['public_view_engine'] = 'JapaViewEnginePhp';
 
 /**
  * Name of the template engine class used for the module templates
  */
-$JapaConfig['view_engine'] = 'JapaViewContainerPhp';
+$_jpconfig['view_engine'] = 'JapaViewContainerPhp';
 
 /**
  * Use php code analyzer
  * This an experimental feature.
  */
-$JapaConfig['useCodeAnalyzer'] = false;
+$_jpconfig['useCodeAnalyzer'] = false;
 
 /**
  * Allowed php constructs in templates
  */
-$JapaConfig['allowedConstructs'] = array('if','else','elseif','else if','endif',
+$_jpconfig['allowedConstructs'] = array('if','else','elseif','else if','endif',
                                           'foreach','endforeach','while','do','for','endfor',
                                           'continue','break','switch','case',
                                           'echo','print','print_r','var_dump',
@@ -106,85 +106,85 @@ $JapaConfig['allowedConstructs'] = array('if','else','elseif','else if','endif',
 /**
  * Disallowed php variables in templates
  */
-$JapaConfig['disallowedVariables'] = array('$GLOBALS', 
-                                           '$JapaConfig', 
+$_jpconfig['disallowedVariables'] = array('$GLOBALS', 
+                                           '$_jpconfig', 
                                            '$this');
 
 /**
  * admin view folder
  */
-$JapaConfig['admin_view_folder'] = 'views/';                                          
+$_jpconfig['admin_view_folder'] = 'views/';                                          
                                        
 
 /**
  * Default and error controller.
  */
-$JapaConfig['application_controllers']        = array("Web", "Module", "Ajax", "Rpc");
-$JapaConfig['default_application_controller'] = "Web";
-$JapaConfig['default_module_application_controller'] = "Module";
-$JapaConfig['default_controller'] = 'index';
-$JapaConfig['default_ajax_controller'] = 'ajax';
-$JapaConfig['error_controller']   = 'error';
+$_jpconfig['application_controllers']        = array("Web", "Module", "Ajax", "Rpc");
+$_jpconfig['default_application_controller'] = "Web";
+$_jpconfig['default_module_application_controller'] = "Module";
+$_jpconfig['default_controller'] = 'index';
+$_jpconfig['default_ajax_controller'] = 'ajax';
+$_jpconfig['error_controller']   = 'error';
 
 /**
  * enable output compression (false = disable, true = enable)
  */
-$JapaConfig['output_compression']       = false;
+$_jpconfig['output_compression']       = false;
 
 /**
  * output compression level 1-9
  */
-$JapaConfig['output_compression_level'] = '4';
+$_jpconfig['output_compression_level'] = '4';
 
 /**
  * recipient email of system messages: system@foo.com
  */
-$JapaConfig['system_email'] = '';
+$_jpconfig['system_email'] = '';
 
 /**
  * message log types ('LOG|SHOW|MAIL')
  */
-$JapaConfig['message_handle'] = 'LOG|SHOW';
+$_jpconfig['message_handle'] = 'LOG|SHOW';
  
 /**
  * error reporting
  */
-$JapaConfig['error_reporting'] = E_ALL;
+$_jpconfig['error_reporting'] = E_ALL;
 
 /**
  * Set debug mode.
  */
-$JapaConfig['debug'] = true; 
+$_jpconfig['debug'] = true; 
 
 /**
  * Rights for media folders and files
  */
-$JapaConfig['media_folder_rights'] = 0777;
-$JapaConfig['media_file_rights']   = 0777;
+$_jpconfig['media_folder_rights'] = 0777;
+$_jpconfig['media_file_rights']   = 0777;
 
 // Check if there is a custom config file else use default config settings
 //
-if (@file_exists($JapaConfig['config_path'] . 'my_config.php'))
+if (@file_exists($_jpconfig['config_path'] . 'my_config.php'))
 {
-    include_once($JapaConfig['config_path'] . 'my_config.php');
+    include_once($_jpconfig['config_path'] . 'my_config.php');
 }
 
 /**
  * Module name from which retrive a controller name.
  * The name of the class that is associated with a controller
  */
-$JapaConfig['controller_map']  = array();
+$_jpconfig['controller_map']  = array();
 
 /**
  * Version info
  */
-$JapaConfig['japa_version'] = '1.2';
-$JapaConfig['japa_version_name'] = 'JAPA';
+$_jpconfig['japa_version'] = '1.2';
+$_jpconfig['japa_version_name'] = 'JAPA';
 
 /**
  * Disable cache global
  */
-$JapaConfig['disable_cache'] = 0;
+$_jpconfig['disable_cache'] = 0;
 
 // set include path to pear
 ini_set( 'include_path', '.' . PATH_SEPARATOR . JAPA_LIBRARY_DIR . 'PEAR' . PATH_SEPARATOR . ini_get('include_path') );
@@ -224,7 +224,15 @@ include_once( JAPA_LIBRARY_DIR . 'japa/JapaCache.php' );
 include_once( JAPA_LIBRARY_DIR . 'japa/JapaRouter.php' );
 #scc
 
+/**
+ * japa config class
+ */
+include_once( JAPA_LIBRARY_DIR . 'japa/JapaConfig.php' );
+$japaConfig = new JapaConfig( $_jpconfig );
+
 // pass the config array to the controller
-JapaController::setConfig( $JapaConfig );
+JapaController::setConfig( $japaConfig );
+
+unset($_jpconfig);
 
 ?>

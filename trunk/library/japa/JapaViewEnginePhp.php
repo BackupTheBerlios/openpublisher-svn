@@ -34,7 +34,7 @@ class JapaViewEnginePhp extends JapaViewEngine
         // build the whole file path to the view file
         $view_file = $this->viewFolder . $this->view . '.php';
 
-        if($this->config['useCodeAnalyzer'] == true)
+        if($this->config->getVar('useCodeAnalyzer') == true)
         {
             $this->disallowedItems = array();
             
@@ -66,19 +66,22 @@ class JapaViewEnginePhp extends JapaViewEngine
         $analyzer = new PHPCodeAnalyzer();
         $analyzer->source = file_get_contents( $view );
         $analyzer->analyze();
+        $_allowedConstructs = $this->config->getVar('allowedConstructs');
         
         foreach($analyzer->calledConstructs as $key => $val)
         {
-            if(!in_array($key, $this->config['allowedConstructs']))
+            if(!in_array($key, $_allowedConstructs))
             {
                 $this->disallowedItems[] = $key;
                 $code_is_valide = false;
             }
         }  
+        
+        $_disallowedVariables = $this->model->config->getVar('disallowedVariables');
 
         foreach($analyzer->usedVariables as $key => $val)
         {
-            if(in_array($key, $this->config['disallowedVariables']))
+            if(in_array($key, $_disallowedVariables))
             {
                 $this->disallowedItems[] = $key;
                 $code_is_valide = false;

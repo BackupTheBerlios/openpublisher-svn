@@ -11,6 +11,12 @@
  * Web controller class
  *
  */
+ 
+// Start output buffering
+//
+@ob_end_clean();
+ob_start(); 
+ 
 class JapaControllerWebApplication extends JapaController
 {
     /**
@@ -44,7 +50,7 @@ class JapaControllerWebApplication extends JapaController
             /*
              * Set controller type
              */
-            $this->config['controller_type'] = 'web';   
+            $this->config->setVar('controller_type', 'web', false);   
             
             // run broadcast action init event to every module
             $this->model->broadcast( 'init' );
@@ -66,15 +72,17 @@ class JapaControllerWebApplication extends JapaController
             $this->controller->httpResponse = new JapaHttpResponse;
 
             // set class file path
-            $this->controller->setClassFilePath( $this->model->config['public_controllers_folder'] );
+            $this->controller->setClassFilePath( $this->config->getVar('public_controllers_folder') );
 
             // get the controller which is associated with a request
             $controllerRequest = '';
 
             if( false === ($controllerRequest = $this->router->getVar('cntr')) )
             {
+                $controller_map = $this->model->getControllerMap();
+                
                 // try to get a controller name from the model (modules)
-                foreach($this->config['controller_map'] as $item_name => $module_name)
+                foreach($controller_map as $item_name => $module_name)
                 {
                     $id_item = $this->controller->httpRequest->getParameter( $item_name, 'request', 'digits' );
 
@@ -97,7 +105,7 @@ class JapaControllerWebApplication extends JapaController
             // set default controller
             if( false === $controllerRequest )
             {
-                $controllerRequest = $this->config['default_controller'];
+                $controllerRequest = $this->config->getVar('default_controller');
             }            
 
             // execute the requested controller
@@ -156,22 +164,26 @@ class JapaControllerWebApplication extends JapaController
      */
     private function validateControllerName( $controller_name )
     {
+        $debug                     = $this->config->getVar('debug');
+        $default_controller        = $this->config->getVar('default_controller');
+        $public_controllers_folder = $this->config->getVar('public_controllers_folder');
+        
         if(preg_match("/[^a-zA-Z0-9_]/", $controller_name))
         {
-            if($this->config['debug'] == true)
+            if($debug == true)
             {
                 throw new JapaViewException('Wrong controller fromat: ' . $controller_name);
             }
-            return $this->config['default_controller'];
+            return $default_controller;
         }
 
-        if(!@file_exists( $this->model->config['public_controllers_folder'] . 'Controller' . ucfirst($controller_name) . '.php'))
+        if(!@file_exists( $public_controllers_folder . 'Controller' . ucfirst($controller_name) . '.php'))
         {
-            if($this->config['debug'] == true)
+            if($debug == true)
             {
-                throw new JapaViewException('Controller class dosent exists: ' . $this->model->config['public_controllers_folder'] . 'Controller' . ucfirst($controller_name) . '.php');
+                throw new JapaViewException('Controller class dosent exists: ' . $public_controllers_folder . 'Controller' . ucfirst($controller_name) . '.php');
             }
-            return $this->config['default_controller'];
+            return $default_controller;
         }
 
         return $controller_name;
@@ -185,11 +197,11 @@ class JapaControllerWebApplication extends JapaController
     {
         if($this->config['debug'] == false)
         {
-            $methode = $this->model->config['default_controller'];
+            $methode = $this->config->getVar('default_controller');
         }
         else
         {
-            $methode = $this->model->config['error_controller'];
+            $methode = $this->config->getVar('error_controller');
         }
         
         try

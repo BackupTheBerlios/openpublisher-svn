@@ -60,11 +60,13 @@ class JapaFileControllerCache extends JapaCache
      */   
     public function cacheIdExists( $expire, & $viewId )
     {
-        if($this->config['cache_time_type'] == 'filemtime')
+        $cache_time_type = $this->config->getVar('cache_time_type');
+        
+        if($cache_time_type == 'filemtime')
         {
             return $this->_filemtime( $expire, $viewId );
         }
-        elseif($this->config['cache_time_type'] == 'filestime')
+        elseif($cache_time_type == 'filestime')
         {
             return $this->_filestime( $expire, $viewId );
         }
@@ -78,7 +80,7 @@ class JapaFileControllerCache extends JapaCache
      */     
     public function _filemtime( $expire, & $viewId )
     {
-        $this->cacheFile = $this->config['cache_path'].md5($viewId);
+        $this->cacheFile = $this->config->getVar('cache_path').md5($viewId);
 
         if( file_exists($this->cacheFile)  )
         {
@@ -103,7 +105,7 @@ class JapaFileControllerCache extends JapaCache
      */        
     public function _filestime( $expire, & $viewId )
     {
-        $this->cacheFile = $this->config['cache_path'].md5($viewId);
+        $this->cacheFile = $this->config->getVar('cache_path').md5($viewId);
         $this->cacheTimeFile = $this->cacheFile . 'time';
 
         if( file_exists($this->cacheTimeFile)  )
