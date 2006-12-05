@@ -59,10 +59,10 @@ class ActionUserCheckLogin extends JapaAction
             $this->model->session->set('loggedUserGmt',  (int)$row['user_gmt']);
             
             // create log session
-            if($this->config['user']['use_log'] == 1)
+            if($this->config->getModuleVar('user', 'use_log') == 1)
             {
-                $this->config['user']['log_id_session'] = $this->createUserLogSession( $row['id_user'] );
-                $this->model->session->set('logIdSession', $this->config['user']['log_id_session']);
+                $this->config->setModuleVar('user', 'log_id_session', $this->createUserLogSession( $row['id_user'] ));
+                $this->model->session->set('logIdSession', $this->config->getModuleVar('user', 'log_id_session'));
             }
 
             return TRUE;
