@@ -252,13 +252,10 @@ class ControllerArticle extends JapaControllerAbstractPage
         $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
         
         // template var with css folder
-        $this->viewVar['cssFolder']    = 'public/styles/'.$this->config->getModuleVar('common', 'styles_folder');
-        $this->viewVar['scriptFolder'] = 'public/scripts/default';
+        $this->viewVar['cssFolder']    = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
+        $this->viewVar['scriptFolder'] = JAPA_PUBLIC_DIR . 'scripts/default/';
         $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
-        $this->viewVar['urlAjax'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'];
-        $this->viewVar['urlCss']  = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
-        
-        $this->viewVar['urlScripts'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['scriptFolder'];
+        $this->viewVar['urlAjax'] = $this->viewVar['urlBase'];
     }
 
     /**
@@ -274,19 +271,13 @@ class ControllerArticle extends JapaControllerAbstractPage
                                        array('id_article' => (int)$this->current_id_article,
                                              'result'     => & $result));  
 
+        // check if the article is accessible
         if( ($valide == false)             ||
             ($result['nodeStatus']    < 2) || 
             ($result['articleStatus'] < 4))
         {
-            $this->view               = 'error'; 
-            $this->viewVar['message'] = "The requested article isnt accessible";
-            // template var with charset used for the html pages
-            $this->viewVar['charset'] = & $this->config['charset'];   
-            
-            $this->dontPerform = true;
-            // disable caching
-            $this->cacheExpire = 0;
-            return;
+            // switch to the index page
+            $this->router->redirect(); 
         } 
 
         if( $this->viewVar['isUserLogged'] == false )
@@ -372,14 +363,13 @@ class ControllerArticle extends JapaControllerAbstractPage
             // $this->sendEmails();
 
             // comment needs to be validate
-            if($this->config['article']['default_comment_status'] == 1)
+            if($this->config->getModuleVar('article', 'default_comment_status') == 1)
             {
                 $this->viewVar['commentMessage'] = 'Thanks for your comment. Your comment will be reviewed as soon as possible.';
             }
             else
             {
-                header('Location: '.$this->viewVar['urlBase'].'/id_article/'.$this->current_id_article.'#comments');
-                exit;
+                $this->router->redirect( 'id_article/'.$this->current_id_article.'#comments' ); 
             }
         }
         else
@@ -419,10 +409,12 @@ class ControllerArticle extends JapaControllerAbstractPage
      */     
     private function resetFormData()
     {
-        $this->viewVar['cauthor'] = htmlentities($this->strip($this->cauthor), ENT_COMPAT, $this->config['charset']);     
-        $this->viewVar['cemail']  = htmlentities($this->strip($this->cemail), ENT_COMPAT, $this->config['charset']);     
-        $this->viewVar['curl']    = htmlentities($this->strip($this->curl), ENT_COMPAT, $this->config['charset']);     
-        $this->viewVar['cbody']   = htmlentities($this->strip($this->cbody), ENT_COMPAT, $this->config['charset']); 
+        $_charset = $this->config->getModuleVar('common', 'charset');
+        
+        $this->viewVar['cauthor'] = htmlentities($this->strip($this->cauthor), ENT_COMPAT, $_charset);     
+        $this->viewVar['cemail']  = htmlentities($this->strip($this->cemail), ENT_COMPAT, $_charset);     
+        $this->viewVar['curl']    = htmlentities($this->strip($this->curl), ENT_COMPAT, $_charset);     
+        $this->viewVar['cbody']   = htmlentities($this->strip($this->cbody), ENT_COMPAT, $_charset); 
     }  
     /**
      * send email(s) on new comments
@@ -439,9 +431,9 @@ class ControllerArticle extends JapaControllerAbstractPage
                                    'fields'  => array('email') ));   
 
         $adminBody  = 'Hi,<br>A new comment was added to the following article:';        
-        $adminBody .= '<a href="http://'.$this->httpRequest->getBaseUrl().'/id_article/'.$this->viewVar['article']['id_article'].'">'.$this->viewVar['article']['title'].'</a>';
+        $adminBody .= '<a href="http://'.$this->httpRequest->getBaseUrl().'/id_article/'.$this->viewVar['article']['id_article'].'">'.$this->config->getModuleVar('article','title').'</a>';
         
-        if($this->config['article']['default_comment_status'] == 1)
+        if($this->config->getModuleVar('article','default_comment_status') == 1)
         {
             $adminBody .= '<br><br>You have to validate new comments!';  
         }
