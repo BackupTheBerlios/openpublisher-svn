@@ -102,11 +102,13 @@ class ActionArticleSearch extends JapaAction
             $sql_order = "ORDER BY a.title ASC";
         } 
 
+        $_gmtDate = $this->config->getVar('gmtDate');
+
         if(isset($data['pubdate']))
         {
             if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_date = $this->config['gmtDate'];
+                $_date = $_gmtDate;
             }
             else
             {
