@@ -103,7 +103,7 @@ class JapaControllerWebApplication extends JapaController
             }
 
             // set default controller
-            if( false === $controllerRequest )
+            if( empty($controllerRequest) )
             {
                 $controllerRequest = $this->config->getVar('default_controller');
             }            
@@ -195,7 +195,7 @@ class JapaControllerWebApplication extends JapaController
      */    
     private function userErrorController( $message )
     {
-        if($this->config['debug'] == false)
+        if($this->config->getVar('debug') == false)
         {
             $methode = $this->config->getVar('default_controller');
         }
