@@ -110,9 +110,8 @@ class ControllerLogin extends JapaControllerAbstractPage
         $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
         $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller');        
         // template var with css folder
-        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
-        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
-        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];  
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
+        $this->viewVar['urlBase'] = $this->router->getBase();
     }  
     /**
      * reset form data
