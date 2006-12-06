@@ -29,39 +29,39 @@ class ActionArticleUpgrade extends JapaAction
     {
         // do upgrade
         //
-        if(1 == version_compare('0.1', $this->config['module']['article']['version'], '=') )
+        if(0 == version_compare('0.1', $data['old_version'], '=') )
         {
             // upgrade from module version 0.1 to 0.2
             $this->upgrade_0_1_to_0_2();     
-            $this->config['module']['article']['version'] = '0.2';
+            $data['old_version'] = '0.2';
         }
 
-        if(1 == version_compare('0.2', $this->config['module']['article']['version'], '=') )
+        if(0 == version_compare('0.2', $data['old_version'], '=') )
         {
             // upgrade from module version 0.2 to 0.3
             $this->upgrade_0_2_to_0_3();     
-            $this->config['module']['article']['version'] = '0.3';
+            $data['old_version'] = '0.3';
         }
 
-        if(1 == version_compare('0.3', $this->config['module']['article']['version'], '=') )
+        if(0 == version_compare('0.3', $data['old_version'], '=') )
         {
             // upgrade from module version 0.3 to 0.4
             $this->upgrade_0_3_to_0_4();     
-            $this->config['module']['article']['version'] = '0.4';
+            $data['old_version'] = '0.4';
         }
         
-        if(1 == version_compare('0.4', $this->config['module']['article']['version'], '=') )
+        if(0 == version_compare('0.4', $data['old_version'], '=') )
         {
             // upgrade from module version 04 to 0.5
             $this->upgrade_0_4_to_0_5();     
-            $this->config['module']['article']['version'] = '0.5';
+            $data['old_version'] = '0.5';
         }
         
-        if(1 == version_compare('0.5', $this->config['module']['article']['version'], '=') )
+        if(0 == version_compare('0.5', $data['old_version'], '=') )
         {
             // upgrade from module version 04 to 0.5
             $this->upgrade_0_5_to_0_6();     
-            $this->config['module']['article']['version'] = '0.6';
+            $data['old_version'] = '0.6';
         }
         
         // update to new module version number
@@ -127,12 +127,12 @@ class ActionArticleUpgrade extends JapaAction
                    `id_user`       int(11) unsigned NOT NULL default 0,
                    `status`        tinyint(1) NOT NULL default 0,
                    `pubdate`       datetime NOT NULL default '0000-00-00 00:00:00',
-                   `author`        varchar(100) CHARACTER SET {$this->config['dbcharset']} NOT NULL default '',
+                   `author`        varchar(100) CHARACTER SET {$this->config->getVar('dbcharset')} NOT NULL default '',
                    `email`         varchar(100) NOT NULL default '',
                    `url`           varchar(255) NOT NULL default '',
                    `ip`            varchar(100) NOT NULL default '',
                    `agent`         varchar(255) NOT NULL default '',
-                   `body`          text CHARACTER SET {$this->config['dbcharset']} NOT NULL default '',                  
+                   `body`          text CHARACTER SET {$this->config->getVar('dbcharset')} NOT NULL default '',                  
                    PRIMARY KEY        (`id_comment`),
                    KEY                (`status`,`id_article`),
                    KEY `id_user`      (`id_user`),
@@ -174,7 +174,7 @@ class ActionArticleUpgrade extends JapaAction
                     SET
                         `perm`=60
                     WHERE
-                        `id_module`={$this->config['module']['article']['id_module']}";
+                        `name`='article'";
 
         $this->model->dba->query($sql);     
     }
@@ -248,7 +248,7 @@ class ActionArticleUpgrade extends JapaAction
                     SET
                         `version`='{$version}'
                     WHERE
-                        `id_module`={$this->config['module']['article']['id_module']}";
+                        `name`='article'";
 
         $this->model->dba->query($sql);          
     }   

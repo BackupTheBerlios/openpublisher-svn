@@ -92,21 +92,23 @@ class ActionArticleAddArticle extends JapaAction
             $fields .= $comma."`".$key."`";
             $comma   = ",";
         }        
-         
+        
+        $_gmtDate = $this->config->getVar('gmtDate');
+        
         if(!isset($data['fields']['pubdate']))
         {
             $fields .= $comma."`pubdate`";
-            $quest  .= $comma."'".$this->config['gmtDate']."'";        
+            $quest  .= $comma."'".$_gmtDate."'";        
         }
         
         if(!isset($data['fields']['articledate']))
         {
             $fields .= $comma."`articledate`";
-            $quest  .= $comma."'".$this->config['gmtDate']."'";          
+            $quest  .= $comma."'".$_gmtDate."'";          
         }  
 
         $fields .= $comma."`modifydate`";
-        $quest  .= $comma."'".$this->config['gmtDate']."'";   
+        $quest  .= $comma."'".$_gmtDate."'";   
         
         if(!isset($data['fields']['rank']))
         {

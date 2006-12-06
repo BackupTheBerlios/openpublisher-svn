@@ -111,11 +111,13 @@ class ActionArticleSelect extends JapaAction
             }
         }
 
+        $_gmtDate = $this->config->getVar('gmtDate');
+
         if(isset($data['pubdate']))
         {
             if($data['pubdate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_pdate = $this->config['gmtDate'];
+                $_pdate = $_gmtDate;
             }
             else
             {
@@ -128,7 +130,7 @@ class ActionArticleSelect extends JapaAction
             {
                 if($data['pubdate'][3] == "CURRENT_TIMESTAMP")
                 {
-                    $_p2date = $this->config['gmtDate'];
+                    $_p2date = $_gmtDate;
                 }
                 else
                 {
@@ -143,7 +145,7 @@ class ActionArticleSelect extends JapaAction
         {
             if($data['modifydate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_mdate = $this->config['gmtDate'];
+                $_mdate = $_gmtDate;
             }
             else
             {
@@ -155,7 +157,7 @@ class ActionArticleSelect extends JapaAction
             {
                 if($data['modifydate'][3] == "CURRENT_TIMESTAMP")
                 {
-                    $_m2date = $this->config['gmtDate'];
+                    $_m2date = $_gmtDate;
                 }
                 else
                 {
@@ -170,7 +172,7 @@ class ActionArticleSelect extends JapaAction
         {
             if($data['articledate'][1] == "CURRENT_TIMESTAMP")
             {
-                $_adate = $this->config['gmtDate'];
+                $_adate = $_gmtDate;
             }
             else
             {
@@ -182,7 +184,7 @@ class ActionArticleSelect extends JapaAction
             {
                 if($data['articledate'][3] == "CURRENT_TIMESTAMP")
                 {
-                    $_a2date = $this->config['gmtDate'];
+                    $_a2date = $_gmtDate;
                 }
                 else
                 {

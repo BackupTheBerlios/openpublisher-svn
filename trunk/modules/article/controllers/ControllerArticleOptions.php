@@ -72,7 +72,7 @@ class ControllerArticleOptions extends JapaControllerAbstractPage
         }
 
         // assign view vars of options
-        $this->viewVar['option'] = $this->config['article'];
+        $this->viewVar['option'] = $this->config->getModuleArray( 'article' );
     }   
     
    /**

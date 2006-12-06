@@ -91,7 +91,7 @@ class ActionArticleUpdateArticle extends JapaAction
         }
 
         // create modifydate
-        $fields .= ",`modifydate`='{$this->config['gmtDate']}'";
+        $fields .= ",`modifydate`='{$this->config->getVar('gmtDate')}'";
 
         $sql = "
             UPDATE {$this->config->dbTablePrefix}article_article

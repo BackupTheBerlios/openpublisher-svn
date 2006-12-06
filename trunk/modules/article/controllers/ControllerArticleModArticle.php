@@ -390,11 +390,15 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
         // errors
         $this->viewVar['error']  = array(); 
 
-        // assign template config vars
-        foreach($this->config['article'] as $key => $val)
-        {
-            $this->viewVar[$key] = $val;
-        }
+        // assign view config vars
+        $this->viewVar['use_overtitle']   = $this->config->getModuleVar('article', 'use_overtitle');
+        $this->viewVar['use_subtitle']    = $this->config->getModuleVar('article', 'use_subtitle');
+        $this->viewVar['use_description'] = $this->config->getModuleVar('article', 'use_description');
+        $this->viewVar['use_header']      = $this->config->getModuleVar('article', 'use_header');
+        $this->viewVar['use_ps']          = $this->config->getModuleVar('article', 'use_ps');
+        $this->viewVar['use_files']       = $this->config->getModuleVar('article', 'use_files');
+        $this->viewVar['use_logo']        = $this->config->getModuleVar('article', 'use_logo');
+        $this->viewVar['use_images']      = $this->config->getModuleVar('article', 'use_images');
         
         return true;
     }
@@ -433,7 +437,7 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
     {
         foreach($fields as $f)
         {
-            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['common']['charset'] );
+            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config->getModuleVar('common','charset') );
         }
     }  
 
@@ -468,27 +472,27 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
      */     
     private function addGetArticleFields( & $articleFields )
     {
-        if($this->config['article']['use_overtitle'] == 1)
+        if($this->config->getModuleVar('article','use_overtitle') == 1)
         {
             array_push($articleFields, 'overtitle');
         }
-        if($this->config['article']['use_subtitle'] == 1)
+        if($this->config->getModuleVar('article','use_subtitle') == 1)
         {
             array_push($articleFields, 'subtitle');
         }   
-        if($this->config['article']['use_description'] == 1)
+        if($this->config->getModuleVar('article','use_description') == 1)
         {
             array_push($articleFields, 'description');
         }
-        if($this->config['article']['use_header'] == 1)
+        if($this->config->getModuleVar('article','use_header') == 1)
         {
             array_push($articleFields, 'header');
         }   
-        if($this->config['article']['use_ps'] == 1)
+        if($this->config->getModuleVar('article','use_ps') == 1)
         {
             array_push($articleFields, 'ps');
         }
-        if($this->config['article']['use_logo'] == 1)
+        if($this->config->getModuleVar('article','use_logo') == 1)
         {
             array_push($articleFields, 'logo');
         }        
@@ -500,27 +504,27 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
      */      
     private function addSetArticleFields( & $articleFields )
     {
-        if($this->config['article']['use_overtitle'] == 1)
+        if($this->config->getModuleVar('article','use_overtitle') == 1)
         {
             $overtitle = trim($this->httpRequest->getParameter('overtitle', 'post', 'raw'));
             $articleFields['overtitle'] = JapaCommonUtil::stripSlashes((string)$overtitle);
         }
-        if($this->config['article']['use_subtitle'] == 1)
+        if($this->config->getModuleVar('article','use_subtitle') == 1)
         {
             $subtitle  = trim($this->httpRequest->getParameter('subtitle', 'post', 'raw'));
             $articleFields['subtitle'] = JapaCommonUtil::stripSlashes((string)$subtitle);
         }   
-        if($this->config['article']['use_description'] == 1)
+        if($this->config->getModuleVar('article','use_description') == 1)
         {
             $description  = trim($this->httpRequest->getParameter('description', 'post', 'raw'));
             $articleFields['description'] = JapaCommonUtil::stripSlashes((string)$description);
         }
-        if($this->config['article']['use_header'] == 1)
+        if($this->config->getModuleVar('article','use_header') == 1)
         {
             $header  = trim($this->httpRequest->getParameter('header', 'post', 'raw'));
             $articleFields['header'] = JapaCommonUtil::stripSlashes((string)$header);
         }   
-        if($this->config['article']['use_ps'] == 1)
+        if($this->config->getModuleVar('article','use_ps') == 1)
         {
             $ps  = trim($this->httpRequest->getParameter('ps', 'post', 'raw'));
             $articleFields['ps'] = JapaCommonUtil::stripSlashes((string)$ps);
@@ -537,7 +541,7 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
     private function addLogEvent( $type )
     {
         // dont log
-        if($this->config['user']['use_log'] == 0)
+        if($this->config->getModuleVar('user','use_log') == 0)
         {
             return;
         }
@@ -558,7 +562,7 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
     private function addLogMessage( $message = '' )
     {
         // dont log
-        if($this->config['user']['use_log'] == 0)
+        if($this->config->getModuleVar('user','use_log') == 0)
         {
             return;
         }

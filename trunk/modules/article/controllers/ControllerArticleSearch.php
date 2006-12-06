@@ -186,14 +186,14 @@ class ControllerArticleSearch extends JapaControllerAbstractPage
         }        
         else
         {
-            $this->order = array($this->model->config['article']['default_order'],
-                                 $this->model->config['article']['default_ordertype']);
-            $this->viewVar['order'] = $this->model->config['article']['default_order'];
-            $this->viewVar['ordertype'] = $this->model->config['article']['default_ordertype'];
+            $this->order = array($this->config->getModuleVar('article','default_order'),
+                                 $this->config->getModuleVar('article','default_ordertype'));
+            $this->viewVar['order'] = $this->config->getModuleVar('article','default_order');
+            $this->viewVar['ordertype'] = $this->config->getModuleVar('article','default_ordertype');
             $this->model->session->set('article_order', 
-                                       $this->model->config['article']['default_order']);
+                                       $this->config->getModuleVar('article','default_order'));
             $this->model->session->set('ordertype', 
-                                       $this->model->config['article']['default_ordertype']);
+                                       $this->config->getModuleVar('article','default_ordertype'));
         }
     }
     

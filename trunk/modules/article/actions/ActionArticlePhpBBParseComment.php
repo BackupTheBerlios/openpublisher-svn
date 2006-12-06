@@ -38,7 +38,7 @@ class ActionArticlePhpBBParseComment extends JapaAction
         {
             $options = HTML_BBCodeParser::parseIniFile(JAPA_MODULES_DIR . 'common/includes/PEAR/Text/BBCodeParser_V2.ini');
             // set system charset
-            $options['format']['Xhtml']['charset'] = $this->config['common']['charset'];
+            $options['format']['Xhtml']['charset'] = $this->config->getModuleVar('common','charset');
             $this->model->phpBBParser = new HTML_BBCodeParser($options);
         }
 

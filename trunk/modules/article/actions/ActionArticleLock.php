@@ -172,7 +172,7 @@ class ActionArticleLock extends JapaAction
     {
         $sql = "DELETE FROM {$this->config->dbTablePrefix}article_lock
                   WHERE
-                   `lock_time` < (NOW()-{$this->config['common']['max_lock_time']})";
+                   `lock_time` < (NOW()-{$this->config->getModuleVar('common','max_lock_time')})";
 
         $this->model->dba->query($sql);         
     }  

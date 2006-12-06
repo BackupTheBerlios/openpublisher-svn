@@ -157,7 +157,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                                    'fields'  => array('title','id_node')));                             
 
         // we need the url vars to open this page by the keyword map window
-        if($this->config['article']['use_keywords'] == 1)
+        if($this->config->getModuleVar('article','use_keywords') == 1)
         {
             $addkey = $this->httpRequest->getParameter('addkey', 'request', 'alnum');
             if(!empty($addkey))
@@ -168,7 +168,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
         }
         
         // we need the url vars to open this page by the keyword map window
-        if($this->config['article']['use_article_controller'] == 1)
+        if($this->config->getModuleVar('article','use_article_controller') == 1)
         {
             // get all available registered article public views
             $this->viewVar['articlePublicControllers'] = array();
@@ -177,7 +177,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                                         'fields' => array('id_controller','name')) );           
        } 
        
-       if($this->config['article']['use_comment'] == 1)
+       if($this->config->getModuleVar('article','use_comment') == 1)
        {
           $this->viewVar['articleComments'] = array();
           
@@ -191,7 +191,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                                                        'ip','agent') ));   
        }  
        
-       if($this->config['user']['use_log'] == 1)
+       if($this->config->getModuleVar('user','use_log') == 1)
        {
            $this->viewVar['showLogLink'] = 1;
        }
@@ -224,7 +224,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
             // get the node ID of this article
             $this->getNewIdNode();
 
-            if($this->config['article']['use_article_controller'] == 1)
+            if($this->config->getModuleVar('article','use_article_controller') == 1)
             {
                 $this->updateArticleController();
             }
@@ -293,20 +293,22 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
         // errors
         $this->viewVar['error']  = array();   
 
-        $this->viewVar['use_comment']  = $this->config['article']['use_comment']; 
+        $this->viewVar['use_comment']  = $this->config->getModuleVar('article','use_comment'); 
 
-        // assign template config vars
-        foreach($this->config['article'] as $key => $val)
-        {
-            $this->viewVar[$key] = $val;
-        }
+        
+
+        // assign view config vars
+        $this->viewVar['use_changedate']         = $this->config->getModuleVar('article', 'use_changedate');
+        $this->viewVar['use_articledate']        = $this->config->getModuleVar('article', 'use_articledate');
+        $this->viewVar['use_article_controller'] = $this->config->getModuleVar('article', 'use_article_controller');
+        
 
         // we need the url vars to open this page by the keyword map window
-        if($this->config['article']['use_keywords'] == 1)
+        if($this->config->getModuleVar('article','use_keywords') == 1)
         {
             $this->viewVar['opener_url_vars'] = base64_encode('/cntr/editArticle/id_article/'.$this->current_id_article.'/id_node/'.$this->current_id_node.'/disableMainMenu=1');
         }
-        $this->viewVar['use_keywords'] = $this->config['article']['use_keywords'];
+        $this->viewVar['use_keywords'] = $this->config->getModuleVar('article','use_keywords');
         
         return TRUE;
     }
@@ -348,7 +350,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                                'status'   => (int)$status,
                                'pubdate'  => $this->buildDate('pubdate'));
 
-        if( $this->config['article']['use_comment'] == 1 )
+        if( $this->config->getModuleVar('article','use_comment') == 1 )
         {
             $allow_comment = $this->httpRequest->getParameter('allow_comment', 'post', 'digits');
             $close_comment = $this->httpRequest->getParameter('close_comment', 'post', 'digits');
@@ -476,7 +478,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                 $this->viewVar['cd_disable'] = FALSE;
             }
         }
-        elseif($this->config['article']['use_changedate'] == 1)
+        elseif($this->config->getModuleVar('article','use_changedate') == 1)
         {
                 $this->viewVar['article']['changedate'] = array();
                 $this->viewVar['article']['changedate']['year']   = date("Y", time()); 
@@ -495,11 +497,11 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
      */     
     private function addGetArticleFields( & $articleFields )
     {
-        if($this->config['article']['use_articledate'] == 1)
+        if($this->config->getModuleVar('article','use_articledate') == 1)
         {
             array_push($articleFields, 'articledate');
         }
-        if($this->config['article']['use_changedate'] == 1)
+        if($this->config->getModuleVar('article','use_changedate') == 1)
         {
             array_push($articleFields, 'changedate');
         }        
@@ -511,11 +513,11 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
      */      
     private function addSetArticleFields( & $articleFields )
     {
-        if($this->config['article']['use_articledate'] == 1)
+        if($this->config->getModuleVar('article','use_articledate') == 1)
         {
             $articleFields['articledate'] = $this->buildDate('articledate');
         }
-        if(($this->config['article']['use_changedate'] == 1))
+        if(($this->config->getModuleVar('article','use_changedate') == 1))
         {
             $changedate_year = $this->httpRequest->getParameter('changedate_year', 'post', 'alnum');
             if(empty($changedate_year))
@@ -775,7 +777,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
     private function addLogEvent( $type )
     {
         // dont log
-        if($this->config['user']['use_log'] == 0)
+        if($this->config->getModuleVar('user','use_log') == 0)
         {
             return;
         }
@@ -796,7 +798,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
     private function addLogMessage( $message = '' )
     {
         // dont log
-        if($this->config['user']['use_log'] == 0)
+        if($this->config->getModuleVar('user','use_log') == 0)
         {
             return;
         }

@@ -117,7 +117,7 @@ class ControllerArticleAddArticle extends JapaControllerAbstractPage
                                     'error'   => & $this->viewVar['error'],
                                     'fields'  => array('title'  => JapaCommonUtil::stripSlashes((string)$this->title),
                                                        'status'  => 2,
-                                                       'format'  => $this->config['article']['default_format'])));        
+                                                       'format'  => $this->config->getModuleVar('article','default_format'))));        
     }
     
     private function validate()
@@ -159,7 +159,7 @@ class ControllerArticleAddArticle extends JapaControllerAbstractPage
      */       
     private function resetFormData()
     {
-        $this->viewVar['title'] = htmlspecialchars ( JapaCommonUtil::stripSlashes((string)$this->title), ENT_COMPAT, $this->config['common']['charset'] );
+        $this->viewVar['title'] = htmlspecialchars ( JapaCommonUtil::stripSlashes((string)$this->title), ENT_COMPAT, $this->config->getModuleVar('common', 'charset') );
     }      
 }
 
