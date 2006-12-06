@@ -27,7 +27,7 @@ class ActionArticleDeleteExpired extends JapaAction
      */
     function perform( $data = FALSE )
     {        
-        $expireTime = date("Y-m-d H:i:s", $this->config['gmtTime'] - $this->config['common']['recycler_time']);
+        $expireTime = date("Y-m-d H:i:s", $this->config->getVar('gmtTime') - $this->config->getModuleVar('common','recycler_time'));
     
         // get articles with status 'delete=0' and older than 1 day
         $sql = "
