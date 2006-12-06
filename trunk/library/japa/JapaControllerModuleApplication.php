@@ -48,7 +48,7 @@ class JapaControllerModuleApplication extends JapaController
             /*
              * Set controller type
              */
-            $this->config['controller_type'] = 'admin'; 
+            $this->config->setVar('controller_type', 'admin', false); 
             
             // run broadcast action init event to every module
             $this->model->broadcast( 'init' );
@@ -70,7 +70,7 @@ class JapaControllerModuleApplication extends JapaController
             $this->controller->httpResponse = new JapaHttpResponse;
             
             // Build the view methode name of the "index" view of the "common" module
-            $methode = ucfirst( $this->config['base_module'] ) . 'Index';
+            $methode = ucfirst( $this->config->getVar('base_module') ) . 'Index';
             
             // Execute the index view of a common module
             $this->controller->$methode();
@@ -119,9 +119,9 @@ class JapaControllerModuleApplication extends JapaController
      */    
     private function userErrorController( &$e )
     {
-        if(strstr($this->config['message_handle'], 'SHOW'))
+        if(strstr($this->config->getVar('message_handle'), 'SHOW'))
         {
-            $methode = ucfirst( $this->config['base_module'] ) . 'Error';
+            $methode = ucfirst( $this->config->getVar('base_module') ) . 'Error';
             $this->controller->$methode( $e->exceptionMessage );   
         }
     }     
