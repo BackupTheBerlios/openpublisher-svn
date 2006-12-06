@@ -1,5 +1,3 @@
-<!-- this line puts IE in quirk mode --> 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -13,9 +11,9 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<link rel="stylesheet" href="<?php echo $view['urlCss']; ?>base.css" type="text/css" media="projection, screen, tv" />
-<link rel="stylesheet" href="<?php echo $view['urlCss']; ?>typography.css" type="text/css" media="projection, screen, tv" />
-<link rel="stylesheet" href="<?php echo $view['urlCss']; ?>node.css" type="text/css" media="projection, screen, tv" />
+<link rel="stylesheet" href="<?php echo $view['cssFolder']; ?>base.css" type="text/css" media="projection, screen, tv" />
+<link rel="stylesheet" href="<?php echo $view['cssFolder']; ?>typography.css" type="text/css" media="projection, screen, tv" />
+<link rel="stylesheet" href="<?php echo $view['cssFolder']; ?>node.css" type="text/css" media="projection, screen, tv" />
 
 <!-- open new window with full size image -->
 <script language="JavaScript" type="text/JavaScript">
@@ -49,7 +47,7 @@
 
   <!-- --- show edit link if user is logged --- -->
   <?php if(isset($view['showEditLink'])): ?>
-    <div style="float: right;font-size: 1em;"><a href="admin.php?mod=navigation&view=editNode&id_node=<?php echo $view['node']['id_node'];  ?>&disableMainMenu=1">edit this node</a></div>
+    <div style="float: right;font-size: 1em;"><a href="<?php echo $view['urlBase']; ?>/Module/mod/navigation/cntr/editNode/id_node/<?php echo $view['node']['id_node'];  ?>/disableMainMenu/1">edit this node</a></div>
   <?php endif; ?>  
    
    <!-- print title and body of a navigation node -->
