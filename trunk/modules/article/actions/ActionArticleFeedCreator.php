@@ -64,7 +64,7 @@ class ActionArticleFeedCreator extends JapaAction
     {
         if(!isset($this->model->rssGenerator))
         {
-            include_once (JAPA_BASE_DIR . 'modules/common/includes/rssgenerator/RssGenerator.php');
+            include_once (JAPA_MODULES_DIR . 'common/includes/rssgenerator/RssGenerator.php');
             $this->model->rssGenerator = new RssGenerator();
         }
         $rss = & $this->model->rssGenerator;
