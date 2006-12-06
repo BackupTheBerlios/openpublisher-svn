@@ -29,28 +29,28 @@ class ActionCommonUpgrade extends JapaAction
     {
         // do upgrade
         //
-        if(1 == version_compare('0.1', $this->config['module']['common']['version'], '=') )
+        if(0 == version_compare('0.1', $data['old_version'], '=') )
         {
             // upgrade from module version 0.1 to 0.2
             $this->upgrade_0_1_to_0_2();          
         }
-        if(1 == version_compare('0.2', $this->config['module']['common']['version'], '=') )
+        if(0 == version_compare('0.2', $data['old_version'], '=') )
         {
             // upgrade from module version 0.2 to 0.3
             $this->upgrade_0_2_to_0_3();          
         }
-        if(1 == version_compare('0.3', $this->config['module']['common']['version'], '=') )
+        if(0 == version_compare('0.3', $data['old_version'], '=') )
         {
             // upgrade from module version 0.3 to 0.4
             $this->upgrade_0_3_to_0_4();          
         }
-        if(1 == version_compare('0.4', $this->config['module']['common']['version'], '=') )
+        if(0 == version_compare('0.4', $data['old_version'], '=') )
         {
             // upgrade from module version 0.3 to 0.4
             $this->upgrade_0_4_to_0_5();          
         }
 
-        if(1 == version_compare('0.5', $this->config['module']['common']['version'], '=') )
+        if(0 == version_compare('0.5', $data['old_version'], '=') )
         {
             // upgrade from module version 0.5 to 0.6
             $this->upgrade_0_5_to_0_6();          
@@ -71,7 +71,7 @@ class ActionCommonUpgrade extends JapaAction
                 AFTER max_lock_time";
                
         $this->model->dba->query($sql);
-        $this->config['module']['common']['version'] = '0.2';
+        $data['old_version'] = '0.2';
     }
 
     /**
@@ -81,11 +81,11 @@ class ActionCommonUpgrade extends JapaAction
     private function upgrade_0_2_to_0_3()
     {
         $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
-                ADD `smart_version_num` varchar(20) NOT NULL default '{$this->config['smart_version']}' 
+                ADD `smart_version_num` varchar(20) NOT NULL 
                 AFTER `charset`";
                
         $this->model->dba->query($sql);
-        $this->config['module']['common']['version'] = '0.3';
+        $data['old_version'] = '0.3';
     }
 
     /**
@@ -95,11 +95,11 @@ class ActionCommonUpgrade extends JapaAction
     private function upgrade_0_3_to_0_4()
     {
         $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
-                ADD `smart_version_num` varchar(20) NOT NULL default '{$this->config['smart_version']}' 
+                ADD `smart_version_num` varchar(20) NOT NULL 
                 AFTER `charset`";
                
         $this->model->dba->query($sql);
-        $this->config['module']['common']['version'] = '0.4';
+        $data['old_version'] = '0.4';
     }
 
     /**
@@ -151,7 +151,7 @@ class ActionCommonUpgrade extends JapaAction
                
         $this->model->dba->query($sql);
         
-        $this->config['module']['common']['version'] = '0.5';
+        $data['old_version'] = '0.5';
     }
 
     /**
@@ -178,7 +178,7 @@ class ActionCommonUpgrade extends JapaAction
                
         $this->model->dba->query($sql);
         
-        $this->config['module']['common']['version'] = '0.6';
+        $data['old_version'] = '0.6';
     }
 
     /**
@@ -209,7 +209,7 @@ class ActionCommonUpgrade extends JapaAction
                     SET
                         `version`='{$version}'
                     WHERE
-                        `id_module`={$this->config['module']['common']['id_module']}";
+                        `name`='common'";
 
         $this->model->dba->query($sql);          
     }   

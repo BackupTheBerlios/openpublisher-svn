@@ -27,16 +27,16 @@ class ActionCommonSetDbConfig extends JapaAction
      */
     public function perform( $data = FALSE )
     {
-        if(!$fp = @fopen($this->model->config['config_path'] . 'dbConnect.php', 'w'))
+        if(!$fp = @fopen($this->config->getVar('config_path') . 'dbConnect.php', 'w'))
         {
-           throw new JapaModelException("Cant open file to write: ". $this->config['config_path'] . "dbConnect.php");
+           throw new JapaModelException("Cant open file to write: ". $this->config->getVar('config_path') . "dbConnect.php");
         }
          
         $connect_str = $this->buildContent( $data );
         
         if( !@fwrite($fp, $connect_str) )
         {
-            throw new JapaModelException("Cant write file: ". $this->config['config_path'] . "dbConnect.php");      
+            throw new JapaModelException("Cant write file: ". $this->config->getVar('config_path') . "dbConnect.php");      
         }
         
         @fclose($fp);
@@ -49,9 +49,9 @@ class ActionCommonSetDbConfig extends JapaAction
      */
     public function validate( $data = FALSE )
     {
-        if( !@is_writeable($this->model->config['config_path']) )
+        if( !@is_writeable($this->config->getVar('config_path')) )
         {
-            throw new JapaModelException("Config folder isnt writeable. Check permission on: ". $this->model->config['config_path']);            
+            throw new JapaModelException("Config folder isnt writeable. Check permission on: ". $this->config->getVar('config_path'));            
         }
 
         return TRUE;

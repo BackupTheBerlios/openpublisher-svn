@@ -27,24 +27,24 @@ class ActionCommonSetup extends JapaAction
             $this->checkGd();
         }
         
-        $data['config']['db']['dbTablePrefix'] = $data['dbtablesprefix'];    
-        $data['config']['db']['dbhost']        = $data['dbhost'];
-        $data['config']['db']['dbport']        = $data['dbport'];
-        $data['config']['db']['dbuser']        = $data['dbuser'];
-        $data['config']['db']['dbpasswd']      = $data['dbpasswd'];
-        $data['config']['db']['dbname']        = $data['dbname'];
-        $data['config']['db']['dbcharset']     = $this->mysqlEncoding( $data['charset'] );
+        $this->config->setVar('_dbTablePrefix', $data['dbtablesprefix']);    
+        $this->config->setVar('_dbhost'],       $data['dbhost']);
+        $this->config->setVar('_dbport'],       $data['dbport']);
+        $this->config->setVar('_dbuser'],       $data['dbuser']);
+        $this->config->setVar('_dbpasswd'],     $data['dbpasswd']);
+        $this->config->setVar('_dbname'],       $data['dbname']);
+        $this->config->setVar('_dbcharset'],    $this->mysqlEncoding( $data['charset'] ));
 
         try
         {
-            $this->model->dba = new DbMysql( $data['config']['db']['dbhost'] ,
-                                              $data['config']['db']['dbuser'],
-                                              $data['config']['db']['dbpasswd'],
-                                              $data['config']['db']['dbname'],
-                                              $data['config']['db']['dbport']);
+            $this->model->dba = new DbMysql(  $data['dbhost'] ,
+                                              $data['dbuser'],
+                                              $data['dbpasswd'],
+                                              $data['dbname'],
+                                              $data['dbport']);
                                               
             $this->model->dba->connect();  
-            $this->model->dba->query("SET NAMES '{$data['config']['db']['dbcharset']}'"); 
+            $this->model->dba->query("SET NAMES '{$this->config->getVar('_dbcharset')}'"); 
         }
         catch(JapaDbException $e)
         {
@@ -59,7 +59,7 @@ class ActionCommonSetup extends JapaAction
             return TRUE;
         }
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_session (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}common_session (
                  `session_id`   varchar(32) NOT NULL default '', 
                  `modtime`      int(11) NOT NULL default '0',
                  `session_data` text NOT NULL default '',
@@ -74,7 +74,7 @@ class ActionCommonSetup extends JapaAction
             $server_timezone = 1;
         }
             
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_config (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}common_config (
                  `op_version`          varchar(20) NOT NULL default '',
                  `charset`             varchar(50) NOT NULL default '',
                  `site_url`            varchar(255) NOT NULL default '',
@@ -94,7 +94,7 @@ class ActionCommonSetup extends JapaAction
 
 
 
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_config
                  (`op_version`,`charset`, `templates_folder`, `css_folder`, 
                   `views_folder`,`rejected_files`)
                 VALUES
@@ -102,7 +102,7 @@ class ActionCommonSetup extends JapaAction
                   'views_home/', '.php,.php3,.php4,.php5,.phps,.pl,.py')";
         $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_module (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}common_module (
                  `id_module`   int(11) NOT NULL auto_increment,
                  `rank`        smallint(3) NOT NULL default 0,
                  `name`        varchar(255) NOT NULL,
@@ -116,7 +116,7 @@ class ActionCommonSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                 VALUES
                  ('common','', 0,'0.6',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
@@ -190,9 +190,9 @@ class ActionCommonSetup extends JapaAction
             $this->model->dba->query($sql); 
         }
         
-        if(file_exists($this->model->config['config_path'] . 'dbConnect.php'))
+        if(file_exists($this->config->getVar('config_path') . 'dbConnect.php'))
         {
-            @unlink($this->model->config['config_path'] . 'dbConnect.php');
+            @unlink($this->config->getVar('config_path') . 'dbConnect.php');
         }
     }     
 }

@@ -31,25 +31,25 @@ class ActionCommonCheckFolderRights extends JapaAction
             $data['error'][] = 'Must be writeable by php scripts: '.$captcha_folder;    
         }
 
-        $config_folder = $this->model->config['config_path'];
+        $config_folder = $this->config->getVar('config_path');
         if(!is_writeable($config_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$config_folder;    
         }
 
-        $logs_folder = $this->model->config['logs_path'];
+        $logs_folder = $this->config->getVar('logs_path');
         if(!is_writeable($logs_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$logs_folder;    
         }
         
-        $cache_folder = $this->model->config['cache_path'];
+        $cache_folder = $this->config->getVar('cache_path');
         if(!is_writeable($cache_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$cache_folder;    
         }          
 
-        $smartyCompiled = $this->model->config['cache_path'] . 'smartyCompiled';
+        $smartyCompiled = $this->config->getVar('cache_path') . 'smartyCompiled';
         if(!is_writeable($smartyCompiled))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$smartyCompiled;    

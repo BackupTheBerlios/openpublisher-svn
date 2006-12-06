@@ -72,7 +72,7 @@ class ActionCommonInit extends JapaAction
         //$this->config['dbpasswd']      = $db['dbpasswd'];
         //$this->config['dbname']        = $db['dbname'];
         $this->config->dbTablePrefix     = $db['dbTablePrefix'];
-        //$this->config['dbcharset']     = $db['dbcharset'];
+        $this->config->setVar('dbcharset', $db['dbcharset']);
 
         try
         {
@@ -182,7 +182,8 @@ class ActionCommonInit extends JapaAction
         {
             // Upgrade this module
             $this->model->action('common','upgrade',
-                                 array('new_version' => self::MOD_VERSION));           
+                                 array('new_version' => self::MOD_VERSION,
+                                       'old_version' => $_mod_info['version']));           
         }
     } 
 
