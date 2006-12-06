@@ -28,7 +28,7 @@ class ActionArticleSetup extends JapaAction
             return;
         }
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}article_article (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}article_article (
                    `id_article`    int(11) unsigned NOT NULL auto_increment,
                    `id_node`       int(11) unsigned NOT NULL default 1,
                    `status`        tinyint(1) NOT NULL default 0,
@@ -119,7 +119,7 @@ class ActionArticleSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);        
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}article_comment (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}article_comment (
                    `id_comment`    int(11) unsigned NOT NULL auto_increment,
                    `id_article`    int(11) unsigned NOT NULL default 1,
                    `id_user`       int(11) unsigned NOT NULL default 0,
@@ -202,13 +202,13 @@ class ActionArticleSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);      
 
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}article_config
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}article_config
                    (`thumb_width`,`default_order`,`default_ordertype`)
                   VALUES
                    (120,'rank','asc')";
         $this->model->dba->query($sql);   
   
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
                    ('article',

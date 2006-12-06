@@ -28,7 +28,7 @@ class ActionNavigationSetup extends JapaAction
             return TRUE;
         }
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}navigation_node (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}navigation_node (
                    `id_node`       int(11) unsigned NOT NULL auto_increment,
                    `id_parent`     int(11) unsigned NOT NULL default 0,
                    `id_sector`     int(11) unsigned NOT NULL default 0,
@@ -142,7 +142,7 @@ class ActionNavigationSetup extends JapaAction
                    (120,500000,5000000)";
         $this->model->dba->query($sql); 
 
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
                    ('navigation',

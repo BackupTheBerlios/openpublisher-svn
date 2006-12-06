@@ -168,8 +168,8 @@ class ControllerLinkAddLink extends JapaControllerAbstractPage
     private function resetFormData()
     {
         $this->viewVar['status']      = JapaCommonUtil::stripSlashes($this->link_status);
-        $this->viewVar['title']       = htmlspecialchars ( JapaCommonUtil::stripSlashes($this->link_title), ENT_COMPAT, $this->config['common']['charset'] );
-        $this->viewVar['url']         = htmlspecialchars ( JapaCommonUtil::stripSlashes($this->link_url), ENT_COMPAT, $this->config['common']['charset'] );
+        $this->viewVar['title']       = htmlspecialchars ( JapaCommonUtil::stripSlashes($this->link_title), ENT_COMPAT, $this->config->getModuleVar('common','charset') );
+        $this->viewVar['url']         = htmlspecialchars ( JapaCommonUtil::stripSlashes($this->link_url), ENT_COMPAT, $this->config->getModuleVar('common','charset') );
         $this->viewVar['description'] = JapaCommonUtil::stripSlashes($this->link_description);         
     }      
 }

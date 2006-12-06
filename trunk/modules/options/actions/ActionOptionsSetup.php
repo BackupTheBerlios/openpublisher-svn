@@ -28,7 +28,7 @@ class ActionOptionsSetup extends JapaAction
             return TRUE;
         }
 
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
                    ('options',

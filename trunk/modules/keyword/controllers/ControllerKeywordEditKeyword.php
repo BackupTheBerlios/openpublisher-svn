@@ -246,7 +246,7 @@ class ControllerKeywordEditKeyword extends JapaControllerAbstractPage
     {
         foreach($fields as $f)
         {
-            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['common']['charset'] );
+            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config->getModuleVar('common','charset') );
         }
     }  
     /**

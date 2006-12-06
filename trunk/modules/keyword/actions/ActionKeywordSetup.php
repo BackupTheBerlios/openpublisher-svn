@@ -28,7 +28,7 @@ class ActionKeywordSetup extends JapaAction
             return TRUE;
         }
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}keyword (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}keyword (
                    `id_key`      int(11) unsigned NOT NULL auto_increment,
                    `id_parent`   int(11) unsigned NOT NULL default 0,
                    `status`      tinyint(1) NOT NULL default 1,
@@ -59,11 +59,11 @@ class ActionKeywordSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);  
         
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}keyword_config
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}keyword_config
                    (`force_format`) VALUES (2)";
         $this->model->dba->query($sql);   
   
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
                    ('keyword', 'Keywords Management',

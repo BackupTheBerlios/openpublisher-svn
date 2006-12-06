@@ -60,12 +60,12 @@ class ControllerKeywordIndex extends JapaControllerAbstractPage
         // all accounts can access the map view
         if( 'map' !== $this->controller_request )
         {
+            $info = $this->model->getModuleInfo('keyword');
             // only administrators can access keyword module
-            if($this->controllerVar['loggedUserRole'] > $this->model->config['module']['keyword']['perm'])
+            if($this->controllerVar['loggedUserRole'] > $info['perm'])
             {
                 // reload admin
-                @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
-                exit;  
+                $this->redirect($this->viewVar['adminWebController']);  
             }
         }
     }    

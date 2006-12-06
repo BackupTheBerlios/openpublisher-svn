@@ -47,7 +47,8 @@ class ActionLinkInit extends JapaAction
         if(0 != version_compare($info['version'], self::MOD_VERSION))
         {
             // Upgrade this module
-            $this->model->action('link','upgrade',array('new_version' => self::MOD_VERSION));           
+            $this->model->action('link','upgrade',array('new_version' => self::MOD_VERSION,
+                                                        'old_version' => $info['version']));           
         }
         
         unset($info);

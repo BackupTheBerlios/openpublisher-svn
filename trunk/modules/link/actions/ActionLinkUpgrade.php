@@ -29,11 +29,11 @@ class ActionLinkUpgrade extends JapaAction
     {
         // do upgrade
         //
-        if(1 == version_compare('0.1', $this->config['module']['link']['version'], '=') )
+        if(0 == version_compare('0.1', $data['old_version'], '=') )
         {
             // upgrade from module version 0.1 to 0.2
             $this->upgrade_0_1_to_0_2();     
-            $this->config['module']['link']['version'] = '0.2';
+            $data['old_version'] = '0.2';
         }
         
         // update to new module version number
@@ -50,7 +50,7 @@ class ActionLinkUpgrade extends JapaAction
                     SET
                         `perm`=60
                     WHERE
-                        `id_module`={$this->config['module']['link']['id_module']}";
+                        `name`='link'";
 
         $this->model->dba->query($sql);         
     }
@@ -83,7 +83,7 @@ class ActionLinkUpgrade extends JapaAction
                     SET
                         `version`='{$version}'
                     WHERE
-                        `id_module`={$this->config['module']['link']['id_module']}";
+                        `name`='link'";
 
         $this->model->dba->query($sql);          
     }   

@@ -127,7 +127,7 @@ class ControllerLinkEditLink extends JapaControllerAbstractPage
                                    'fields'  => array('title','id_node')));                             
 
         // we need the url vars to open this page by the keyword map window
-        if($this->config['link']['use_keywords'] == 1)
+        if($this->config->getModuleVar('link','use_keywords') == 1)
         {
             $addkey = $this->httpRequest->getParameter('addkey', 'request', 'alnum');
             if(!empty($addkey))
@@ -261,7 +261,7 @@ class ControllerLinkEditLink extends JapaControllerAbstractPage
         $this->viewVar['error']  = array();   
         
         // use keywords or not
-        $this->viewVar['use_keywords'] = $this->config['link']['use_keywords']; 
+        $this->viewVar['use_keywords'] = $this->config->getModuleVar('link','use_keywords'); 
 
         if(isset($_REQUEST['disableMainMenu']))
         {
@@ -273,7 +273,7 @@ class ControllerLinkEditLink extends JapaControllerAbstractPage
         }
         
         // we need the url vars to open this page by the keyword map window
-        if($this->config['link']['use_keywords'] == 1)
+        if($this->config->getModuleVar('link','use_keywords') == 1)
         {
             $this->viewVar['opener_url_vars'] = base64_encode('/cntr/editLink/id_link/'.$this->id_link.'/id_node/'.$this->current_id_node.'/disableMainMenu/1');
         }        
@@ -304,7 +304,7 @@ class ControllerLinkEditLink extends JapaControllerAbstractPage
     {
         foreach($fields as $f)
         {
-            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['common']['charset'] );
+            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config->getModuleVar('common','charset') );
         }
     }  
     /**

@@ -28,7 +28,7 @@ class ActionLinkSetup extends JapaAction
             return TRUE;
         }
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}link_links (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}link_links (
                    `id_link`     int(11) unsigned NOT NULL auto_increment,
                    `id_node`     int(11) unsigned NOT NULL default 0,
                    `status`      tinyint(1) NOT NULL default 0,
@@ -67,13 +67,13 @@ class ActionLinkSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);  
 
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}link_config
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}link_config
                    (`use_keywords`)
                   VALUES
                    (1)";
         $this->model->dba->query($sql);   
        
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
                    ('link',

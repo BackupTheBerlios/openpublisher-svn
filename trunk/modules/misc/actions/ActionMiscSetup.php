@@ -28,7 +28,7 @@ class ActionMiscSetup extends JapaAction
             return TRUE;
         }
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}misc_text (
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}misc_text (
                    `id_text`       int(11) unsigned NOT NULL auto_increment,
                    `status`        tinyint(1) NOT NULL default 0,
                    `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
@@ -105,7 +105,7 @@ class ActionMiscSetup extends JapaAction
                    (120,100000,100000)";
         $this->model->dba->query($sql); 
  
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
+        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                 VALUES
                  ('misc','Misc Content Management',5,'0.1',1,20,'DATE: 30.7.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
