@@ -1,10 +1,8 @@
-<!-- this line puts IE in quirk mode --> 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>SMART3 PHP5 Framework - Blog</title>
+<title>Open Publisher PHP5 CMS - Blog</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
 <meta name="robots" content="index, follow" />
 
@@ -12,9 +10,9 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>typography_blog.css";</style>
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>blogmain.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>typography_blog.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>blogmain.css";</style>
 
 <script language="JavaScript" type="text/JavaScript">
     function showimage(theURL,widthx,heightx){
@@ -56,6 +54,7 @@
     <?php endif; ?>  
     
     <?php echo $article['body']; ?>
+    
     <div id="blogmaimarticlefooter">
       Category: <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $article['id_node']; ?>"><?php echo $article['node']['title']; ?></a><br>
       Date: <?php echo $article['pubdate']; ?> / 
