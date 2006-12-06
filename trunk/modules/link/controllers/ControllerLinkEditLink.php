@@ -263,7 +263,8 @@ class ControllerLinkEditLink extends JapaControllerAbstractPage
         // use keywords or not
         $this->viewVar['use_keywords'] = $this->config->getModuleVar('link','use_keywords'); 
 
-        if(isset($_REQUEST['disableMainMenu']))
+        $disableMainMenu = $this->httpRequest->getParameter('disableMainMenu', 'request', 'digits');
+        if(isset($disableMainMenu))
         {
             $this->viewVar['disableMainMenu']  = "1";  
         }
@@ -342,8 +343,7 @@ class ControllerLinkEditLink extends JapaControllerAbstractPage
     private function redirect( $id_node = 0 )
     {
         // reload the link module
-        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/link/id_node/'.$id_node);
-        exit;      
+        $this->redirect($this->viewVar['adminWebController'].'/mod/link/id_node/'.$id_node);       
     }  
     /**
      * unlock edited user

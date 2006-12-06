@@ -106,13 +106,13 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
         {
             throw new JapaModelException("'id_text' isnt from type int");
         }  
-        elseif(($data['item'] == 'file') && ($this->config['misc']['file_size_max'] <= filesize($data['postData']['tmp_name'])))
+        elseif(($data['item'] == 'file') && ($this->config->getModuleVar('misc','file_size_max') <= filesize($data['postData']['tmp_name'])))
         {
-            $data['error'][] = "Max file size allowed: {$this->config['misc']['file_size_max']} bytes";
+            $data['error'][] = "Max file size allowed: {$this->config->getModuleVar('misc','file_size_max')} bytes";
         }
-        elseif(($data['item'] == 'picture') && ($this->config['misc']['img_size_max'] <= filesize($data['postData']['tmp_name'])))
+        elseif(($data['item'] == 'picture') && ($this->config->getModuleVar('misc','img_size_max') <= filesize($data['postData']['tmp_name'])))
         {
-            $data['error'][] = "Max picture size allowed: {$this->config['misc']['img_size_max']} bytes";
+            $data['error'][] = "Max picture size allowed: {$this->config->getModuleVar('misc','img_size_max')} bytes";
         }
 
         if(count($data['error']) > 0)
@@ -189,7 +189,7 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
                              array('error'         => & $data['error'],
                                    'imgSource'     => (string)$image_source,
                                    'imgDestName'   => (string)$file_info['file_name'],
-                                   'imgDestWidth'  => (int)$this->config['misc']['thumb_width'],
+                                   'imgDestWidth'  => (int)$this->config->getModuleVar('misc','thumb_width'),
                                    'imgDestFolder' => (string)$image_dest_folder,
                                    'info'          => &$pic_info));  
         
@@ -262,7 +262,7 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
     {
         if(preg_match("/(\.[^.]+)$/i",$data['postData']['name'],$file_ext))
         {
-            $disallowed_ext = explode(",",$this->config['rejected_files']);
+            $disallowed_ext = explode(",",$this->config->getVar('rejected_files'));
             foreach($disallowed_ext as $ext)
             {
                 $t = "/".trim($ext)."/i";

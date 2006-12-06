@@ -47,11 +47,11 @@ class ControllerMiscIndex extends JapaControllerAbstractPage
      */
     public function prependFilterChain()
     {
+        $info = $this->model->getModuleInfo('misc');
         // only administrators can access misc module
-        if($this->controllerVar['loggedUserRole'] > $this->model->config['module']['misc']['perm'])
+        if($this->controllerVar['loggedUserRole'] > $info['perm'])
         {
-            @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
-            exit;  
+            $this->redirect($this->viewVar['adminWebController']);  
         }
     }   
     /**

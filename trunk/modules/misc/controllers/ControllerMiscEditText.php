@@ -151,7 +151,7 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
         } 
         
         // we need the url vars to open this page by the keyword map window
-        if($this->config['misc']['use_keywords'] == 1)
+        if($this->config->getModuleVar('misc','use_keywords') == 1)
         {
             $addkey = $this->httpRequest->getParameter('addkey', 'request', 'alnum');
             if(!empty($addkey))
@@ -334,33 +334,8 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
             $this->viewVar['id_text']  = (int)$this->current_id_text;         
         }     
 
-        $format = $this->httpRequest->getParameter('format', 'format', 'digits');
-
-        // set format template var, means how to format textarea content -> editor/wikki ?
-        // 1 = text_wikki
-        // 2 = tiny_mce
-        if($this->config['misc']['force_format'] != 0)
-        {
-            $this->viewVar['format'] = $this->config['misc']['force_format'];
-            $this->viewVar['show_format_switch'] = FALSE;
-        }
-        elseif(!empty($format))
-        {
-            if(!preg_match("/(1|2){1}/",$format))
-            {
-                $this->viewVar['format'] = $this->config['misc']['default_format'];
-            }
-            $this->viewVar['format'] = $format;
-            $this->viewVar['show_format_switch'] = TRUE;
-        }
-        else
-        {
-            $this->viewVar['format'] = $this->config['misc']['default_format'];
-            $this->viewVar['show_format_switch'] = TRUE;
-        }
-
-        $this->viewVar['use_images']    = $this->config['misc']['use_images'];
-        $this->viewVar['use_files']     = $this->config['misc']['use_files'];
+        $this->viewVar['use_images']    = $this->config->getModuleVar('misc','use_images');
+        $this->viewVar['use_files']     = $this->config->getModuleVar('misc','use_files');
         $this->viewVar['lock_text']     = 'unlock';
         
         // template variables
@@ -374,11 +349,11 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
         $this->viewVar['error']  = array();    
 
         // we need the url vars to open this page by the keyword map window
-        if($this->config['misc']['use_keywords'] == 1)
+        if($this->config->getModuleVar('misc','use_keywords') == 1)
         {
             $this->viewVar['opener_url_vars'] = base64_encode('/cntr/editText/id_text/'.$this->current_id_text.'&disableMainMenu=1');
         }
-        $this->viewVar['use_keywords'] = $this->config['misc']['use_keywords'];
+        $this->viewVar['use_keywords'] = $this->config->getModuleVar('misc','use_keywords');
 
         
         $this->dontPerform = FALSE; 
@@ -409,7 +384,7 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
     {
         foreach($fields as $f)
         {
-            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['common']['charset'] );
+            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config->getModuleVar('common','charset') );
         }
     }  
     /**
