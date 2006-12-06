@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewSearch class
+ * ControllerSearch class
  *
  */
 
@@ -23,7 +23,7 @@ class ControllerSearch extends JapaControllerAbstractPage
     public $cacheExpire = 3600;
     
     /**
-     * Execute the view of the "search" template
+     * Execute the controler of the "search" view
      */
     function perform()
     { 
@@ -102,26 +102,6 @@ class ControllerSearch extends JapaControllerAbstractPage
     }
 
     /**
-     * prepend filter chain
-     *
-     */
-    public function prependFilterChain()
-    {
-        // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');    
-    }
-
-    /**
-     * append filter chain
-     *
-     */
-    public function appendFilterChain( & $outputBuffer )
-    {
-        // filter action of the common module that trims the html output
-        $this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
-    }
-
-    /**
      * init some variables
      *
      */    
@@ -148,14 +128,15 @@ class ControllerSearch extends JapaControllerAbstractPage
         // set articles limit per page
         $this->articlesPerPage = 10;
         
+        $search_page = (int) $this->httpRequest->getParameter( 'search_page', 'get', 'digits' );
         // get current article pager page
-        if(!isset($_GET['search_page']))
+        if($search_page === false)
         {
             $this->pageNumber = 1;
         }
         else
         {
-            $this->pageNumber = (int)$_GET['search_page'];
+            $this->pageNumber = (int)$search_page;
         }
         
         // view vars

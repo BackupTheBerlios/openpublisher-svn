@@ -28,9 +28,9 @@ class ControllerPicture extends JapaControllerAbstractPage
     function perform()
     { 
         // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
+        $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
         // template var with css folder
-        $this->viewVar['cssFolder'] = & $this->config['css_folder'];
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
 
         if(isset($this->dontPerform))
         {
@@ -107,10 +107,7 @@ class ControllerPicture extends JapaControllerAbstractPage
             $this->dontPerform  = TRUE; 
         }  
         
-        $this->viewVar['module'] = $this->module;
-        
-        // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');    
+        $this->viewVar['module'] = $this->module; 
     }
 }
 

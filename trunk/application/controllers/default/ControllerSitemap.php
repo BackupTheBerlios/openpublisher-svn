@@ -23,7 +23,7 @@ class ControllerSitemap extends JapaControllerAbstractPage
     public $cacheExpire = 3600;
     
     /**
-     * Execute the view of the "sitemap" template
+     * Execute the controller of the "sitemap" view
      */
     function perform()
     {     
@@ -60,16 +60,6 @@ class ControllerSitemap extends JapaControllerAbstractPage
             $this->viewVar['isUserLogged'] = TRUE;
         }
         $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');     
-    }
-
-    /**
-     * prepend filter chain
-     *
-     */
-    public function prependFilterChain()
-    {        
-        // filter action of the common module to prevent browser caching
-        //$this->model->action( 'common', 'filterDisableBrowserCache');    
     }
 
     /**
