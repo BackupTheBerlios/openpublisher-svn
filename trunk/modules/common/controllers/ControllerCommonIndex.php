@@ -45,14 +45,14 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
         }
        
         // assign some template variables
-        $this->viewVar['japaVersionNumber'] = $this->config['japa_version'];
+        $this->viewVar['japaVersionNumber'] = $this->config->getVar('japa_version');
         $this->viewVar['moduleList'] = $this->model->getModuleInfo();
-        $this->viewVar['charset']    = $this->config['common']['charset'];
+        $this->viewVar['charset']    = $this->config->getModuleVar('common', 'charset');
         $this->viewVar['adminCssFolder'] = 'modules/common/css_home';
-        $this->viewVar['textarea_rows'] = $this->config['common']['textarea_rows'];
-        $this->viewVar['publicWebController'] = $this->config['default_application_controller'];
-        $this->viewVar['adminWebController']  = $this->config['default_module_application_controller'];
-        $this->controllerVar['adminWebController'] = $this->config['default_module_application_controller'];
+        $this->viewVar['textarea_rows'] = $this->config->getModuleVar('common','textarea_rows');
+        $this->viewVar['publicWebController'] = $this->config->getVar('default_application_controller');
+        $this->viewVar['adminWebController']  = $this->config->getVar('default_module_application_controller');
+        $this->controllerVar['adminWebController'] = $this->viewVar['adminWebController'];
         
         
         // assign template var to show the admin header and footer
@@ -67,7 +67,7 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
         }       
         
         // get url base
-        $this->viewVar['url_base'] = $this->httpRequest->getBaseUrl();
+        $this->viewVar['url_base']       = $this->router->getBase();
         $this->controllerVar['url_base'] = $this->viewVar['url_base']; 
         
         // get requested module controller name
@@ -105,8 +105,8 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
     {
         // if both variables contain NULL, means that the user isnt authenticated.
         // 
-        $this->controllerVar['loggedUserId']   = $this->model->config['loggedUserId'];
-        $this->controllerVar['loggedUserRole'] = $this->model->config['loggedUserRole'];
+        $this->controllerVar['loggedUserId']   = $this->config->getVar('loggedUserId');
+        $this->controllerVar['loggedUserRole'] = $this->config->getVar('loggedUserRole');
         
         $this->checkPermission();
     }
@@ -118,7 +118,7 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
     private function checkPermission()
     {
         // if login user id dosent exists set login target
-        if($this->model->config['loggedUserId'] === NULL)
+        if($this->controllerVar['loggedUserId'] === NULL)
         {
             $this->setLoginTarget();
         }
@@ -131,8 +131,8 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
         //
         // Webuser (100) hasnt access to the admin section
         //
-        if(($this->model->config['loggedUserRole'] === NULL) || 
-           ($this->model->config['loggedUserRole'] >= 100))
+        if(($this->controllerVar['loggedUserRole'] === NULL) || 
+           ($this->controllerVar['loggedUserRole'] >= 100))
         {
             $this->setLoginTarget();
         }
@@ -140,7 +140,7 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
         {
             // set template variable
             $this->viewVar['isUserLogged'] = true;
-            $this->viewVar['userRole'] = $this->model->config['loggedUserRole'];
+            $this->viewVar['userRole'] = $this->controllerVar['loggedUserRole'];
         }    
     }
 
@@ -171,7 +171,7 @@ class ControllerCommonIndex extends JapaControllerAbstractPage
         // check if there is a module request
         elseif( false === ($module_request = $this->router->getVar('mod')) )
         {
-            $module_request = $this->config['default_module'];
+            $module_request = $this->config->getVar('default_module');
         }
 
         if($this->loginModule != false)
