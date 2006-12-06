@@ -10,7 +10,7 @@
 // ---------------------------------------------
 
 /**
- * ViewCommonIndex class
+ * ControllerDefaultIndex class
  *
  */
 
@@ -28,7 +28,7 @@ class ControllerDefaultIndex extends JapaControllerAbstractPage
      */
     function perform()
     {
-        // set template var to show user options link
+        // set view var to show user options link
         // only on user main page and if the user role is at least an "admin" 
         
         if( $this->controllerVar['loggedUserRole'] > 20 )
