@@ -158,18 +158,12 @@ class ControllerSearch extends JapaControllerAbstractPage
             $this->pageNumber = (int)$_GET['search_page'];
         }
         
-        // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
-        // template var with css folder
-        $this->viewVar['cssFolder'] = & $this->config['css_folder'];
-        
-        // we need this template vars to show admin links if the user is logged
+        // view vars
+        $this->viewVar['charset'] = $this->config->getModuleVar('common', 'charset');
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller'];       
-        // template var with css folder
-        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
-        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
-        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];      
+        $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller');        
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
+        $this->viewVar['urlBase']   = $this->router->getBase();
     }
 }
 

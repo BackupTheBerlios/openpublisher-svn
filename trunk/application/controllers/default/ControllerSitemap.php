@@ -69,7 +69,7 @@ class ControllerSitemap extends JapaControllerAbstractPage
     public function prependFilterChain()
     {        
         // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');    
+        //$this->model->action( 'common', 'filterDisableBrowserCache');    
     }
 
     /**
@@ -78,20 +78,15 @@ class ControllerSitemap extends JapaControllerAbstractPage
      */    
     private function initVars()
     {
-        // template array variables
+        // view array that containsthe whole node tree
         $this->viewVar['tree'] = array();
         
-        // template var with charset used for the html pages
-        $this->viewVar['charset']   = & $this->config['charset'];
-        
-        // we need this template vars to show admin links if the user is logged
-        $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
-        $this->viewVar['adminWebController'] = $this->config['default_module_application_controller']; 
-
-        // template var with css folder
-        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
-        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
-        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];  
+        // view vars
+        $this->viewVar['charset'] = $this->config->getModuleVar('common', 'charset');
+        $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
+        $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller');        
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
+        $this->viewVar['urlBase']   = $this->router->getBase();
     }
 }
 

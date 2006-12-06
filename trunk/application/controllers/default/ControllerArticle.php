@@ -254,7 +254,7 @@ class ControllerArticle extends JapaControllerAbstractPage
         // template var with css folder
         $this->viewVar['cssFolder']    = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
         $this->viewVar['scriptFolder'] = JAPA_PUBLIC_DIR . 'scripts/default/';
-        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
+        $this->viewVar['urlBase'] = $this->router->getBase();
         $this->viewVar['urlAjax'] = $this->viewVar['urlBase'];
     }
 
