@@ -1,10 +1,8 @@
-<!-- this line puts IE in quirk mode --> 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>SMART3 PHP5 Framework</title>
+<title>Open Publisher PHP5 CMS - <?php echo $view['article']['title'];  ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
 <meta name="robots" content="index, follow" />
 
@@ -12,8 +10,8 @@
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>base.css";</style>
-<style type="text/css">@import"<?php echo $view['urlCss']; ?>typography.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>base.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>typography.css";</style>
 
 <script language="JavaScript" type="text/JavaScript">
     function showimage(theURL,widthx,heightx){
@@ -42,7 +40,7 @@
    
    <!-- --- show edit link if user is logged --- -->
    <?php if(isset($view['showEditLink'])): ?>
-     <div style="text-align: right;font-size: 1.2em;"><a href="admin.php?mod=article&view=editArticle&id_node=<?php echo $view['article']['id_node'];  ?>&id_article=<?php echo $view['article']['id_article'];  ?>&disableMainMenu=1">edit this article</a></div>
+     <div style="text-align: right;font-size: 1.2em;"><a href="<?php echo $view['urlBase']; ?>/Module/mod/article/cntr/editArticle/id_node/<?php echo $view['article']['id_node'];  ?>/id_article/<?php echo $view['article']['id_article'];  ?>/disableMainMenu/1">edit this article</a></div>
    <?php endif; ?>  
    
    <?php if(!empty($view['article']['subtitle'])): ?>

@@ -2,7 +2,7 @@
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Open Publisher PHP5 CMS - Blog</title>
+<title>Open Publisher PHP5 CMS - <?php echo $view['node']['title'];  ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
 <meta name="robots" content="index, follow" />
 
