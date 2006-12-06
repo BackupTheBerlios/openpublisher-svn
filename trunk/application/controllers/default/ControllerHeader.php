@@ -22,13 +22,13 @@ class ControllerHeader extends JapaControllerAbstractPage
     public $returnView = true;
     
     /**
-     * Execute the view of the "navigation" template
+     * Execute the controller of the "header" view
      */
     function perform( $data = false )
     {  
         // get 'active' root navigation nodes. Means nodes with id_parent = 0
         // we need the node titles and id_nodes
-        // the result is stored in an template variable $tpl['rootNodes']
+        // the result is stored in an view variable $view['rootNodes']
         // status 1=inactive  2=active
          
         $this->viewVar['rootNodes'] = array(); 

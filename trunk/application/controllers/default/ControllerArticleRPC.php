@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewArticleRPC class
+ * ControllerArticleRPC class
  *
- * This view class is the same as the article view except
+ * This controller class is the same as the article controller except
  * that there is an additional rpc (remote procedure call)
- * See: Line 91
+ * See: Line 78
  *
  */
 
@@ -27,25 +27,12 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
     public $cacheExpire = 3600;
     
     /**
-     * Execute the view of the "article" template
+     * Execute the controller of the "ArticleRPC" view
      */
     function perform()
     { 
-        // dont proceed if an error occure
-        if(isset( $this->dontPerform ))
-        {
-            return;
-        }
-
         // init variables (see private function below)
         $this->initVars();
-
-        // We need an other template for the ajax demonstration (german/english article)
-        // "Smart3 and Ajax" article
-        if($this->current_id_article == 7)
-        {
-            $this->template = 'ArticleAjax';
-        }
 
         // get article data                                                    
         $this->model->action('article','getArticle',
@@ -93,7 +80,7 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         // The rpc call is done through an action class which is delivered
         // with the article module and which od course optimized
         // to interact with the article module.
-        // fetch 5 latest modified articles
+        // fetch 10 latest modified articles
         //        
         // you have to modify some vars if you make calls
         // to an other domain server
@@ -269,9 +256,6 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         
         // template var with charset used for the html pages
         $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
-        // template var with css folder
-        $this->viewVar['cssFolder'] = $this->config->getModuleVar('common', 'css_folder');
-        
         // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
         $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
@@ -279,7 +263,7 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         // template var with css folder
         $this->viewVar['cssFolder']    = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
         $this->viewVar['scriptFolder'] = JAPA_PUBLIC_DIR . 'scripts/default/';
-        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
+        $this->viewVar['urlBase'] = $this->router->getBase();
         $this->viewVar['urlAjax'] = $this->viewVar['urlBase'];
     }
 
@@ -454,7 +438,7 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
                                    'fields'  => array('email') ));   
 
         $adminBody  = 'Hi,<br>A new comment was added to the following article:';        
-        $adminBody .= '<a href="http://'.$this->httpRequest->getBaseUrl().'/id_article/'.$this->viewVar['article']['id_article'].'">'.$this->config->getModuleVar('article','title').'</a>';
+        $adminBody .= '<a href="http://'.$this->router->getBase().'/id_article/'.$this->viewVar['article']['id_article'].'">'.$this->config->getModuleVar('article','title').'</a>';
         
         if($this->config->getModuleVar('article','default_comment_status') == 1)
         {

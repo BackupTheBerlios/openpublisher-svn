@@ -244,14 +244,10 @@ class ControllerArticle extends JapaControllerAbstractPage
         $this->viewVar['captcha_pic'] = '';
         $this->viewVar['public_key']  = '';
         
-        // template var with charset used for the html pages
+        // view vars
         $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
-        
-        // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
         $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
-        
-        // template var with css folder
         $this->viewVar['cssFolder']    = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
         $this->viewVar['scriptFolder'] = JAPA_PUBLIC_DIR . 'scripts/default/';
         $this->viewVar['urlBase'] = $this->router->getBase();

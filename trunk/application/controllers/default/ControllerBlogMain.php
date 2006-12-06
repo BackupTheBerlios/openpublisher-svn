@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewNode class
+ * ControllerBlogMain class
  *
  */
 
@@ -20,23 +20,17 @@ class ControllerBlogMain extends JapaControllerAbstractPage
      * Cache expire time in seconds for this view
      * 0 = cache disabled
      */
-    public $cacheExpire = 3600;
+    public $cacheExpire = 60;
     
     /**
-     * Execute the view of the "node" template
+     * Execute the view of the "BlogMain" view
      */
     function perform()
     { 
         // init variables (see private function below)
         $this->initVars();
-        
-        // dont proceed if an error occure
-        if(isset( $this->dontPerform ))
-        {
-            return;
-        }   
 
-         // get requested node content
+         // get requested node title
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->viewVar['node'],
                                    'id_node' => (int)$this->current_id_node,
@@ -95,10 +89,10 @@ class ControllerBlogMain extends JapaControllerAbstractPage
                                    'delta'      => 10,
                                    'url'        => $this->viewVar['urlBase'].'/id_node/'.$this->current_id_node,
                                    'var_prefix' => 'article_',
-                                   'css_class'  => 'smart_pager'));  
+                                   'css_class'  => 'japa_pager'));  
         
         // build rss file
-        $this->rssBuilder();
+        // $this->rssBuilder();
         
         $this->viewVar['header']      = $this->controllerLoader->header();
         $this->viewVar['footer']      = $this->controllerLoader->footer();  
@@ -142,8 +136,7 @@ class ControllerBlogMain extends JapaControllerAbstractPage
 
         if( ($this->current_id_node === null) ) 
         {
-              @header('Location: /');
-              exit;
+              $this->router->redirect(); 
         }
         
         // check if the demanded node has at least status 2
@@ -153,20 +146,15 @@ class ControllerBlogMain extends JapaControllerAbstractPage
         // if the requested node isnt active
         if( $nodeStatus < 2 )
         {
-            $this->template          = 'error'; 
-            $this->viewVar['message'] = "The requested node isnt accessible";
-            $this->dontPerform       = TRUE;
-            // disable caching
-            $this->cacheExpire = 0;
+            $this->router->redirect(); 
         } 
         // if the requested node is only available for registered users
         elseif( ($nodeStatus == 3) && ($this->viewVar['isUserLogged'] == FALSE) )
         {
               // set url vars to come back to this page after login
-              $this->model->session->set('url','id_node='.$this->current_id_node);
+              $this->model->session->set('url','id_node/'.$this->current_id_node);
               // switch to the login page
-              @header('Location: '.SMART_CONTROLLER.'?view=login');
-              exit;
+              $this->router->redirect( 'cntr/login' ); 
         }
     }
 
@@ -183,34 +171,29 @@ class ControllerBlogMain extends JapaControllerAbstractPage
         $this->viewVar['nodeFiles']    = array();
         $this->viewVar['allArticles']  = array();
         $this->viewVar['links']        = array();
+        $this->viewVar['keywordLink'] = array(); 
         $this->viewVar['pager']        = '';
 
         // set articles limit per page
         $this->articlesPerPage = 20;
+        $article_page    = $this->httpRequest->getParameter( 'article_page', 'get', 'digits' );
+        
         // get current article pager page
-        if(!isset($_GET['article_page']))
+        if(!isset($article_page))
         {
             $this->pageNumber = 1;
         }
         else
         {
-            $this->pageNumber = (int)$_GET['article_page'];
+            $this->pageNumber = (int)$article_page;
         }
         
-        // template var with charset used for the html pages
+        // view vars
         $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
-        // template var with css folder
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');;
-        
-        // init template variable for keyword related links
-        $this->viewVar['keywordLink'] = array();   
-
-        // we need this template vars to show admin links if the user is logged
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];  
         $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
-        
-        $this->viewVar['urlBase'] = 'http://'.$this->router->getHost().$this->httpRequest->getBaseUrl();
-        $this->viewVar['urlCss'] = $this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];  
+        $this->viewVar['urlBase'] = $this->router->getBase();
     }
 
     /**
@@ -245,11 +228,11 @@ class ControllerBlogMain extends JapaControllerAbstractPage
                      'items'        => & $this->viewVar['allArticles'],
                      'rssfile'      => & $this->viewVar['node']['rssfile'],
                      'expire'       => 3600,
-                     'channel' => array('about'    => 'http://www.smart3.org',
-                                        'link'     => 'http://www.smart3.org',
+                     'channel' => array('about'    => 'http://www.open-publisher.net',
+                                        'link'     => 'http://www.open-publisher.net',
                                         'desc'     => 'test',
-                                        'title'    => 'Smart3 php5 framework - BLOG'),
-                     'baseUrl'    => 'http://www.open-publisher.net/index.php?id_article='
+                                        'title'    => 'Open Publisher CMS - BLOG'),
+                     'baseUrl'    => 'http://www.open-publisher.net/id_article/'
                      ) );
                                                        
     }

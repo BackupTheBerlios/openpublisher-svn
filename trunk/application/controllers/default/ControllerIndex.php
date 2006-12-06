@@ -40,16 +40,8 @@ class ControllerIndex extends JapaControllerAbstractPage
     {
         // template var with charset used for the html pages
         $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
-        // template var with css folder
-        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
-        
-        // relative path to the smart directory
-        $this->viewVar['relativePath'] = JAPA_PUBLIC_DIR;
-        // template var with css folder
-        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
-        $this->viewVar['urlBase'] = $this->router->getBase();
-        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];     
-        // we need this template vars to show admin links if the user is logged
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
+        $this->viewVar['urlBase'] = $this->router->getBase();   
         $this->viewVar['loggedUserRole']     = $this->controllerVar['loggedUserRole'];
         $this->viewVar['isUserLogged']       = $this->controllerVar['isUserLogged'];
         $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
@@ -67,7 +59,6 @@ class ControllerIndex extends JapaControllerAbstractPage
         $this->viewVar['header']      = $this->controllerLoader->header(); 
         $this->viewVar['footer']      = $this->controllerLoader->footer();  
         $this->viewVar['rightBorder'] = $this->controllerLoader->rightBorder();  
-
     }
 
     /**
@@ -104,16 +95,6 @@ class ControllerIndex extends JapaControllerAbstractPage
     {
         // filter action of the common module to prevent browser caching
         $this->model->action( 'common', 'filterDisableBrowserCache');    
-    }
-
-    /**
-     * append filter chain
-     *
-     */
-    public function appendFilterChain( & $outputBuffer )
-    {
-        // filter action of the common module that trims the html output
-        // $this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
     }
 }
 

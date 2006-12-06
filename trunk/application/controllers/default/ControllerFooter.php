@@ -22,7 +22,7 @@ class ControllerFooter extends JapaControllerAbstractPage
     public $returnView = true;
     
     /**
-     * Execute the view of the "footer" template
+     * Execute the controller of the "footer" view
      */
     function perform( $data = false )
     {

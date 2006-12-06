@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * SimpleNodeArticle class
+ * ControllerSimpleNodeArticle class
  */
 
 class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
@@ -22,18 +22,12 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
     public $cacheExpire = 3600;
     
     /**
-     * Execute the view of the "simpleNodeArticle" template
+     * Execute the controller of the "simpleNodeArticle" view
      */
     function perform()
     {     
         $this->initVars();
 
-        // dont proceed if an error occure
-        if(isset( $this->dontPerform ))
-        {
-            return;
-        }
-   
         // get article data                                                    
         $this->model->action('article','getArticle',
                              array('id_article' => (int)$this->current_id_article,
@@ -119,58 +113,36 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
     public function prependFilterChain()
     {
         // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');    
+        // $this->model->action( 'common', 'filterDisableBrowserCache');    
 
         $this->current_id_node    = $this->httpRequest->getParameter( 'id_node', 'request', 'digits' );
-        $this->current_id_article = $this->httpRequest->getParameter( 'id_article', 'request', 'digits' );   
              
-        if( ($this->current_id_node === null) ) 
+        if( ($this->current_id_node === false) ) 
         {
-              @header('Location: /');
-              exit;
-        }
-        
-             
-        if( ($this->current_id_article === null) ) 
-        {
-              @header('Location: /');
-              exit;
+              $this->router->redirect(); 
         }
 
-
-            $node_article = array();
-            // get node related article titles count by 10                                                     
-            $this->model->action('article','getNodeArticles',
+        $node_article = array();
+        // we need only the first article in this node                                                    
+        $this->model->action('article','getNodeArticles',
                                  array('id_node' => (int)$this->current_id_node,
                                        'result'  => & $node_article,
                                        'status'  => array('>=', 4),
                                        'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
                                        'order'   => array('rank', 'asc'),
-                                       'limit'   => array('perPage' => 10,
+                                       'limit'   => array('perPage' => 1,
                                                           'numPage' => 0),
                                        'fields'  => array('id_article') ));
             
-            if(!isset($node_article[0]['id_article']))
-            {
-                $this->noIdArticle();
-                return;
-            }
+        if(!isset($node_article[0]['id_article']))
+        {
+            $this->router->redirect();
+        }
             
-            $this->current_id_article = (int)$node_article[0]['id_article'];
-
-        
+        $this->current_id_article = (int)$node_article[0]['id_article'];
+      
         // check permission to access this article if it has status protected
         $this->checkPermission();                  
-    }
-
-    /**
-     * append filter chain
-     *
-     */
-    public function appendFilterChain( & $outputBuffer )
-    {
-        // filter action of the common module that trims the html output
-        $this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
     }
 
     /**
@@ -190,14 +162,11 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
         
         // template var with charset used for the html pages
         $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
+        $this->viewVar['urlBase'] = $this->router->getBase();   
+        $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
+        $this->viewVar['isUserLogged']       = $this->viewVar['isUserLogged'];
         $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller'); 
-        
-        // we need this template vars to show admin links if the user is logged
-        $this->viewVar['loggedUserRole']      = $this->viewVar['loggedUserRole']; 
-        // template var with css folder
-        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
-        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
-        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
     }
     /**
      * check permission to access this article
@@ -216,8 +185,7 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
             ($result['nodeStatus']    < 2) || 
             ($result['articleStatus'] < 4))
         {
-            $this->noIdArticle();
-            return;
+            $this->router->redirect(); 
         } 
 
         if( $this->viewVar['isUserLogged'] == FALSE )
@@ -227,27 +195,12 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
                 ($result['articleStatus'] == 5) )
             {
                 // set url vars to come back to this page after login
-                $this->model->session->set('url','id_article='.$this->current_id_article);
+                $this->model->session->set('url','id_article/'.$this->current_id_article);
                 // switch to the login page
                 $this->router->redirect( 'cntr/login' ); 
             }
         }
     }    
-    /**
-     * set error template
-     *
-     */        
-    private function noIdArticle()
-    {
-            $this->view               = 'error'; 
-            $this->viewVar['message'] = "The requested content isnt accessible";
-            // template var with charset used for the html pages
-            $this->viewVar['charset'] = $this->config->getModuleVar('common', 'charset');   
-            
-            $this->dontPerform = TRUE;
-            // disable caching
-            $this->cacheExpire = 0;
-    }
 }
 
 ?>

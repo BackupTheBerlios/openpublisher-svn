@@ -27,12 +27,6 @@ class ControllerLink extends JapaControllerAbstractPage
      */
     function perform()
     {  
-        // dont proceed if an error occure
-        if(isset( $this->dontPerform ))
-        {
-            return;
-        }
-        
          // get requested node content
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->viewVar['node'],
@@ -103,16 +97,15 @@ class ControllerLink extends JapaControllerAbstractPage
         $this->initVars();
         
         // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');  
+        // $this->model->action( 'common', 'filterDisableBrowserCache');  
         
         // fetch the current id_node. If no id_node defined or not numeric
         // this view class loads the error template
         $this->current_id_node = (int) $this->httpRequest->getParameter( 'id_node', 'get', 'digits' );
           
-        if( ($this->current_id_node === null) ) 
+        if( ($this->current_id_node === false) ) 
         {
-              @header('Location: '.$this->viewVar['urlBase']);
-              exit;
+              $this->router->redirect();
         }
         
         // check if the demanded node has at least status 2
@@ -122,28 +115,16 @@ class ControllerLink extends JapaControllerAbstractPage
         // if the requested node isnt active
         if( $nodeStatus < 2 )
         {
-              @header('Location: '.$this->viewVar['urlBase']);
-              exit;
+              $this->router->redirect();
         } 
         // if the requested node is only available for registered users
         elseif( ($nodeStatus == 3) && ($this->viewVar['isUserLogged'] == FALSE) )
         {
               // set url vars to come back to this page after login
-              $this->model->session->set('url','id_node='.$this->current_id_node);
+              $this->model->session->set('url','id_node/'.$this->current_id_node);
               // switch to the login page
-              @header('Location: '.$this->viewVar['urlBase'].'/cntr/login');
-              exit;
+              $this->router->redirect( 'cntr/login' );
         }
-    }
-
-    /**
-     * append filter chain
-     *
-     */
-    public function appendFilterChain( & $outputBuffer )
-    {
-        // filter action of the common module that trims the html output
-        // $this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
     }
 
     /**
