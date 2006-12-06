@@ -29,12 +29,6 @@ class ControllerNode extends JapaControllerAbstractPage
     { 
         // init variables (see private function below)
         $this->initVars();
-        
-        // dont proceed if an error occure
-        if(isset( $this->dontPerform ))
-        {
-            return;
-        }
 
          // get requested node content
         $this->model->action('navigation','getNode', 
@@ -120,9 +114,6 @@ class ControllerNode extends JapaControllerAbstractPage
                                        'fields'      => array('id_link','url','title','description') )); 
         }
         
-        // build rss file
-        $this->rssBuilder();
-        
         // get result of the header and footer controller
         //       
         $this->viewVar['header']      = $this->controllerLoader->header();
@@ -168,10 +159,9 @@ class ControllerNode extends JapaControllerAbstractPage
         // this view class loads the error template
         $this->current_id_node = (int) $this->httpRequest->getParameter( 'id_node', 'get', 'digits' );
           
-        if( ($this->current_id_node === null) ) 
+        if( ($this->current_id_node === false) ) 
         {
-              @header('Location: /');
-              exit;
+              $this->router->redirect();
         }
         
         // check if the demanded node has at least status 2
@@ -181,11 +171,7 @@ class ControllerNode extends JapaControllerAbstractPage
         // if the requested node isnt active
         if( $nodeStatus < 2 )
         {
-            $this->template          = 'error'; 
-            $this->viewVar['message'] = "The requested node isnt accessible";
-            $this->dontPerform       = TRUE;
-            // disable caching
-            $this->cacheExpire = 0;
+            $this->router->redirect();
         } 
         // if the requested node is only available for registered users
         elseif( ($nodeStatus == 3) && ($this->viewVar['isUserLogged'] == FALSE) )
@@ -195,16 +181,6 @@ class ControllerNode extends JapaControllerAbstractPage
               // switch to the login page
               $this->router->redirect( 'cntr/login' ); 
         }
-    }
-
-    /**
-     * append filter chain
-     *
-     */
-    public function appendFilterChain( & $outputBuffer )
-    {
-        // filter action of the common module that trims the html output
-        //$this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
     }
 
     /**
@@ -220,62 +196,28 @@ class ControllerNode extends JapaControllerAbstractPage
         $this->viewVar['nodeFiles']    = array();
         $this->viewVar['nodeArticles'] = array();
         $this->viewVar['links']        = array();
+        $this->viewVar['keywordLink'] = array();
         $this->viewVar['pager']        = '';
 
         // set articles limit per page
+        $article_page = (int) $this->httpRequest->getParameter( 'article_page', 'get', 'digits' );
         $this->articlesPerPage = 20;
         // get current article pager page
-        if(!isset($_GET['article_page']))
+        if($article_page === null)
         {
             $this->pageNumber = 1;
         }
         else
         {
-            $this->pageNumber = (int)$_GET['article_page'];
+            $this->pageNumber = (int)$article_page;
         }
         
-        // template var with charset used for the html pages
-        $this->viewVar['charset']   = $this->config->getModuleVar('common', 'charset');
-        // template var with css folder
-        $this->viewVar['cssFolder'] = $this->config->getModuleVar('common', 'css_folder');
-        
-        // relative path to the smart directory
-        $this->viewVar['relativePath'] = JAPA_PUBLIC_DIR ;
-        
-        // init template variable for keyword related links
-        $this->viewVar['keywordLink'] = array();   
-
-        // we need this template vars to show admin links if the user is logged
+        // init view vars
+        $this->viewVar['charset'] = $this->config->getModuleVar('common', 'charset');
         $this->viewVar['loggedUserRole']     = $this->viewVar['loggedUserRole'];
         $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller');        
-        // template var with css folder
-        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/default/';
-        $this->viewVar['urlBase'] = $this->httpRequest->getBaseUrl();
-        $this->viewVar['urlCss'] = 'http://'.$this->router->getHost().$this->viewVar['urlBase'].'/'.$this->viewVar['cssFolder'];
-    }
-
-    /**
-     * Build rss file with article titles of the current node
-     *
-     */     
-    private function rssBuilder()
-    {
-        $this->viewVar['node']['rssfile'] = '';
-        
-        $this->model->action('article','feedCreator',
-               array('format'       => 'rss',
-                     'output'       => 'save',
-                     'id'           => 'node'.(int)$this->viewVar['node']['id_node'],
-                     'items'        => & $this->viewVar['nodeArticles'],
-                     'rssfile'      => & $this->viewVar['node']['rssfile'],
-                     'expire'       => 3600,
-                     'channel' => array('about'    => 'http://www.smart3.org',
-                                        'link'     => 'http://www.smart3.org',
-                                        'desc'     => 'test',
-                                        'title'    => 'Smart3 php5 framework - '.$this->viewVar['node']['title']),
-                     'baseUrl'    => 'http://www.open-publisher.net/index.php?id_article='
-                     ) );
-                                                       
+        $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
+        $this->viewVar['urlBase']   = $this->router->getBase();
     }
 }
 

@@ -10,25 +10,14 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewMainNavigationclass
+ * ControllerMainNavigation class
  *
- * The parent variables are:
- * $tplVar  - Array that may contains template variables
- * $viewVar - Array that may contains view variables, which
- *            are needed by some followed nested views.
- * $model   - The model object
- *            We need it to call modules actions
- * $template - Here you can define an other template name as the default
- * $renderTemplate - Is there a template associated with this view?
- *                   SMART_TEMPLATE_RENDER or SMART_TEMPLATE_RENDER_NONE
- * $viewData - Data passed to this view by the caller
- * $cacheExpire - Expire time in seconds of the cache for this view. 0 means cache disabled
  */
 
 class ControllerMainNavigation extends JapaControllerAbstractPage
 {
     /**
-     * Execute the view of the "mainNavigation" template
+     * Execute the controller of the "mainNavigation" view
      */
     function perform()
     {
