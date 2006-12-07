@@ -83,6 +83,7 @@ class ControllerIndex extends JapaControllerAbstractPage
         // set tpl var to show edit link if user is logged
         if( ($this->controllerVar['isUserLogged'] == TRUE) && ($this->controllerVar['loggedUserRole'] < 100) )
         {
+            $this->cacheExpire = 0;
             $this->viewVar['showEditLink'] = TRUE; 
         }
     }

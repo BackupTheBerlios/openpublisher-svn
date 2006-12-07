@@ -142,6 +142,7 @@ class ControllerNode extends JapaControllerAbstractPage
         
         if( ($this->viewVar['isUserLogged'] == TRUE) && ($this->viewVar['loggedUserRole'] < 100) )
         {
+            $this->cacheExpire = 0;
             $this->viewVar['showEditLink'] = TRUE; 
         }
     }

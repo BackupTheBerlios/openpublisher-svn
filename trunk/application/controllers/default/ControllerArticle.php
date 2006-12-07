@@ -194,6 +194,7 @@ class ControllerArticle extends JapaControllerAbstractPage
         if( ($this->viewVar['isUserLogged'] == true) && ($this->viewVar['loggedUserRole'] < 100) )
         {
             $this->viewVar['showEditLink'] = true; 
+            $this->cacheExpire = 0;
         } 
     }
 
