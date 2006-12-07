@@ -24,7 +24,7 @@ class ActionMiscSetup extends JapaAction
     {
         if(isset($data['rollback']))
         {
-            $this->rollback($data);
+            $this->rollback();
             return TRUE;
         }
         
@@ -78,18 +78,6 @@ class ActionMiscSetup extends JapaAction
                    KEY            (`id_text`,`rank`))";
         $this->model->dba->query($sql);        
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}misc_config (
-                 `thumb_width`    smallint(4) NOT NULL default 120,
-                 `img_size_max`   int(11) NOT NULL default 500000,
-                 `file_size_max`  int(11) NOT NULL default 5000000,
-                 `force_format`   tinyint(1) NOT NULL default 2,
-                 `misc_format` tinyint(1) NOT NULL default 2,
-                 `misc_lang`   char(2) NOT NULL default 'en',
-                 `use_keywords`   tinyint(1) NOT NULL default 1,
-                 `use_images`     tinyint(1) NOT NULL default 1,
-                 `use_files`      tinyint(1) NOT NULL default 1)";
-        $this->model->dba->query($sql);
-
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}misc_keyword (
                    `id_text`     int(11) unsigned NOT NULL default 0,
                    `id_key`      int(11) unsigned NOT NULL default 0,
@@ -98,17 +86,20 @@ class ActionMiscSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-
-        $sql = "INSERT INTO {$data['dbtablesprefix']}misc_config
-                   (`thumb_width`, `img_size_max`,`file_size_max`)
-                  VALUES
-                   (120,100000,100000)";
-        $this->model->dba->query($sql); 
+        $_default_config = array(
+                 `thumb_width`           => 120,
+                 `img_size_max`          => 500000,
+                 `file_size_max`         => 5000000,
+                 `default_lang`          => 'en',
+                 `use_keywords`          => 1,
+                 `use_images`            => 1,
+                 `use_files`             => 1) 
+        );
  
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
-                 (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
+                 (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
                 VALUES
-                 ('misc','Misc Content Management',5,'0.1',1,20,'DATE: 30.7.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
+                 ('misc','Misc Content Management',5,'0.1',1,20,'DATE: 30.7.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>','{serialize($_default_config)}')";
         $this->model->dba->query($sql);            
 
         return TRUE;
@@ -119,14 +110,13 @@ class ActionMiscSetup extends JapaAction
      * Delete db tables of this module 
      *
      */    
-    public function rollback( &$data )
+    public function rollback()
     {
-        $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}misc_text,
-                                     {$data['dbtablesprefix']}misc_keyword,
-                                     {$data['dbtablesprefix']}misc_text_lock,
-                                     {$data['dbtablesprefix']}misc_text_pic,
-                                     {$data['dbtablesprefix']}misc_text_file,
-                                     {$data['dbtablesprefix']}misc_config";
+        $sql = "DROP TABLE IF EXISTS {$this->config->getVar('_dbTablePrefix')}misc_text,
+                                     {$this->config->getVar('_dbTablePrefix')}misc_keyword,
+                                     {$this->config->getVar('_dbTablePrefix')}misc_text_lock,
+                                     {$this->config->getVar('_dbTablePrefix')}misc_text_pic,
+                                     {$this->config->getVar('_dbTablePrefix')}misc_text_file";
         $this->model->dba->query($sql);  
     }    
 }

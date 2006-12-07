@@ -46,7 +46,6 @@ class ActionArticleSetup extends JapaAction
                    `description`   text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `body`          mediumtext CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `ps`            text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `format`        tinyint(1) NOT NULL default 0,
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,                   
                    PRIMARY KEY        (`id_article`),
@@ -138,33 +137,6 @@ class ActionArticleSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_config (
-                 `thumb_width`       smallint(4) NOT NULL default 120,
-                 `img_size_max`      int(11) NOT NULL default 500000,
-                 `file_size_max`     int(11) NOT NULL default 5000000,
-                 `force_format`      tinyint(1) NOT NULL default 2,
-                 `default_format`    tinyint(1) NOT NULL default 2,
-                 `default_lang`      char(2) NOT NULL default 'en',
-                 `default_order`     varchar(10) NOT NULL default '',
-                 `default_ordertype` varchar(4) NOT NULL default '',
-                 `default_comment_status` tinyint(1) NOT NULL default 2,
-                 `use_comment`       tinyint(1) NOT NULL default 1,
-                 `use_article_controller`  tinyint(1) NOT NULL default 1,
-                 `use_users`         tinyint(1) NOT NULL default 0,
-                 `use_keywords`      tinyint(1) NOT NULL default 1,
-                 `use_articledate`   tinyint(1) NOT NULL default 0,
-                 `use_changedate`    tinyint(1) NOT NULL default 0,
-                 `use_overtitle`     tinyint(1) NOT NULL default 0,
-                 `use_subtitle`      tinyint(1) NOT NULL default 0,
-                 `use_header`        tinyint(1) NOT NULL default 0,
-                 `use_description`   tinyint(1) NOT NULL default 0,
-                 `use_ps`            tinyint(1) NOT NULL default 0,
-                 `use_logo`          tinyint(1) NOT NULL default 0,
-                 `use_images`        tinyint(1) NOT NULL default 1,
-                 `use_files`         tinyint(1) NOT NULL default 1) 
-                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);  
-
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_user (
                    `id_article`     int(11) unsigned NOT NULL default 0,
                    `id_user`        int(11) unsigned NOT NULL default 0,
@@ -207,9 +179,33 @@ class ActionArticleSetup extends JapaAction
                   VALUES
                    (120,'rank','asc')";
         $this->model->dba->query($sql);   
+
+        $_default_config = array(
+                 `thumb_width`           => 120,
+                 `img_size_max`          => 500000,
+                 `file_size_max`         => 5000000,
+                 `default_lang`          => 'en',
+                 `default_order`         => '',
+                 `default_ordertype`     => '',
+                 `default_comment_status`=> 2,
+                 `use_comment`           => 1,
+                 `use_article_controller`=> 1,
+                 `use_users`             => 0,
+                 `use_keywords`          => 1,
+                 `use_articledate`       => 0,
+                 `use_changedate`        => 0,
+                 `use_overtitle`         => 0,
+                 `use_subtitle`          => 0,
+                 `use_header`            => 0,
+                 `use_description`       => 0,
+                 `use_ps`                => 0,
+                 `use_logo`              => 0,
+                 `use_images`            => 1,
+                 `use_files`             => 1) 
+        );
   
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
-                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
                   VALUES
                    ('article',
                     'Article Management',
@@ -217,7 +213,8 @@ class ActionArticleSetup extends JapaAction
                     '0.6',
                     1,
                     60,
-                    'DATE: 28.12.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
+                    'DATE: 28.12.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
+                    '{serialize($_default_config)}')";
         $this->model->dba->query($sql);            
     } 
     
@@ -226,20 +223,19 @@ class ActionArticleSetup extends JapaAction
      * Delete db tables of this module 
      *
      */    
-    public function rollback( &$data )
+    public function rollback()
     {
-        $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}article_article,
-                                     {$data['dbtablesprefix']}article_index,
-                                     {$data['dbtablesprefix']}article_changedate,
-                                     {$data['dbtablesprefix']}article_lock,
-                                     {$data['dbtablesprefix']}article_media_pic,
-                                     {$data['dbtablesprefix']}article_media_file,
-                                     {$data['dbtablesprefix']}article_config,
-                                     {$data['dbtablesprefix']}article_comment,
-                                     {$data['dbtablesprefix']}article_controller,
-                                     {$data['dbtablesprefix']}article_controller_rel,
-                                     {$data['dbtablesprefix']}article_node_controller_rel";
-        $this->model->dba->query($sql);  
+        $sql = "DROP TABLE IF EXISTS {$this->config->getVar('_dbTablePrefix')}article_article,
+                                     {$this->config->getVar('_dbTablePrefix')}article_index,
+                                     {$this->config->getVar('_dbTablePrefix')}article_changedate,
+                                     {$this->config->getVar('_dbTablePrefix')}article_lock,
+                                     {$this->config->getVar('_dbTablePrefix')}article_media_pic,
+                                     {$this->config->getVar('_dbTablePrefix')}article_media_file,
+                                     {$this->config->getVar('_dbTablePrefix')}article_comment,
+                                     {$this->config->getVar('_dbTablePrefix')}article_controller,
+                                     {$this->config->getVar('_dbTablePrefix')}article_controller_rel,
+                                     {$this->config->getVar('_dbTablePrefix')}article_node_controller_rel";
+        $this->model->dba->query($sql);   
     }
 }
 

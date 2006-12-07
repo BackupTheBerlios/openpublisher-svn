@@ -24,7 +24,7 @@ class ActionLinkSetup extends JapaAction
     {
         if(isset($data['rollback']))
         {
-            $this->rollback($data);
+            $this->rollback();
             return TRUE;
         }
         
@@ -60,21 +60,14 @@ class ActionLinkSetup extends JapaAction
                    KEY `id_link` (`id_link`),
                    KEY `id_key`  (`id_key`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);
+        $this->model->dba->query($sql); 
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}link_config (
-                 `use_keywords` tinyint(1) NOT NULL default 1) 
-                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);  
-
-        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}link_config
-                   (`use_keywords`)
-                  VALUES
-                   (1)";
-        $this->model->dba->query($sql);   
+        $_default_config = array(
+                 `use_keywords` => 1) 
+        );
        
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
-                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`, `config`)
                   VALUES
                    ('link',
                     'Links Management',
@@ -82,7 +75,8 @@ class ActionLinkSetup extends JapaAction
                     '0.1',
                     1,
                     60,
-                    'DATE: 23.8.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
+                    'DATE: 23.8.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
+                    '{serialize($_default_config)}')";
         $this->model->dba->query($sql);            
     } 
     
@@ -91,13 +85,12 @@ class ActionLinkSetup extends JapaAction
      * Delete db tables of this module 
      *
      */    
-    public function rollback( &$data )
+    public function rollback()
     {
-        $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}link_links,
-                                     {$data['dbtablesprefix']}link_lock,
-                                     {$data['dbtablesprefix']}link_keyword,
-                                     {$data['dbtablesprefix']}link_config,
-                                     {$data['dbtablesprefix']}link_node_rel";
+        $sql = "DROP TABLE IF EXISTS {$this->config->getVar('_dbTablePrefix')}link_links,
+                                     {$this->config->getVar('_dbTablePrefix')}link_lock,
+                                     {$this->config->getVar('_dbTablePrefix')}link_keyword,
+                                     {$this->config->getVar('_dbTablePrefix')}link_node_rel";
         $this->model->dba->query($sql);  
     }
 }

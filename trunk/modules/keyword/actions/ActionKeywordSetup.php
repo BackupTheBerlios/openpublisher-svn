@@ -24,7 +24,7 @@ class ActionKeywordSetup extends JapaAction
     {
         if(isset($data['rollback']))
         {
-            $this->rollback($data);
+            $this->rollback();
             return TRUE;
         }
         
@@ -51,27 +51,21 @@ class ActionKeywordSetup extends JapaAction
                    KEY `by_id_user` (`by_id_user`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
-  
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}keyword_config (
-                 `force_format`      tinyint(1) NOT NULL default 2,
-                 `default_format`    tinyint(1) NOT NULL default 2,
-                 `default_lang`      char(2) NOT NULL default 'en') 
-                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);  
-        
-        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}keyword_config
-                   (`force_format`) VALUES (2)";
-        $this->model->dba->query($sql);   
-  
+
+        $_default_config = array(
+                 `default_lang`          => 'en') 
+        );
+ 
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
-                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`, `config`)
                   VALUES
                    ('keyword', 'Keywords Management',
                     4,
                     '0.1',
                     1,
                     20,
-                    'DATE: 27.10.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
+                    'DATE: 27.10.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
+                    '{serialize($_default_config)}')";
         $this->model->dba->query($sql);            
     } 
     
@@ -80,11 +74,10 @@ class ActionKeywordSetup extends JapaAction
      * Delete db tables of this module 
      *
      */    
-    public function rollback( &$data )
+    public function rollback()
     {
-        $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}keyword,
-                                     {$data['dbtablesprefix']}keyword_lock,
-                                     {$data['dbtablesprefix']}keyword_config";
+        $sql = "DROP TABLE IF EXISTS {$this->config->getVar('_dbTablePrefix')}keyword,
+                                     {$this->config->getVar('_dbTablePrefix')}keyword_lock";
         $this->model->dba->query($sql);  
     }
 }

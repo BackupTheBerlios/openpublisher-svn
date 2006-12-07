@@ -24,7 +24,7 @@ class ActionUserSetup extends JapaAction
     {
         if(isset($data['rollback']))
         {
-            $this->rollback( $data );
+            $this->rollback();
             return TRUE;
         }
         
@@ -98,17 +98,6 @@ class ActionUserSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);        
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_config (
-                 `thumb_width`    smallint(4) NOT NULL default 200,
-                 `img_size_max`   int(11) NOT NULL default 500000,
-                 `file_size_max`  int(11) NOT NULL default 5000000,
-                 `force_format`   tinyint(1) NOT NULL default 2,
-                 `default_format` tinyint(1) NOT NULL default 2,
-                 `use_keywords`   tinyint(1) NOT NULL default 1,
-                 `use_log`        tinyint(1) NOT NULL default 0) 
-                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);
-
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_keyword (
                    `id_user`     int(11) unsigned NOT NULL default 0,
                    `id_key`      int(11) unsigned NOT NULL default 0,
@@ -165,11 +154,21 @@ class ActionUserSetup extends JapaAction
                    ('superuser','{$passwd}','super','user','foo@smart5.net',2,10)";
         $this->model->dba->query($sql); 
 
+        $_default_config = array(
+                 `thumb_width`           => 120,
+                 `img_size_max`          => 500000,
+                 `file_size_max`         => 5000000,
+                 `default_lang`          => 'en',
+                 `use_keywords`          => 1,
+                 `use_log`               => 1) 
+        );
+
         // insert module info data
         $sql = "INSERT INTO {$data['dbtablesprefix']}common_module
-                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
                   VALUES
-                   ('user','User Management',8,'0.2',1,60,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
+                   ('user','User Management',8,'0.2',1,60,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
+                    '{serialize($_default_config)}')";
         
         $this->model->dba->query($sql);         
     } 
@@ -179,16 +178,15 @@ class ActionUserSetup extends JapaAction
      * Delete db tables of this module 
      *
      */    
-    public function rollback( & $data )
+    public function rollback()
     {
         $sql = "DROP TABLE IF EXISTS 
-                     {$data['dbtablesprefix']}user_user,
-                     {$data['dbtablesprefix']}user_access,
-                     {$data['dbtablesprefix']}user_lock,
-                     {$data['dbtablesprefix']}user_keyword,
-                     {$data['dbtablesprefix']}user_media_pic,
-                     {$data['dbtablesprefix']}user_media_file,
-                     {$data['dbtablesprefix']}user_config";
+                     {$this->config->getVar('_dbTablePrefix')}user_user,
+                     {$this->config->getVar('_dbTablePrefix')}user_access,
+                     {$this->config->getVar('_dbTablePrefix')}user_lock,
+                     {$this->config->getVar('_dbTablePrefix')}user_keyword,
+                     {$this->config->getVar('_dbTablePrefix')}user_media_pic,
+                     {$this->config->getVar('_dbTablePrefix')}user_media_file";
         $this->model->dba->query($sql);  
     }    
 }

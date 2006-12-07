@@ -24,7 +24,7 @@ class ActionNavigationSetup extends JapaAction
     {  
         if(isset($data['rollback']))
         {
-            $this->rollback($data);
+            $this->rollback();
             return TRUE;
         }
         
@@ -104,22 +104,6 @@ class ActionNavigationSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);        
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_config (
-                 `thumb_width`    smallint(4) NOT NULL default 120,
-                 `img_size_max`   int(11) NOT NULL default 500000,
-                 `file_size_max`  int(11) NOT NULL default 5000000,
-                 `force_format`   tinyint(1) NOT NULL default 2,
-                 `default_format` tinyint(1) NOT NULL default 2,
-                 `default_lang`   char(2) NOT NULL default 'en',
-                 `use_keywords`   tinyint(1) NOT NULL default 1,
-                 `use_short_text` tinyint(1) NOT NULL default 1,
-                 `use_body`       tinyint(1) NOT NULL default 1,
-                 `use_logo`       tinyint(1) NOT NULL default 1,
-                 `use_images`     tinyint(1) NOT NULL default 1,
-                 `use_files`      tinyint(1) NOT NULL default 1) 
-                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);
-
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_public_controller (
                    `id_controller` int(11) unsigned NOT NULL auto_increment,
                    `name`         varchar(255) NOT NULL default '',
@@ -136,14 +120,23 @@ class ActionNavigationSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-        $sql = "INSERT INTO {$data['dbtablesprefix']}navigation_config
-                   (`thumb_width`, `img_size_max`,`file_size_max`)
-                  VALUES
-                   (120,500000,5000000)";
-        $this->model->dba->query($sql); 
+        $_default_config = array(
+                 `thumb_width`           => 120,
+                 `img_size_max`          => 500000,
+                 `file_size_max`         => 5000000,
+                 `default_lang`          => 'en',
+                 `default_order`         => '',
+                 `default_ordertype`     => '',
+                 `use_keywords`          => 0,
+                 `use_short_text`        => 0,
+                 `use_body`              => 0,
+                 `use_logo`              => 0,
+                 `use_images`            => 0,
+                 `use_files`             => 0) 
+        );
 
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
-                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
                   VALUES
                    ('navigation',
                     'Navigation Nodes Management',
@@ -151,7 +144,8 @@ class ActionNavigationSetup extends JapaAction
                     '0.2',
                     1,
                     20,
-                    'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
+                    'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
+                    '{serialize($_default_config)}')";
         $this->model->dba->query($sql);          
     } 
     
@@ -160,16 +154,15 @@ class ActionNavigationSetup extends JapaAction
      * Delete db tables of this module 
      *
      */    
-    public function rollback( &$data )
+    public function rollback()
     {
-        $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}navigation_node,
-                                     {$data['dbtablesprefix']}navigation_node_lock,
-                                     {$data['dbtablesprefix']}navigation_media_pic,
-                                     {$data['dbtablesprefix']}navigation_media_file,
-                                     {$data['dbtablesprefix']}navigation_config,
-                                     {$data['dbtablesprefix']}navigation_index,
-                                     {$data['dbtablesprefix']}navigation_public_controller";
-        $this->model->dba->query($sql);  
+        $sql = "DROP TABLE IF EXISTS {$this->config->getVar('_dbTablePrefix')}navigation_node,
+                                     {$this->config->getVar('_dbTablePrefix')}navigation_node_lock,
+                                     {$this->config->getVar('_dbTablePrefix')}navigation_media_pic,
+                                     {$this->config->getVar('_dbTablePrefix')}navigation_media_file,
+                                     {$this->config->getVar('_dbTablePrefix')}navigation_index,
+                                     {$this->config->getVar('_dbTablePrefix')}navigation_public_controller";
+        $this->model->dba->query($sql); 
     }
 }
 

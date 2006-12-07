@@ -28,12 +28,13 @@ class ActionCommonSetup extends JapaAction
         }
         
         $this->config->setVar('_dbTablePrefix', $data['dbtablesprefix']);    
-        $this->config->setVar('_dbhost'],       $data['dbhost']);
-        $this->config->setVar('_dbport'],       $data['dbport']);
-        $this->config->setVar('_dbuser'],       $data['dbuser']);
-        $this->config->setVar('_dbpasswd'],     $data['dbpasswd']);
-        $this->config->setVar('_dbname'],       $data['dbname']);
-        $this->config->setVar('_dbcharset'],    $this->mysqlEncoding( $data['charset'] ));
+        $this->config->setVar('_dbhost',       $data['dbhost']);
+        $this->config->setVar('_dbport',       $data['dbport']);
+        $this->config->setVar('_dbuser',       $data['dbuser']);
+        $this->config->setVar('_dbpasswd',     $data['dbpasswd']);
+        $this->config->setVar('_dbname',       $data['dbname']);
+        $this->config->setVar('_charset',      $data['charset'] );
+        $this->config->setVar('_dbcharset',    $this->mysqlEncoding( $data['charset'] ));
 
         try
         {
@@ -55,7 +56,7 @@ class ActionCommonSetup extends JapaAction
         // Rollback if there are somme error in other modules setup actions
         if(isset($data['rollback']))
         {
-            $this->rollback($data);
+            $this->rollback();
             return TRUE;
         }
 
@@ -90,16 +91,6 @@ class ActionCommonSetup extends JapaAction
                  `session_maxlifetime` int(11) NOT NULL default 7200,
                  `rejected_files`      text NOT NULL default '') 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);
-
-
-
-        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_config
-                 (`op_version`,`charset`, `templates_folder`, `css_folder`, 
-                  `views_folder`,`rejected_files`)
-                VALUES
-                 ('1.0a','{$data['charset']}', 'templates_home/', 'css_home/',
-                  'views_home/', '.php,.php3,.php4,.php5,.phps,.pl,.py')";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}common_module (
@@ -179,14 +170,13 @@ class ActionCommonSetup extends JapaAction
      * Delete db tables of this module 
      *
      */    
-    public function rollback( &$data )
+    public function rollback()
     {
         if(is_resource($this->model->db))
         {
             $sql = "DROP TABLE IF EXISTS 
-                        {$data['dbtablesprefix']}common_module,
-                        {$data['dbtablesprefix']}common_config,
-                        {$data['dbtablesprefix']}common_session";
+                        {$this->config->getVar('_dbTablePrefix')}common_module,
+                        {$this->config->getVar('_dbTablePrefix')}common_session";
             $this->model->dba->query($sql); 
         }
         
