@@ -62,7 +62,7 @@ class ActionCommonInit extends JapaAction
         }
         else
         {
-            throw new JapaForwardAdminViewException( $this->config->getVar('setup_module') );        
+            throw new JapaForwardAdminControllerException( $this->config->getVar('setup_module'), 'index' );        
         }
 
         // set db config vars
