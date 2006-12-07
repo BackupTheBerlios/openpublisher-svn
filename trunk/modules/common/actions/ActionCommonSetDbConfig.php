@@ -70,11 +70,11 @@ class ActionCommonSetDbConfig extends JapaAction
         
         $str .= '$db["dbhost"]'       ." = '{$data['dbConnect']['dbhost']}';\n";
         $str .= '$db["dbport"]'       ." = '{$data['dbConnect']['dbport']}';\n";
-        $str .= '$db["dbcharset"]'    ." = '{$data['dbConnect']['dbcharset']}';\n";
+        $str .= '$db["dbcharset"]'    ." = '{$data['dbConnect']['charset']}';\n";
         $str .= '$db["dbuser"]'       ." = '{$data['dbConnect']['dbuser']}';\n";
         $str .= '$db["dbpasswd"]'     ." = '{$data['dbConnect']['dbpasswd']}';\n";
         $str .= '$db["dbname"]'       ." = '{$data['dbConnect']['dbname']}';\n";
-        $str .= '$db["dbTablePrefix"]'." = '{$data['dbConnect']['dbTablePrefix']}';\n\n";
+        $str .= '$db["dbTablePrefix"]'." = '{$data['dbConnect']['dbtablesprefix']}';\n\n";
         
         $str .= "?>";
         

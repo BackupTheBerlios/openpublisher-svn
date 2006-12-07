@@ -63,8 +63,10 @@ class ActionLinkSetup extends JapaAction
         $this->model->dba->query($sql); 
 
         $_default_config = array(
-                 `use_keywords` => 1);
-       
+                 'use_keywords' => 1);
+ 
+        $_config = serialize($_default_config);
+         
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`, `config`)
                   VALUES
@@ -75,7 +77,7 @@ class ActionLinkSetup extends JapaAction
                     1,
                     60,
                     'DATE: 23.8.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
-                    '{serialize($_default_config)}')";
+                    '{$_config}')";
         $this->model->dba->query($sql);            
     } 
     

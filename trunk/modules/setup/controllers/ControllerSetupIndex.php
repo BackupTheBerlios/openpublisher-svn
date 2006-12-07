@@ -63,9 +63,17 @@ class ControllerSetupIndex extends JapaControllerAbstractPage
                 // Send a broadcast setup message to all modules  
                 $this->model->broadcast( 'setup', $data );            
 
+                $_db = array( 'dbtablesprefix'   => $this->dbtablesprefix,
+                              'dbhost'           => $this->dbhost,
+                              'dbport'           => $this->dbport,
+                              'dbuser'           => $this->dbuser,
+                              'dbpasswd'         => $this->dbpasswd,
+                              'dbname'           => $this->dbname,
+                              'charset'          => $this->config->getVar('_dbcharset'));
+
                 // write config file with database connection settings      
                 $this->model->action( $this->config->getVar('base_module'),'setDbConfig', 
-                                      array( 'dbConnect' => & $this->controllerVar['setup_config']['db']) );     
+                                      array( 'dbConnect' => & $_db) );     
 
                 // insert sample content
                 if(!empty($this->insert_sample_content))

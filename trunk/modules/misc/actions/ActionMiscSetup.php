@@ -87,18 +87,20 @@ class ActionMiscSetup extends JapaAction
         $this->model->dba->query($sql);
 
         $_default_config = array(
-                 `thumb_width`           => 120,
-                 `img_size_max`          => 500000,
-                 `file_size_max`         => 5000000,
-                 `default_lang`          => 'en',
-                 `use_keywords`          => 1,
-                 `use_images`            => 1,
-                 `use_files`             => 1);
+                 'thumb_width'           => 120,
+                 'img_size_max'          => 500000,
+                 'file_size_max'         => 5000000,
+                 'default_lang'          => 'en',
+                 'use_keywords'          => 1,
+                 'use_images'            => 1,
+                 'use_files'             => 1);
  
+        $_config = serialize($_default_config);
+          
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
                 VALUES
-                 ('misc','Misc Content Management',5,'0.1',1,20,'DATE: 30.7.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>','{serialize($_default_config)}')";
+                 ('misc','Misc Content Management',5,'0.1',1,20,'DATE: 30.7.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>','{$_config}')";
         $this->model->dba->query($sql);            
 
         return TRUE;

@@ -175,27 +175,29 @@ class ActionArticleSetup extends JapaAction
         $this->model->dba->query($sql);        
 
         $_default_config = array(
-                 `thumb_width`           => 120,
-                 `img_size_max`          => 500000,
-                 `file_size_max`         => 5000000,
-                 `default_lang`          => 'en',
-                 `default_order`         => '',
-                 `default_ordertype`     => '',
-                 `default_comment_status`=> 2,
-                 `use_comment`           => 1,
-                 `use_article_controller`=> 1,
-                 `use_users`             => 0,
-                 `use_keywords`          => 1,
-                 `use_articledate`       => 0,
-                 `use_changedate`        => 0,
-                 `use_overtitle`         => 0,
-                 `use_subtitle`          => 0,
-                 `use_header`            => 0,
-                 `use_description`       => 0,
-                 `use_ps`                => 0,
-                 `use_logo`              => 0,
-                 `use_images`            => 1,
-                 `use_files`             => 1);
+                 'thumb_width'           => 120,
+                 'img_size_max'          => 500000,
+                 'file_size_max'         => 5000000,
+                 'default_lang'          => 'en',
+                 'default_order'         => '',
+                 'default_ordertype'     => '',
+                 'default_comment_status'=> 2,
+                 'use_comment'           => 1,
+                 'use_article_controller'=> 1,
+                 'use_users'             => 0,
+                 'use_keywords'          => 1,
+                 'use_articledate'       => 0,
+                 'use_changedate'        => 0,
+                 'use_overtitle'         => 0,
+                 'use_subtitle'          => 0,
+                 'use_header'            => 0,
+                 'use_description'       => 0,
+                 'use_ps'                => 0,
+                 'use_logo'              => 0,
+                 'use_images'            => 1,
+                 'use_files'             => 1);
+                 
+        $_config = serialize($_default_config);
   
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
@@ -207,7 +209,7 @@ class ActionArticleSetup extends JapaAction
                     1,
                     60,
                     'DATE: 28.12.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
-                    '{serialize($_default_config)}')";
+                    '{$_config}')";
         $this->model->dba->query($sql);            
     } 
     

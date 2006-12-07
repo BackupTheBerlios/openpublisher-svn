@@ -40,7 +40,6 @@ class ActionNavigationSetup extends JapaAction
                    `title`         text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `short_text`    text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `body`          mediumtext CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
-                   `format`        tinyint(1) NOT NULL default 0,
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,
                    PRIMARY KEY       (`id_node`),
@@ -121,18 +120,20 @@ class ActionNavigationSetup extends JapaAction
         $this->model->dba->query($sql);
 
         $_default_config = array(
-                 `thumb_width`           => 120,
-                 `img_size_max`          => 500000,
-                 `file_size_max`         => 5000000,
-                 `default_lang`          => 'en',
-                 `default_order`         => '',
-                 `default_ordertype`     => '',
-                 `use_keywords`          => 0,
-                 `use_short_text`        => 0,
-                 `use_body`              => 0,
-                 `use_logo`              => 0,
-                 `use_images`            => 0,
-                 `use_files`             => 0);
+                 'thumb_width'           => 120,
+                 'img_size_max'          => 500000,
+                 'file_size_max'         => 5000000,
+                 'default_lang'          => 'en',
+                 'default_order'         => '',
+                 'default_ordertype'     => '',
+                 'use_keywords'          => 0,
+                 'use_short_text'        => 0,
+                 'use_body'              => 0,
+                 'use_logo'              => 0,
+                 'use_images'            => 0,
+                 'use_files'             => 0);
+ 
+        $_config = serialize($_default_config);
 
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
@@ -144,7 +145,7 @@ class ActionNavigationSetup extends JapaAction
                     1,
                     20,
                     'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
-                    '{serialize($_default_config)}')";
+                    '{$_config}')";
         $this->model->dba->query($sql);          
     } 
     
