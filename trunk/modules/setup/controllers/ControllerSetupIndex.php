@@ -84,7 +84,7 @@ class ControllerSetupIndex extends JapaControllerAbstractPage
                 
                 // reload the admin interface after successfull setup
                 ob_clean();
-                $this->router->redirect( $this->controllerVar['adminWebController'] );
+                $this->router->redirect( $this->viewVar['adminWebController'] );
             }
             catch(JapaDbException $e)
             {
