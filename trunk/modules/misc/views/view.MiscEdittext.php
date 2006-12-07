@@ -1,4 +1,3 @@
-<?php if($view['format']==2): ?>
 <!-- tinyMCE -->
 <script language="javascript" type="text/javascript" src="<?php echo $view['url_base']; ?>/modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
@@ -47,18 +46,7 @@ function insertImgDesc(desc)
 } 
 </script>
 <!-- /tinyMCE -->
-<?php elseif($view['format']==1): ?>
-<!-- PEAR text_wikki -->
-<script language="javascript" type="text/javascript" src="./modules/common/media/textarea.js"></script>
-<script language="javascript" type="text/javascript" src="./modules/misc/media/text_wikki_func.js"></script>
-<!-- /PEAR text_wikki -->
-<?php endif; ?>
-<script language="JavaScript" type="text/JavaScript">
-<?php if($view['use_keywords']==1): ?>
-function keywordmap(){
-mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
-newwindow= window.open('<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/nodecoration/1/mod/keyword/cntr/map/openerModule/misc/opener_url_vars/<?php echo $view['opener_url_vars']; ?>','',mm); }
-<?php endif; ?>
+
 function deletetext(f, mes)
 {
       check = confirm(mes);
