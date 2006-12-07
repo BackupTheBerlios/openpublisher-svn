@@ -183,6 +183,25 @@ class JapaConfig
     }
     
     /**
+     * get module specific config var
+     *
+     * @param string $module Module name
+     * @param string $name Var name
+     * @return mixed NULL if the var dosent exists else the var value
+     */
+    public function getModuleArray( $module )
+    {
+        if(!isset($this->config[$module]))
+        {
+            return null;
+        }
+        else
+        {
+            return $this->config[$module];
+        }  
+    }
+    
+    /**
      * dump config vars
      *
      * @param string $module Module name
