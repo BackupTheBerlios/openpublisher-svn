@@ -6,6 +6,10 @@
 <head>
 
 <!-- --- AJAX --- -->
+<script type='text/javascript'>
+  // url base
+  var base = '<?php echo $view['urlAjax']; ?>';
+</script>
 <script type='text/javascript' src='<?php echo $view['urlAjax']; ?>/ajaxserver.php?client=all&amp;stub=all&amp;cntr=articleAjax'></script>
 <script type='text/javascript' src='<?php echo $view['scriptFolder']; ?>ArticleAjax.js'></script>
 
