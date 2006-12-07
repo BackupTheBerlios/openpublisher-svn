@@ -148,7 +148,7 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
         }
 
         // assign some template variables
-        $this->setTemplateVars();
+        $this->setViewVars();
     } 
     
     /**
@@ -412,10 +412,12 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
      * assign some template variables
      *
      */
-    private function setTemplateVars()
+    private function setViewVars()
     {
         // Assign template variable to build the html role select box
         $this->assignHtmlSelectBoxRole();
+        
+        $this->viewVar['show_options_link'] = false;
         
         // assign template var if the logged user edit his own account
         if($this->controllerVar['loggedUserId'] == $this->id_user)
