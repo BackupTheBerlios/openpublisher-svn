@@ -27,12 +27,6 @@
 
 class ControllerError extends JapaControllerAbstractPage
 {
-     /**
-     * Template of this view
-     * @var string $template
-     */
-    public $template = 'error';
-
     /**
      * Does nothing. The end user error page
      * is static.
@@ -41,7 +35,7 @@ class ControllerError extends JapaControllerAbstractPage
     function perform( $data = FALSE )
     {
         // template var with charset used for the html pages
-        $this->viewVar['charset'] = $this->config['charset'];
+        $this->viewVar['charset'] = $this->config->getModuleVar('common', 'charset');
 
         // assign error message template var
         $this->viewVar['message'] = & $this->viewData;

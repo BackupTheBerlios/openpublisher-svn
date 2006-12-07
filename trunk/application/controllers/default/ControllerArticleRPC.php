@@ -120,11 +120,11 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         
         // Should we show and allow article comments and show the comment form
         //
-        // $this->config['article']['use_comment'] == 1 
+        // $this->config->getModuleVar('article', 'use_comment') == 1 
         // --------------------------------------------
         // global enables to add comments for all articles
         //
-        // $this->viewVar['article']['allow_comment'] == 1
+        // $this->config->getModuleVar('article', 'allow_comment') == 1
         // ----------------------------------------------
         // Allow comments for just this article
         //
@@ -318,7 +318,7 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
         if (false == $this->model->action( 'common','captchaValidate',
                                            array('turing_key'  => (string)$captcha_turing_key,
                                                  'public_key'  => (string)$captcha_public_key,
-                                                 'configPath'  => (string)$this->config['config_path'])))
+                                                 'configPath'  => (string)$this->config->getVar('config_path'))))
         {
             $this->viewVar['commentMessage'] = 'Wrong turing key';
             $this->resetFormData();
