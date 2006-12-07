@@ -251,7 +251,7 @@ class ActionArticleUpgrade extends JapaAction
                         `name`='article'";
 
         $this->model->dba->query($sql);          
-    }   
+    }  
 }
 
 ?>

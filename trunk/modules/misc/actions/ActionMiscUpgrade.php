@@ -10,15 +10,15 @@
 // ---------------------------------------------
 
 /**
- * ActionLinkUpgrade
+ * ActionMiscUpgrade
  *
  * USAGE:
- * $model->action( 'link', 'upgrade', 
+ * $model->action( 'misc', 'upgrade', 
  *                 array('new_version' => string ); // new module version
  *
  */
 
-class ActionLinkUpgrade extends JapaAction
+class ActionMiscUpgrade extends JapaAction
 {
     /**
      * Do upgrade
@@ -32,12 +32,11 @@ class ActionLinkUpgrade extends JapaAction
         if(0 == version_compare('0.1', $data['old_version'], '=') )
         {
             // upgrade from module version 0.1 to 0.2
-            $this->upgrade_0_1_to_0_2();     
-            $data['old_version'] = '0.2';
+            //$this->upgrade_0_1_to_0_2();          
         }
-        
+       
         // update to new module version number
-        $this->setNewModuleVersionNumber( $data['new_version'] ); 
+        //$this->setNewModuleVersionNumber( $data['new_version'] ); 
     }
 
     /**
@@ -46,15 +45,9 @@ class ActionLinkUpgrade extends JapaAction
      */
     private function upgrade_0_1_to_0_2()
     {
-        $sql = "UPDATE {$this->config->dbTablePrefix}common_module
-                    SET
-                        `perm`=60
-                    WHERE
-                        `name`='link'";
-
-        $this->model->dba->query($sql);         
+        $data['old_version'] = '0.2';
     }
-        
+
     /**
      * Validate data passed to this action
      */
@@ -83,10 +76,11 @@ class ActionLinkUpgrade extends JapaAction
                     SET
                         `version`='{$version}'
                     WHERE
-                        `name`='link'";
+                        `name`='misc'";
 
         $this->model->dba->query($sql);          
     }  
+    
 }
 
 ?>

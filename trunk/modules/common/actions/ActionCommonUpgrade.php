@@ -173,9 +173,8 @@ class ActionCommonUpgrade extends JapaAction
                   CHANGE `css_folder` `styles_folder` varchar(255) NOT NULL default ''";
         $this->model->dba->query($sql);  
         
-        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_config
-                ADD `config` text collate latin1_general_ci NOT NULL";
-               
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}common_module
+                ADD `config` text NOT NULL";    
         $this->model->dba->query($sql);
         
         $data['old_version'] = '0.6';
@@ -212,7 +211,7 @@ class ActionCommonUpgrade extends JapaAction
                         `name`='common'";
 
         $this->model->dba->query($sql);          
-    }   
+    }  
 }
 
 ?>

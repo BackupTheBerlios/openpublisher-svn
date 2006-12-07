@@ -20,7 +20,7 @@ class ActionMiscInit extends JapaAction
     /**
      * Misc Module Version
      */
-    const MOD_VERSION = '0.1';    
+    const MOD_VERSION = '0.2';    
     
     /**
      * Run init process of this module
@@ -44,7 +44,9 @@ class ActionMiscInit extends JapaAction
         if(0 != version_compare($info['version'], self::MOD_VERSION))
         {
             // Upgrade this module
-            $this->model->action('misc','upgrade',array('new_version' => self::MOD_VERSION));           
+            $this->model->action('misc','upgrade',
+                                 array('new_version' => self::MOD_VERSION,
+                                       'old_version' => $info['version']));           
         }
         unset($info);
     }  

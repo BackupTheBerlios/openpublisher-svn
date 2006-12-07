@@ -66,7 +66,21 @@ class ActionNavigationUpgrade extends JapaAction
         
         $sql = "ALTER TABLE {$this->config->dbTablePrefix}navigation_node
                   ADD KEY `id_controller` (`id_controller`)";
+        $this->model->dba->query($sql);
+        
+        $_config = serialize($this->loadConfig());
+        
+        $sql = "UPDATE {$this->config->dbTablePrefix}common_module
+                    SET
+                        `config`='{$_config}'
+                    WHERE
+                        `name`='navigation'";
+
         $this->model->dba->query($sql);  
+
+        $sql = "DROP TABLE IF EXISTS  
+                   {$this->config->dbTablePrefix}navigation_config";
+        $this->model->dba->query($sql); 
     }
     
     /**
@@ -84,7 +98,21 @@ class ActionNavigationUpgrade extends JapaAction
 
         $this->model->dba->query($sql);          
     }   
-    
+    /**
+     * Load config values
+     *
+     */    
+    private function loadConfig()
+    {
+        $config = array();
+        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}navigation_config";
+        $rs = $this->model->dba->query($sql);
+        $fields = $rs->fetchAssoc();
+        foreach($fields as $key => $val)
+        {
+            $config[$key] = $val;    
+        } 
+    }
     public function validate( $data = false )
     {
         return true;

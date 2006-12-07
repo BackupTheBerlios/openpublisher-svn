@@ -124,6 +124,10 @@ class ActionUserUpgrade extends JapaAction
                         `name`='{$m}'";
 
             $this->model->dba->query($sql); 
+            
+            $sql = "DROP TABLE IF EXISTS  
+                   {$this->config->dbTablePrefix}{$m}_config";
+            $this->model->dba->query($sql); 
         }
     }
     
