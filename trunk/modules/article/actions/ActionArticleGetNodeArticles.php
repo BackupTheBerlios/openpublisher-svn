@@ -60,7 +60,6 @@ class ActionArticleGetNodeArticles extends JapaAction
                                          'body'         => 'String',
                                          'ps'           => 'String',
                                          'timezone'     => 'Int',
-                                         'format'       => 'Int',
                                          'logo'         => 'String',
                                          'media_folder' => 'String');
 

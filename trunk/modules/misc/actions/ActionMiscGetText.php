@@ -34,7 +34,6 @@ class ActionMiscGetText extends JapaAction
     protected $tblFields_text = 
                       array('id_text'      => 'Int',
                             'status'       => 'Int',
-                            'format'       => 'Int',
                             'media_folder' => 'String',
                             'title'        => 'String',
                             'description'  => 'String',

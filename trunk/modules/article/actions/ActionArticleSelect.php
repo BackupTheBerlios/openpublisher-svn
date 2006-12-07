@@ -48,7 +48,6 @@ class ActionArticleSelect extends JapaAction
                                          'description'  => 'String',
                                          'body'         => 'String',
                                          'ps'           => 'String',
-                                         'format'       => 'Int',
                                          'logo'         => 'String',
                                          'media_folder' => 'String',
                                          'num_comments' => 'Int',

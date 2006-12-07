@@ -110,7 +110,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
                                    'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','body','short_text',
                                                       'id_parent','media_folder','id_controller',
-                                                      'status','logo','id_node','format')));
+                                                      'status','logo','id_node')));
 
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->viewVar['node'], array('title') );        

@@ -47,9 +47,13 @@ function insertImgDesc(desc)
 <!-- /tinyMCE -->
 
 <script language="JavaScript" type="text/JavaScript">
+
+<?php if($view['use_keywords']==1): ?>
 function keywordmap(){
-mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
-newwindow= window.open('<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/nodecoration/1/mod/keyword/cntr/map/openerModule/navigation/opener_url_vars/<?php echo $view['opener_url_vars']; ?>','',mm); }
+    mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+    newwindow= window.open('<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/nodecoration/1/mod/keyword/cntr/map/openerModule/navigation/opener_url_vars/<?php echo $view['opener_url_vars']; ?>','',mm); 
+}
+<?php endif; ?>
 
 function deletenode(f, mes)
 {

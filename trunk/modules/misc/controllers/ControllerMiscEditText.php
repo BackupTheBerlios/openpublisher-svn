@@ -101,7 +101,7 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
                                    'error'   => & $this->viewVar['error'],
                                    'fields'  => array('title','body','description',
                                                       'media_folder','status',
-                                                      'id_text','format')));
+                                                      'id_text')));
         
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->viewVar['text'], array('title') );        

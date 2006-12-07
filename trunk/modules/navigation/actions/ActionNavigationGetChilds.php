@@ -39,7 +39,6 @@ class ActionNavigationGetChilds extends JapaAction
                             'id_view'      => 'Int',
                             'status'       => 'Int',
                             'rank'         => 'Int',
-                            'format'       => 'Int',
                             'logo'         => 'String',
                             'media_folder' => 'String',
                             'lang'         => 'String',

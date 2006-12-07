@@ -37,7 +37,6 @@ class ActionNavigationGetNode extends JapaAction
                             'id_controller' => 'Int',
                             'status'       => 'Int',
                             'rank'         => 'Int',
-                            'format'       => 'Int',
                             'logo'         => 'String',
                             'media_folder' => 'String',
                             'lang'         => 'String',
