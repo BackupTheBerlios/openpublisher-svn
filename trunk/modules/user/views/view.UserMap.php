@@ -18,7 +18,7 @@ parent.opener.location.href =link; }
     <table width="100%"  border="0" cellspacing="6" cellpadding="6">
       <tr>
           <td width="60%" align="left" valign="top" class="itemnormal">
-            <a href="javascript:goto_user('<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/<?php echo $view['mod']; ?>/id_user/)<?php echo $usr['id_user']; ?><?php echo $view['opener_url_vars']; ?>#user');"><?php echo $usr['login']; ?></a> <?php echo $usr['name']; ?> <?php echo $usr['lastname']; ?>
+            <a href="javascript:goto_user('<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/<?php echo $view['mod']; ?>/id_user/<?php echo $usr['id_user']; ?><?php echo $view['opener_url_vars']; ?>#user');"><?php echo $usr['login']; ?></a> <?php echo $usr['name']; ?> <?php echo $usr['lastname']; ?>
        </td>
        <td width="38%" align="left" valign="top" class="itemsmall">
               <?php echo $usr['role_t']; ?>
