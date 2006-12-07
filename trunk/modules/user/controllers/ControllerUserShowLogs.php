@@ -14,19 +14,13 @@
  *
  */
  
-class ViewUserShowLogs extends JapaControllerAbstractPage
+class ControllerUserShowLogs extends JapaControllerAbstractPage
 {
-   /**
-     * Default template for this view
-     * @var string $template
+    /**
+     * this child controller return the view in order to echo
+     * @var bool $returnView
      */
-    public  $template = 'showLogs';
-    
-   /**
-     * Default template folder for this view
-     * @var string $template_folder
-     */    
-    public  $templateFolder = 'modules/user/templates/';
+    public $returnView = true;
     
    /**
     * Perform on the main view
@@ -34,13 +28,16 @@ class ViewUserShowLogs extends JapaControllerAbstractPage
     */
     public function perform()
     {   
-        $this->tplVar['logs'] = array();
+        $this->viewVar['logs'] = array();
+        
+        $id_item      = $this->httpRequest->getParameter('id_item', 'get', 'digits');
+        $openerModule = $this->httpRequest->getParameter('openerModule', 'get', 'raw');
         
         // get whole node tree
         $this->model->action('user','logGetEntries', 
-                             array('id_item' => (int)$_GET['id_item'],
-                                   'result'  => & $this->tplVar['logs'],
-                                   'module'  => (string)$_GET['openerModule']));   
+                             array('id_item' => (int)$id_item,
+                                   'result'  => & $this->viewVar['logs'],
+                                   'module'  => (string)$openerModule));   
     }   
 }
 

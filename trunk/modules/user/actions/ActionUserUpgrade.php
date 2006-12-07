@@ -29,16 +29,18 @@ class ActionUserUpgrade extends JapaAction
     {
         // do upgrade
         //
-        if(1 == version_compare('0.1', $this->config['module']['user']['version'], '=') )
+        if(1 == version_compare('0.1', $data['old_version'], '=') )
         {
             // upgrade from module version 0.1 to 0.2
-            $this->upgrade_0_1_to_0_2();          
+            $this->upgrade_0_1_to_0_2(); 
+            $data['old_version'] = '0.2';         
         }
         
-        if(1 == version_compare('0.2', $this->config['module']['user']['version'], '=') )
+        if(1 == version_compare('0.2', $data['old_version'], '=') )
         {
             // upgrade from module version 0.1 to 0.2
-            $this->upgrade_0_2_to_0_3();          
+            $this->upgrade_0_2_to_0_3();   
+            $data['old_version'] = '0.3';        
         }
         
         // update to new module version number
@@ -95,8 +97,6 @@ class ActionUserUpgrade extends JapaAction
                 ADD `use_log` tinyint(1) NOT NULL default 0";
                
         $this->model->dba->query($sql);      
-        
-        $this->config['module']['user']['version'] = '0.2';
     }
     
     /**
@@ -125,8 +125,6 @@ class ActionUserUpgrade extends JapaAction
 
             $this->model->dba->query($sql); 
         }
-                
-        $this->config['module']['user']['version'] = '0.3';
     }
     
     /**
@@ -157,7 +155,7 @@ class ActionUserUpgrade extends JapaAction
                     SET
                         `version`='{$version}'
                     WHERE
-                        `id_module`={$this->config['module']['user']['id_module']}";
+                        `name`='user'";
 
         $this->model->dba->query($sql);          
     } 

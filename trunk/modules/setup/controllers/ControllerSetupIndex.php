@@ -29,7 +29,7 @@ class ControllerSetupIndex extends JapaControllerAbstractPage
         
         // Init setup_error array
         $this->viewVar['folder_error']  = array();   
-        $this->viewVar['adminWebController']  = $this->config['default_module_application_controller'];     
+        $this->viewVar['adminWebController']  = $this->config->getVar('default_module_application_controller');     
         // get url base
         $this->viewVar['url_base'] = $this->httpRequest->getBaseUrl();
         $this->controllerVar['url_base'] = $this->viewVar['url_base']; 
@@ -64,7 +64,7 @@ class ControllerSetupIndex extends JapaControllerAbstractPage
                 $this->model->broadcast( 'setup', $data );            
 
                 // write config file with database connection settings      
-                $this->model->action( $this->config['base_module'],'setDbConfig', 
+                $this->model->action( $this->config->getVar('base_module'),'setDbConfig', 
                                       array( 'dbConnect' => & $this->controllerVar['setup_config']['db']) );     
 
                 // insert sample content
@@ -76,13 +76,12 @@ class ControllerSetupIndex extends JapaControllerAbstractPage
                 
                 // reload the admin interface after successfull setup
                 ob_clean();
-                @header('Location: ' . $this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
-                exit;
+                $this->router->redirect( $this->controllerVar['adminWebController'] );
             }
             catch(JapaDbException $e)
             {
                 // set path to the log file
-                $e->flag['logs_path'] = $this->config['logs_path'];
+                $e->flag['logs_path'] = $this->config->getVar('logs_path');
                 JapaExceptionLog::log( $e );
                 $this->viewVar['error'][] = $e->getMessage();
 
@@ -92,7 +91,7 @@ class ControllerSetupIndex extends JapaControllerAbstractPage
             catch(JapaModelException $e)
             {
                 // set path to the log file
-                $e->flag['logs_path'] = $this->config['logs_path'];
+                $e->flag['logs_path'] = $this->config->getVar('logs_path');
                 JapaExceptionLog::log( $e );
                 $this->viewVar['error'][] = $e->getMessage();             
                 $this->rollback();
@@ -100,7 +99,7 @@ class ControllerSetupIndex extends JapaControllerAbstractPage
             catch(Exception $e)
             {
                 // set path to the log file
-                $e->flag['logs_path'] = $this->config['logs_path'];
+                $e->flag['logs_path'] = $this->config->getVar('logs_path');
                 // log this exception
                 JapaExceptionLog::log( $e );
                 // set template error variables                

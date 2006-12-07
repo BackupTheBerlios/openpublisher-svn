@@ -425,8 +425,7 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
     private function redirect()
     {
         // reload the user module
-        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/misc');
-        exit;      
+        $this->router->redirect($this->viewVar['adminWebController'].'/mod/misc');
     }  
     /**
      * unlock edited user

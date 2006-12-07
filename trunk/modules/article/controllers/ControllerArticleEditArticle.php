@@ -416,7 +416,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
      */
     private function redirect( $id_node = 0 )
     {
-        $this->redirect($this->viewVar['adminWebController'].'/mod/article/id_node/'.$id_node);  
+        $this->router->redirect($this->viewVar['adminWebController'].'/mod/article/id_node/'.$id_node);  
     }  
     
     /**

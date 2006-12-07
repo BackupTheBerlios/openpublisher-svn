@@ -73,7 +73,7 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
                 $this->model->broadcast( 'unlockAll');         
         }        
         
-        $this->viewVar['option'] = $this->config['common'];
+        $this->viewVar['option'] = $this->config->getModuleArray('common');
         $this->setViewVars();
     }  
     
@@ -154,7 +154,6 @@ class ControllerOptionsMain extends JapaControllerAbstractPage
         if(!empty($this->site_url))
         {
             $this->fields['site_url'] = (string)$this->site_url;
-            $this->config['site_url'] = (string)$this->site_url;
         }  
         
         if(!empty($this->views_folder))

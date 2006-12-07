@@ -57,8 +57,7 @@ class ControllerKeywordAddKeyword extends JapaControllerAbstractPage
         {
             if(FALSE !== ($new_id_key = $this->addKeyword( $id_key )))
             {
-                @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'] . '/mod/keyword/cntr/editKeyword/id_key/'.$new_id_key);
-                exit;
+                $this->router->redirect( $this->controllerVar['adminWebController'] . '/mod/keyword/cntr/editKeyword/id_key/'.$new_id_key ); 
             }
         }
         

@@ -17,7 +17,7 @@ dl .loguser {
 -->
 </style>
 <dl>
-  <?php foreach($tpl['logs'] as $log):  ?>
+  <?php foreach($view['logs'] as $log):  ?>
     <dd class="logdate"><?php echo $log['logdate']; ?></dd> 
     <dd class="loguser"><a href="mailto:<?php echo $log['email']; ?>"><?php echo $log['name']; ?> <?php echo $log['lastname']; ?></a></dd>
   <?php endforeach; ?>  

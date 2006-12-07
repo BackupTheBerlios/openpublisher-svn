@@ -99,7 +99,7 @@ function subok(s){
   <tr>
       <td align="left" valign="top" bgcolor="#EBEBEB"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
           <tr>
-              <td><span class="font9 style8">&copy; 2006 Armand Turpel <a href="mailto:cms@open-publisher.net">cms@open-publisher.net</a>. Project site -&gt; <a href="http://www.open-publisher.net" target="_blank">Open Publisher</a>. Based on the framework <a href="http://www.smart3.org" target="_blank">Japa3</a></span></td>
+              <td><span class="font9 style8">&copy; Armand Turpel <a href="mailto:cms@open-publisher.net">cms@open-publisher.net</a>. Project site -&gt; <a href="http://www.open-publisher.net" target="_blank">Open Publisher</a>. License: GNU Lesser General Public License (LGPL)</span></td>
           </tr>
     </table></td>
   </tr>

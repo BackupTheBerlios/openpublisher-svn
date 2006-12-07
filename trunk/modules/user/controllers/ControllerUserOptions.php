@@ -62,7 +62,7 @@ class ControllerUserOptions extends JapaControllerAbstractPage
         }
 
         // init users template variable 
-        $this->viewVar['option'] =  $this->config['user']; 
+        $this->viewVar['option'] =  $this->config->getModuleArray('user'); 
     }  
    /**
     * Validate form data

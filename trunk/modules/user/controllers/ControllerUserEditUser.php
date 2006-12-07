@@ -320,7 +320,7 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
             $filetitle = $this->httpRequest->getParameter( 'filetitle', 'post', 'raw' );
             $this->model->action( 'user','updateItem',
                                   array('item'    => 'file',
-                                        'ids'     => &$_POST['fid'],
+                                        'ids'     => &$fid,
                                         'fields'  => array('description' => $this->stripSlashesArray($filedesc),
                                                            'title'       => $this->stripSlashesArray($filetitle))));
         }  
@@ -404,9 +404,8 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
      */
     private function redirect()
     {
-        // reload the user module
-        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/user');
-        exit;      
+        // reload the user module 
+        $this->router->redirect($this->viewVar['adminWebController'].'/mod/user');    
     }
 
     /**
@@ -429,31 +428,6 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
             $this->viewVar['showButton'] = true;  
         }  
         
-        //  -----  feature for a next release ------------
-        // set format template var, means how to format textarea content -> editor/wikki ?
-        // 1 = text_wikki
-        // 2 = tiny_mce
-        if($this->config['user']['force_format'] != 0)
-        {
-            $this->viewVar['format'] = $this->config['user']['force_format'];
-            $this->viewVar['show_format_switch'] = false;
-        }
-        elseif(isset($_POST['format']))
-        {
-            if(!preg_match("/(1|2){1}/",$_POST['format']))
-            {
-                $this->viewVar['format'] = $this->config['user']['default_format'];
-            }
-            $this->viewVar['format'] = $_POST['format'];
-            $this->viewVar['show_format_switch'] = true;
-        }
-        else
-        {
-            $this->viewVar['format'] = $this->config['user']['default_format'];
-            $this->viewVar['show_format_switch'] = true;
-        }
-        
-        
         $this->viewVar['id_user'] = $this->id_user; 
     }
 
@@ -467,7 +441,7 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
     {
         foreach($fields as $f)
         {
-            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['common']['charset'] );
+            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config->getModuleVar('common','charset') );
         }
     }
 

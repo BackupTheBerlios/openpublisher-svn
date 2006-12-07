@@ -67,12 +67,12 @@ class ControllerNavigationIndex extends JapaControllerAbstractPage
      */
     public function prependFilterChain()
     {
+        $info = $this->model->getModuleInfo('navigation');
         // only administrators can access navigation module
-        if($this->controllerVar['loggedUserRole'] > $this->model->config['module']['navigation']['perm'])
+        if($this->controllerVar['loggedUserRole'] > $info['perm'])
         {
             // reload admin
-            @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
-            exit;  
+            $this->router->redirect($this->viewVar['adminWebController']); 
         }
     }     
 }

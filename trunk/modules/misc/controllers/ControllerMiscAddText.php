@@ -40,8 +40,7 @@ class ControllerMiscAddText extends JapaControllerAbstractPage
         {
             if(FALSE !== ($id_text = $this->addText()))
             {
-                @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/misc/cntr/editText/id_text/'.$id_text);
-                exit;
+                $this->router->redirect($this->viewVar['adminWebController'].'/mod/misc/cntr/editText/id_text/'.$id_text); 
             }
         }
         

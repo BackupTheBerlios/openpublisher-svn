@@ -52,7 +52,7 @@ class ActionNavigationUpdateNode extends ActionNavigation
         }
         
         // update modifydate
-        $fields .= $comma."`modifydate`='{$this->config['gmtDate']}'";  
+        $fields .= $comma."`modifydate`='{$this->config->getVar('gmtDate')}'";  
         
         $sql = "
             UPDATE {$this->config->dbTablePrefix}navigation_node

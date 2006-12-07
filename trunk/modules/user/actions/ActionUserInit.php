@@ -29,8 +29,6 @@ class ActionUserInit extends JapaAction
     public function perform( $data = FALSE )
     {
         // load module config variables
-        //$this->loadConfig();
-
         $this->checkModuleVersion();
         
         if($this->model->session->exists('loggedUserId'))
@@ -59,7 +57,9 @@ class ActionUserInit extends JapaAction
         if(0 != version_compare($info['version'], self::MOD_VERSION))
         {
             // Upgrade this module
-            $this->model->action('user','upgrade',array('new_version' => self::MOD_VERSION));           
+            $this->model->action('user','upgrade',
+                                 array('new_version' => self::MOD_VERSION,
+                                       'old_version' => $info['version']));           
         }
           
         unset($info);

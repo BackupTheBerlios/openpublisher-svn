@@ -256,8 +256,9 @@ class ControllerKeywordEditKeyword extends JapaControllerAbstractPage
      */
     private function updateKeyword()
     { 
-        $this->key_status = trim($this->httpRequest->getParameter('status', 'post', 'int'));
+        $this->key_status      = $this->httpRequest->getParameter('status', 'post', 'int');
         $this->key_description = trim($this->httpRequest->getParameter('description', 'post', 'raw'));
+        $this->old_status      = $this->httpRequest->getParameter('old_status', 'post', 'digits');
         
         $fields = array('id_parent'   => (int)$this->key_key_id_parent,
                         'status'      => (int)$this->key_status,
@@ -284,7 +285,7 @@ class ControllerKeywordEditKeyword extends JapaControllerAbstractPage
                                   array('id_key' => (int)$this->current_id_key,
                                         'fields'  => array('status' => (int)$fields['status'])));    
         }
-        elseif($_POST['old_status'] != $_POST['status'])
+        elseif($this->old_status != $this->key_status)
         {
             // updates status of subnodes
             $this->model->action('keyword','updateSubKeywords',
@@ -331,8 +332,7 @@ class ControllerKeywordEditKeyword extends JapaControllerAbstractPage
     private function redirect( $id_key = 0 )
     {
         // reload the user module
-        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/keyword/id_key/'.$id_key);
-        exit;      
+        $this->router->redirect($this->viewVar['adminWebController'].'/mod/keyword/id_key/'.$id_key);    
     }  
     /**
      * unlock edited user

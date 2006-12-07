@@ -28,7 +28,7 @@
  *
  */
 
-include_once(JAPA_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
+include_once(JAPA_MODULES_DIR . 'navigation/includes/ActionNavigation.php');
 
 class ActionNavigationAddNode extends ActionNavigation
 {   
@@ -64,7 +64,7 @@ class ActionNavigationAddNode extends ActionNavigation
 
         // id_parent is required
         $fields .= $comma."`modifydate`";
-        $quest  .= $comma."'{$this->config['gmtDate']}'";     
+        $quest  .= $comma."'{$this->config->getVar('gmtDate')}'";     
         
         $sql = "INSERT INTO {$this->config->dbTablePrefix}navigation_node
                    ($fields)

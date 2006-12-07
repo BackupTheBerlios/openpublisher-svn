@@ -125,13 +125,13 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         {
             throw new JapaModelException("'id_node' isnt numeric");
         }  
-        elseif(($data['item'] == 'file') && ($this->config['navigation']['file_size_max'] <= filesize($data['postData']['tmp_name'])))
+        elseif(($data['item'] == 'file') && ($this->config->getModuleVar('navigation','file_size_max') <= filesize($data['postData']['tmp_name'])))
         {
-            $data['error'][] = "Max file size allowed: {$this->config['navigation']['file_size_max']} bytes";
+            $data['error'][] = "Max file size allowed: {$this->config->getModuleVar('navigation','file_size_max')} bytes";
         }
-        elseif(($data['item'] == 'picture') && ($this->config['navigation']['img_size_max'] <= filesize($data['postData']['tmp_name'])))
+        elseif(($data['item'] == 'picture') && ($this->config->getModuleVar('navigation','img_size_max') <= filesize($data['postData']['tmp_name'])))
         {
-            $data['error'][] = "Max picture size allowed: {$this->config['navigation']['img_size_max']} bytes";
+            $data['error'][] = "Max picture size allowed: {$this->config->getModuleVar('navigation','img_size_max')} bytes";
         }
 
         if(count($data['error']) > 0)
@@ -208,7 +208,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
                              array('error'         => & $data['error'],
                                    'imgSource'     => (string)$image_source,
                                    'imgDestName'   => (string)$file_info['file_name'],
-                                   'imgDestWidth'  => (int)$this->config['navigation']['thumb_width'],
+                                   'imgDestWidth'  => (int)$this->config->getModuleVar('navigation','thumb_width'),
                                    'imgDestFolder' => (string)$image_dest_folder,
                                    'info'          => &$pic_info));  
         
@@ -281,7 +281,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
     {
         if(preg_match("/(\.[^.]+)$/i",$data['postData']['name'],$file_ext))
         {
-            $disallowed_ext = explode(",",$this->config['rejected_files']);
+            $disallowed_ext = explode(",",$this->config->getVar('rejected_files'));
             foreach($disallowed_ext as $ext)
             {
                 $t = "/".trim($ext)."/i";

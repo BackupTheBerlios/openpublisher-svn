@@ -51,7 +51,7 @@ class ActionUserLogAddEvent extends JapaAction
         $sql = "INSERT INTO {$this->config->dbTablePrefix}user_log
                    (`id_session`,`logdate`)
                   VALUES
-                   ({$this->config['user']['log_id_session']},'{$this->config['gmtDate']}')";
+                   ({$this->config->getModuleVar('user','log_id_session')},'{$this->config->getVar('gmtDate')}')";
 
         $this->model->dba->query($sql);
         

@@ -46,10 +46,10 @@ class ControllerUserLogin extends JapaControllerAbstractPage
         // create capcha picture and public key
         $this->model->action( 'common',
                               'captchaMake',
-                              array( 'captcha_pic' => &$this->viewVar['captcha_pic'],
-                                     'public_key'  => &$this->viewVar['public_key'],
+                              array( 'captcha_pic'    => &$this->viewVar['captcha_pic'],
+                                     'public_key'     => &$this->viewVar['public_key'],
                                      'picture_folder' => $this->controllerVar['url_base'].'/data/common/captcha',
-                                     'configPath'  => &$this->config['config_path']));
+                                     'configPath'     => $this->config->getVar('config_path')));
 
         $login = $this->httpRequest->getParameter('login', 'post', 'alpha');
                      
@@ -67,7 +67,7 @@ class ControllerUserLogin extends JapaControllerAbstractPage
                                                'captchaValidate',
                                                array('turing_key'  => (string)$this->strip($captcha_turing_key),
                                                      'public_key'  => (string)$this->strip($captcha_public_key),
-                                                     'configPath'  => (string)$this->config['config_path'])))
+                                                     'configPath'  => (string)$this->config->getVar('config_path'))))
             { 
                 $this->_reset_form_data( $login_name );
                 return TRUE;
@@ -88,8 +88,7 @@ class ControllerUserLogin extends JapaControllerAbstractPage
                 $this->addLogEvent( 1 );
                 
                 ob_clean();
-                @header('Location: ' . $this->controllerVar['url_base'] . '/Module');
-                exit;            
+                $this->router->redirect( $this->config->getVar('default_module_application_controller') );         
             }
         }
             
@@ -120,7 +119,7 @@ class ControllerUserLogin extends JapaControllerAbstractPage
     private function addLogEvent( $type )
     {
         // dont log
-        if($this->config['user']['use_log'] == 0)
+        if($this->config->getModuleVar('user', 'use_log') == 0)
         {
             return;
         }
@@ -142,7 +141,7 @@ class ControllerUserLogin extends JapaControllerAbstractPage
     private function addLogMessage( $message = '' )
     {
         // dont log
-        if($this->config['user']['use_log'] == 0)
+        if($this->config->getModuleVar('user', 'use_log') == 0)
         {
             return;
         }

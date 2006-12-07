@@ -39,7 +39,7 @@ class ActionNavigationFileUploadBase extends JapaAction
         }
 
         // set media file rights
-        if(!chmod($destination, $this->model->config['media_file_rights']))
+        if(!chmod($destination, $this->model->config->getVar('media_file_rights')))
         {
             trigger_error("Couldnt change file rights: ".$destination, E_USER_ERROR);
         }
@@ -95,12 +95,12 @@ class ActionNavigationFileUploadBase extends JapaAction
         }
         while(@is_dir(JAPA_BASE_DIR . 'data/navigation/' . $folder));
         
-        if(!mkdir(JAPA_BASE_DIR . 'data/navigation/' . $folder, $this->config['media_folder_rights']))
+        if(!mkdir(JAPA_BASE_DIR . 'data/navigation/' . $folder, $this->model->config->getVar('media_folder_rights')))
         {
             throw new JapaModelException('Cant create media folder: ' . $folder);
         }
 
-        if(!mkdir(JAPA_BASE_DIR . 'data/navigation/' . $folder . '/thumb', $this->config['media_folder_rights']))
+        if(!mkdir(JAPA_BASE_DIR . 'data/navigation/' . $folder . '/thumb', $this->model->config->getVar('media_folder_rights')))
         {
             throw new JapaModelException('Cant create media folder: ' . $folder . '/thumb');
         }

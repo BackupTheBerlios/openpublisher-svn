@@ -61,7 +61,7 @@ class ControllerNavigationOptions extends JapaControllerAbstractPage
         }
 
         // assign view vars of options
-        $this->viewVar['option'] = $this->config['navigation']; 
+        $this->viewVar['option'] = $this->config->getModuleArray('navigation'); 
     }   
    /**
     * Validate form data

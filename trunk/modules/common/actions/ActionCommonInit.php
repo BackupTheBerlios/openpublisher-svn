@@ -136,20 +136,20 @@ class ActionCommonInit extends JapaAction
             {
                 $this->config->setVar('css_folder', $cssFolder);
             }  
+            
+            // enable zlib output compression
+            if($this->config->getVar('output_compression') == TRUE)
+            {
+                ini_set('zlib.output_compression',       '1');     
+                ini_set('zlib.output_compression_level', $this->config->getVar('output_compression_level'));
+                ini_set('zlib.output_handler',           '');
+            }  
+            
+            // set charset
+            $_charset = $this->config->getModuleVar('common', 'charset');
+            ini_set( "default_charset",$_charset);
+            @header( "Content-type: text/html; charset={$_charset}" );   
         }
-
-        // enable zlib output compression
-        if($this->config->getVar('output_compression') == TRUE)
-        {
-            ini_set('zlib.output_compression',       '1');     
-            ini_set('zlib.output_compression_level', $this->config->getVar('output_compression_level'));
-            ini_set('zlib.output_handler',           '');
-        }
-        
-        // set charset
-        $_charset = $this->config->getModuleVar('common', 'charset');
-        ini_set( "default_charset",$_charset);
-        @header( "Content-type: text/html; charset={$_charset}" );         
     } 
 
     /**

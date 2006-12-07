@@ -190,7 +190,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
                                     'fields' => array('id_controller','name')) );                              
 
         // we need the url vars to open this page by the keyword map window
-        if($this->config['navigation']['use_keywords'] == 1)
+        if($this->config->getModuleVar('navigation','use_keywords') == 1)
         {
             $addkey = $this->httpRequest->getParameter('addkey', 'request', 'alnum');
             if(!empty($addkey))
@@ -471,11 +471,11 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
             $this->current_id_node     = (int)$id_node;          
         }     
 
-        $this->viewVar['use_logo']      = $this->config['navigation']['use_logo'];
-        $this->viewVar['use_images']    = $this->config['navigation']['use_images'];
-        $this->viewVar['use_files']     = $this->config['navigation']['use_files'];
-        $this->viewVar['use_shorttext'] = $this->config['navigation']['use_short_text'];        
-        $this->viewVar['use_body']      = $this->config['navigation']['use_body'];
+        $this->viewVar['use_logo']      = $this->config->getModuleVar('navigation','use_logo');
+        $this->viewVar['use_images']    = $this->config->getModuleVar('navigation','use_images');
+        $this->viewVar['use_files']     = $this->config->getModuleVar('navigation','use_files');
+        $this->viewVar['use_shorttext'] = $this->config->getModuleVar('navigation','use_short_text');        
+        $this->viewVar['use_body']      = $this->config->getModuleVar('navigation','use_body');
         $this->viewVar['lock_text']     = 'unlock';
         
         // template variables
@@ -493,11 +493,11 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $this->viewVar['error']  = array();    
 
         // we need the url vars to open this page by the keyword map window
-        if($this->config['navigation']['use_keywords'] == 1)
+        if($this->config->getModuleVar('navigation','use_keywords') == 1)
         {
             $this->viewVar['opener_url_vars'] = base64_encode('/cntr/editNode/id_node/'.$this->current_id_node.'/disableMainMenu/1');
         }
-        $this->viewVar['use_keywords'] = $this->config['navigation']['use_keywords'];
+        $this->viewVar['use_keywords'] = $this->config->getModuleVar('navigation','use_keywords');
     }
      /**
      * has the logged the rights to modify?
@@ -506,7 +506,8 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
      */      
     private function allowModify()
     {      
-        if($this->controllerVar['loggedUserRole'] <= $this->model->config['module']['navigation']['perm'] )
+        $info = $this->model->getModuleInfo('navigation');
+        if($this->controllerVar['loggedUserRole'] <= $info['perm'] )
         {
             return TRUE;
         }
@@ -525,7 +526,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
     {
         foreach($fields as $f)
         {
-            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['common']['charset'] );
+            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config->getModuleVar('common','charset') );
         }
     }  
     /**
@@ -537,13 +538,13 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
     {
         $fields = array();
         
-        if($this->config['navigation']['use_short_text'] == 1)
+        if($this->config->getModuleVar('navigation','use_short_text') == 1)
         {
             $short_text = $this->httpRequest->getParameter('short_text', 'post', 'raw');
             $fields['short_text'] = JapaCommonUtil::stripSlashes((string)$short_text);
         }
         
-        if($this->config['navigation']['use_body'] == 1)
+        if($this->config->getModuleVar('navigation','use_body') == 1)
         {
             $body = $this->httpRequest->getParameter('body', 'post', 'raw');
             $fields['body'] = JapaCommonUtil::stripSlashes((string)$body);
@@ -684,9 +685,8 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
      */
     private function redirect( $id_node = 0 )
     {
-        // reload the user module
-        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/navigation/id_node/'.$id_node);
-        exit;      
+        // reload the user module 
+        $this->router->redirect($this->viewVar['adminWebController'].'/mod/navigation/id_node/'.$id_node);   
     }  
     /**
      * unlock edited user

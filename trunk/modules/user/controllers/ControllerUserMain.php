@@ -36,7 +36,7 @@ class ControllerUserMain extends JapaControllerAbstractPage
                              array('result'         => & $this->viewVar['users'],
                                    'translate_role' => TRUE,
                                    'or_id_user'     => (int)$this->controllerVar['loggedUserId'],
-                                   'role'           => array('>',$this->config['loggedUserRole']),
+                                   'role'           => array('>',$this->config->getVar('loggedUserRole')),
                                    'fields' => array('id_user','status',
                                                      'login','role',
                                                      'name','lastname')));  

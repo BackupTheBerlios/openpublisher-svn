@@ -75,8 +75,7 @@ class ControllerLinkAddLink extends JapaControllerAbstractPage
                 }
                 if(FALSE !== ($new_id_link = $this->addLink( $id_node )))
                 {
-                    @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/link/id_node/'.$id_node);
-                    exit;
+                    $this->router->redirect($this->viewVar['adminWebController'].'/mod/link/id_node/'.$id_node); 
                 }
             }
             $this->resetFormData();

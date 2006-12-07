@@ -29,11 +29,11 @@ class ActionNavigationUpgrade extends JapaAction
     {
         // do upgrade
         //
-        if(1 == version_compare('0.1', $this->config['module']['navigation']['version'], '=') )
+        if(0 == version_compare('0.1', $data['old_version'], '=') )
         {
             // upgrade from module version 0.1 to 0.2
             $this->upgrade_0_1_to_0_2();     
-            $this->config['module']['navigation']['version'] = '0.2';
+            $data['old_version'] = '0.2';
         }
         
         // update to new module version number
@@ -80,7 +80,7 @@ class ActionNavigationUpgrade extends JapaAction
                     SET
                         `version`='{$version}'
                     WHERE
-                        `id_module`={$this->config['module']['navigation']['id_module']}";
+                        `name`='navigation'";
 
         $this->model->dba->query($sql);          
     }   

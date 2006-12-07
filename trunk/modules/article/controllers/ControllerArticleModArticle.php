@@ -461,9 +461,8 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
      * Redirect to the editArticle view
      */
     private function redirect()
-    {
-        @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/article/cntr/editArticle/disableMainMenu/1/id_article/'.$this->current_id_article.'/id_node/'.$this->current_id_node);
-        exit;      
+    { 
+        $this->router->redirect( $this->controllerVar['adminWebController'].'/mod/article/cntr/editArticle/disableMainMenu/1/id_article/'.$this->current_id_article.'/id_node/'.$this->current_id_node );    
     }  
     
     /**

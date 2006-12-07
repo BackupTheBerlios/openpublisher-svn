@@ -33,8 +33,7 @@ class ControllerNavigationControllers extends JapaControllerAbstractPage
         if($this->controllerVar['loggedUserRole'] > 20)
         {
             // reload admin
-            @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController']);
-            exit;  
+            $this->router->redirect($this->viewVar['adminWebController']); 
         }
     } 
     

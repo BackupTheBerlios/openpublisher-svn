@@ -55,9 +55,7 @@ class ControllerNavigationAddNode extends JapaControllerAbstractPage
         {
             if(FALSE !== ($new_id_node = $this->addNode( $id_node )))
             {
-                @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/navigation/cntr/editNode/id_node/'.$new_id_node);
-                exit;
-                //throw new JapaForwardAdminViewException('naviagtion','index');
+                $this->router->redirect($this->viewVar['adminWebController'].'/mod/navigation/cntr/editNode/id_node/'.$new_id_node); 
             }
         }
         

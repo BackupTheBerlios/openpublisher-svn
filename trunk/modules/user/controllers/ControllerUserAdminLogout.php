@@ -33,9 +33,8 @@ class ControllerUserAdminLogout extends JapaControllerAbstractPage
                                              'id_user' => (int)$this->controllerVar['loggedUserId']));
         
         $this->model->session->destroy();
-        ob_clean();
-        @header('Location: ' . $this->controllerVar['url_base']);
-        exit;        
+        ob_clean(); 
+        $this->router->redirect();      
     }  
 }
 

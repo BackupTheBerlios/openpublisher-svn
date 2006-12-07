@@ -109,13 +109,13 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         {
             throw new JapaModelException("'id_user' isnt numeric");
         }  
-        elseif(($data['item'] == 'file') && ($this->config['user']['file_size_max'] <= filesize($data['postData']['tmp_name'])))
+        elseif(($data['item'] == 'file') && ($this->config->getModuleVar('user','file_size_max') <= filesize($data['postData']['tmp_name'])))
         {
-            $data['error'][] = "Max file size allowed: {$this->config['user']['file_size_max']} bytes";
+            $data['error'][] = "Max file size allowed: {$this->config->getModuleVar('user','file_size_max')} bytes";
         }
-        elseif(($data['item'] == 'picture') && ($this->config['user']['img_size_max'] <= filesize($data['postData']['tmp_name'])))
+        elseif(($data['item'] == 'picture') && ($this->config->getModuleVar('user','img_size_max') <= filesize($data['postData']['tmp_name'])))
         {
-            $data['error'][] = "Max picture size allowed: {$this->config['user']['img_size_max']} bytes";
+            $data['error'][] = "Max picture size allowed: {$this->config->getModuleVar('user','img_size_max')} bytes";
         }
         
         if(count($data['error']) > 0)
@@ -192,7 +192,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
                              array('error'         => & $data['error'],
                                    'imgSource'     => (string)$image_source,
                                    'imgDestName'   => (string)$file_info['file_name'],
-                                   'imgDestWidth'  => (int)$this->config['user']['thumb_width'],
+                                   'imgDestWidth'  => (int)$this->config->getModuleVar('user','thumb_width'),
                                    'imgDestFolder' => (string)$image_dest_folder,
                                    'info'          => &$pic_info));  
         
@@ -251,7 +251,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
      */    
     private function getMime( &$file )
     {
-        include_once(JAPA_BASE_DIR.'modules/common/includes/JapaCommonFileMime.php');
+        include_once(JAPA_MODULES_DIR.'common/includes/JapaCommonFileMime.php');
         return JapaCommonFileMime::getMime($file);
     }  
     /**
@@ -264,7 +264,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
     {
         if(preg_match("/(\.[^.]+)$/i",$data['postData']['name'],$file_ext))
         {
-            $disallowed_ext = explode(",",$this->config['rejected_files']);
+            $disallowed_ext = explode(",",$this->config->getVar('rejected_files'));
             foreach($disallowed_ext as $ext)
             {
                 $t = "/".trim($ext)."/i";

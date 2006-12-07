@@ -79,8 +79,7 @@ class ControllerArticleAddArticle extends JapaControllerAbstractPage
                     }
                     
                     // goto modarticle view
-                    @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/article/cntr/modArticle/id_node/'.$id_node.'/id_article/'.$new_id_article);
-                    exit;
+                    $this->router->redirect($this->viewVar['adminWebController'].'/mod/article/cntr/modArticle/id_node/'.$id_node.'/id_article/'.$new_id_article); 
                 }
             }
             $this->resetFormData();

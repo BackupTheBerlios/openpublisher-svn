@@ -78,8 +78,7 @@ class ControllerUserAddUser extends JapaControllerAbstractPage
             if(false !== ($id_user = $this->model->action( 'user','add',$_data )))
             {
                 // reload the user module on success
-                @header('Location: '.$this->controllerVar['url_base'].'/'.$this->viewVar['adminWebController'].'/mod/user/view/editUser/id_user='.$id_user);
-                exit; 
+                $this->router->redirect($this->viewVar['adminWebController'].'/mod/user/view/editUser/id_user/'.$id_user); 
             }
             else
             {
