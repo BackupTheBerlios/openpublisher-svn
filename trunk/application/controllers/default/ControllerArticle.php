@@ -119,7 +119,7 @@ class ControllerArticle extends JapaControllerAbstractPage
         //
         //
         if(( $this->config->getModuleVar('article', 'use_comment')   == 1 ) &&
-             $this->config->getModuleVar('article', 'allow_comment') == 1 )
+             $this->viewVar['article']['allow_comment'] == 1 )
         {
             $this->viewVar['commentMessage'] = '';
             $this->viewVar['cauthor'] = '';
