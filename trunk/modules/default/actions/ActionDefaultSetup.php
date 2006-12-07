@@ -23,13 +23,22 @@ class ActionDefaultSetup extends JapaAction
     public function perform( $data = FALSE )
     { 
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
-                 (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
+                 (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
                 VALUES
-                 ('default','Main Page',1,'0.1',1,40,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
+                 ('default','Main Page',1,'0.1',1,40,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>','')";
         $this->model->dba->query($sql);            
 
         return TRUE;
     } 
+    
+    /**
+     * validate $data
+     *
+     */ 
+    public function validate( $data = FALSE )
+    {
+        return true;
+    }
 }
 
 ?>

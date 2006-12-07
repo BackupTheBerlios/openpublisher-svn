@@ -36,20 +36,19 @@ class ActionOptionsSetup extends JapaAction
 
         $_default_config = array(
                  `op_version`          => '1.1a',
-                 `charset`             => '{$this->config->getVar('_charset')}',
+                 `charset`             => '{$this->config->getVar("_charset")}',
                  `site_url`            => '',
                  `views_folder`        => 'default/',
                  `styles_folder`       => 'default/',
                  `controllers_folder`  => 'default/',
                  `disable_cache`       => 1,
                  `textarea_rows`       => 25,
-                 `server_gmt`          => {$server_timezone},
-                 `default_gmt`         => {$server_timezone},
+                 `server_gmt`          => $server_timezone,
+                 `default_gmt`         => $server_timezone,
                  `recycler_time`       => 7200,
                  `max_lock_time`       => 7200,
                  `session_maxlifetime` => 7200,
                  `rejected_files`      => '.php,.php3,.php4,.php5,.phps,.pl,.py,.phps');
-        $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
@@ -65,6 +64,15 @@ class ActionOptionsSetup extends JapaAction
                     
         $this->model->dba->query($sql);            
     } 
+    
+    /**
+     * validate $data
+     *
+     */ 
+    public function validate( $data = FALSE )
+    {
+        return true;
+    }
 }
 
 ?>

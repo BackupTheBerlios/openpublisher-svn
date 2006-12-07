@@ -43,21 +43,21 @@ class ControllerSetupIndex extends JapaControllerAbstractPage
         if( !empty($do_setup) && (TRUE == $this->validate()) && (count($this->viewVar['folder_error']) == 0) )
         {
             try
-            {                 
+            {                
                 // if insert sample content, use always utf-8 charset
-                if(!empty($insert_sample_content))
+                if(!empty($this->insert_sample_content))
                 {
-                    $charset = 'utf-8';     
+                    $this->charset = 'utf-8';     
                 }
                 
-                $data = array('superuser_passwd' => JapaCommonUtil::stripSlashes($syspassword),
-                              'dbtablesprefix'   => JapaCommonUtil::stripSlashes($dbtablesprefix),
-                              'dbhost'           => JapaCommonUtil::stripSlashes($dbhost),
-                              'dbport'           => JapaCommonUtil::stripSlashes($dbport),
-                              'dbuser'           => JapaCommonUtil::stripSlashes($dbuser),
-                              'dbpasswd'         => JapaCommonUtil::stripSlashes($dbpasswd),
-                              'dbname'           => JapaCommonUtil::stripSlashes($dbname),
-                              'charset'          => JapaCommonUtil::stripSlashes($charset),
+                $data = array('superuser_passwd' => JapaCommonUtil::stripSlashes($this->syspassword),
+                              'dbtablesprefix'   => JapaCommonUtil::stripSlashes($this->dbtablesprefix),
+                              'dbhost'           => JapaCommonUtil::stripSlashes($this->dbhost),
+                              'dbport'           => JapaCommonUtil::stripSlashes($this->dbport),
+                              'dbuser'           => JapaCommonUtil::stripSlashes($this->dbuser),
+                              'dbpasswd'         => JapaCommonUtil::stripSlashes($this->dbpasswd),
+                              'dbname'           => JapaCommonUtil::stripSlashes($this->dbname),
+                              'charset'          => JapaCommonUtil::stripSlashes($this->charset),
                               'config'           => & $this->controllerVar['setup_config']); 
                               
                 // Send a broadcast setup message to all modules  
@@ -71,7 +71,7 @@ class ControllerSetupIndex extends JapaControllerAbstractPage
                 if(!empty($this->insert_sample_content))
                 {
                     $this->model->action('setup','insertSampleContent', 
-                                         array('prefix' => $dbtablesprefix));     
+                                         array('prefix' => $this->dbtablesprefix));     
                 }
                 
                 // reload the admin interface after successfull setup

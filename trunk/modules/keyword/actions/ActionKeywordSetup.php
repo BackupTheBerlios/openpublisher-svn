@@ -33,8 +33,8 @@ class ActionKeywordSetup extends JapaAction
                    `id_parent`   int(11) unsigned NOT NULL default 0,
                    `status`      tinyint(1) NOT NULL default 1,
                    `modifydate`  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                   `title`       text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description` text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`       text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description` text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY      (`id_key`),
                    KEY              (`id_parent`, `status`),
                    KEY `key_status` (`status`),
@@ -53,8 +53,7 @@ class ActionKeywordSetup extends JapaAction
         $this->model->dba->query($sql);
 
         $_default_config = array(
-                 `default_lang`          => 'en') 
-        );
+                 `default_lang`          => 'en');
  
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`, `config`)
@@ -79,6 +78,14 @@ class ActionKeywordSetup extends JapaAction
         $sql = "DROP TABLE IF EXISTS {$this->config->getVar('_dbTablePrefix')}keyword,
                                      {$this->config->getVar('_dbTablePrefix')}keyword_lock";
         $this->model->dba->query($sql);  
+    }
+    /**
+     * validate $data
+     *
+     */ 
+    public function validate( $data = FALSE )
+    {
+        return true;
     }
 }
 

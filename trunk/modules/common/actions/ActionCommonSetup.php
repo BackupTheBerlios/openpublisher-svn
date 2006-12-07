@@ -68,31 +68,6 @@ class ActionCommonSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-        $server_timezone = (int)(date("Z") / 3600);
-        
-        if( ($server_timezone < -12 ) || ($server_timezone > -12 ) )
-        {
-            $server_timezone = 1;
-        }
-            
-        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}common_config (
-                 `op_version`          varchar(20) NOT NULL default '',
-                 `charset`             varchar(50) NOT NULL default '',
-                 `site_url`            varchar(255) NOT NULL default '',
-                 `views_folder`        varchar(255) NOT NULL default '',
-                 `styles_folder`       varchar(255) NOT NULL default '',
-                 `controllers_folder`  varchar(255) NOT NULL default '',
-                 `disable_cache`       tinyint(1) NOT NULL default 1,
-                 `textarea_rows`       tinyint(2) NOT NULL default 25,
-                 `server_gmt`          tinyint(2) NOT NULL default {$server_timezone},
-                 `default_gmt`         tinyint(2) NOT NULL default {$server_timezone},
-                 `recycler_time`       int(11) NOT NULL default 7200,
-                 `max_lock_time`       int(11) NOT NULL default 7200,
-                 `session_maxlifetime` int(11) NOT NULL default 7200,
-                 `rejected_files`      text NOT NULL default '') 
-                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);
-
         $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}common_module (
                  `id_module`   int(11) NOT NULL auto_increment,
                  `rank`        smallint(3) NOT NULL default 0,
@@ -101,8 +76,8 @@ class ActionCommonSetup extends JapaAction
                  `version`     varchar(255) NOT NULL,
                  `visibility`  tinyint(1) NOT NULL default 0,
                  `perm`        tinyint(3) NOT NULL default 0,
-                 `release`     text latin1_general_ci NOT NULL,
-                 `config`      text latin1_general_ci NOT NULL,
+                 `release`     text NOT NULL,
+                 `config`      text NOT NULL,
                  PRIMARY KEY   (`id_module`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
@@ -184,7 +159,12 @@ class ActionCommonSetup extends JapaAction
         {
             @unlink($this->config->getVar('config_path') . 'dbConnect.php');
         }
-    }     
+    }  
+    
+    public function validate( $data = FALSE )
+    {      
+        return TRUE;
+    }   
 }
 
 ?>

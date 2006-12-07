@@ -37,9 +37,9 @@ class ActionNavigationSetup extends JapaAction
                    `rank`          smallint(4) unsigned NOT NULL default 0,
                    `modifydate`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                    `lang`          char(2) NOT NULL default 'en',
-                   `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `short_text`    text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `body`          mediumtext CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`         text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `short_text`    text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `body`          mediumtext CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `format`        tinyint(1) NOT NULL default 0,
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,
@@ -54,10 +54,10 @@ class ActionNavigationSetup extends JapaAction
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_index (
                    `id_node`    int(11) unsigned NOT NULL default 0,
-                   `text1`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `text2`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `text3`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `text4`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',                   
+                   `text1`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `text2`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `text3`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `text4`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',                   
                    UNIQUE KEY `id_node` (`id_node`),
                    FULLTEXT   (`text1`,`text2`,`text3`,`text4`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
@@ -83,8 +83,8 @@ class ActionNavigationSetup extends JapaAction
                    `width`        smallint(4) unsigned NOT NULL default 0,
                    `height`       smallint(4) unsigned NOT NULL default 0,
                    `tumbnail`     tinyint(1) NOT NULL default 0,
-                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`        text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`  text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY    (`id_pic`),
                    KEY            (`id_node`,`rank`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
@@ -97,8 +97,8 @@ class ActionNavigationSetup extends JapaAction
                    `size`         int(11) NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`        text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`  text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY    (`id_file`),
                    KEY            (`id_node`,`rank`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
@@ -132,8 +132,7 @@ class ActionNavigationSetup extends JapaAction
                  `use_body`              => 0,
                  `use_logo`              => 0,
                  `use_images`            => 0,
-                 `use_files`             => 0) 
-        );
+                 `use_files`             => 0);
 
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
@@ -161,8 +160,17 @@ class ActionNavigationSetup extends JapaAction
                                      {$this->config->getVar('_dbTablePrefix')}navigation_media_pic,
                                      {$this->config->getVar('_dbTablePrefix')}navigation_media_file,
                                      {$this->config->getVar('_dbTablePrefix')}navigation_index,
+                                     {$this->config->getVar('_dbTablePrefix')}navigation_keyword,
                                      {$this->config->getVar('_dbTablePrefix')}navigation_public_controller";
         $this->model->dba->query($sql); 
+    }
+    /**
+     * validate $data
+     *
+     */ 
+    public function validate( $data = FALSE )
+    {
+        return true;
     }
 }
 

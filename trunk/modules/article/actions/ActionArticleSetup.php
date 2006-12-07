@@ -39,13 +39,13 @@ class ActionArticleSetup extends JapaAction
                    `modifydate`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                    `allow_comment` tinyint(1) NOT NULL default 0,
                    `close_comment` tinyint(1) NOT NULL default 0,
-                   `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `overtitle`     text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `subtitle`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `header`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`   text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `body`          mediumtext CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `ps`            text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`         text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `overtitle`     text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `subtitle`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `header`        text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`   text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `body`          mediumtext CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `ps`            text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,                   
                    PRIMARY KEY        (`id_article`),
@@ -68,10 +68,10 @@ class ActionArticleSetup extends JapaAction
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_index (
                    `id_article` int(11) unsigned NOT NULL default 0,
-                   `text1`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `text2`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `text3`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `text4`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',                   
+                   `text1`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `text2`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `text3`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `text4`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',                   
                    UNIQUE KEY `id_article` (`id_article`),
                    FULLTEXT   (`text1`,`text2`,`text3`,`text4`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
@@ -97,8 +97,8 @@ class ActionArticleSetup extends JapaAction
                    `width`        smallint(4) unsigned NOT NULL default 0,
                    `height`       smallint(4) unsigned NOT NULL default 0,
                    `tumbnail`     tinyint(1) NOT NULL default 0,
-                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`        text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`  text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY    (`id_pic`),
                    KEY            (`id_article`,`rank`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
@@ -111,8 +111,8 @@ class ActionArticleSetup extends JapaAction
                    `size`         int(11) NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`        text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`  text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY    (`id_file`),
                    KEY            (`id_article`,`rank`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
@@ -124,12 +124,12 @@ class ActionArticleSetup extends JapaAction
                    `id_user`       int(11) unsigned NOT NULL default 0,
                    `status`        tinyint(1) NOT NULL default 0,
                    `pubdate`       datetime NOT NULL default '0000-00-00 00:00:00',
-                   `author`        varchar(100) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `email`         varchar(100) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `author`        varchar(100) CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `email`         varchar(100) CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `url`           varchar(255) NOT NULL default '',
                    `ip`            varchar(100) NOT NULL default '',
                    `agent`         varchar(255) NOT NULL default '',
-                   `body`          text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',                  
+                   `body`          text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',                  
                    PRIMARY KEY        (`id_comment`),
                    KEY                (`status`,`id_article`),
                    KEY `id_user`      (`id_user`),
@@ -172,13 +172,7 @@ class ActionArticleSetup extends JapaAction
                    `name`          varchar(255) NOT NULL default '',
                    PRIMARY KEY    (`id_controller`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
-        $this->model->dba->query($sql);      
-
-        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}article_config
-                   (`thumb_width`,`default_order`,`default_ordertype`)
-                  VALUES
-                   (120,'rank','asc')";
-        $this->model->dba->query($sql);   
+        $this->model->dba->query($sql);        
 
         $_default_config = array(
                  `thumb_width`           => 120,
@@ -201,8 +195,7 @@ class ActionArticleSetup extends JapaAction
                  `use_ps`                => 0,
                  `use_logo`              => 0,
                  `use_images`            => 1,
-                 `use_files`             => 1) 
-        );
+                 `use_files`             => 1);
   
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
@@ -234,8 +227,20 @@ class ActionArticleSetup extends JapaAction
                                      {$this->config->getVar('_dbTablePrefix')}article_comment,
                                      {$this->config->getVar('_dbTablePrefix')}article_controller,
                                      {$this->config->getVar('_dbTablePrefix')}article_controller_rel,
+                                     {$this->config->getVar('_dbTablePrefix')}article_keyword,
+                                     {$this->config->getVar('_dbTablePrefix')}article_public_controller,
+                                     {$this->config->getVar('_dbTablePrefix')}article_user,
                                      {$this->config->getVar('_dbTablePrefix')}article_node_controller_rel";
         $this->model->dba->query($sql);   
+    }
+    
+    /**
+     * validate $data
+     *
+     */ 
+    public function validate( $data = FALSE )
+    {
+        return true;
     }
 }
 

@@ -32,8 +32,8 @@ class ActionLinkSetup extends JapaAction
                    `id_link`     int(11) unsigned NOT NULL auto_increment,
                    `id_node`     int(11) unsigned NOT NULL default 0,
                    `status`      tinyint(1) NOT NULL default 0,
-                   `title`       text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description` text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`       text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description` text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `url`         text NOT NULL default '',
                    `hits`        int(11) unsigned NOT NULL default 0,
                    PRIMARY KEY   (`id_link`),
@@ -63,8 +63,7 @@ class ActionLinkSetup extends JapaAction
         $this->model->dba->query($sql); 
 
         $_default_config = array(
-                 `use_keywords` => 1) 
-        );
+                 `use_keywords` => 1);
        
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`, `config`)
@@ -92,6 +91,15 @@ class ActionLinkSetup extends JapaAction
                                      {$this->config->getVar('_dbTablePrefix')}link_keyword,
                                      {$this->config->getVar('_dbTablePrefix')}link_node_rel";
         $this->model->dba->query($sql);  
+    }
+    
+    /**
+     * validate $data
+     *
+     */ 
+    public function validate( $data = FALSE )
+    {
+        return true;
     }
 }
 

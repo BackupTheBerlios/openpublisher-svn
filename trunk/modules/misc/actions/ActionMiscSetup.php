@@ -31,9 +31,9 @@ class ActionMiscSetup extends JapaAction
         $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}misc_text (
                    `id_text`       int(11) unsigned NOT NULL auto_increment,
                    `status`        tinyint(1) NOT NULL default 0,
-                   `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`   text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `body`          mediumtext CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`         text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`   text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `body`          mediumtext CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `format`        tinyint(1) NOT NULL default 0,
                    `media_folder`  char(32) NOT NULL,
                    PRIMARY KEY     (`id_text`),
@@ -59,8 +59,8 @@ class ActionMiscSetup extends JapaAction
                    `width`        smallint(4) unsigned NOT NULL default 0,
                    `height`       smallint(4) unsigned NOT NULL default 0,
                    `tumbnail`     tinyint(1) NOT NULL default 0,
-                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`        text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`  text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY    (`id_pic`),
                    KEY            (`id_text`,`rank`))";
         $this->model->dba->query($sql);
@@ -72,8 +72,8 @@ class ActionMiscSetup extends JapaAction
                    `size`         int(11) NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`        text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`  text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY    (`id_file`),
                    KEY            (`id_text`,`rank`))";
         $this->model->dba->query($sql);        
@@ -93,8 +93,7 @@ class ActionMiscSetup extends JapaAction
                  `default_lang`          => 'en',
                  `use_keywords`          => 1,
                  `use_images`            => 1,
-                 `use_files`             => 1) 
-        );
+                 `use_files`             => 1);
  
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
@@ -118,7 +117,15 @@ class ActionMiscSetup extends JapaAction
                                      {$this->config->getVar('_dbTablePrefix')}misc_text_pic,
                                      {$this->config->getVar('_dbTablePrefix')}misc_text_file";
         $this->model->dba->query($sql);  
-    }    
+    }   
+    /**
+     * validate $data
+     *
+     */ 
+    public function validate( $data = FALSE )
+    {
+        return true;
+    }
 }
 
 ?>

@@ -30,15 +30,15 @@ class ActionUserSetup extends JapaAction
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_user (
                    `id_user`      int(11) unsigned NOT NULL auto_increment,
-                   `login`        varchar(30) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `login`        varchar(30) CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `passwd`       char(32) NOT NULL,
                    `role`         tinyint(3) unsigned NOT NULL default 10,
                    `status`       tinyint(1) NOT NULL default 1,
                    `user_gmt`     tinyint(2) NOT NULL default 1,
-                   `name`         varchar(255) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `lastname`     varchar(255) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `name`         varchar(255) CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `lastname`     varchar(255) CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `email`        varchar(255) NOT NULL default '',
-                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `description`  text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `format`       tinyint(1) NOT NULL default 0,
                    `logo`         varchar(255) NOT NULL default '',
                    `media_folder` char(32) NOT NULL,
@@ -77,8 +77,8 @@ class ActionUserSetup extends JapaAction
                    `width`        smallint(4) unsigned NOT NULL default 0,
                    `height`       smallint(4) unsigned NOT NULL default 0,
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`        text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`  text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY     (`id_pic`),
                    KEY (`id_user`,`rank`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
@@ -91,8 +91,8 @@ class ActionUserSetup extends JapaAction
                    `size`         int(11) NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `title`        text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
+                   `description`  text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY     (`id_file`),
                    KEY `id_user`   (`id_user`,`rank`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
@@ -122,7 +122,7 @@ class ActionUserSetup extends JapaAction
                    `type`         tinyint(1) unsigned NOT NULL default 1,
                    `view`         varchar(30) NOT NULL default '',
                    `id_item`      int(11) unsigned NOT NULL default 0,
-                   `message`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `message`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY   (`id_log`),
                    KEY `type`    (`type`),
                    KEY `module`  (`module`,`id_item`)) 
@@ -140,12 +140,6 @@ class ActionUserSetup extends JapaAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);  
 
-        $sql = "INSERT INTO {$data['dbtablesprefix']}user_config
-                   (`thumb_width`, `img_size_max`,`file_size_max`)
-                  VALUES
-                   (120,2000000,10000000)";
-        $this->model->dba->query($sql); 
-
         $passwd = md5($data['superuser_passwd']);
 
         $sql = "INSERT INTO {$data['dbtablesprefix']}user_user
@@ -160,8 +154,7 @@ class ActionUserSetup extends JapaAction
                  `file_size_max`         => 5000000,
                  `default_lang`          => 'en',
                  `use_keywords`          => 1,
-                 `use_log`               => 1) 
-        );
+                 `use_log`               => 1);
 
         // insert module info data
         $sql = "INSERT INTO {$data['dbtablesprefix']}common_module
@@ -186,9 +179,20 @@ class ActionUserSetup extends JapaAction
                      {$this->config->getVar('_dbTablePrefix')}user_lock,
                      {$this->config->getVar('_dbTablePrefix')}user_keyword,
                      {$this->config->getVar('_dbTablePrefix')}user_media_pic,
+                     {$this->config->getVar('_dbTablePrefix')}op_user_log,
+                     {$this->config->getVar('_dbTablePrefix')}op_user_log_info,
+                     {$this->config->getVar('_dbTablePrefix')}op_user_log_session,
                      {$this->config->getVar('_dbTablePrefix')}user_media_file";
         $this->model->dba->query($sql);  
-    }    
+    }   
+    /**
+     * validate $data
+     *
+     */ 
+    public function validate( $data = FALSE )
+    {
+        return true;
+    }
 }
 
 ?>
