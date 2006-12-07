@@ -119,7 +119,7 @@ class JapaExceptionLog
         $message .= "LINE: "     .$e->getLine()."\n";
         $message .= "TRACE: \n"  .var_export($e->getTrace(), true)."\n";
         
-        @error_log($message."\n\n", 3, $e->flag['logs_path'] . 'error.log');
+        @error_log($message."\n\n", 3, $e->flag['logs_path'] . 'japa_error.log');
     }
 }
 
@@ -129,7 +129,7 @@ class JapaViewException extends JapaException
     {
         parent::__construct($message, $code);
 
-        $this->setName( 'JapaTplException' );
+        $this->setName( 'JapaViewException' );
     }
 }
 
@@ -193,37 +193,37 @@ class JapaDbException extends JapaException
     }
 }
 
-class JapaForwardAdminViewException extends Exception
+class JapaForwardAdminControllerException extends Exception
 {
-    public $view;
+    public $controller;
     public $data;
     public $constructorData;
     public $broadcast;
     
-    public function __construct ($module, $view = 'index', $data = false, $constructorData = false, $broadcast = false)
+    public function __construct ($module, $controller = 'index', $data = false, $constructorData = false, $broadcast = false)
     {
         parent::__construct(NULL,0);
 
         $this->broadcast = $broadcast;
 
-        $this->view = ucfirst($module).ucfirst($view);
+        $this->controller = ucfirst($module).ucfirst($controller);
         $this->data = & $data;
         $this->constructorData = & $constructorData;
         ob_clean();
     }   
 }
 
-class JapaForwardPublicViewException extends Exception
+class JapaForwardPublicControllerException extends Exception
 {
-    public $view;
+    public $controller;
     public $data;
     public $constructorData;
     
-    public function __construct ($view = 'index', $data = false, $constructorData = false)
+    public function __construct ($controller = 'index', $data = false, $constructorData = false)
     {
         parent::__construct(NULL,0);
 
-        $this->view = ucfirst($view);
+        $this->controller = ucfirst($controller);
         $this->data = & $data;
         $this->constructorData = & $constructorData;
         

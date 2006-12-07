@@ -147,7 +147,7 @@ class JapaControllerWebApplication extends JapaController
         }        
         catch(JapaForwardAdminControllerException $e)
         {
-            die('Setup not yet done. Please run the admin web controller. Usually it is <a href="admin.php">admin.php</a>');
+            $this->router->redirect($this->config->getVar('default_module_application_controller'));
         }  
 
         $buffer_level = ob_get_level ();        

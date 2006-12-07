@@ -49,30 +49,17 @@ class JapaControllerModuleApplication extends JapaController
              * Set controller type
              */
             $this->config->setVar('controller_type', 'admin', false); 
-            
+
             // run broadcast action init event to every module
             $this->model->broadcast( 'init' );
             
-            // create a view factory instance
-            // this instance aggregates the view factory object
-            $this->controller = new JapaControllerModulePageFactory( $this->model, $this->config );
+            // create controller and agregate some objects
+            $this->_init();
             
-            // aggregate the router object
-            $this->controller->model = $this->model;
-
-            // aggregate the router object
-            $this->controller->router = $this->router;
-           
-            // aggregate the http request object
-            $this->controller->httpRequest = new JapaHttpRequest;
-            
-            // aggregate the http response object
-            $this->controller->httpResponse = new JapaHttpResponse;
-            
-            // Build the view methode name of the "index" view of the "common" module
+            // Build the controller methode name of the "index" controller of the "common" module
             $methode = ucfirst( $this->config->getVar('base_module') ) . 'Index';
             
-            // Execute the index view of a common module
+            // Execute the index controller of a common module
             $this->controller->$methode();
         }
         catch(JapaPageControllerException $e)
@@ -100,14 +87,11 @@ class JapaControllerModuleApplication extends JapaController
             $this->userErrorController($e);
         }      
         // it dosent work yet
-        catch(JapaForwardAdminViewException $e)
+        catch(JapaForwardAdminControllerException $e)
         {
-            // run broadcast action init event to every module if demanded
-            if(true == $e->broadcast)
-            {
-                $this->model->broadcast( 'init' );
-            }
-            $this->controller->{$e->controller}($e->data, $e->constructorData);  
+            // create controller and agregate some objects
+            $this->_init();
+            $this->controller->{$e->controller}();  
         }      
 
         ob_end_flush();
@@ -124,7 +108,30 @@ class JapaControllerModuleApplication extends JapaController
             $methode = ucfirst( $this->config->getVar('base_module') ) . 'Error';
             $this->controller->$methode( $e->exceptionMessage );   
         }
-    }     
+    }    
+    
+    /**
+     * create controller and agregate some objects
+     *
+     */    
+    private function _init()
+    {
+            // create a controller factory instance
+            // this instance aggregates the view factory object
+            $this->controller = new JapaControllerModulePageFactory( $this->model, $this->config );
+            
+            // aggregate the router object
+            $this->controller->model = $this->model;
+
+            // aggregate the router object
+            $this->controller->router = $this->router;
+           
+            // aggregate the http request object
+            $this->controller->httpRequest = new JapaHttpRequest;
+            
+            // aggregate the http response object
+            $this->controller->httpResponse = new JapaHttpResponse;
+    } 
 }
 
 ?>
