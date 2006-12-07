@@ -36,7 +36,7 @@ class ActionOptionsSetup extends JapaAction
 
         $_default_config = array(
                  'op_version'          => '1.1a',
-                 'charset'             => '{$this->config->getVar("_charset")}',
+                 'charset'             => $this->config->getVar("_charset"),
                  'site_url'            => '',
                  'views_folder'        => 'default/',
                  'styles_folder'       => 'default/',
