@@ -60,10 +60,10 @@ class ActionArticleAddComment extends JapaAction
         $quest  .= $comma."'{$this->config->getVar('gmtDate')}'";    
         
         $fields .= $comma."`ip`";
-        $quest  .= $comma."'{$this->model->dba->escape($_SERVER['REMOTE_ADDR')}'";            
+        $quest  .= $comma."'{$this->model->dba->escape($_SERVER['REMOTE_ADDR'])}'";            
 
         $fields .= $comma."`agent`";
-        $quest  .= $comma."'{$this->model->dba->escape($_SERVER['HTTP_USER_AGENT')}'";  
+        $quest  .= $comma."'{$this->model->dba->escape($_SERVER['HTTP_USER_AGENT'])}'";  
 
         $fields .= $comma."`status`";
         $quest  .= $comma."'{$this->config->getModuleVar('article','default_comment_status')}'";  
