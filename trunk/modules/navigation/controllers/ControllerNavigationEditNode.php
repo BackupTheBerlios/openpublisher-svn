@@ -42,10 +42,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         // if no rights for the logged user, show error template
         if( FALSE == $this->allowModify() )
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->viewVar['error'] = 'You have not the rights to edit a node!';
-            $this->dontPerform = TRUE;
+            $this->redirect(0);
         }
 
         // init variables for this view
@@ -54,10 +51,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         // is node locked by an other user
         if( TRUE !== $this->lockNode() )
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->viewVar['error'] = 'This node is locked by an other user!';
-            $this->dontPerform = TRUE;      
+            $this->redirect(0);     
         }
     }        
    /**
@@ -71,10 +65,10 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
             return;
         }
 
-        $gotonode = $this->httpRequest->getParameter('gotonode', 'post', 'digits');
+        $gotonode = $this->httpRequest->getParameter('gotonode', 'post', 'alnum');
 
         // forward to node x without update
-        if(!empty($gotonode))
+        if($gotonode != '')
         {
             $this->unlocknode();
             $this->redirect((int)$gotonode);        
