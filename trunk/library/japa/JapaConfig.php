@@ -30,11 +30,11 @@ class JapaConfig
     /**
      * constructor
      *
-     * @param mixed $data Data passed to the constructor
+     * @param array $config Base configuration array
      */
-    public function __construct( & $config )
+    public function __construct( $config )
     {
-        $this->config = & $config;
+        $this->config = $config;
     }
 
     /**
@@ -62,9 +62,10 @@ class JapaConfig
     }
     
     /**
-     * validate the action request
+     * get global config var
      *
-     * @param mixed $data
+     * @param string $name Var name
+     * @return mixed Null if the var dosent exists
      */
     public function getVar( $name )
     {
@@ -79,9 +80,10 @@ class JapaConfig
     }
     
     /**
-     * validate the action request
+     * delete global config var
      *
-     * @param mixed $data
+     * @param string $name Var name
+     * @return mixed Null if dissallow override this var else true
      */
     public function deleteVar( $name )
     {
@@ -103,7 +105,7 @@ class JapaConfig
      * @param string $name Var name
      * @param mixed $value Var value
      * @param bool $override if false the var can be assigned only once
-     * @return null if the var cant be assigned
+     * @return null if dissallow override this var
      */
     public function setModuleVar( $module, $name, $value, $override = true )
     {
@@ -146,9 +148,11 @@ class JapaConfig
     }
     
     /**
-     * validate the action request
+     * delete module config var
      *
-     * @param mixed $data
+     * @param string $module Module name
+     * @param string $name Var name
+     * @return mixed Null if dissallow override this var else true
      */
     public function deleteModuleVar( $module, $name )
     {
@@ -183,11 +187,10 @@ class JapaConfig
     }
     
     /**
-     * get module specific config var
+     * get module specific config array
      *
      * @param string $module Module name
-     * @param string $name Var name
-     * @return mixed NULL if the var dosent exists else the var value
+     * @return mixed NULL if the var dosent exists else array
      */
     public function getModuleArray( $module )
     {
@@ -205,7 +208,7 @@ class JapaConfig
      * dump config vars
      *
      * @param string $module Module name
-     * @return array 
+     * @return string
      */
     public function dump( $module = false )
     {
