@@ -91,10 +91,10 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
             return;
         }
 
-        $gotonode = $this->httpRequest->getParameter('gotonode', 'post', 'digits');
+        $gotonode = $this->httpRequest->getParameter('gotonode', 'post', 'alnum');
 
         // forward to node x without update
-        if(!empty($gotonode))
+        if($gotonode != '')
         {
             $this->unlockArticle();
             $this->redirect((int)$gotonode);        
