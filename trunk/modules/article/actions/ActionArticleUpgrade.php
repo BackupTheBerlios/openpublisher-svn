@@ -192,7 +192,7 @@ class ActionArticleUpgrade extends JapaAction
         $this->model->dba->query($sql);   
         
         $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_node_controller_rel
-                  CHANGE `id_view` `id_controller` INT(11) unsigned";
+                  CHANGE `id_view` `id_controller` INT(11) unsigned NOT NULL";
         $this->model->dba->query($sql);
 
         $sql = "RENAME TABLE 
@@ -202,7 +202,7 @@ class ActionArticleUpgrade extends JapaAction
         $this->model->dba->query($sql);  
         
         $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_controller_rel
-                  CHANGE `id_view` `id_controller` INT(11) unsigned";
+                  CHANGE `id_view` `id_controller` INT(11) unsigned NOT NULL";
         $this->model->dba->query($sql); 
         
         $sql = "RENAME TABLE 
