@@ -140,11 +140,8 @@ class ControllerArticle extends JapaControllerAbstractPage
                                              'configPath'  => $this->config->getVar('config_path'),
                                              'picture_folder' => $this->viewVar['urlBase'].'/data/common/captcha',));                
 
-                $addComment     = $this->httpRequest->getParameter('addComment', 'post', 'alpha');
-                $previewComment = $this->httpRequest->getParameter('previewComment', 'post', 'alpha');
-
                 // add or preview comment
-                if(!empty($addComment) || !empty($previewComment))
+                if(!empty($this->addComment) || !empty($this->previewComment))
                 {
                     $this->addComment();
                 }
@@ -205,21 +202,29 @@ class ControllerArticle extends JapaControllerAbstractPage
     public function prependFilterChain()
     {
         // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');    
+        // $this->model->action( 'common', 'filterDisableBrowserCache');    
         
         // get id_article
         $this->current_id_article = $this->httpRequest->getParameter('id_article', 'get', 'int');
+
+        // check permission to access this article if it has status protected
+        $this->checkPermission();
         
         // get cache var
         // when post comments the cache is disabled
-        $get_cache_time = $this->httpRequest->getParameter('cache', 'get', 'int');
+        $get_cache_time = $this->httpRequest->getParameter('cache', 'request', 'int');
         if((false !== $get_cache_time) && ($get_cache_time == 0))
         {
             $this->cacheExpire = 0;
         }
-        
-        // check permission to access this article if it has status protected
-        $this->checkPermission();
+
+        // disable cache for adding or previewing a comment
+        $this->addComment     = $this->httpRequest->getParameter('addComment', 'post', 'alpha');
+        $this->previewComment = $this->httpRequest->getParameter('previewComment', 'post', 'alpha');
+        if(!empty($this->addComment) || !empty($this->previewComment))
+        {
+            $this->cacheExpire = 0;
+        }
     }
 
     /**
@@ -329,12 +334,10 @@ class ControllerArticle extends JapaControllerAbstractPage
         {
             $author = 'annonymous';
         }  
-
-        $previewComment = $this->httpRequest->getParameter('previewComment', 'post', 'alnum');
         
-        // assign template vars for comment preview
+        // assign view vars for comment preview
         //
-        if( !empty($previewComment) )
+        if( !empty($this->previewComment) )
         {
             $this->viewVar['showCommentPreview'] = true;
             
@@ -366,7 +369,7 @@ class ControllerArticle extends JapaControllerAbstractPage
             }
             else
             {
-                $this->router->redirect( 'id_article/'.$this->current_id_article.'#comments' ); 
+                $this->router->redirect( 'id_article/'.$this->current_id_article.'/cache/0#comments' ); 
             }
         }
         else
