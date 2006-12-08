@@ -164,8 +164,11 @@ class ActionCommonInit extends JapaAction
         
         while($row = $rs->fetchAssoc())
         {
+            if(isset($row['config']))
+            {
             $this->config->setModuleArray($row['name'], unserialize($row['config']), false);
             unset($row['config']);
+            }
             $this->model->register($row['name'], $row); 
         }    
     }
