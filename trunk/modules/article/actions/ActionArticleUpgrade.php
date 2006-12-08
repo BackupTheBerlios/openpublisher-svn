@@ -29,35 +29,35 @@ class ActionArticleUpgrade extends JapaAction
     {
         // do upgrade
         //
-        if(0 == version_compare('0.1', $data['old_version'], '=') )
+        if(0 == version_compare('0.1', $data['old_version']) )
         {
             // upgrade from module version 0.1 to 0.2
             $this->upgrade_0_1_to_0_2();     
             $data['old_version'] = '0.2';
         }
 
-        if(0 == version_compare('0.2', $data['old_version'], '=') )
+        if(0 == version_compare('0.2', $data['old_version']) )
         {
             // upgrade from module version 0.2 to 0.3
             $this->upgrade_0_2_to_0_3();     
             $data['old_version'] = '0.3';
         }
 
-        if(0 == version_compare('0.3', $data['old_version'], '=') )
+        if(0 == version_compare('0.3', $data['old_version']) )
         {
             // upgrade from module version 0.3 to 0.4
             $this->upgrade_0_3_to_0_4();     
             $data['old_version'] = '0.4';
         }
         
-        if(0 == version_compare('0.4', $data['old_version'], '=') )
+        if(0 == version_compare('0.4', $data['old_version']) )
         {
             // upgrade from module version 04 to 0.5
             $this->upgrade_0_4_to_0_5();     
             $data['old_version'] = '0.5';
         }
         
-        if(0 == version_compare('0.5', $data['old_version'], '=') )
+        if(0 == version_compare('0.5', $data['old_version']) )
         {
             // upgrade from module version 04 to 0.5
             $this->upgrade_0_5_to_0_6();     

@@ -29,7 +29,7 @@ class ActionKeywordUpgrade extends JapaAction
     {
         // do upgrade
         //
-        if(0 == version_compare('0.1', $data['old_version'], '=') )
+        if(0 == version_compare('0.1', $data['old_version']) )
         {
             // upgrade from module version 0.1 to 0.2
             //$this->upgrade_0_1_to_0_2();          
