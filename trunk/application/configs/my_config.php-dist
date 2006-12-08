@@ -141,7 +141,7 @@ $_jpconfig['system_email'] = '';
 /**
  * message log types ('LOG|SHOW|MAIL')
  */
-$_jpconfig['message_handle'] = 'LOG|SHOW';
+$_jpconfig['message_handle'] = 'LOG';
  
 /**
  * error reporting
