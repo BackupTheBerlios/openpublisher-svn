@@ -6,10 +6,12 @@
 <head>
 
 <!-- --- AJAX --- -->
+
 <script type='text/javascript'>
   // url base
   var base = '<?php echo $view['urlAjax']; ?>';
 </script>
+
 <script type='text/javascript' src='<?php echo $view['urlAjax']; ?>/ajaxserver.php?client=all&amp;stub=all&amp;cntr=articleAjax'></script>
 <script type='text/javascript' src='<?php echo $view['scriptFolder']; ?>ArticleAjax.js'></script>
 
@@ -20,6 +22,7 @@
         h = heightx+100;
         newwin= window.open(theURL,'image','width='+w+',height='+h+',dependent=no,directories=no,scrollbars=no,toolbar=no,menubar=no,location=no,resizable=yes,left=0,top=0,screenX=0,screenY=0'); 
 } 
+
 </script>
 
 <title>Open Publisher PHP5 CMS - <?php echo $view['article']['title'];  ?></title>
@@ -158,7 +161,7 @@
          </dd>
          <dd class="commentFormCol2">
            <textarea name="cbody" cols="60" rows="15" id="cbody"><?php echo $view['cbody']; ?></textarea>
-           <br /><strong>You can format comment text with phpBB code:</strong><br>&nbsp;&nbsp;[url=http://www.yahoo.com]Yahoo[/url]<br>&nbsp;&nbsp;[email=mailto:test@yahoo.com]Email[/email]<br>
+           <br /><strong>You can format comment text with phpBB code:</strong><br>&nbsp;&nbsp;[url=http://www.yahoo.com]Yahoo[/url]<br>&nbsp;&nbsp;[email]test@yahoo.com[/email]<br>
            <a href="http://www.phpbb.com/support/guide/#section4_2_5" target="_blank">See full phpBB code doc</a>
          </dd>
          <dd class="commentFormCol1">
