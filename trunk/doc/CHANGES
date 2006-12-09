@@ -1,0 +1,81 @@
+Open  Publisher version 1.1a
+----------------------------
+
+Changes:
+--------
+- switched to core framework JAPA
+- uses clean URL's
+- every request pass trough the index.php bootstrap file, except ajax requests (due to PEAR HTML_AJAX)
+- you have to call the admin interface by: www.example.com/Module
+- Directory structure:
+  
+  - application
+    - cache
+    - configs
+    - controllers    (public project controllers)
+      - default      (replace from previous release /views_xxx )
+    - logs
+  - data
+  - doc
+  - library
+  - modules
+  - public    (contains public project files for designers)
+    - images
+    - scripts
+    - styles
+    - views
+      - default    (replace from previous release /templates_xxx)
+
+
+
+How to upgrade from previous releases:
+--------------------------------------
+There are a lot of changes from the previous release. The upgrade process is therefor a little tricky.
+
+Here we go:
+
+- backup all files of the current release
+
+- backup of the database
+
+- copy all files of the new release over the old release
+
+- copy config/dbConfig.php to application/configs/dbConfig.php
+
+- edit the previous file dbConfig and remove the following 2 lines:
+   if (!defined( 'SMART_SECURE_INCLUDE' )) 
+   exit;
+   
+- copy project templates to the public/views/xxx folder
+
+- edit your templates and remove the following lines if present:
+   <!-- this line puts IE in quirk mode -->
+   <!-- prevent direct call -->
+   <?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
+
+- rename you templates: tpl.Xxx.php to view.Xxx.php
+
+- copy your css files to the public/styles/xxx folder (may you have to correct the path in your templates)
+
+- May you have to modify the default controllers in /application/controllers/default
+
+- reload the "public page".
+
+- load the admin page http://wwww.example.com/Module
+
+- switch to the global options management and set the correct view,styles and controller folders.
+
+- Remove old folder/files:
+   - cache
+   - config
+   - css_home
+   - logs
+   - smart
+   - templates_home
+   - tests
+   - views_cli
+   - views_home
+   - views_rpcserver
+   - admin.php
+   - cli.php
+   - rpcserver.php
