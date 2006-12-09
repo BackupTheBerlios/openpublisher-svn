@@ -85,10 +85,23 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
             $data['error'][] = 'File upload failed';
         }  
 
-        if(FALSE == $this->isAllowedExtension( $data ))
+        // set table name and item reference
+        if($data['item'] == 'picture')
         {
-            $data['error'][] = 'This file type isnt allowed to upload';
+            if(FALSE == $this->isAllowedImageExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return FALSE;
+            }         
         }
+        else
+        {
+            if(FALSE == $this->isAllowedExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return FALSE;
+            }          
+        }   
         
         if(!isset($data['item']))
         {
@@ -262,18 +275,36 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
     {
         if(preg_match("/(\.[^.]+)$/i",$data['postData']['name'],$file_ext))
         {
-            $disallowed_ext = explode(",",$this->config->getVar('rejected_files'));
+            $disallowed_ext = explode(",",$this->config->getModuleVar('common','rejected_files'));
+
             foreach($disallowed_ext as $ext)
             {
                 $t = "/".trim($ext)."/i";
+
                 if(preg_match($t,$file_ext[1]))
-                {
+                {var_dump($disallowed_ext);exit;
                     return FALSE;
                 }
             }
         }
         return TRUE;
-    }    
+    }
+    
+    /**
+     * check if the file type to upload is allowed
+     *
+     * @param param $array
+     * @return bool
+     */       
+    private function isAllowedImageExtension( &$data )
+    {
+        if(preg_match("/\.(gif|jpg|png)$/i",$data['postData']['name']))
+        {
+            return TRUE;
+        }
+        
+        return FALSE;
+    }       
 }
 
 ?>
