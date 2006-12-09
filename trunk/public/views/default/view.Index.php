@@ -14,6 +14,14 @@
 <link rel="stylesheet" href="<?php echo $view['cssFolder']; ?>base.css" type="text/css" media="projection, screen, tv" />
 <link rel="stylesheet" href="<?php echo $view['cssFolder']; ?>typography.css" type="text/css" media="projection, screen, tv" />
 
+<script language="JavaScript" type="text/JavaScript">
+    function showimage(theURL,widthx,heightx){
+        w = widthx+20;
+        h = heightx+100;
+        newwin= window.open(theURL,'image','width='+w+',height='+h+',dependent=no,directories=no,scrollbars=no,toolbar=no,menubar=no,location=no,resizable=yes,left=0,top=0,screenX=0,screenY=0'); 
+} 
+</script>
+
 <title>Open Publisher CMS</title>
 
 </head>
