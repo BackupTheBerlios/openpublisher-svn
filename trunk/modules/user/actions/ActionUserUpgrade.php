@@ -109,7 +109,7 @@ class ActionUserUpgrade extends JapaAction
 
         foreach($_modules as $m)
         { 
-            if(NULL == $this->isTable( $m.'_config' ))
+            if(!is_array( $this->isTable( $m.'_config' )))
             {
                 continue;
             }
