@@ -43,7 +43,7 @@ class JapaRouterWeb extends JapaRouter
         return $_SERVER['HTTP_HOST'];
     }
     
-    public function redirect( $path )
+    public function redirect( $path = '' )
     {
         @header('Location: '.$this->getBase().'/'.$path);
         exit;  
