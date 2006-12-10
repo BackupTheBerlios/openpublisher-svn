@@ -51,6 +51,12 @@ class JapaModel
     public $session;
     
     /**
+     * Debug object
+     * @var object $japaDebug
+     */  
+    public $debug;
+    
+    /**
      * Session Handler
      * @var object $sessionHandler
      */    
@@ -61,9 +67,11 @@ class JapaModel
      * 
      * @param array $config Main Japa config object
      */
-    public function __construct( JapaConfig $config )
+    public function __construct( JapaConfig $config, $debug  )
     {
-        $this->config = $config;
+        $this->config       = $config;
+        $this->debug        = $debug;
+        $this->debug->model = $this;
     }
 
     /**

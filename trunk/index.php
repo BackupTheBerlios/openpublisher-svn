@@ -40,4 +40,12 @@ $japaController = JapaController::newInstance( $japaRouter );
 
 $japaController->dispatch();
 
+// Debug
+if ($japaController->config->getVar('enable_custom_debug') == true)
+{
+    $debugLocation = array("file" => __FILE__, "line" => __LINE__);
+    $japaDebug->setDebugPoint( 'end', $debugLocation );
+    $japaDebug->japaVarDump( $japaController->config->getVar('debugShowMessageType') );
+}
+
 ?>

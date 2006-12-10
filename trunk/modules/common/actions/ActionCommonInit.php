@@ -80,8 +80,8 @@ class ActionCommonInit extends JapaAction
                                              $db['dbpasswd'],$db['dbname'] );
 
             // enable debugging of sql queries
-            $this->model->dba->debug = $this->config->getVar('debug'); 
-                                              
+            $this->model->dba->debug = $this->config->getVar('enable_custom_debug'); 
+                                             
             //$dbaOptions = array(MYSQLI_OPT_CONNECT_TIMEOUT => 5);
             $this->model->dba->connect();  
             $this->model->dba->query("SET NAMES '{$db['dbcharset']}'");        

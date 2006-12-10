@@ -154,7 +154,28 @@ $_jpconfig['error_reporting'] = E_ALL;
 /**
  * Set debug mode.
  */
-$_jpconfig['debug'] = true; 
+$_jpconfig['debug'] = false; 
+
+/**
+ * enable custom debug messages
+ * 
+ */
+$_jpconfig['enable_custom_debug'] = false; 
+
+/**
+ * How to show debug messages
+ * 'append' 'newWindow' 'log'
+ */
+$_jpconfig['debugShowMessageType'] = 'log'; 
+
+ /**
+ * get numbers of sql queries.
+ */
+$_jpconfig['debugGetNumQueries'] = false;
+/**
+ * get sql queries.
+ */
+$_jpconfig['debugGetQueries']    = false;
 
 /**
  * Rights for media folders and files
@@ -232,6 +253,16 @@ $japaConfig = new JapaConfig( $_jpconfig );
 
 // pass the config array to the controller
 JapaController::setConfig( $japaConfig );
+
+// include debug class
+//
+if($_jpconfig['enable_custom_debug'] == true)
+{  
+    include_once( JAPA_LIBRARY_DIR . 'japa/JapaDebug.php' );
+    $japaDebug = new JapaDebug();
+    $japaDebug->config = $japaConfig;
+    JapaController::setDebug( $japaDebug );
+}
 
 unset($_jpconfig);
 

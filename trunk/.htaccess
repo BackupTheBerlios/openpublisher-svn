@@ -18,6 +18,7 @@ RewriteRule .*ajaxserver\.php(.*)$ ajaxserver.php$1 [L]
 # load references from the data folder call
 RewriteRule data(.*)$ data$1 [L] 
 
+# the follwing rules are for compatibility with older versions
 # rewrite old picture article view > controller to show full size picture
 RewriteRule view=picture&amp;id_article=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_article/$1/id_pic/$2 [L]
 RewriteRule view=picture&amp;id_node=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_node/$1/id_pic/$2 [L]

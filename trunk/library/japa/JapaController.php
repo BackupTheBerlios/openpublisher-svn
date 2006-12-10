@@ -29,19 +29,34 @@ abstract class JapaController implements JapaInterfaceController
     public $model;
     
     /**
-     * Main Japa Config array
-     * only serves as a refernce to the static config array
+     * Main Japa Config object
+     * only serves as a refernce to the static config object
      *
-     * @var array $config
+     * @var object $config
      */        
-    public $config;    
+    public $config;   
+    
+    /**
+     * Main Japa Config object
+     * only serves as a refernce to the static debug object
+     *
+     * @var object $debug
+     */        
+    public $debug;    
 
     /**
      * Main Japa Config array
      *
-     * @var array $config
+     * @var object $config
      */        
     private static $japaConfig;
+    
+    /**
+     * Main Japa Debug object
+     *
+     * @var object $japadebug
+     */        
+    private static $japaDebug;
 
     /**
      * Controller construct
@@ -55,8 +70,11 @@ abstract class JapaController implements JapaInterfaceController
     {
         try
         {
-            // set reference to the config array
+            // set reference to the config object
             $this->config = self::$japaConfig;
+            
+            // set reference to the debug object
+            $this->debug = self::$japaDebug;
 
             $url_base = $this->config->getVar('url_base');
 
@@ -78,7 +96,7 @@ abstract class JapaController implements JapaInterfaceController
             error_reporting( $this->config->getVar('error_reporting') );
 
             // create japa model instance
-            $this->model = new JapaModel( $this->config );          
+            $this->model = new JapaModel( $this->config, $this->debug );          
 
             // create user-defined error handler
             new JapaErrorHandler( $this->config );
@@ -194,6 +212,16 @@ abstract class JapaController implements JapaInterfaceController
     public static function setConfig( JapaConfig $config )
     {
         self::$japaConfig = $config;
+    }
+    
+    /**
+     * Set debug object
+     *
+     * @param object $debug 
+     */
+    public static function setDebug( JapaDebug $debug )
+    {
+        self::$japaDebug = $debug;
     }
 
     /**
