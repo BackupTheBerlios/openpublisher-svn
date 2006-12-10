@@ -35,7 +35,7 @@ class ControllerNode extends JapaControllerAbstractPage
                              array('result'  => & $this->viewVar['node'],
                                    'id_node' => (int)$this->current_id_node,
                                    'status'  => array('>=',2),
-                                   'fields'  => array('title','body','id_node','media_folder')));
+                                   'fields'  => array('title','body','id_node','media_folder','logo')));
          
         // get child nodes content of the requested node
         // only with status=2, means active      
