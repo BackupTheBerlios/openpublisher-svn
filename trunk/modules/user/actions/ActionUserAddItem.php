@@ -264,7 +264,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
     {
         if(preg_match("/(\.[^.]+)$/i",$data['postData']['name'],$file_ext))
         {
-            $disallowed_ext = explode(",",$this->config->getVar('rejected_files'));
+            $disallowed_ext = explode(",",$this->config->getModuleVar('common','rejected_files'));
             foreach($disallowed_ext as $ext)
             {
                 $t = "/".trim($ext)."/i";
