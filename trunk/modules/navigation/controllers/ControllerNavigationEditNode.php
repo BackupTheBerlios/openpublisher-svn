@@ -135,7 +135,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $this->viewVar['node']['thumbdesc'] = array();
         foreach($this->viewVar['thumb'] as $thumb)
         {
-            $this->convertHtmlSpecialChars( $this->viewVar['thumb'][$x], array('description') );
+            $this->convertHtmlSpecialChars( $this->viewVar['thumb'][$x], array('description','title') );
             $x++;
         }
 
@@ -156,7 +156,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $this->viewVar['node']['filedesc'] = array();
         foreach($this->viewVar['file'] as $file)
         {
-            $this->convertHtmlSpecialChars( $this->viewVar['file'][$x], array('description') );
+            $this->convertHtmlSpecialChars( $this->viewVar['file'][$x], array('description','title') );
             $x++;
         }    
 
@@ -715,7 +715,8 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $tmp_array = array();
         foreach($var_array as $f)
         {
-            $tmp_array[] = preg_replace("/\"/","'",JapaCommonUtil::stripSlashes( $f ));
+            //$tmp_array[] = preg_replace("/\"/","'",JapaCommonUtil::stripSlashes( $f ));
+            $tmp_array[] = JapaCommonUtil::stripSlashes( $f );
         }
 
         return $tmp_array;

@@ -121,6 +121,7 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
         foreach($this->viewVar['user']['thumb'] as $thumb)
         {
             $this->convertHtmlSpecialChars( $this->viewVar['user']['thumb'][$x], array('description') );
+            $this->convertHtmlSpecialChars( $this->viewVar['user']['thumb'][$x], array('description','title') );
             $x++;
         }
 
@@ -143,7 +144,7 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
         $this->viewVar['user']['filedesc'] = array();
         foreach($this->viewVar['user']['file'] as $file)
         {
-            $this->convertHtmlSpecialChars( $this->viewVar['user']['file'][$x], array('description') );
+            $this->convertHtmlSpecialChars( $this->viewVar['user']['file'][$x], array('description','title') );
             $x++;
         }
 

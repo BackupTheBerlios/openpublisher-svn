@@ -136,8 +136,6 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
         foreach($this->viewVar['thumb'] as $thumb)
         {
             $this->convertHtmlSpecialChars( $this->viewVar['thumb'][$x], array('description','title') );
-            //$this->viewVar['thumb'][$x]['description'] = $this->viewVar['thumb'][$x]['description'];
-            //$this->viewVar['thumb'][$x]['title'] = $this->viewVar['thumb'][$x]['title'];
             $x++;
         }
 
@@ -156,7 +154,6 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
         foreach($this->viewVar['file'] as $file)
         {
             $this->convertHtmlSpecialChars( $this->viewVar['file'][$x], array('description','title') );
-            //$this->viewVar['file'][$x]['description'] = $this->viewVar['file'][$x]['description'];
             $x++;
         }   
     }  
@@ -451,7 +448,8 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
         $tmp_array = array();
         foreach($var_array as $f)
         {
-            $tmp_array[] = preg_replace("/\"/","'",JapaCommonUtil::stripSlashes( $f ));
+            //$tmp_array[] = preg_replace("/\"/","'",JapaCommonUtil::stripSlashes( $f ));
+            $tmp_array[] = JapaCommonUtil::stripSlashes( $f );
         }
 
         return $tmp_array;

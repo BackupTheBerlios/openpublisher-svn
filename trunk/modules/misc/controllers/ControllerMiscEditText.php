@@ -124,8 +124,7 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
         $x=0;
         foreach($this->viewVar['thumb'] as $thumb)
         {
-            $this->convertHtmlSpecialChars( $this->viewVar['thumb'][$x], array('description') );
-            $this->viewVar['thumb'][$x]['description'] = addslashes($this->viewVar['thumb'][$x]['description']);
+            $this->convertHtmlSpecialChars( $this->viewVar['thumb'][$x], array('description','title') );
             $x++;
         }
 
@@ -145,8 +144,7 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
         $x=0;
         foreach($this->viewVar['file'] as $file)
         {
-            $this->convertHtmlSpecialChars( $this->viewVar['file'][$x], array('description') );
-            $this->viewVar['file'][$x]['description'] = addslashes($this->viewVar['file'][$x]['description']);
+            $this->convertHtmlSpecialChars( $this->viewVar['file'][$x], array('description','title') );
             $x++;
         } 
         
@@ -219,7 +217,7 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
         {   
             $this->model->action('misc','moveItemRank',
                                  array('id_text' => (int)$this->current_id_text,
-                                       'id_pic'  => (int)!empty($this->node_imageIDmoveUp),
+                                       'id_pic'  => (int)$this->imageIDmoveUp,
                                        'dir'     => 'up') ); 
         }  
         // move image rank down
@@ -272,8 +270,8 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
             $this->model->action( 'misc','updateItem',
                                   array('item'    => 'pic',
                                         'ids'     => &$this->picid,
-                                        'fields'  => array('description' => &$picdesc,
-                                                           'title'       => &$pictitle)));
+                                        'fields'  => array('description' => $this->stripSlashesArray($picdesc),
+                                                           'title'       => $this->stripSlashesArray($pictitle))));
         }        
 
         // update file data if there file attachments
@@ -284,8 +282,8 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
             $this->model->action( 'misc','updateItem',
                                   array('item'    => 'file',
                                         'ids'     => &$this->fileid,
-                                        'fields'  => array('description' => &$filedesc,
-                                                           'title'       => &$filetitle)));
+                                        'fields'  => array('description' => $this->stripSlashesArray($filedesc),
+                                                           'title'       => $this->stripSlashesArray($filetitle))));
         }  
         
         // if no error occure update text data
@@ -386,7 +384,25 @@ class ControllerMiscEditText extends JapaControllerAbstractPage
         {
             $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config->getModuleVar('common','charset') );
         }
-    }  
+    } 
+    
+    /**
+     * strip slashes from form fields
+     *
+     * @param array $var_array Associative array
+     */
+    private function stripSlashesArray( &$var_array)
+    {
+        $tmp_array = array();
+        foreach($var_array as $f)
+        {
+            //$tmp_array[] = preg_replace("/\"/","'",JapaCommonUtil::stripSlashes( $f ));
+            $tmp_array[] = JapaCommonUtil::stripSlashes( $f );
+        }
+
+        return $tmp_array;
+    } 
+    
     /**
      * Update text data
      *
