@@ -99,6 +99,12 @@ class ControllerSearch extends JapaControllerAbstractPage
             $this->viewVar['isUserLogged'] = TRUE;
         }
         $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');     
+        
+        if( ($this->viewVar['isUserLogged'] == TRUE) && ($this->viewVar['loggedUserRole'] < 100) )
+        {
+            $this->cacheExpire = 0;
+            $this->viewVar['showEditLink'] = TRUE; 
+        }
     }
 
     /**
