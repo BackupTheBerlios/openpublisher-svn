@@ -2,12 +2,15 @@
 #
 php_flag always_populate_raw_post_data On
 
+Options -Indexes
+php_value register_globals    0
+
 RewriteEngine on
 
 # May you have to change the path to the root of open publisher
 # if it dosent work
 
-#RewriteBase /open_publisher/
+#RewriteBase /open_publisher
 
 # stop when fetching robots.txt
 RewriteRule (robots.\txt)$ $1 [L]
@@ -20,9 +23,9 @@ RewriteRule data(.*)$ data$1 [L]
 
 # the follwing rules are for compatibility with older versions
 # rewrite old picture article view > controller to show full size picture
-RewriteRule view=picture&amp;id_article=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_article/$1/id_pic/$2 [L]
-RewriteRule view=picture&amp;id_node=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_node/$1/id_pic/$2 [L]
-RewriteRule view=picture&amp;id_text=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_text/$1/id_pic/$2 [L]
+# RewriteRule view=picture&amp;id_article=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_article/$1/id_pic/$2 [L]
+# RewriteRule view=picture&amp;id_node=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_node/$1/id_pic/$2 [L]
+# RewriteRule view=picture&amp;id_text=([0-9]+)&amp;id_pic=([0-9]+)$ /cntr/picture/id_text/$1/id_pic/$2 [L]
 
 # load references from the public folder
 RewriteRule public(.*)$ public$1 [L] 
