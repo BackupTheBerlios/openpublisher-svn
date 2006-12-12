@@ -1,0 +1,103 @@
+#pager {
+	padding: 2px;
+        margin-top: 5px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 5px;
+	font-size: 1.4em;
+	color:#0066CC;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: dashed;
+	border-bottom-style: dashed;
+	border-top-color: #6699CC;
+	border-bottom-color: #6699CC;
+}
+#pager span {
+  font-weight: bold;
+}
+#pager a:link{
+	color:#0066CC;
+}
+#pager a:visited{
+	color:#666666;
+}
+
+#pager a:active {
+	color:#993300;
+}
+#pager a:hover {
+	color:#CC6600;
+}
+#pager a:focus {
+	color:#0066CC;
+}
+
+#ajaxSearch {
+  padding-top: 10px;
+  padding-right: 0px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+}
+#ajaxSearch .articlenodebranch {
+  font-size: 1.2em;
+  padding-top: 8px;
+  padding-right: 0px;
+  padding-bottom: 2px;
+  padding-left: 0px;
+}
+#ajaxSearch .articlenodebranch a:link{
+	color:#0066CC;
+}
+#ajaxSearch .articlenodebranch a:visited{
+	color:#666666;
+}
+
+#ajaxSearch .articlenodebranch a:active {
+	color:#993300;
+}
+#ajaxSearch .articlenodebranch a:hover {
+	color:#CC6600;
+}
+#ajaxSearch .articlenodebranch a:focus {
+	color:#0066CC;
+}
+
+#ajaxSearch .articletitle {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 2px;
+  padding-left: 5px;
+}
+#ajaxSearch .articletitle a:link{
+	color:#0066CC;
+}
+#ajaxSearch .articletitle a:visited{
+	color:#666666;
+}
+
+#ajaxSearch .articletitle a:active {
+	color:#993300;
+}
+#ajaxSearch .articletitle a:hover {
+	color:#CC6600;
+}
+#ajaxSearch .articletitle a:focus {
+	color:#0066CC;
+}
+
+#ajaxSearch .description {
+  font-size: 1.2em;
+  color:#0066CC;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 2px;
+  padding-left: 5px;
+}
+
+h1 {
+  font-size: 2em;
+  color:#0066CC;
+}
