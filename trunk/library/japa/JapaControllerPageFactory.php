@@ -104,7 +104,7 @@ class JapaControllerPageFactory
         $controller->prependFilterChain();
 
         // start caching
-        if( false == $this->startControllerCache( $controller, $controllername ) )
+        if( false === $this->startControllerCache( $controller, $controllername ) )
         {
             return;
         }
@@ -288,7 +288,7 @@ class JapaControllerPageFactory
     {
         if ( false == $controller->renderView )
         { 
-            return false;
+            return null;
         }
          
         $this->disable_cache = $this->model->config->getModuleVar($this->model->config->getVar('base_module'), 'disable_cache');
@@ -343,6 +343,14 @@ class JapaControllerPageFactory
             }
         }      
     } 
+    
+    /**
+     * return path to the module view
+     *
+     * @param object $controller Controller instance
+     */ 
+    protected function popControllerFromStack()
+    {}
 }
 
 ?>
