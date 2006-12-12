@@ -31,7 +31,7 @@ class ControllerUserWhatWouldYouDo extends JapaControllerAbstractPage
         // check permission to execute this view
         if(FALSE == $this->checkViewPermission())
         {
-            $this->renderView = FALSE;
+            $this->renderView = false;
         }    
     }
     
@@ -42,7 +42,7 @@ class ControllerUserWhatWouldYouDo extends JapaControllerAbstractPage
     function perform()
     {
         // stop if no template to render; means no rights
-        if($this->renderView == FALSE)
+        if($this->renderView == false)
         {
             return;
         }

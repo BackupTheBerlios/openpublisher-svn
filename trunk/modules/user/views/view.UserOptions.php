@@ -16,42 +16,6 @@
     <td align="left" valign="top">
   <form name="format" method="post" action="<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/user/cntr/options">
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <!-- Option to switch between tiny mice and text wiki. reserved for a future release
-      <tr>
-        <td width="46%" height="21" align="left" valign="top" class="font10bold">&nbsp;Fromat of  the users description textarea</td>
-        <td width="54%" rowspan="5" align="left" valign="top" class="font10bold"><p><a href="<?php echo JAPA_CONTROLLER; ?>?mod=user">back</a></p>
-          <p>
-              <?php if($view['uptodate']==TRUE): ?>
-                <font color="#FF0000">The user module options are now up to date!</font> </p>          <?php endif; ?></td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10">
-          <input type="radio" name="force_format" value="2" <?php if($view['option']['force_format']==2) echo "checked"; ?>>
-Tiny Mice  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="radio" name="force_format" value="1" <?php if($view['option']['force_format']==1) echo "checked"; ?>>  
-Text Wikki &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="radio" name="force_format" value="0" <?php if($view['option']['force_format']==0) echo "checked"; ?>> 
-Custom
-        </td>
-        </tr>
-      <tr>
-        <td align="left" valign="top" class="font10">&nbsp;</td>
-        </tr>
-      <tr>
-        <td align="left" valign="top" class="font10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default Fromat if custom</td>
-        </tr>
-      <tr>
-        <td align="left" valign="top" class="font10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" name="default_format" value="2" <?php if($view['option']['default_format']==2) echo "checked"; ?>>
-Tiny Mice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="radio" name="default_format" value="1"<?php if($view['option']['default_format']==1) echo "checked"; ?> >
-Text Wikki &nbsp;&nbsp;</td>
-        </tr>
-      <tr>
-        <td align="left" valign="top" class="font10bold">&nbsp;</td>
-        <td align="left" valign="top" class="font10">&nbsp;</td>
-      </tr>
-    -->
       <tr>
         <td width="62%" align="left" valign="top" class="font10bold">&nbsp;Thumbnails width in pixels</td>
         <td width="38%" align="left" valign="top" class="font10"><a href="<?php echo $view['url_base']; ?>/<?php echo $view['adminWebController']; ?>/mod/user">back</a></td>
