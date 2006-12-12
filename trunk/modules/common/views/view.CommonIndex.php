@@ -59,7 +59,7 @@ function subok(s){
           </table></td>
           <td width="24%" align="right" valign="top" class="font10"> <br />
       <?php if($view['disableMainMenu']!=TRUE): ?>
-          <a href="<?php echo $view['url_base']; ?>">Switch to the  public page</a>
+          <a href="<?php echo $view['url_base']; ?>/">Switch to the  public page</a>
       <?php endif; ?>
       </td>
           <td width="34%" align="right" valign="top" class="font10">
