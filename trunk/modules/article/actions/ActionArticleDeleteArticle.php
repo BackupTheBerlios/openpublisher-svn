@@ -70,7 +70,7 @@ class ActionArticleDeleteArticle extends JapaAction
 
         $this->model->dba->query($sql);  
 
-        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_view_rel
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_controller_rel
                   WHERE
                    `id_article`={$data['id_article']}";
 
