@@ -73,7 +73,7 @@ class JapaControllerModulePageFactory extends JapaControllerPageFactory
      * @param object $controller Controller instance
      * @param string $content View content
      */ 
-    protected function startViewCache( $controller )
+    protected function startControllerCache( $controller )
     {
         return true;
     }
@@ -83,7 +83,7 @@ class JapaControllerModulePageFactory extends JapaControllerPageFactory
      * @param object $controller Controller instance
      * @param string $content View content
      */ 
-    protected function writeViewCache( $controller, & $content ){}
+    protected function writeControllerCache( $controller, & $content ){}
     
     /**
      * return controller instance

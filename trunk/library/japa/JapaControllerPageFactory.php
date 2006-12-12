@@ -89,11 +89,14 @@ class JapaControllerPageFactory
         // pass parameter data to the controller
         $controller->controllerData = & $data;
 
-        // set view engine type
-        $controller->viewEngine = $this->setViewEngine( $controller );
+        if ( true == $controller->renderView )
+        {
+            // set view engine type
+            $controller->viewEngine = $this->setViewEngine( $controller );
 
-        $this->startViewEngine( $controller, $controllername );
-        
+            $this->startViewEngine( $controller, $controllername );
+        }
+            
         // run authentication
         $controller->auth();
             
@@ -111,7 +114,7 @@ class JapaControllerPageFactory
            
         // render a view if needed
         if ( true == $controller->renderView )
-        { 
+        {
             // set view name
             // usually it is the same as the controller name
             // except if it is defined else in controller instance
@@ -128,13 +131,19 @@ class JapaControllerPageFactory
 
             // render the view
             $this->viewEngine->renderView();      
-        }                
+        }  
+        else
+        { 
+            return '';
+        }            
        
         // run append filters
         $controller->appendFilterChain( $this->viewEngine->viewBufferContent );
 
         // write view content to cache
         $this->writeControllerCache( $controller, $this->viewEngine->viewBufferContent );
+
+
         
         // echo the context in simple views
         if( $controller->returnView == false )
@@ -276,6 +285,11 @@ class JapaControllerPageFactory
      */ 
     protected function startControllerCache( $controller, $controllername )
     {
+        if ( false == $controller->renderView )
+        { 
+            return false;
+        }
+         
         $this->disable_cache = $this->model->config->getModuleVar($this->model->config->getVar('base_module'), 'disable_cache');
         // get cache view content if cache enabled
         if(($controller->cacheExpire != 0) && ($this->disable_cache == 0))
