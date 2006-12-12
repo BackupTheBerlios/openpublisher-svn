@@ -115,8 +115,7 @@ class ControllerArticleAddArticle extends JapaControllerAbstractPage
                                     'id_user' => (int)$this->controllerVar['loggedUserId'],
                                     'error'   => & $this->viewVar['error'],
                                     'fields'  => array('title'  => JapaCommonUtil::stripSlashes((string)$this->title),
-                                                       'status'  => 2,
-                                                       'format'  => $this->config->getModuleVar('article','default_format'))));        
+                                                       'status'  => 2)));        
     }
     
     private function validate()
