@@ -112,14 +112,14 @@ class ControllerNavigationAddNode extends JapaControllerAbstractPage
             $this->model->action('navigation','getNode', 
                                  array('result'  => & $tmp,
                                        'id_node' => (int)$id_parent,
-                                       'fields'  => array('id_view'))); 
-            $id_view = $tmp['id_view'];
+                                       'fields'  => array('id_controller'))); 
+            $id_controller = $tmp['id_controller'];
         }
         
         $new_id_node = $this->model->action('navigation', 'addNode', 
                              array('id_parent' => (int)$id_parent,
                                    'fields'    => array('title'   => JapaCommonUtil::stripSlashes((string)$title),
-                                                        'id_view' => (int)$id_view,
+                                                        'id_controller' => (int)$id_controller,
                                                         'status'  => 1)));    
 
         // update node related content view                                                        
