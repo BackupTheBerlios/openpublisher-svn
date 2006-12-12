@@ -16,7 +16,7 @@
  * 
  * $model->action('navigation','addNode',
  *                array('id_parent' => int,
- *                      'fields' => array('id_view'      => Int,
+ *                      'fields' => array('id_controller'      => Int,
  *                                        'status'       => Int,
  *                                        'format'       => Int,
  *                                        'logo'         => String,

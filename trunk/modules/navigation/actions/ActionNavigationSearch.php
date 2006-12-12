@@ -19,7 +19,7 @@
  *                      'order'  => array('rank|title|
  *                                         modifydate', 'asc|desc'),// optional
  *                      'fields  => array('id_node','id_parent','id_sector',
-                                          'id_view','status','rank',
+                                          'id_controller','status','rank',
  *                                        'modifydate','lang','title',
  *                                        'short_description','body',
  *                                        'format','media_folder') ));
@@ -39,7 +39,7 @@ class ActionNavigationSearch extends JapaAction
     protected $tblFields_node = array('id_node'      => 'Int',
                                          'id_parent'    => 'Int',
                                          'id_sector'    => 'Int',
-                                         'id_view'      => 'Int',
+                                         'id_controller'=> 'Int',
                                          'status'       => 'Int',
                                          'rank'         => 'Int',
                                          'modifydate'   => 'String',

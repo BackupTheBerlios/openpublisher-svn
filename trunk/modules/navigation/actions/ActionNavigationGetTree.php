@@ -20,7 +20,7 @@
  *                      'fields'  => array('id_node','status','rank'
  *                                         'format','media_folder','id_parent','id_sector',
  *                                         'title','short_text',
- *                                         'body','id_view','logo')))
+ *                                         'body','id_controller','logo')))
  *
  */
 
@@ -35,7 +35,7 @@ class ActionNavigationGetTree extends JapaAction
                       array('id_node'      => 'Int',
                             'id_parent'    => 'Int',
                             'id_sector'    => 'Int',
-                            'id_view'      => 'Int',
+                            'id_controller'=> 'Int',
                             'status'       => 'Int',
                             'rank'         => 'Int',
                             'format'       => 'Int',

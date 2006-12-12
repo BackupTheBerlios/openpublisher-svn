@@ -102,8 +102,8 @@ class ControllerNavigationAddNode extends JapaControllerAbstractPage
             return FALSE;
         }
         
-        // init id_view
-        $id_view = 0;
+        // init id_controller
+        $id_controller = 0;
         // get associated view of the parent node
         if($id_parent != 0)
         {

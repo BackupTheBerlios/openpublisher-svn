@@ -18,7 +18,7 @@
  *                array('id_node' => int,
  *                      'result'  => & array,
  *                      'fields   => array('id_node''id_parent''id_sector',
- *                                         'id_view','status','rank',
+ *                                         'id_controller','status','rank',
  *                                         'format','logo','media_folder',
  *                                         'lang','title','short_text',
  *                                         'body') ));
@@ -35,7 +35,7 @@ class ActionNavigationGetBranch extends JapaAction
                       array('id_node'      => 'Int',
                             'id_parent'    => 'Int',
                             'id_sector'    => 'Int',
-                            'id_view'      => 'Int',
+                            'id_controller'=> 'Int',
                             'status'       => 'Int',
                             'rank'         => 'Int',
                             'format'       => 'Int',

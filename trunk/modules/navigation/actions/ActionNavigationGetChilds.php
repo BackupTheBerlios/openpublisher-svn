@@ -19,7 +19,7 @@
  *                      'status'  => array('>|<|=|>=|<=|!=',1|2),           // optional
  *                      'order'   => array('rank|title','asc|desc'),        // optional
  *                      'fields   => array('id_node''id_parent''id_sector',
- *                                         'id_view','status','rank',
+ *                                         'id_controller','status','rank',
  *                                         'format','logo','media_folder',
  *                                         'lang','title','short_text',
  *                                         'body') ));
@@ -36,7 +36,7 @@ class ActionNavigationGetChilds extends JapaAction
                       array('id_node'      => 'Int',
                             'id_parent'    => 'Int',
                             'id_sector'    => 'Int',
-                            'id_view'      => 'Int',
+                            'id_controller'=> 'Int',
                             'status'       => 'Int',
                             'rank'         => 'Int',
                             'logo'         => 'String',

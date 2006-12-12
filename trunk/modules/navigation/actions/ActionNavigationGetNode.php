@@ -20,7 +20,7 @@
  *                      'fields'  => array('id_node','status','rank'
  *                                         'format','media_folder','id_parent','id_sector',
  *                                         'title','short_text',
- *                                         'body','id_view','logo')))
+ *                                         'body','id_controller','logo')))
  *
  */
  
