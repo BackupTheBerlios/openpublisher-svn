@@ -31,9 +31,9 @@ class JapaRouterWeb extends JapaRouter
 
     public function getBase()
     {
-        if ($this->config->getVar('rewrite_base') === null)
+        if ($this->config->getVar('rewrite_base') === false)
         {
-            $this->_rewriteBase = $this->_getBase();
+            return $this->_getBase();
         }
         return $this->config->getVar('rewrite_base');
     }
