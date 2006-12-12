@@ -7,6 +7,7 @@
     remove_script_host : false,
     relative_urls : true,
     mode : "exact",
+    entity_encoding : "raw",
     content_css : "<?php echo $view['url_base']; ?>/modules/common/media/content.css",
     theme_advanced_containers_default_align : "left",
     theme_advanced_styles : "Font Size 8=f8;Font Size 10=f10;Font Size 12=f12;Font Size 14=f14;Font Size 16=f16;Font Size 18=f18;Font Size 20=f20;Forecolor=forecolor;Backcolor=backcolor;Quote=quote;",
