@@ -155,7 +155,8 @@ class ActionCommonImageThumb extends JapaAction
         $this->imgSourceWidth  = $img_info[0];
         $this->imgSourceHeight = $img_info[1];
         $this->imgSourceType   = $img_info[2];
-        $this->imgSourceMime   = $img_info['mime'];
+        $this->imgSourceMime   = image_type_to_mime_type($img_info[2]);
+        clearstatcache();
         $this->imgSourceSize   = filesize($image);
         
         return true;
