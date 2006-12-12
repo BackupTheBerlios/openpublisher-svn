@@ -100,7 +100,7 @@ class ActionArticleFileUploadBase extends JapaAction
             throw new JapaModelException('Cant create media folder: ' . $folder);
         }
 
-        if(!mkdir(JAPA_BASE_DIR . 'data/article/' . $folder . '/thumb', $this->config->getModuleVar('media_folder_rights')))
+        if(!mkdir(JAPA_BASE_DIR . 'data/article/' . $folder . '/thumb', $this->config->getVar('media_folder_rights')))
         {
             throw new JapaModelException('Cant create media folder: ' . $folder . '/thumb');
         }
