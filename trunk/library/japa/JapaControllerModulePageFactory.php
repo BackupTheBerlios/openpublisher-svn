@@ -67,6 +67,17 @@ class JapaControllerModulePageFactory extends JapaControllerPageFactory
             return JAPA_MODULES_DIR . strtolower($controller_match[1]) . '/views/';
         }  
     }
+    
+    /**
+     * return path to the module view
+     *
+     * @param object $controller Controller instance
+     */ 
+    protected function popControllerFromStack()
+    {
+        array_pop($this->controller_match); 
+    }
+    
     /**
      * disable caching for module views
      *

@@ -134,6 +134,7 @@ class JapaControllerPageFactory
         }  
         else
         { 
+            $this->popControllerFromStack();
             return '';
         }            
        
