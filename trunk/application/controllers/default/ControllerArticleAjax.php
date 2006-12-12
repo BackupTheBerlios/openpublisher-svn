@@ -33,7 +33,7 @@ class ControllerArticleAjax extends JapaControllerAjaxAbstractPage
      */    
     public function simpleText() 
     {
-        return 'This text was produced by the php methode "simpleText"';
+        return 'This text was produced by the php methode simpleText';
     }
     
     /**
