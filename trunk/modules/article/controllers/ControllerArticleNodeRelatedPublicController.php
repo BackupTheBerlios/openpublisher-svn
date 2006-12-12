@@ -37,7 +37,7 @@ class ControllerArticleNodeRelatedPublicController extends JapaControllerAbstrac
             
             if($article_id_controller != 0)
             {
-                $this->updateArticleNodeView( (int)$id_node, (int)$article_id_controller );
+                $this->updateArticleNodeController( (int)$id_node, (int)$article_id_controller );
                 
                 // update subnodes
                 $articleviewssubnodes = $this->httpRequest->getParameter('articleviewssubnodes', 'post', 'digits');
