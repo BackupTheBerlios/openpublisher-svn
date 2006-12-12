@@ -4,43 +4,43 @@
   var testCallback = {
     simpleText: function(result) 
     {
-      document.getElementById('simpletext').innerHTML += '<p>'+result+'</p>';
+      document.getElementById('ajaxSimpleText').innerHTML += '<p>'+result+'</p>';
     },
     showAlertBox: function() 
     {
     },
     calculate: function(result) 
     {
-      document.getElementById('result').innerHTML = result;
+      document.getElementById('ajaxResult').innerHTML = result;
     },  
     search: function(result) 
     {
-        document.getElementById('search').innerHTML = '<dl>';
+        document.getElementById('ajaxSearch').innerHTML = '<dl>';
 
 	if(result.length == 0)
 	{
-	    document.getElementById('search').innerHTML += '<dd class="articlenodebranch">no result</dd>';
+	    document.getElementById('ajaxSearch').innerHTML += '<dd class="articlenodebranch">no result</dd>';
 	}
 	else
 	{
 	    for (var i = 0; i < result.length; ++i)
 	    {
-	        document.getElementById('search').innerHTML += '<dd class="articlenodebranch">';	    
+	        document.getElementById('ajaxSearch').innerHTML += '<dd class="articlenodebranch">';	    
 	    	
 	    	// build the node branch of an article
 	    	for (var b = 0; b < result[i]['nodeBranch'].length; ++b)
 	    	{
-      	            document.getElementById('search').innerHTML += '<a href="'+base+'/id_node/'+result[i]['nodeBranch'][b]['id_node']+'">'+result[i]['nodeBranch'][b]['title']+'</a>/';	    	
+      	            document.getElementById('ajaxSearch').innerHTML += '<a href="'+base+'/id_node/'+result[i]['nodeBranch'][b]['id_node']+'">'+result[i]['nodeBranch'][b]['title']+'</a>/';	    	
 	    	}
       	        
       	        // print the node of an article
-      	        document.getElementById('search').innerHTML += '<a href="'+base+'/id_node/'+result[i]['id_node']+'">'+result[i]['node']['title']+'</a>/</dd>';	    	    	
+      	        document.getElementById('ajaxSearch').innerHTML += '<a href="'+base+'/id_node/'+result[i]['id_node']+'">'+result[i]['node']['title']+'</a>/</dd>';	    	    	
       	        
       	        // print article link title
-      	        document.getElementById('search').innerHTML += '<dd class="articletitle"> - <a href="'+result[i]['id_article']+'">'+result[i]['title']+'</a></dd>';
+      	        document.getElementById('ajaxSearch').innerHTML += '<dd class="articletitle"> - <a href="'+result[i]['id_article']+'">'+result[i]['title']+'</a></dd>';
       	    }
       	}
-      	document.getElementById('search').innerHTML += '</dl>';
+      	document.getElementById('ajaxSearch').innerHTML += '</dl>';
       	
       	// reset search button text
       	document.getElementById('dosearch').value = 'search';
