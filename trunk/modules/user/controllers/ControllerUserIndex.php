@@ -53,7 +53,7 @@ class ControllerUserIndex extends JapaControllerAbstractPage
         
         // check if there is a module request
         if( (false === ($controller_request = $this->router->getVar('cntr'))) &&
-            ($this->controllerVar['loggedUserRole'] <= 20))
+            ($this->controllerVar['loggedUserRole'] <= 60))
         {
             $controller_request = 'Main';
         }

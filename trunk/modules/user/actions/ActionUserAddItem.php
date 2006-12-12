@@ -16,7 +16,7 @@
  * $model->action('user','addItem',
  *                array('error' => & array(),
  *                      'item'  => string,      // 'picture' or 'file'
- *                      'postName' => string,   // $data['postData']
+ *                      'postData' => string,   // $data['postData']
  *                      'id_user'  => int))
  *
  */
@@ -83,9 +83,9 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         }
         
         // check if user exists
-        if( !isset($data['postName']) || empty($data['postName']) )
+        if( !isset($data['postData']) || empty($data['postData']) )
         {        
-            throw new JapaModelException ('"post_name" must be defined in view class'); 
+            throw new JapaModelException ('"postData" must be defined in view class'); 
         }
         elseif( !file_exists($data['postData']['tmp_name']) )
         {
