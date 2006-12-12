@@ -48,7 +48,7 @@ class ActionArticleDeleteNodeRelatedContent extends JapaAction
         }   
 
         // delete article node view relation        
-        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_node_view_rel
+        $sql = "DELETE FROM {$this->config->dbTablePrefix}article_node_controller_rel
                   WHERE
                    `id_node`={$data['id_node']}";
 
