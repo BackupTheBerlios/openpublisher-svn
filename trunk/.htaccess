@@ -3,7 +3,6 @@
 php_flag always_populate_raw_post_data On
 
 Options -Indexes
-php_value register_globals    0
 
 RewriteEngine on
 
