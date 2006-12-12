@@ -1,12 +1,9 @@
-<!-- this line puts IE in quirk mode -->
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 
-<!-- --- AJAX --- -->
-
+<!-- AJAX -->
 <script type='text/javascript'>
   // url base
   var base = '<?php echo $view['urlAjax']; ?>';
@@ -35,7 +32,7 @@
 
 <style type="text/css">@import"<?php echo $view['cssFolder']; ?>base.css";</style>
 <style type="text/css">@import"<?php echo $view['cssFolder']; ?>typography.css";</style>
-<style type="text/css">@import"<?php echo $view['cssFolder']; ?>search.css";</style>
+<style type="text/css">@import"<?php echo $view['cssFolder']; ?>ajaxsearch.css";</style>
 
 </head>
 
@@ -79,7 +76,7 @@
              
              <!-- AJAX  simple text -->
              <input type="button" name="simpletext" value="show text" onclick="remoteTest.simpleText(); return false;">
-             <div id="simpletext"></div>             
+             <div id="ajaxSimpleText"></div>             
              <p>&nbsp;</p>
              
              <!-- AJAX  show alert box -->
@@ -92,14 +89,14 @@
              +
              <input name="number2" id="number2" type="text" size="8" maxlength="8">
              <input type="button" name="calculate" value="=" onclick="doCalculation(); return false;">
-             <span id="result"></span>    
+             <span id="ajaxResult"></span>    
              <p></p>
              
              <!-- AJAX  article search -->
              <h4>Article search</h4>
              <input name="articlesearch" id="articlesearch" type="text" size="35" maxlength="35">
              <input type="button" name="dosearch"  id="dosearch" value="search" onclick="doSearch(); return false;">
-             <div id="search"></div>                    
+             <div id="ajaxSearch"></div>                    
              <!-- ########### END AJAX Examples HTML Code ############ -->  
              
    <?php if(!empty($view['article']['ps'])): ?>
