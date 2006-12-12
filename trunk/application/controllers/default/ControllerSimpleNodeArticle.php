@@ -123,6 +123,13 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
               $this->router->redirect(); 
         }
 
+        // create cache id if cache enabled
+        // here we use the node id as a unique cache id for this controller
+        if($this->cacheExpire > 0)
+        {
+            $this->cacheId = 'node'.$this->current_id_node;
+        }
+
         $node_article = array();
         // we need only the first article in this node                                                    
         $this->model->action('article','getNodeArticles',

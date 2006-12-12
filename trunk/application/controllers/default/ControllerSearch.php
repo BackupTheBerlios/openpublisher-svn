@@ -81,7 +81,25 @@ class ControllerSearch extends JapaControllerAbstractPage
         $this->viewVar['footer']      = $this->controllerLoader->footer();  
         $this->viewVar['rightBorder'] = $this->controllerLoader->rightBorder();      
     }
-
+    
+    /**
+     * prepend filter chain
+     *
+     */
+    public function prependFilterChain()
+    {
+        // fetch the current id_node. If no id_node defined or not numeric
+        // this view class loads the error template
+        $this->searchString = $this->httpRequest->getParameter( 'search', 'request', 'raw' );
+        
+        // create cache id if cache enabled
+        // here we use the article id as a unique cache id for this controller
+        if($this->cacheExpire > 0)
+        {
+            $this->cacheId = 'search'.$this->searchString;
+        }
+    }
+    
     /**
      * authentication
      *
@@ -113,10 +131,6 @@ class ControllerSearch extends JapaControllerAbstractPage
      */    
     private function initVars()
     {
-        // fetch the current id_node. If no id_node defined or not numeric
-        // this view class loads the error template
-        $this->searchString = $this->httpRequest->getParameter( 'search', 'request', 'raw' );
-
         $this->searchString = JapaCommonUtil::stripSlashes((string)$this->searchString);
         $this->pagerUrlSearchString = urlencode(JapaCommonUtil::stripSlashes((string)$this->searchString));
         

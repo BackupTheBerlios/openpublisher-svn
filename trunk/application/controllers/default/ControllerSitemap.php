@@ -69,6 +69,19 @@ class ControllerSitemap extends JapaControllerAbstractPage
     }
 
     /**
+     * prepend filter chain
+     *
+     */
+    public function prependFilterChain()
+    {
+        // create cache id if cache enabled
+        if($this->cacheExpire > 0)
+        {
+            $this->cacheId = 'sitemap';
+        }                
+    }
+
+    /**
      * init some variables
      *
      */    

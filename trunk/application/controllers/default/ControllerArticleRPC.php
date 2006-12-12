@@ -226,6 +226,13 @@ class ControllerArticleRPC extends JapaControllerAbstractPage
             $this->cacheExpire = 0;
         }
         
+        // create cache id if cache enabled
+        // here we use the article id as a unique cache id for this controller
+        if($this->cacheExpire > 0)
+        {
+            $this->cacheId = 'articlerpc'.$this->current_id_article;
+        }
+        
         // check permission to access this article if it has status protected
         $this->checkPermission();
     }

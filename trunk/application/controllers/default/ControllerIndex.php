@@ -95,7 +95,14 @@ class ControllerIndex extends JapaControllerAbstractPage
     public function prependFilterChain()
     {
         // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');    
+        // $this->model->action( 'common', 'filterDisableBrowserCache');    
+        
+        // create cache id if cache enabled
+        // here we use the article id as a unique cache id for this controller
+        if($this->cacheExpire > 0)
+        {
+            $this->cacheId = 'indexpage';
+        }
     }
 }
 

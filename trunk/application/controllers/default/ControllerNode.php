@@ -165,6 +165,13 @@ class ControllerNode extends JapaControllerAbstractPage
               $this->router->redirect();
         }
         
+        // create cache id if cache enabled
+        // here we use the node id as a unique cache id for this controller
+        if($this->cacheExpire > 0)
+        {
+            $this->cacheId = 'node'.$this->current_id_node;
+        }
+        
         // check if the demanded node has at least status 2
         $nodeStatus = $this->model->action('navigation','getNodeStatus', 
                                             array('id_node' => $this->current_id_node));  

@@ -217,6 +217,13 @@ class ControllerArticle extends JapaControllerAbstractPage
         {
             $this->cacheExpire = 0;
         }
+        
+        // create cache id if cache enabled
+        // here we use the article id as a unique cache id for this controller
+        if($this->cacheExpire > 0)
+        {
+            $this->cacheId = 'article'.$this->current_id_article;
+        }
 
         // disable cache for adding or previewing a comment
         $this->addComment     = $this->httpRequest->getParameter('addComment', 'post', 'alpha');
