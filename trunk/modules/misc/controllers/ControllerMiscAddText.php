@@ -61,9 +61,9 @@ class ControllerMiscAddText extends JapaControllerAbstractPage
     */    
     private function addText()
     {
-        $title = trim($this->httpRequest->getParameter('addtext', 'post', 'raw'));
+        $title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
         
-        if(!empty($title))
+        if(empty($title))
         {
             $this->viewVar['error'][] = 'Title is empty';
             return FALSE;
