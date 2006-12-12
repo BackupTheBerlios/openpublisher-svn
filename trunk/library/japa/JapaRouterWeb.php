@@ -14,7 +14,8 @@
  */
 class JapaRouterWeb extends JapaRouter
 {
-
+    protected $_rewriteBase = null;
+    
     public function _old_getBase()
     {
         // Set magic default of RewriteBase:
@@ -29,6 +30,15 @@ class JapaRouterWeb extends JapaRouter
     }
 
     public function getBase()
+    {
+        if ($this->config->getVar('rewrite_base') === null)
+        {
+            $this->_rewriteBase = $this->_getBase();
+        }
+        return $this->config->getVar('rewrite_base');
+    }
+
+    private function _getBase()
     {
         $base = '';
         if (empty($_SERVER['PATH_INFO'])) $base = $_SERVER['REQUEST_URI'];

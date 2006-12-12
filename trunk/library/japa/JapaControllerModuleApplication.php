@@ -13,6 +13,10 @@
  * Web Admin controller class
  *
  */
+ 
+@ob_clean();
+ob_start();  
+ 
 class JapaControllerModuleApplication extends JapaController
 {
     /**

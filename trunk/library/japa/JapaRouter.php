@@ -23,11 +23,14 @@ class JapaRouter
     
     protected $request = array();
     
+    protected $config;
+    
     protected $application_controller = false;
                                            
     public function __construct( $config )
     {
-        $this->applicationControllers = $config->getVar('application_controllers');
+        $this->config = $config;
+        $this->applicationControllers = $this->config->getVar('application_controllers');
         
         // set default application controller
         $this->application_controller = 'JapaController' . $config->getVar('default_application_controller') . 'Application';

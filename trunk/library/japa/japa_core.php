@@ -12,13 +12,17 @@
  *
  */
 
-// Start output buffering
-//
-@ob_end_clean();
-ob_start();
-
 // init japa configuration array
 $_jpconfig = array();
+
+/**
+ * Path of the rewrite base
+ * null means autodetect
+ * but under some apache configuration of the RewriteBase
+ * you have to set the rewrite base here manualy
+ * 
+ */
+$_jpconfig['rewrite_base'] = false;
 
 /**
  * Path to the config dir

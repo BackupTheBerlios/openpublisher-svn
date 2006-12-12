@@ -14,7 +14,7 @@
  
 // Start output buffering
 //
-@ob_end_clean();
+@ob_clean();
 ob_start(); 
  
 class JapaControllerWebApplication extends JapaController
