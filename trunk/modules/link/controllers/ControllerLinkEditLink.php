@@ -343,7 +343,7 @@ class ControllerLinkEditLink extends JapaControllerAbstractPage
     private function redirect( $id_node = 0 )
     {
         // reload the link module
-        $this->redirect($this->viewVar['adminWebController'].'/mod/link/id_node/'.$id_node);       
+        $this->router->redirect($this->viewVar['adminWebController'].'/mod/link/id_node/'.$id_node);       
     }  
     /**
      * unlock edited user
