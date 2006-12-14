@@ -306,7 +306,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
         // we need the url vars to open this page by the keyword map window
         if($this->config->getModuleVar('article','use_keywords') == 1)
         {
-            $this->viewVar['opener_url_vars'] = base64_encode('cntr/editArticle/id_article/'.$this->current_id_article.'/id_node/'.$this->current_id_node.'/disableMainMenu=1');
+            $this->viewVar['opener_url_vars'] = base64_encode('/cntr/editArticle/id_article/'.$this->current_id_article.'/id_node/'.$this->current_id_node.'/disableMainMenu=1');
         }
         $this->viewVar['use_keywords'] = $this->config->getModuleVar('article','use_keywords');
         
