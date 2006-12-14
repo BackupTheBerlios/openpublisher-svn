@@ -120,7 +120,7 @@ class ActionUserSetup extends JapaAction
                    `id_log`       int(11) unsigned NOT NULL auto_increment,
                    `module`       varchar(30) NOT NULL default '',
                    `type`         tinyint(1) unsigned NOT NULL default 1,
-                   `view`         varchar(30) NOT NULL default '',
+                   `controller`   varchar(30) NOT NULL default '',
                    `id_item`      int(11) unsigned NOT NULL default 0,
                    `message`      text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    PRIMARY KEY   (`id_log`),
