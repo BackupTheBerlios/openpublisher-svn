@@ -128,7 +128,7 @@ class ControllerUserLogin extends JapaControllerAbstractPage
                              array('type'    => $type,
                                    'id_item' => 0,
                                    'module'  => 'user',
-                                   'view'    => 'login',
+                                   'controller' => 'login',
                                    'message' => $this->logMessage ));
     }
     
