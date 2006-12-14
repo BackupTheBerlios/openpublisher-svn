@@ -23,30 +23,6 @@
       <tr>
         <td align="left" valign="top"><input name="file_size_max" type="text" size="8" maxlength="8" value="<?php echo $view['option']['file_size_max']; ?>"></td>
       </tr>
-    <!-- For a later release
-      <tr>
-        <td align="left" valign="top"  class="font10bold">Fromat of the node body textareas</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10">
-          <input type="radio" name="force_format" value="2" <?php if($view['option']['force_format']==2) echo "checked"; ?>>
-    Tiny Mice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="radio" name="force_format" value="1" <?php if($view['option']['force_format']==1) echo "checked"; ?>>
-    Text Wikki &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="radio" name="force_format" value="0" <?php if($view['option']['force_format']==0) echo "checked"; ?>>
-    Custom </td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default Fromat if custom</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="default_format" value="2" <?php if($view['option']['default_format']==2) echo " checked"; ?>>
-    Tiny Mice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="radio" name="default_format" value="1"<?php if($view['option']['default_format']==1) echo " checked"; ?> >
-    Text Wikki &nbsp;&nbsp;</td>
-      </tr>
-    -->
       <tr>
         <td align="left" valign="top" class="font10bold">Use node related content</td>
       </tr>
