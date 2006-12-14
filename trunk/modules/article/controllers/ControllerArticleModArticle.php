@@ -547,7 +547,7 @@ class ControllerArticleModArticle extends JapaControllerAbstractPage
                              array('type'    => $type,
                                    'id_item' => (int)$this->current_id_article,
                                    'module'  => 'article',
-                                   'view'    => 'modArticle',
+                                   'controller' => 'modArticle',
                                    'message' => $this->logMessage ));
     }
     /**

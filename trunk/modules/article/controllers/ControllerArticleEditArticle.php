@@ -785,7 +785,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                              array('type'    => $type,
                                    'id_item' => (int)$this->current_id_article,
                                    'module'  => 'article',
-                                   'view'    => 'editArticle',
+                                   'controller' => 'editArticle',
                                    'message' => $this->logMessage ));
     }
     /**
