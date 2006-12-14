@@ -40,9 +40,9 @@ class ControllerArticleNodeRelatedPublicController extends JapaControllerAbstrac
                 $this->updateArticleNodeController( (int)$id_node, (int)$article_id_controller );
                 
                 // update subnodes
-                $articleviewssubnodes = $this->httpRequest->getParameter('articleviewssubnodes', 'post', 'digits');
+                $articlecontrollerssubnodes = $this->httpRequest->getParameter('articlecontrollerssubnodes', 'post', 'digits');
                 
-                if(!empty($articleviewssubnodes) && ($articleviewssubnodes == 1))
+                if(!empty($articlecontrollerssubnodes) && ($articlecontrollerssubnodes == 1))
                 {
                     // check if the nodeTree array was previously init by an other view
                     if( !isset($this->controllerVar['nodeTree']) )

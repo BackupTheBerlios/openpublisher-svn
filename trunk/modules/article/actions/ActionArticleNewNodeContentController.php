@@ -10,20 +10,20 @@
 // ---------------------------------------------
 
 /**
- * ActionArticleNewNodeContentView class 
+ * ActionArticleNewNodeContentController class 
  *
  * Update article view of a new node (id_node) with the article 
  * view of the parent node (id_parent)
  *
  * USAGE:
- * $model->action( 'article', 'newNodeContentView',
+ * $model->action( 'article', 'newNodeContentController',
  *                 array('id_node'   => int,
  *                       'id_parent' => int ));
  *
  *
  */
  
-class ActionArticleNewNodeContentView extends JapaAction
+class ActionArticleNewNodeContentController extends JapaAction
 {
     /**
      *
@@ -34,20 +34,20 @@ class ActionArticleNewNodeContentView extends JapaAction
         // get associated view of the parent node
         $tmp = array();
         // get current node data
-        $this->model->action('article','GetNodeAssociatedView', 
+        $this->model->action('article','GetNodeAssociatedController', 
                              array('result'  => & $tmp,
                                    'id_node' => (int)$data['id_parent'])); 
 
         // if no id_view defined return                                   
-        if(!isset($tmp['id_view']))
+        if(!isset($tmp['id_controller']))
         {
             return;
         }
 
         // update article node view
-        $this->model->action('article','updateNodeView',
+        $this->model->action('article','updateNodeController',
                              array('id_node' => (int)$data['id_node'], 
-                                   'id_view' => (int)$tmp['id_view']) );
+                                   'id_controller' => (int)$tmp['id_controller']) );
     } 
     /**
      * validate data array

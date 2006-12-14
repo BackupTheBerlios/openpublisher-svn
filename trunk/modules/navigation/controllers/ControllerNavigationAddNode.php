@@ -123,7 +123,7 @@ class ControllerNavigationAddNode extends JapaControllerAbstractPage
                                                         'status'  => 1)));    
 
         // update node related content view                                                        
-        $this->model->broadcast('newNodeContentView', 
+        $this->model->broadcast('newNodeContentController', 
                                 array('id_parent' => (int)$id_parent,
                                       'id_node'   => (int)$new_id_node  ));
         
