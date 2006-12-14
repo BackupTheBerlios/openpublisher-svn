@@ -48,7 +48,6 @@ class ControllerNavigationNodemap extends JapaControllerAbstractPage
         $this->model->action('navigation','getTree', 
                              array('id_node' => 0,
                                    'result'  => & $this->viewVar['tree'],
-                                   'status'  => array('=', 2),
                                    'fields'  => array('id_parent','status','id_node','title')));   
     }   
 }
