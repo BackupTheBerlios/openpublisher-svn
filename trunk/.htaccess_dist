@@ -28,5 +28,5 @@ RewriteRule public(.*)$ public$1 [L]
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-l 
-RewriteRule ^(.*)$ index.php [L] 
+RewriteRule ^(.*)$ index.php/$1 [L] 
 
