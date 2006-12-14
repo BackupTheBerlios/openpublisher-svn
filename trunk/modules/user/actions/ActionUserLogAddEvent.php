@@ -37,7 +37,7 @@ class ActionUserLogAddEvent extends JapaAction
 {
     private $tblFields = array('module'  => 'String',
                                'type'    => 'Int',
-                               'view'    => 'String',
+                               'controller' => 'String',
                                'id_item' => 'Int',
                                'message' => 'String');
     /**
