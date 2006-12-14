@@ -105,6 +105,10 @@ class ActionUserUpgrade extends JapaAction
      */
     private function upgrade_0_2_to_0_3()
     {
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}user_log_info
+                  CHANGE `view` `controller` varchar(30) NOT NULL";
+        $this->model->dba->query($sql); 
+        
         $_modules = $this->model->getAvailaibleModules();
 
         foreach($_modules as $m)
