@@ -8,3 +8,5 @@ to
 
 Create a database. 
 Point your browser to the directory of the extracted open publisher files and follow the setup instructions.
+After successful install remove the directory:
+/modules/setup
