@@ -335,7 +335,7 @@ function MM_swapImage() { //v3.0
           <input type="file" name="logo" size="10">
           <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
           <?php else: ?>
-          <img name="articlelogo" src="<?php echo $view['url_base']; ?>'/data/article/'.$view['article']['media_folder'].'/'.$view['article']['logo']; ?>" alt="Article Logo" width="150"> <br>
+          <img name="articlelogo" src="data/article/<?php echo $view['article']['media_folder']; ?>/<?php echo $view['article']['logo']; ?>" alt="Article Logo" width="150"> <br>
           <input name="deletelogo" type="hidden" value="">
           <input type="button" name="eraselogo" value="delete" onclick="dellogo(this.form, 'Delete article logo Picture?');">
           <?php endif; ?>
