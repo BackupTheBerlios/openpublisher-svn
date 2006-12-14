@@ -13,7 +13,7 @@ RewriteRule (robots.\txt)$ $1 [L]
 # ajax server call
 RewriteRule .*ajaxserver\.php(.*)$ ajaxserver.php$1 [L] 
 
-# load references from the data folder call
+# load references from the data folder
 RewriteRule data(.*)$ data$1 [L] 
 
 # the follwing rules are for compatibility with older versions
@@ -28,5 +28,5 @@ RewriteRule public(.*)$ public$1 [L]
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteCond %{SCRIPT_FILENAME} !-l 
-RewriteRule ^(.*)$ index.php/$1 [L] 
+RewriteRule ^(.*)$ index.php [L] 
 
