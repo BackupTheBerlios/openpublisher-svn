@@ -162,7 +162,7 @@ class ActionUserSetup extends JapaAction
         $sql = "INSERT INTO {$data['dbtablesprefix']}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`,`config`)
                   VALUES
-                   ('user','User Management',8,'0.2',1,60,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
+                   ('user','User Management',8,'0.3',1,60,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
                     '{$_config}')";
         
         $this->model->dba->query($sql);         
