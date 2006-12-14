@@ -1,0 +1,10 @@
+Open Publisher install
+-----------------------
+
+Rename the file.
+.htaccess_dist
+to
+.htaccess
+
+Create a database. 
+Point your browser to the directory of the extracted open publisher files and follow the setup instructions.
