@@ -28,7 +28,7 @@
 <div id="topmenu">
 <ul id="toplinks">
   <!-- link to the entry page -->
-  <li><a href="<?php echo $view['urlBase']; ?>">Home</a></li>
+  <li><a href="<?php echo $view['urlBase']; ?>/">Home</a></li>
   <!-- output all root navigation nodes -->
   <?php foreach($view['rootNodes'] as $node): ?>    
   <li><a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a></li>
