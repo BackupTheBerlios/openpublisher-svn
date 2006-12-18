@@ -76,6 +76,7 @@ class ControllerNavigationOptions extends JapaControllerAbstractPage
         $img_size_max  = $this->httpRequest->getParameter('img_size_max', 'post', 'digits');
         $file_size_max = $this->httpRequest->getParameter('file_size_max', 'post', 'digits');
         $force_format  = $this->httpRequest->getParameter('force_format', 'post', 'digits');
+        $use_url_rewrite = $this->httpRequest->getParameter('use_url_rewrite', 'post', 'digits');
         $use_short_text  = $this->httpRequest->getParameter('use_short_text', 'post', 'digits');
         $use_body  = $this->httpRequest->getParameter('use_body', 'post', 'digits');
         $use_logo  = $this->httpRequest->getParameter('use_logo', 'post', 'digits');
@@ -146,6 +147,15 @@ class ControllerNavigationOptions extends JapaControllerAbstractPage
                 $this->fields['default_format'] = (int)$default_format;
             }
         }  
+
+        if(!empty($use_url_rewrite) && ($use_url_rewrite == '1'))
+        {
+            $this->fields['use_url_rewrite'] = 1;
+        }
+        else
+        {
+            $this->fields['use_url_rewrite'] = 0;
+        }
         
         if(!empty($use_short_text) && ($use_short_text == '1'))
         {

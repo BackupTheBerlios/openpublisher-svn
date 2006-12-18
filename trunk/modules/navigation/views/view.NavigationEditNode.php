@@ -316,8 +316,21 @@ function MM_swapImage() { //v3.0
           </div>
           <hr></td>
       </tr>   
+      
+    <?php if($view['use_url_rewrite']==1): ?>
       <tr>
-        <td align="left" valign="top" class="font12bold"><a name="views"></a>Node associated view</td>
+        <td align="left" valign="top" class="font10bold">Url rewrite</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold">
+        <input type="hidden"  name="id_map" value="<?php if(isset($view['url_rewrite'][0]['id_map'])) echo $view['url_rewrite'][0]['id_map']; ?>" />
+        <input type="text" name="url_rewrite" value="<?php if(isset($view['url_rewrite'][0]['request_name'])) echo $view['url_rewrite'][0]['request_name']; ?>" size="50" maxlength="255" />
+        </td>
+      </tr>
+    <?php endif; ?> 
+      
+      <tr>
+        <td align="left" valign="top" class="font12bold"><a name="views"></a>Node associated controller</td>
       </tr>
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">

@@ -201,6 +201,13 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         // into a view variable
         $this->viewVar['nodeRelatedPublicController'] = '';
         $this->controllerLoader->broadcast($this->viewVar['nodeRelatedPublicController'], 'nodeRelatedPublicController');  
+        
+        // get url rewrite for this node
+        $this->viewVar['url_rewrite'] = array();
+        $this->model->action( 'common', 'getUrlRewrite',     
+                              array('result'        => & $this->viewVar['url_rewrite'],       
+                                    'module'        => 'navigation',
+                                    'request_value' => (int)$this->current_id_node) ); 
     }  
 
     private function updateNodeData()
@@ -215,7 +222,8 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $this->node_delete_node = $this->httpRequest->getParameter('delete_node', 'post', 'digits');
         $this->node_title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
         $this->node_switchformat = $this->httpRequest->getParameter('switchformat', 'post', 'digits');
-        $this->node_format = $this->httpRequest->getParameter('format', 'post', 'digits');
+        $this->node_url_rewrite = $this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i");
+        $this->node_id_map = $this->httpRequest->getParameter('id_map', 'post', 'digits');
         $this->node_uploadlogo = $this->httpRequest->getParameter( 'uploadlogo', 'post', 'alnum' );
         $this->node_deletelogo = $this->httpRequest->getParameter( 'deletelogo', 'post', 'alnum' );
         $this->node_uploadpicture = $this->httpRequest->getParameter( 'uploadpicture', 'post', 'alnum' );
@@ -229,7 +237,6 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $this->node_picid = $this->httpRequest->getParameter( 'picid', 'post', 'raw' );
         $this->node_fileid = $this->httpRequest->getParameter( 'fileid', 'post', 'raw' );
 
-        
         if(empty($this->node_title))
         {
             $this->viewVar['error'][] = 'Node title is empty!';
@@ -302,10 +309,28 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
             }              
         }           
         // switch format of textarea editor
-        elseif(!empty($this->node_switchformat) && ($this->node_switchformat == 1))
+        elseif($this->node_url_rewrite !== false)
         {
-            $use_text_format = (int)$this->node_format;
-        }        
+            if($this->node_id_map == 0)
+            {
+                $this->model->action('common','addUrlRewrite',
+                                     array( 'module'        => 'navigation',
+                                            'request_name'  => (string)$this->node_url_rewrite,
+                                            'request_value' => (int)$this->current_id_node) );    
+            }  
+            else
+            {
+                $this->model->action('common','updateUrlRewrite',
+                                     array( 'id_map'       => (int)$this->node_id_map,
+                                            'request_name' => (string)$this->node_url_rewrite) );    
+            }   
+        }   
+        elseif(($this->node_url_rewrite === false) && ($this->node_id_map > 0))
+        {
+                $this->model->action('common','removeUrlRewrite',
+                                     array( 'module' => 'navigation',
+                                            'id_map' => (int)$this->node_id_map) );    
+        }     
         // upload logo
         elseif(!empty($this->node_uploadlogo))
         {   
@@ -465,6 +490,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
             $this->current_id_node     = (int)$id_node;          
         }     
 
+        $this->viewVar['use_url_rewrite'] = $this->config->getModuleVar('navigation','use_url_rewrite');
         $this->viewVar['use_logo']      = $this->config->getModuleVar('navigation','use_logo');
         $this->viewVar['use_images']    = $this->config->getModuleVar('navigation','use_images');
         $this->viewVar['use_files']     = $this->config->getModuleVar('navigation','use_files');

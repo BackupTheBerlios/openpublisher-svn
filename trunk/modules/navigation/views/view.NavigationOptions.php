@@ -24,6 +24,15 @@
         <td align="left" valign="top"><input name="file_size_max" type="text" size="8" maxlength="8" value="<?php echo $view['option']['file_size_max']; ?>"></td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Use url rewrites</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">
+    <input type="radio" name="use_url_rewrite" value="0"<?php if($view['option']['use_url_rewrite']==0) echo " checked "; ?>> No<br>
+    <input type="radio" name="use_url_rewrite" value="1"<?php if($view['option']['use_url_rewrite']==1) echo " checked "; ?>> Yes
+        </td>
+      </tr>
+      <tr>
         <td align="left" valign="top" class="font10bold">Use node related content</td>
       </tr>
       <tr>
