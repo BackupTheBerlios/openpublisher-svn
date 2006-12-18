@@ -37,8 +37,11 @@
    <!-- --- show current navigation node branche --- -->
    <div id="branch">
     <?php  foreach($view['nodeBranch'] as $bnode): ?>
-      <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
-    <?php endforeach; ?>
+      <?php if(!empty($bnode['rewrite_name'])): ?>
+        <a href="<?php echo $view['urlBase']; ?>/<?php echo $bnode['rewrite_name']; ?>"><?php echo $bnode['title']; ?></a> /
+      <?php else: ?>
+        <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+      <?php endif; ?>    <?php endforeach; ?>
     <?php if(isset($view['node']['rewrite_name'])): ?>
       <a href="<?php echo $view['urlBase']; ?>/<?php echo $view['node']['rewrite_name']; ?>"><?php echo $view['node']['title']; ?></a>
     <?php else: ?>
