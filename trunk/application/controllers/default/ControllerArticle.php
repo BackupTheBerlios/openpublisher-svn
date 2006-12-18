@@ -60,8 +60,8 @@ class ControllerArticle extends JapaControllerAbstractPage
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->viewVar['node'],
                                    'id_node' => (int)$this->viewVar['article']['id_node'],
-                                   'fields'  => array('title','id_node')));                             
-    
+                                   'fields'  => array('title','id_node','rewrite_name')));                             
+
         // get navigation node branch content of the requested article
         $this->model->action('navigation','getBranch', 
                              array('result'  => & $this->viewVar['nodeBranch'],

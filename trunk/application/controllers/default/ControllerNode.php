@@ -35,7 +35,8 @@ class ControllerNode extends JapaControllerAbstractPage
                              array('result'  => & $this->viewVar['node'],
                                    'id_node' => (int)$this->current_id_node,
                                    'status'  => array('>=',2),
-                                   'fields'  => array('title','body','id_node','media_folder','logo')));
+                                   'fields'  => array('title','body','id_node',
+                                                    'media_folder','logo','rewrite_name')));
          
         // get child nodes content of the requested node
         // only with status=2, means active      
@@ -43,13 +44,14 @@ class ControllerNode extends JapaControllerAbstractPage
                              array('result'  => & $this->viewVar['childNodes'],
                                    'id_node' => (int)$this->current_id_node,
                                    'status'  => array('>=',2),
-                                   'fields'  => array('title','short_text','id_node')));
+                                   'fields'  => array('title','short_text','id_node',
+                                                      'rewrite_name')));
  
         // get navigation node branch content of the requested node
         $this->model->action('navigation','getBranch', 
                              array('result'  => & $this->viewVar['nodeBranch'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'fields'  => array('title','id_node')));  
+                                   'fields'  => array('title','id_node','rewrite_name')));  
                                  
         // get node attached files
         $this->model->action('navigation','getAllFiles',
@@ -73,7 +75,7 @@ class ControllerNode extends JapaControllerAbstractPage
                                    'limit'   => array('perPage' => (int)$this->articlesPerPage,
                                                       'numPage' => (int)$this->pageNumber),
                                    'fields'  => array('id_article','title',
-                                                      'pubdate','modifydate') ));
+                                                      'pubdate','modifydate','rewrite_name') ));
 
         // get node related links
         $this->model->action('link','getLinks', 

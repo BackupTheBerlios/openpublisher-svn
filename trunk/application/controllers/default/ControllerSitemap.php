@@ -34,7 +34,8 @@ class ControllerSitemap extends JapaControllerAbstractPage
                              array('id_node' => 0,
                                    'result'  => & $this->viewVar['tree'],
                                    'status'  => array('>=', 2),
-                                   'fields'  => array('id_parent','status','id_node','title')));   
+                                   'fields'  => array('id_parent','status','id_node',
+                                                      'title','rewrite_name')));   
                                    
         // get result of the header and footer controller
         //       

@@ -37,7 +37,7 @@ class ControllerHeader extends JapaControllerAbstractPage
                               array('id_node' => 0,
                                     'result'  => & $this->viewVar['rootNodes'],
                                     'status'  => array('>=', 2),
-                                    'fields'  => array('title','id_node')));
+                                    'fields'  => array('title','id_node','rewrite_name')));
                                       
     }
 }
