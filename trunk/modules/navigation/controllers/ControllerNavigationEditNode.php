@@ -313,17 +313,31 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         {
             if($this->node_id_map == 0)
             {
-                $this->model->action('common','addUrlRewrite',
-                                     array( 'id_map'        => crc32($this->node_url_rewrite),
-                                            'module'        => 'navigation',
-                                            'request_name'  => (string)$this->node_url_rewrite,
-                                            'request_value' => (int)$this->current_id_node) );    
+                if($this->urlExists( $this->node_url_rewrite ))
+                {         
+                    $this->viewVar['error'][] = 'You can not define an url rewrite name which is defined else where!';
+                }
+                else
+                {
+                    $this->model->action('common','addUrlRewrite',
+                                         array( 'id_map'        => crc32($this->node_url_rewrite),
+                                                'module'        => 'navigation',
+                                                'request_name'  => (string)$this->node_url_rewrite,
+                                                'request_value' => (int)$this->current_id_node) );  
+                }  
             }  
             elseif(!empty($this->node_url_rewrite))
             {
-                $this->model->action('common','updateUrlRewrite',
-                                     array( 'id_map'       => (int)$this->node_id_map,
-                                            'request_name' => (string)$this->node_url_rewrite) );    
+                if($this->urlExists( $this->node_url_rewrite ))
+                {         
+                    $this->viewVar['error'][] = 'You can not define an url rewrite name which is defined else where!';
+                }
+                else
+                {
+                    $this->model->action('common','updateUrlRewrite',
+                                         array( 'id_map'       => (int)$this->node_id_map,
+                                                'request_name' => (string)$this->node_url_rewrite) );  
+                }  
             }   
             else
             {
@@ -814,6 +828,25 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
             }
         }
     }    
+    /**
+     * log events of this view
+     *
+     * for $type values see: /modules/user/actions/ActionUserLogAddEvent.php
+     *
+     * @param int $type 
+     */     
+    private function urlExists($url_rewrite)
+    {
+        $tmp = array();
+        $this->model->action( 'common', 'getUrlRewrite',     
+                              array('result' => & $tmp,       
+                                    'id_map' => crc32($url_rewrite)) );
+        if(isset($tmp[0]))
+        {
+            return true;
+        }
+        return false;
+    }
 }
 
 ?>

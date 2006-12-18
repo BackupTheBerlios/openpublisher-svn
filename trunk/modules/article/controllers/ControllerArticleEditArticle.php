@@ -855,8 +855,8 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
     {
         $tmp = array();
         $this->model->action( 'common', 'getUrlRewrite',     
-                              array('result'        => & $tmp,       
-                                    'request_name' => $url_rewrite) );
+                              array('result' => & $tmp,       
+                                    'id_map' => crc32($url_rewrite)) );
         if(isset($tmp[0]))
         {
             return true;
