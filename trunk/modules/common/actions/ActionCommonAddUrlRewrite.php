@@ -43,7 +43,7 @@ class ActionCommonAddUrlRewrite extends JapaAction
         }
         $request_value = $this->model->dba->escape($data['request_value']);
         
-        $sql = "REPLACE INTO {$this->config->dbTablePrefix}common_public_controller_map
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}common_public_controller_map
                    (`id_map`,`module`,`request_name`,`request_value`)
                   VALUES
                    ('{$id_map}','{$module}','{$request_name}','{$request_value}')";
