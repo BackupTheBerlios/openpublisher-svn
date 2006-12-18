@@ -60,7 +60,7 @@ class Zend_View_Helper_FormCheckbox extends Zend_View_Helper_FormElement {
         $options = array(1,0))
     {
         $info = $this->_getInfo($name, $value, $attribs, $options);
-        extract($info); // name, value, attribs, options, listsep, disable
+        extract($info); // name, id, value, attribs, options, listsep, disable
         
         // make sure attribs don't overwrite name and value
         unset($attribs['name']);
@@ -95,8 +95,8 @@ class Zend_View_Helper_FormCheckbox extends Zend_View_Helper_FormElement {
             // the "unchecked" option is returned to the server instead.
             $xhtml = $this->_hidden($name, $options[1]) 
                    . '<input type="checkbox"'
-                   . ' name="' . htmlspecialchars($name) . '"'
-                   . ' value="' . htmlspecialchars($options[0]) . '"';
+                   . ' name="' . htmlspecialchars($name, ENT_COMPAT, 'UTF-8') . '"'
+                   . ' value="' . htmlspecialchars($options[0], ENT_COMPAT, 'UTF-8') . '"';
             
             // is it checked already?
             if ($value == $options[0]) {

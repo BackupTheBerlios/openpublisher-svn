@@ -36,6 +36,13 @@ require_once 'Zend/Json/Exception.php';
 class Zend_Json_Encoder
 {
     /**
+     * Whether or not to check for possible cycling
+     * 
+     * @var boolean
+     */
+    protected $_cycleCheck;
+
+    /**
      * Array of visited objects; used to prevent cycling.
      *
      * @var array
@@ -44,20 +51,25 @@ class Zend_Json_Encoder
 
     /**
      * Constructor
+     *
+     * @param boolean $cycleCheck Whether or not to check for recursion when encoding
+     * @return void
      */
-    protected function __construct()
+    protected function __construct($cycleCheck = false)
     {
+        $this->_cycleCheck = $cycleCheck;
     }
 
     /**
      * Use the JSON encoding scheme for the value specified
      *
-     * @param mixed $value  value the object to be encoded
+     * @param mixed $value The value to be encoded
+     * @param boolean $cycleCheck Whether or not to check for possible object recursion when encoding
      * @return string  The encoded value
      */
-    public static function encode($value)
+    public static function encode($value, $cycleCheck = false)
     {
-        $encoder = new Zend_Json_Encoder();
+        $encoder = new Zend_Json_Encoder(($cycleCheck) ? true : false);
 
         return $encoder->_encodeValue($value);
     }
@@ -94,30 +106,32 @@ class Zend_Json_Encoder
      *
      * @param $value object
      * @return string
-     * @throws Zend_Json_Exception
+     * @throws Zend_Json_Exception If recursive checks are enabled and the object has been serialized previously
      */
     protected function _encodeObject(&$value)
     {
-        if ($this->_wasVisited($value)) {
-    	    throw new Zend_Json_Exception(
-                'Cycles not supported in JSON encoding, cycle introduced by '
-                . 'class "' . get_class($value) . '"'
-            );
-    	}
+        if ($this->_cycleCheck) {
+            if ($this->_wasVisited($value)) {
+                throw new Zend_Json_Exception(
+                    'Cycles not supported in JSON encoding, cycle introduced by '
+                    . 'class "' . get_class($value) . '"'
+                );
+            }
 
-        $this->_visited[] = $value;
+            $this->_visited[] = $value;
+        }
 
     	$props = '';
     	foreach (get_object_vars($value) as $name => $propValue) {
     	    if (isset($propValue)) {
-        		$props .= ', '
+        		$props .= ','
                         . $this->_encodeValue($name)
-        		        . ' : '
+        		        . ':'
                         . $this->_encodeValue($propValue);
     	    }
     	}
 
-    	return '{' . '"__className": "' . get_class($value) . '"'
+    	return '{"__className":"' . get_class($value) . '"'
                 . $props . '}';
     }
 
@@ -125,7 +139,6 @@ class Zend_Json_Encoder
     /**
      * Determine if an object has been serialized already
      *
-     * @access protected
      * @param mixed $value
      * @return boolean
      */
@@ -157,16 +170,16 @@ class Zend_Json_Encoder
         $tmpArray = array();
 
         // Check for associative array
-        if (array_keys($array) !== range(0, count($array) - 1)) {
+        if (!empty($array) && (array_keys($array) !== range(0, count($array) - 1))) {
             // Associative array
             $result = '{';
             foreach ($array as $key => $value) {
                 $key = (string) $key;
         		$tmpArray[] = $this->_encodeString($key)
-        		            . ' : '
+        		            . ':'
                             . $this->_encodeValue($value);
             }
-            $result .= implode(', ', $tmpArray);
+            $result .= implode(',', $tmpArray);
             $result .= '}';
         } else {
             // Indexed array
@@ -175,7 +188,7 @@ class Zend_Json_Encoder
             for ($i = 0; $i < $length; $i++) {
                 $tmpArray[] = $this->_encodeValue($array[$i]);
             }
-            $result .= implode(', ', $tmpArray);
+            $result .= implode(',', $tmpArray);
             $result .= ']';
         }
 
@@ -196,7 +209,7 @@ class Zend_Json_Encoder
     {
         $result = 'null';
 
-    	if (is_numeric($value)) {
+    	if (is_int($value) || is_float($value)) {
     	    $result = (string)$value;
         } elseif (is_string($value)) {
             $result = $this->_encodeString($value);
@@ -267,7 +280,7 @@ class Zend_Json_Encoder
     static private function _encodeMethods(ReflectionClass $cls)
     {
     	$methods = $cls->getMethods();
-    	$result = 'methods : {';
+    	$result = 'methods:{';
 
         $started = false;
         foreach ($methods as $method) {
@@ -276,27 +289,27 @@ class Zend_Json_Encoder
     	    }
 
     	    if ($started) {
-        		$result .= ", ";
+        		$result .= ',';
     	    }
             $started = true;
 
-    	    $result .= " " .$method->getName(). ': function(';
+    	    $result .= '' . $method->getName(). ':function(';
 
     	    if ('__construct' != $method->getName()) {
         		$parameters  = $method->getParameters();
                 $paramCount  = count($parameters);
                 $argsStarted = false;
 
-        		$argNames = "var argNames = [";
+        		$argNames = "var argNames=[";
                 foreach ($parameters as $param) {
         		    if ($argsStarted) {
-            			$result .= ', ';
+            			$result .= ',';
         		    }
 
         		    $result .= $param->getName();
 
         		    if ($argsStarted) {
-            			$argNames .= ', ';
+            			$argNames .= ',';
         		    }
 
         		    $argNames .= '"' . $param->getName() . '"';
@@ -305,14 +318,14 @@ class Zend_Json_Encoder
         		}
         		$argNames .= "];";
 
-        		$result .= ") {"
+        		$result .= "){"
         		         . $argNames
-            		     . "var result = ZAjaxEngine.invokeRemoteMethod("
+            		     . 'var result = ZAjaxEngine.invokeRemoteMethod('
             		     . "this, '" . $method->getName()
-                         . "', argNames, arguments);"
-                		 . "return(result);}";
+                         . "',argNames,arguments);"
+                		 . 'return(result);}';
     	    } else {
-        		$result .= ") {}";
+        		$result .= "){}";
     	    }
     	}
 
@@ -332,7 +345,7 @@ class Zend_Json_Encoder
     {
     	$properties = $cls->getProperties();
     	$propValues = get_class_vars($cls->getName());
-    	$result = "variables : {";
+    	$result = "variables:{";
     	$cnt = 0;
 
         $tmpArray = array();
@@ -369,9 +382,9 @@ class Zend_Json_Encoder
     	    throw new Zend_Json_Exception("$className must be instantiable");
     	}
 
-    	return "Class.create('$package$className', {"
-    	        . self::_encodeConstants($cls)    .", "
-    	        . self::_encodeMethods($cls)      .", "
+    	return "Class.create('$package$className',{"
+    	        . self::_encodeConstants($cls)    .","
+    	        . self::_encodeMethods($cls)      .","
     	        . self::_encodeVariables($cls)    .'});';
     }
 

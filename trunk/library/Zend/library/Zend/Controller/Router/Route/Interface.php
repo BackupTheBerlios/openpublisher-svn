@@ -15,6 +15,7 @@
  * @package    Zend_Controller
  * @subpackage Router
  * @copyright  Copyright (c) 2005-2006 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Interface.php 1972 2006-11-30 18:28:34Z matthew $
  * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
  */
 
@@ -30,7 +31,6 @@ require_once 'Zend/Controller/Router/Exception.php';
  * @license    http://www.zend.com/license/framework/1_0.txt Zend Framework License version 1.0
  */
 interface Zend_Controller_Router_Route_Interface {
-    public function __construct($route, $defaults = array(), $reqs = array());
     public function match($path);
     public function assemble($data = array());
 }

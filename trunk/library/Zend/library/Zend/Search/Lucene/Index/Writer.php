@@ -223,6 +223,9 @@ class Zend_Search_Lucene_Index_Writer
     }
 
 
+    /**
+     * Merge segments if necessary
+     */
     private function _maybeMergeSegments()
     {
         $segmentSizes = array();
@@ -269,6 +272,13 @@ class Zend_Search_Lucene_Index_Writer
      */
     private function _mergeSegments($segments)
     {
+        // Try to get exclusive non-blocking lock to the 'index.optimization.lock'
+        // Skip optimization if it's performed by other process right now
+        $optimizationLock = $this->_directory->createFile('index.optimization.lock');
+        if (!$optimizationLock->lock(LOCK_EX,true)) {
+            return;
+        }
+
         $newName = $this->_newSegmentName();
         $merger = new Zend_Search_Lucene_Index_SegmentMerger($this->_directory,
                                                              $newName);
@@ -283,19 +293,30 @@ class Zend_Search_Lucene_Index_Writer
         }
 
         $this->commit();
+
+        // optimization is finished
+        $optimizationLock->unlock();
     }
 
     /**
      * Update segments file by adding current segment to a list
      *
-     * @todo !!!! locks should be processed to prevent concurrent access errors
-     *
      * @throws Zend_Search_Lucene_Exception
      */
     private function _updateSegments()
     {
-        $segmentsFile   = $this->_directory->getFileObject('segments');
-        $newSegmentFile = $this->_directory->createFile('segments.new');
+        // Get an exclusive index lock
+        // Wait, until all parallel searchers or indexers won't stop
+        // and stop all next searchers, while we are updating segments file
+        $lock = $this->_directory->getFileObject('index.lock');
+        if (!$lock->lock(LOCK_EX)) {
+            throw new Zend_Search_Lucene_Exception('Can\'t obtain exclusive index lock');
+        }
+
+
+        // Do not share file handlers to get file updates from other sessions.
+        $segmentsFile   = $this->_directory->getFileObject('segments', false);
+        $newSegmentFile = $this->_directory->createFile('segments.new', false);
 
         // Write format marker
         $newSegmentFile->writeInt((int)0xFFFFFFFF);
@@ -309,36 +330,63 @@ class Zend_Search_Lucene_Index_Writer
         // Write segment name counter
         $newSegmentFile->writeInt($segmentsFile->readInt());
 
+        // Get number of segments offset
+        $numOfSegmentsOffset = $newSegmentFile->tell();
         // Write number of segemnts
-        $segments = $segmentsFile->readInt();
-        $newSegmentFile->writeInt($segments + count($this->_newSegments) - count($this->_segmentsToDelete));
+        $segmentsCount = $segmentsFile->readInt();
+        $newSegmentFile->writeInt(0);  // Write dummy data (segment counter)
 
-        for ($count = 0; $count < $segments; $count++) {
+        $segments = array();
+        for ($count = 0; $count < $segmentsCount; $count++) {
             $segName = $segmentsFile->readString();
             $segSize = $segmentsFile->readInt();
 
-            if (!array_key_exists($segName, $this->_segmentsToDelete)) {
+            if (!in_array($segName, $this->_segmentsToDelete)) {
                 $newSegmentFile->writeString($segName);
                 $newSegmentFile->writeInt($segSize);
+
+                $segments[$segName] = $segSize;
             }
         }
+        $segmentsFile->close();
 
-        foreach ($this->_newSegments as $segmentName => $segmentInfo) {
-            $newSegmentFile->writeString($segmentName);
+        $segmentsCount = count($segments) + count($this->_newSegments);
+
+        // Remove segments, not listed in $segments (deleted)
+        // Load segments, not listed in $this->_segmentInfos
+        foreach ($this->_segmentInfos as $segId => $segInfo) {
+            if (isset($segments[$segInfo->getName()])) {
+                // Segment is already included into $this->_segmentInfos
+                unset($segments[$segInfo->getName()]);
+            } else {
+                // remove deleted segment from a list
+                unset($this->_segmentInfos[$segId]);
+            }
+        }
+        // $segments contains a list of segments to load
+        // do it later
+
+        foreach ($this->_newSegments as $segName => $segmentInfo) {
+            $newSegmentFile->writeString($segName);
             $newSegmentFile->writeInt($segmentInfo->count());
 
             $this->_segmentInfos[] = $segmentInfo;
         }
         $this->_newSegments = array();
 
+        $newSegmentFile->seek($numOfSegmentsOffset);
+        $newSegmentFile->writeInt($segmentsCount);  // Update segments count
+        $newSegmentFile->close();
+        $this->_directory->renameFile('segments.new', 'segments');
+
+
+        // Segments file update is finished
+        // Switch back to shared lock mode
+        $lock->lock(LOCK_SH);
+
+
         $fileList = $this->_directory->fileList();
         foreach ($this->_segmentsToDelete as $nameToDelete) {
-            foreach ($this->_segmentInfos as $segId => $segInfo) {
-                if ($segInfo->getName() == $nameToDelete) {
-                    unset($this->_segmentInfos[$segId]);
-                }
-            }
-
             foreach (self::$_indexExtensions as $ext) {
                 if ($this->_directory->fileExists($nameToDelete . $ext)) {
                     $this->_directory->deleteFile($nameToDelete . $ext);
@@ -354,7 +402,13 @@ class Zend_Search_Lucene_Index_Writer
         }
         $this->_segmentsToDelete = array();
 
-        $this->_directory->renameFile('segments.new', 'segments');
+        // Load segments, created by other process
+        foreach ($segments as $segName => $segSize) {
+            // Load new segments
+            $this->_segmentInfos[] = new Zend_Search_Lucene_Index_SegmentInfo($segName,
+                                                                              $segSize,
+                                                                              $this->_directory);
+        }
     }
 
 
@@ -410,13 +464,24 @@ class Zend_Search_Lucene_Index_Writer
      */
     private function _newSegmentName()
     {
-        $segmentsFile = $this->_directory->getFileObject('segments');
+        // Do not share file handler to get file updates from other sessions.
+        $segmentsFile = $this->_directory->getFileObject('segments', false);
+
+        // Get exclusive segments file lock
+        // We have guarantee, that we will not intersect with _updateSegments() call
+        // of other process, because it needs exclusive index lock and waits
+        // until all other searchers won't stop
+        if (!$segmentsFile->lock(LOCK_EX)) {
+            throw new Zend_Search_Lucene_Exception('Can\'t obtain exclusive index lock');
+        }
+
         $segmentsFile->seek(12); // 12 = 4 (int, file format marker) + 8 (long, index version)
         $segmentNameCounter = $segmentsFile->readInt();
 
         $segmentsFile->seek(12); // 12 = 4 (int, file format marker) + 8 (long, index version)
         $segmentsFile->writeInt($segmentNameCounter + 1);
 
+        $segmentsFile->unlock();
 
         return '_' . base_convert($segmentNameCounter, 10, 36);
     }

@@ -13,6 +13,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Cache
  * @subpackage Backend
  * @copyright  Copyright (c) 2006 Zend Technologies USA Inc. (http://www.zend.com)
@@ -45,7 +46,7 @@ interface Zend_Cache_Backend_Interface
      * @param boolean $doNotTestCacheValidity if set to true, the cache validity won't be tested
      * @return string cached datas (or false)
      */
-    public function get($id, $doNotTestCacheValidity = false);
+    public function load($id, $doNotTestCacheValidity = false);
     
     /**
      * Test if a cache is available or not (for the given id)

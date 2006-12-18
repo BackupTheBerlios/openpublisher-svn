@@ -64,8 +64,9 @@ class Zend_View_Helper_FormPassword extends Zend_View_Helper_FormElement {
         } else {
             // enabled
             $xhtml = '<input type="password"'
-                   . ' name="' . htmlspecialchars($name) . '"'
-                   . ' value="' . htmlspecialchars($value) . '"'
+                   . ' name="' . htmlspecialchars($name, ENT_COMPAT, 'UTF-8') . '"'
+                   . ' id="' . htmlspecialchars($id, ENT_COMPAT, 'UTF-8') . '"'
+                   . ' value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"'
                    . $this->_htmlAttribs($attribs)
                    . ' />';
         }

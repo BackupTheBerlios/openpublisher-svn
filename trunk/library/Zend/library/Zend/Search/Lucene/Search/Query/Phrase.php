@@ -73,7 +73,7 @@ class Zend_Search_Lucene_Search_Query_Phrase extends Zend_Search_Lucene_Search_Q
      *
      * The slop is zero by default, requiring exact matches.
      *
-     * @var unknown_type
+     * @var integer
      */
     private $_slop;
 
@@ -179,6 +179,41 @@ class Zend_Search_Lucene_Search_Query_Phrase extends Zend_Search_Lucene_Search_Q
             $this->_offsets[] = end($this->_offsets) + 1;
         } else {
             $this->_offsets[] = 0;
+        }
+    }
+
+
+    /**
+     * Re-write queries into primitive queries
+     * Also used for query optimization and binding to the index
+     *
+     * @param Zend_Search_Lucene $index
+     * @return Zend_Search_Lucene_Search_Query
+     */
+    public function rewrite(Zend_Search_Lucene $index)
+    {
+        if (count($this->_terms) == 0) {
+            return new Zend_Search_Lucene_Search_Query_Empty();
+        } else if ($this->_terms[0]->field !== null) {
+            return $this;
+        } else {
+            $query = new Zend_Search_Lucene_Search_Query_Boolean();
+            $query->setBoost($this->getBoost());
+
+            foreach ($index->getFieldNames(true) as $fieldName) {
+                $subquery = new Zend_Search_Lucene_Search_Query_Phrase();
+                $subquery->setSlop($this->getSlop());
+
+                foreach ($this->_terms as $termId => $term) {
+                    $qualifiedTerm = new Zend_Search_Lucene_Index_Term($term->text, $fieldName);
+
+                    $subquery->addTerm($qualifiedTerm, $this->_offsets[$termId]);
+                }
+
+                $query->addSubquery($subquery);
+            }
+
+            return $query;
         }
     }
 
@@ -418,6 +453,39 @@ class Zend_Search_Lucene_Search_Query_Phrase extends Zend_Search_Lucene_Search_Q
         } else {
             return 0;
         }
+    }
+
+    /**
+     * Print a query
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        // It's used only for query visualisation, so we don't care about characters escaping
+
+        $query = '';
+
+        if (isset($this->_terms[0]) && $this->_terms[0]->field !== null) {
+            $query .= $this->_terms[0]->field . ':';
+        }
+
+        $query .= '"';
+
+        foreach ($this->_terms as $id => $term) {
+            if ($id != 0) {
+                $query .= ' ';
+            }
+            $query .= $term->text;
+        }
+
+        $query .= '"';
+
+        if ($this->_slop != 0) {
+            $query .= '~' . $this->_slop;
+        }
+
+        return $query;
     }
 }
 

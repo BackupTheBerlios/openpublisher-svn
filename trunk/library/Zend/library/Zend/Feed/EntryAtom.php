@@ -55,8 +55,9 @@ class Zend_Feed_EntryAtom extends Zend_Feed_EntryAbstract
      * does not contain a link rel="edit", we throw an error (either
      * the entry does not yet exist or this is not an editable
      * feed). If we have a link rel="edit", we do the empty-body
-     * HTTP DELETE to that URI and check for a response of 204 No
-     * Content.
+     * HTTP DELETE to that URI and check for a response of 2xx.
+     * Usually the response would be 204 No Content, but the Atom
+     * Publishing Protocol permits it to be 200 OK.
      *
      * @throws Zend_Feed_Exception If an error occurs, an Zend_Feed_Exception will
      * be thrown.
@@ -73,13 +74,13 @@ class Zend_Feed_EntryAtom extends Zend_Feed_EntryAbstract
         $client = Zend_Feed::getHttpClient();
         $client->setUri($deleteUri);
         if (Zend_Feed::getHttpMethodOverride()) {
-            $client->setHeaders(array('X-Method-Override: DELETE'));
-            $client->post();
+            $client->setHeader('X-HTTP-Method-Override', 'DELETE');
+            $response = $client->request('POST');
         } else {
-            $client->delete();
+            $response = $client->request('DELETE');
         }
-        if ($client->responseCode !== 204) {
-            throw new Zend_Feed_Exception('Expected response code 204, got ' . $client->responseCode);
+        if (!($response->getStatus() >= 200 && $response->getStatus() <= 299)) {
+            throw new Zend_Feed_Exception('Expected response code 2xx, got ' . $response->getStatus());
         }
 
         return true;
@@ -121,13 +122,17 @@ class Zend_Feed_EntryAtom extends Zend_Feed_EntryAbstract
             $client = Zend_Feed::getHttpClient();
             $client->setUri($editUri);
             if (Zend_Feed::getHttpMethodOverride()) {
-                $client->setHeaders(array('X-Method-Override: PUT'));
-                $client->post($this->saveXML());
+                $client->setHeaders(array('X-HTTP-Method-Override: PUT',
+                    'Content-Type: application/atom+xml'));
+                $client->setRawData($this->saveXML());
+                $response = $client->request('POST');
             } else {
-                $client->put($this->saveXML());
+                $client->setHeaders('Content-Type', 'application/atom+xml');
+                $client->setRawData($this->saveXML());
+                $response = $client->request('PUT');
             }
-            if ($client->responseCode !== 200) {
-                throw new Zend_Feed_Exception('Expected response code 200, got ' . $client->responseCode);
+            if ($response->getStatus() !== 200) {
+                throw new Zend_Feed_Exception('Expected response code 200, got ' . $response->getStatus());
             }
         } else {
             if ($postUri === null) {
@@ -135,16 +140,18 @@ class Zend_Feed_EntryAtom extends Zend_Feed_EntryAbstract
             }
             $client = Zend_Feed::getHttpClient();
             $client->setUri($postUri);
-            $client->post($this->saveXML());
-            if ($client->responseCode !== 201) {
+            $client->setRawData($this->saveXML());
+            $response = $client->request('POST');
+
+            if ($response->getStatus() !== 201) {
                 throw new Zend_Feed_Exception('Expected response code 201, got '
-                                              . $client->responseCode);
+                                              . $response->getStatus());
             }
         }
 
         // Update internal properties using $client->responseBody;
         @ini_set('track_errors', 1);
-        $newEntry = @DOMDocument::loadXML($client->responseBody);
+        $newEntry = @DOMDocument::loadXML($response->getBody());
         @ini_restore('track_errors');
         if (!$newEntry) {
             throw new Zend_Feed_Exception('XML cannot be parsed: ' . $php_errormsg);

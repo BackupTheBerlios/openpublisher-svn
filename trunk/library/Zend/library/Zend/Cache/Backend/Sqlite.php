@@ -13,6 +13,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Cache
  * @subpackage Backend
  * @copyright  Copyright (c) 2006 Zend Technologies USA Inc. (http://www.zend.com)
@@ -61,7 +62,7 @@ class Zend_Cache_Backend_Sqlite extends Zend_Cache_Backend implements Zend_Cache
      */
     protected $_options = array(
     	'cacheDBCompletePath' => null,
-        'automaticVacuumFactor' => 0
+        'automaticVacuumFactor' => 10
     ); 
   
     /**
@@ -106,7 +107,7 @@ class Zend_Cache_Backend_Sqlite extends Zend_Cache_Backend implements Zend_Cache
      * @param boolean $doNotTestCacheValidity if set to true, the cache validity won't be tested
      * @return string cached datas (or false)
      */
-    public function get($id, $doNotTestCacheValidity = false) 
+    public function load($id, $doNotTestCacheValidity = false) 
     {
         $sql = "SELECT content FROM cache WHERE id='$id'";
         if (!$doNotTestCacheValidity) {

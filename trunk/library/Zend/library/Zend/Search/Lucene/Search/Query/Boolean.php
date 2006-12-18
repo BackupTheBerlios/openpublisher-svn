@@ -55,7 +55,6 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
      *
      * @var array
      */
-
     private $_signs = array();
 
     /**
@@ -72,6 +71,9 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
     /**
      * Class constructor.  Create a new Boolean query object.
      *
+     * if $signs array is omitted then all subqueries are required
+     * it differs from addSubquery() behavior, but should never be used
+     *
      * @param array $subqueries    Array of Zend_Search_Search_Query objects
      * @param array $signs    Array of signs.  Sign is boolean|null.
      * @return void
@@ -87,7 +89,7 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
                 foreach ($signs as $sign ) {
                     if ($sign !== true) {
                         $this->_signs = $signs;
-                        continue;
+                        break;
                     }
                 }
             }
@@ -108,10 +110,10 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
      * @return void
      */
     public function addSubquery(Zend_Search_Lucene_Search_Query $subquery, $sign=null) {
-        if ($sign !== null || $this->_signs !== null) {       // Skip, if all subqueries are optional
-            if ($this->_signs === null) {                     // Check, If all previous subqueries are optional
+        if ($sign !== true || $this->_signs !== null) {       // Skip, if all subqueries are required
+            if ($this->_signs === null) {                     // Check, If all previous subqueries are required
                 foreach ($this->_subqueries as $prevSubquery) {
-                    $this->_signs[] = null;
+                    $this->_signs[] = true;
                 }
             }
             $this->_signs[] = $sign;
@@ -120,6 +122,25 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
         $this->_subqueries[] = $subquery;
     }
 
+    /**
+     * Re-write queries into primitive queries
+     * Also used for query optimization and binding to the index
+     *
+     * @param Zend_Search_Lucene $index
+     * @return Zend_Search_Lucene_Search_Query
+     */
+    public function rewrite(Zend_Search_Lucene $index)
+    {
+        $query = new Zend_Search_Lucene_Search_Query_Boolean();
+        $query->setBoost($this->getBoost());
+
+        foreach ($this->_subqueries as $subqueryId => $subquery) {
+            $query->addSubquery($subquery->rewrite($index),
+                                ($this->_signs === null)?  true : $this->_signs[$subqueryId]);
+        }
+
+        return $query;
+    }
 
     /**
      * Returns subqueries
@@ -246,6 +267,38 @@ class Zend_Search_Lucene_Search_Query_Boolean extends Zend_Search_Lucene_Search_
         } else {
             return $this->_nonConjunctionScore($docId, $reader);
         }
+    }
+
+    /**
+     * Print a query
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        // It's used only for query visualisation, so we don't care about characters escaping
+
+        $query = '';
+
+        foreach ($this->_subqueries as $id => $subquery) {
+            if ($id != 0) {
+                $query .= ' ';
+            }
+
+            if ($this->_signs === null || $this->_signs[$id] === true) {
+                $query .= '+';
+            } else if ($this->_signs[$id] === false) {
+                $query .= '-';
+            }
+
+            $query .= '(' . $subquery->__toString() . ')';
+
+            if ($subquery->getBoost() != 1) {
+                $query .= '^' . $subquery->getBoost();
+            }
+        }
+
+        return $query;
     }
 }
 

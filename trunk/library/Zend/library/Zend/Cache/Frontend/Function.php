@@ -13,6 +13,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Cache
  * @subpackage Frontend
  * @copyright  Copyright (c) 2006 Zend Technologies USA Inc. (http://www.zend.com)
@@ -88,7 +89,7 @@ class Zend_Cache_Frontend_Function extends Zend_Cache_Core
         $id = $this->_makeId($name, $parameters);
         if ($this->test($id)) {
             // A cache is available
-            $result = $this->get($id);
+            $result = $this->load($id);
             $output = $result[0];
             $return = $result[1];
         } else {

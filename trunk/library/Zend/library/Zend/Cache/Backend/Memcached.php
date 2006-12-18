@@ -13,6 +13,7 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Cache
  * @subpackage Backend
  * @copyright  Copyright (c) 2006 Zend Technologies USA Inc. (http://www.zend.com)
@@ -124,12 +125,12 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
      * @param boolean $doNotTestCacheValidity if set to true, the cache validity won't be tested
      * @return string cached datas (or false)
      */
-    public function get($id, $doNotTestCacheValidity = false) 
+    public function load($id, $doNotTestCacheValidity = false) 
     {
         // WARNING : $doNotTestCacheValidity is not supported !!!
         if ($doNotTestCacheValidity) {
 	        if ($this->_directives['logging']) {
-                Zend_Log::log("Zend_Cache_Backend_Memcached::get() : \$doNotTestCacheValidity=true is unsupported by the Memcached backend", Zend_Log::LEVEL_WARNING);
+                Zend_Log::log("Zend_Cache_Backend_Memcached::load() : \$doNotTestCacheValidity=true is unsupported by the Memcached backend", Zend_Log::LEVEL_WARNING);
 	        }
         }
         $tmp = $this->_memcache->get($id);

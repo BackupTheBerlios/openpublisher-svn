@@ -65,6 +65,15 @@ require_once 'Zend/Search/Lucene/Index/SegmentInfoPriorityQueue.php';
 class Zend_Search_Lucene
 {
     /**
+     * Default field name for search
+     *
+     * Null means search through all fields
+     *
+     * @var string
+     */
+    static private $_defaultSearchField = null;
+
+    /**
      * File system adapter.
      *
      * @var Zend_Search_Lucene_Storage_Directory
@@ -108,6 +117,13 @@ class Zend_Search_Lucene
 
 
     /**
+     * Index lock object
+     *
+     * @var Zend_Search_Lucene_Storage_File
+     */
+    private $_lock;
+
+    /**
      * Opens the index.
      *
      * IndexReader constructor needs Directory as a parameter. It should be
@@ -128,6 +144,14 @@ class Zend_Search_Lucene
         } else {
             $this->_directory      = new Zend_Search_Lucene_Storage_Directory_Filesystem($directory);
             $this->_closeDirOnExit = true;
+        }
+
+
+        // Get a shared lock to the index
+        // Wait if index is under switching from one set of segments to another (Index_Writer::_updateSegments())
+        $this->_lock = $this->_directory->createFile('index.lock');
+        if (!$this->_lock->lock(LOCK_SH)) {
+            throw new Zend_Search_Lucene_Exception('Can\'t obtain shared index lock');
         }
 
         $this->_segmentInfos = array();
@@ -177,6 +201,9 @@ class Zend_Search_Lucene
     {
         $this->commit();
 
+        // Free shared lock
+        $this->_lock->unlock();
+
         if ($this->_closeDirOnExit) {
             $this->_directory->close();
         }
@@ -216,6 +243,33 @@ class Zend_Search_Lucene
     public function count()
     {
         return $this->_docCount;
+    }
+
+
+    /**
+     * Set default search field.
+     *
+     * Null means, that search is performed through all fields by default
+     *
+     * Default value is null
+     *
+     * @param string $fieldName
+     */
+    static public function setDefaultSearchField($fieldName)
+    {
+        self::$_defaultSearchField = $fieldName;
+    }
+
+    /**
+     * Get default search field.
+     *
+     * Null means, that search is performed through all fields by default
+     *
+     * @return string
+     */
+    static public function getDefaultSearchField()
+    {
+        return self::$_defaultSearchField;
     }
 
     /**
@@ -333,6 +387,7 @@ class Zend_Search_Lucene
      *
      * @param mixed $query
      * @return array ZSearchHit
+     * @throws Zend_Search_Lucene_Exception
      */
     public function find($query)
     {
@@ -346,8 +401,11 @@ class Zend_Search_Lucene
 
         $this->commit();
 
-        $hits = array();
+        $hits   = array();
         $scores = array();
+        $ids    = array();
+
+        $query = $query->rewrite($this)->optimize($this);
 
         $docNum = $this->count();
         for( $count=0; $count < $docNum; $count++ ) {
@@ -357,11 +415,88 @@ class Zend_Search_Lucene
                 $hit->id = $count;
                 $hit->score = $docScore;
 
-                $hits[] = $hit;
+                $hits[]   = $hit;
+                $ids[]    = $count;
                 $scores[] = $docScore;
             }
         }
-        array_multisort($scores, SORT_DESC, SORT_REGULAR, $hits);
+
+        if (count($hits) == 0) {
+            // skip sorting, which may cause a error on empty index
+        	return array();
+        }
+
+        if (func_num_args() == 1) {
+            // sort by scores
+            array_multisort($scores, SORT_DESC, SORT_NUMERIC,
+                            $ids,    SORT_ASC,  SORT_NUMERIC,
+                            $hits);
+        } else {
+            // sort by given field names
+
+            $argList    = func_get_args();
+            $fieldNames = $this->getFieldNames();
+            $sortArgs   = array();
+
+            for ($count = 1; $count < count($argList); $count++) {
+                $fieldName = $argList[$count];
+
+                if (!is_string($fieldName)) {
+                    throw new Zend_Search_Lucene_Exception('Field name must be a string.');
+                }
+
+                if (!in_array($fieldName, $fieldNames)) {
+                    throw new Zend_Search_Lucene_Exception('Wrong field name.');
+                }
+
+                $valuesArray = array();
+                foreach ($hits as $hit) {
+                    try {
+                        $value = $hit->getDocument()->getFieldValue($fieldName);
+                    } catch (Zend_Search_Lucene_Exception $e) {
+                        if (strpos($e->getMessage(), 'not found') === false) {
+                            throw $e;
+                        } else {
+                            $value = null;
+                        }
+                    }
+
+                    $valuesArray[] = $value;
+                }
+
+                $sortArgs[] = $valuesArray;
+
+                if ($count + 1 < count($argList)  &&  is_integer($argList[$count+1])) {
+                    $count++;
+                    $sortArgs[] = $argList[$count];
+
+                    if ($count + 1 < count($argList)  &&  is_integer($argList[$count+1])) {
+                        $count++;
+                        $sortArgs[] = $argList[$count+1];
+                    } else {
+                        if ($argList[$count] == SORT_ASC  || $argList[$count] == SORT_DESC) {
+                            $sortArgs[] = SORT_REGULAR;
+                        } else {
+                            $sortArgs[] = SORT_ASC;
+                        }
+                    }
+                } else {
+                    $sortArgs[] = SORT_ASC;
+                    $sortArgs[] = SORT_REGULAR;
+                }
+            }
+
+            // Sort by id's if values are equal
+            $sortArgs[] = $ids;
+            $sortArgs[] = SORT_ASC;
+            $sortArgs[] = SORT_NUMERIC;
+
+            // Array to be sorted
+            $sortArgs[] = $hits;
+
+            // Do sort
+            call_user_func_array('array_multisort', $sortArgs);
+        }
 
         $query->reset();
 
@@ -642,7 +777,6 @@ class Zend_Search_Lucene
             throw new Zend_Search_Lucene_Exception('Document id is out of the range.');
         }
 
-        $segCount = 0;
         $segmentStartId = 0;
         foreach ($this->_segmentInfos as $segmentInfo) {
             if ($segmentStartId + $segmentInfo->count() > $id) {
@@ -732,13 +866,17 @@ class Zend_Search_Lucene
 
         $segmentInfoQueue = new Zend_Search_Lucene_Index_SegmentInfoPriorityQueue();
 
-        foreach ($this->_segmentInfos as $segName => $segmentInfo) {
+        foreach ($this->_segmentInfos as $segmentInfo) {
             $segmentInfo->reset();
-            $segmentInfoQueue->put($segmentInfo);
+
+            // Skip "empty" segments
+            if ($segmentInfo->currentTerm() !== null) {
+                $segmentInfoQueue->put($segmentInfo);
+            }
         }
 
         while (($segmentInfo = $segmentInfoQueue->pop()) !== null) {
-            if ($segmentInfoQueue->top() !== null &&
+            if ($segmentInfoQueue->top() === null ||
                 $segmentInfoQueue->top()->currentTerm()->key() !=
                             $segmentInfo->currentTerm()->key()) {
                 // We got new term

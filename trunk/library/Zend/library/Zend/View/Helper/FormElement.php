@@ -45,11 +45,11 @@ abstract class Zend_View_Helper_FormElement {
     {
         $xhtml = '';
         foreach ((array) $attribs as $key => $val) {
-            $key = htmlspecialchars($key);
+            $key = htmlspecialchars($key, ENT_COMPAT, 'UTF-8');
             if (is_array($val)) {
                 $val = implode(' ', $val);
             }
-            $val = htmlspecialchars($val);
+            $val = htmlspecialchars($val, ENT_COMPAT, 'UTF-8');
             $xhtml .= " $key=\"$val\"";
         }
         return $xhtml;
@@ -79,6 +79,7 @@ abstract class Zend_View_Helper_FormElement {
         // if it's an array.
         $info = array(
             'name'    => is_array($name) ? '' : $name,
+            'id'      => is_array($name) ? '' : $name,
             'value'   => $value,
             'attribs' => $attribs,
             'options' => $options,
@@ -114,7 +115,14 @@ abstract class Zend_View_Helper_FormElement {
             $info['disable'] = true;
             unset($info['attribs']['disable']);
         }
-        
+
+        // Set ID for element
+        if (isset($info['attribs']['id'])) {
+            $info['id'] = (string) $info['attribs']['id'];
+        } elseif (!isset($info['attribs']['id']) && !empty($info['name'])) {
+            $info['id'] = $info['name'];
+        }
+         
         // remove attribs that might overwrite the other keys.
         // we do this LAST because we needed the other attribs
         // values earlier.
@@ -123,7 +131,7 @@ abstract class Zend_View_Helper_FormElement {
                 unset($info['attribs'][$key]);
             }
         }
-        
+       
         // done!
         return $info;
     }
@@ -147,8 +155,8 @@ abstract class Zend_View_Helper_FormElement {
     protected function _hidden($name, $value = null, $attribs = null)
     {
         return '<input type="hidden"'
-             . ' name="' . htmlspecialchars($name) . '"'
-             . ' value="' . htmlspecialchars($value) . '"'
+             . ' name="' . htmlspecialchars($name, ENT_COMPAT, 'UTF-8') . '"'
+             . ' value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"'
              . $this->_htmlAttribs($attribs) . ' />';
     }
 }

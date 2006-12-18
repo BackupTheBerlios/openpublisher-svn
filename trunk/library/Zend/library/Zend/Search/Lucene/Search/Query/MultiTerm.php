@@ -55,7 +55,6 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
      *
      * @var array
      */
-
     private $_signs;
 
     /**
@@ -101,6 +100,9 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
     /**
      * Class constructor.  Create a new multi-term query object.
      *
+     * if $signs array is omitted then all terms are required
+     * it differs from addTerm() behavior, but should never be used
+     *
      * @param array $terms    Array of Zend_Search_Lucene_Index_Term objects
      * @param array $signs    Array of signs.  Sign is boolean|null.
      * @return void
@@ -116,7 +118,7 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
                 foreach ($signs as $sign ) {
                     if ($sign !== true) {
                         $this->_signs = $signs;
-                        continue;
+                        break;
                     }
                 }
             }
@@ -137,10 +139,10 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
      * @return void
      */
     public function addTerm(Zend_Search_Lucene_Index_Term $term, $sign = null) {
-        if ($sign !== null || $this->_signs !== null) {       // Skip, if all terms are optional
-            if ($this->_signs === null) {                     // Check, If all previous terms are optional
+        if ($sign !== true || $this->_signs !== null) {       // Skip, if all terms are required
+            if ($this->_signs === null) {                     // Check, If all previous terms are required
                 foreach ($this->_terms as $prevTerm) {
-                    $this->_signs[] = null;
+                    $this->_signs[] = true;
                 }
             }
             $this->_signs[] = $sign;
@@ -149,6 +151,46 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         $this->_terms[] = $term;
     }
 
+
+    /**
+     * Re-write queries into primitive queries
+     * Also used for query optimization and binding to the index
+     *
+     * @param Zend_Search_Lucene $index
+     * @return Zend_Search_Lucene_Search_Query
+     */
+    public function rewrite(Zend_Search_Lucene $index)
+    {
+        if (count($this->_terms) == 0) {
+            return new Zend_Search_Lucene_Search_Query_Empty();
+        }
+
+        // Check, that all fields are qualified
+        $allQualified = true;
+        foreach ($this->_terms as $term) {
+            if ($term->field === null) {
+                $allQualified = false;
+                break;
+            }
+        }
+
+        if ($allQualified) {
+            return $this;
+        } else {
+            /** transform multiterm query to boolean and apply rewrite() method to subqueries. */
+            $query = new Zend_Search_Lucene_Search_Query_Boolean();
+            $query->setBoost($this->getBoost());
+
+            foreach ($this->_terms as $termId => $term) {
+                $subquery = new Zend_Search_Lucene_Search_Query_Term($term);
+
+                $query->addSubquery($subquery->rewrite($index),
+                                    ($this->_signs === null)?  true : $this->_signs[$subqueryId]);
+            }
+
+            return $query;
+        }
+    }
 
     /**
      * Returns query term
@@ -424,6 +466,37 @@ class Zend_Search_Lucene_Search_Query_MultiTerm extends Zend_Search_Lucene_Searc
         } else {
             return 0;
         }
+    }
+
+    /**
+     * Print a query
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        // It's used only for query visualisation, so we don't care about characters escaping
+
+        $query = '';
+
+        foreach ($this->_terms as $id => $term) {
+            if ($id != 0) {
+                $query .= ' ';
+            }
+
+            if ($this->_signs === null || $this->_signs[$id] === true) {
+                $query .= '+';
+            } else if ($this->_signs[$id] === false) {
+                $query .= '-';
+            }
+
+            if ($term->field !== null) {
+                $query .= $term->field . ':';
+            }
+            $query .= $term->text;
+        }
+
+        return $query;
     }
 }
 

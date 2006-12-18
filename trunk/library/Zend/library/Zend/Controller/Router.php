@@ -20,17 +20,17 @@
  */ 
 
 
+/** Zend */
+require_once 'Zend.php';
+
 /** Zend_Controller_Router_Interface */
 require_once 'Zend/Controller/Router/Interface.php';
 
-/** Zend_Controller_Dispatcher_Interface */
-require_once 'Zend/Controller/Dispatcher/Interface.php';
+/** Zend_Controller_Request_Abstract */
+require_once 'Zend/Controller/Request/Abstract.php';
 
-/** Zend_Controller_Router_Exception */
-require_once 'Zend/Controller/Router/Exception.php';
-
-/** Zend_Controller_Dispatcher_Token */
-require_once 'Zend/Controller/Dispatcher/Token.php';
+/** Zend_Controller_Request_Http */
+require_once 'Zend/Controller/Request/Http.php';
 
 
 /**
@@ -45,34 +45,146 @@ require_once 'Zend/Controller/Dispatcher/Token.php';
  */
 class Zend_Controller_Router implements Zend_Controller_Router_Interface
 {
+    /**
+     * Array of invocation parameters to use when instantiating action 
+     * controllers
+     * @var array 
+     */
+    protected $_invokeParams = array();
 
-    public function route(Zend_Controller_Dispatcher_Interface $dispatcher)
+    /**
+     * Constructor
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function __construct(array $params = array())
     {
-        /**
-         * @todo Replace with Zend_Request object
-         */
-        $path = $_SERVER['REQUEST_URI'];
-        if (strstr($path, '?')) {
-            $path = substr($path, 0, strpos($path, '?'));
+        $this->setParams($params);
+    }
+
+    /**
+     * Add or modify a parameter to use when instantiating an action controller
+     * 
+     * @param string $name
+     * @param mixed $value 
+     * @return Zend_Controller_Router
+     */
+    public function setParam($name, $value)
+    {
+        $name = (string) $name;
+        $this->_invokeParams[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * Set parameters to pass to action controller constructors
+     * 
+     * @param array $params 
+     * @return Zend_Controller_Router
+     */
+    public function setParams(array $params)
+    {
+        $this->_invokeParams = array_merge($this->_invokeParams, $params);
+        return $this;
+    }
+
+    /**
+     * Retrieve a single parameter from the controller parameter stack
+     * 
+     * @param string $name 
+     * @return mixed
+     */
+    public function getParam($name)
+    {
+        if(isset($this->_invokeParams[$name])) {
+            return $this->_invokeParams[$name];
         }
-        $path = explode('/', trim($path, '/'));
+
+        return null;
+    }
+
+    /**
+     * Retrieve action controller instantiation parameters
+     * 
+     * @return array
+     */
+    public function getParams()
+    {
+        return $this->_invokeParams;
+    }
+
+    /**
+     * Clear the controller parameter stack
+     *
+     * By default, clears all parameters. If a parameter name is given, clears 
+     * only that parameter; if an array of parameter names is provided, clears 
+     * each.
+     * 
+     * @param null|string|array single key or array of keys for params to clear
+     * @return Zend_Controller_Router
+     */
+    public function clearParams($name = null)
+    {
+        if (null === $name) {
+            $this->_invokeParams = array();
+        } elseif (is_string($name) && isset($this->_invokeParams[$name])) {
+            unset($this->_invokeParams[$name]);
+        } elseif (is_array($name)) {
+            foreach ($name as $key) {
+                if (is_string($key) && isset($this->_invokeParams[$key])) {
+                    unset($this->_invokeParams[$key]);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Route a request
+     *
+     * Routes requests of the format /controller/action by default (action may 
+     * be omitted). Additional parameters may be specified as key/value pairs
+     * separated by the directory separator: 
+     * /controller/action/key/value/key/value. 
+     *
+     * To specify a module to use (basically, subdirectory) when routing the 
+     * request, set the 'useModules' parameter via the front controller or 
+     * {@link setParam()}: $router->setParam('useModules', true)
+     * 
+     * @param Zend_Controller_Request_Abstract $request 
+     * @return void
+     */
+    public function route(Zend_Controller_Request_Abstract $request)
+    {
+        if (!$request instanceof Zend_Controller_Request_Http) {
+            throw Zend::exception('Zend_Controller_Router_Exception', 'Zend_Controller_Router requires a Zend_Controller_Request_Http-based request object');
+        }
+
+        $pathInfo = $request->getPathInfo();
+        $pathSegs = explode('/', trim($pathInfo, '/'));
 
         /**
-         * The controller is always the first piece of the URI, and
-         * the action is always the second:
-         *
-         * http://zend.com/controller-name/action-name/
+         * Retrieve module if useModules is set in object
          */
-        $controller = $path[0];
-        $action     = isset($path[1]) ? $path[1] : null;
+        $useModules = $this->getParam('useModules');
+        if (!empty($useModules)) {
+            if (isset($pathSegs[0]) && !empty($pathSegs[0])) {
+                $module = array_shift($pathSegs);
+            }
+        }
 
         /**
-         * If no controller has been set, IndexController::index()
-         * will be used.
+         * Get controller and action from request
+         * Attempt to get from path_info; controller is first item, action 
+         * second
          */
-        if (!strlen($controller)) {
-           $controller = 'index';
-           $action = 'index';
+        if (isset($pathSegs[0]) && !empty($pathSegs[0])) {
+            $controller = array_shift($pathSegs);
+        }
+        if (isset($pathSegs[0]) && !empty($pathSegs[0])) {
+            $action = array_shift($pathSegs);
         }
 
         /**
@@ -87,19 +199,31 @@ class Zend_Controller_Router implements Zend_Controller_Router_Interface
          * }
          */
         $params = array();
-        for ($i=2; $i<sizeof($path); $i=$i+2) {
-            $params[$path[$i]] = isset($path[$i+1]) ? $path[$i+1] : null;
+        $segs = count($pathSegs);
+        if (0 < $segs) {
+            for ($i = 0; $i < $segs; $i = $i + 2) {
+                $key = urldecode($pathSegs[$i]);
+                $value = isset($pathSegs[$i+1]) ? urldecode($pathSegs[$i+1]) : null;
+                $params[$key] = $value;
+            }
+        }
+        $request->setParams($params);
+
+        /**
+         * Set module, controller and action, now that params are set
+         */
+        if (isset($module)) {
+            $request->setParam('module', urldecode($module));
         }
 
-        $actionObj = new Zend_Controller_Dispatcher_Token($controller, $action, $params);
-
-        if (!$dispatcher->isDispatchable($actionObj)) {
-            /**
-             * @todo error handling for 404's
-             */
-            throw new Zend_Controller_Router_Exception('Request could not be mapped to a route.');
-        } else {
-            return $actionObj;
+        if (isset($controller)) {
+            $request->setControllerName(urldecode($controller));
         }
+
+        if (isset($action)) {
+            $request->setActionName(urldecode($action));
+        }
+
+        return $request;
     }
 }

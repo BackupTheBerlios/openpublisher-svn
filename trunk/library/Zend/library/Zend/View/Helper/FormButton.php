@@ -55,23 +55,24 @@ class Zend_View_Helper_FormButton extends Zend_View_Helper_FormElement {
     public function formButton($name, $value = null, $attribs = null)
     {
         $info = $this->_getInfo($name, $value, $attribs);
-        extract($info); // name, value, attribs, options, listsep, disable
+        extract($info); // name, id, value, attribs, options, listsep, disable
         
         // build the element
         if ($disable) {
         
             // disabled. no hidden value because it can't be clicked.
-            $xhtml = '[' . htmlspecialchars($value) . ']';
+            $xhtml = '[' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . ']';
             
         } else {
         
             // enabled
             $xhtml = '<input type="button"'
-                   . ' name="' . htmlspecialchars($name) . '"';
+                   . ' name="' . htmlspecialchars($name, ENT_COMPAT, 'UTF-8') . '"'
+                   . ' id="' . htmlspecialchars($id, ENT_COMPAT, 'UTF-8') . '"';
             
             // add a value if one is given
             if (! empty($value)) {
-                $xhtml .= ' value="' . htmlspecialchars($value) . '"';
+                $xhtml .= ' value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
             }
             
             // add attributes and close
