@@ -39,7 +39,11 @@
    <?php if(count($view['nodeBranch']) > 0): ?>
    <div id="branch">
     <?php  foreach($view['nodeBranch'] as $bnode): ?>
-      <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+      <?php if(!empty($bnode['rewrite_name'])): ?>
+        <a href="<?php echo $view['urlBase']; ?>/<?php echo $bnode['rewrite_name']; ?>"><?php echo $bnode['title']; ?></a> /
+      <?php else: ?>
+        <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+      <?php endif; ?>
     <?php endforeach; ?>
     <hr class="hr" />
    </div>     
@@ -67,7 +71,12 @@
            <li class="li">
              <div class="date">Publish date: <?php echo $article['pubdate']; ?></div>
              <div class="date">Modify date:  <?php echo $article['modifydate']; ?></div>
-             <a href="<?php echo $view['urlBase']; ?>/id_article/<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></li>
+             <?php if(!empty($article['rewrite_name'])): ?>
+               <a href="<?php echo $view['urlBase']; ?>/<?php echo $article['rewrite_name']; ?>"><?php echo $article['title']; ?></a>
+             <?php else: ?>
+             <a href="<?php echo $view['urlBase']; ?>/id_article/<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a>
+             <?php endif; ?>
+             </li>
          <?php endforeach; ?>
        </ul>
      </dd>
@@ -81,7 +90,11 @@
      <dd>   
        <ul>
          <?php foreach($view['childNodes'] as $cnode): ?>
-           <li class="li"><a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a></li>
+           <?php if(!empty($cnode['rewrite_name'])): ?>
+             <li class="li"><a href="<?php echo $view['urlBase']; ?>/<?php echo $cnode['rewrite_name']; ?>"><?php echo $cnode['title']; ?></a></li>
+           <?php else: ?>
+             <li class="li"><a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a></li>
+           <?php endif; ?>
          <?php endforeach; ?>
        </ul>
      </dd>

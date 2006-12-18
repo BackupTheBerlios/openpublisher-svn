@@ -39,7 +39,11 @@
     <?php  foreach($view['nodeBranch'] as $bnode): ?>
       <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
     <?php endforeach; ?>
+    <?php if(isset($view['node']['rewrite_name'])): ?>
+      <a href="<?php echo $view['urlBase']; ?>/<?php echo $view['node']['rewrite_name']; ?>"><?php echo $view['node']['title']; ?></a>
+    <?php else: ?>
     <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $view['node']['id_node']; ?>"><?php echo $view['node']['title']; ?></a>
+    <?php endif; ?>
     <hr class="hr" />
    </div>
    

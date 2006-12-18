@@ -30,8 +30,12 @@
   <!-- link to the entry page -->
   <li><a href="<?php echo $view['urlBase']; ?>/">Home</a></li>
   <!-- output all root navigation nodes -->
-  <?php foreach($view['rootNodes'] as $node): ?>    
-  <li><a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a></li>
+  <?php foreach($view['rootNodes'] as $node): ?>  
+    <?php if(!empty($node['rewrite_name'])): ?>  
+      <li><a href="<?php echo $view['urlBase']; ?>/<?php echo $node['rewrite_name']; ?>"><?php echo $node['title']; ?></a></li>
+    <?php else: ?>
+      <li><a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a></li>
+    <?php endif; ?>
   <?php endforeach; ?> 
 </ul>
 </div>

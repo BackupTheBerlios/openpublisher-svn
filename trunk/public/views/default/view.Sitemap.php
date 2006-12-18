@@ -29,7 +29,11 @@
    <!-- --- show the whole navigation node tree (sitemap) --- -->
    <ul id="sitemap">
      <?php foreach($view['tree'] as $node):  ?>
-        <li class="nodelevel<?php echo $node['level']; ?>">-<a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a></li>
+       <?php if(!empty($node['rewrite_name'])): ?>
+          <li class="nodelevel<?php echo $node['level']; ?>">-<a href="<?php echo $view['urlBase']; ?>/<?php echo $node['rewrite_name']; ?>"><?php echo $node['title']; ?></a></li>
+       <?php else: ?>
+          <li class="nodelevel<?php echo $node['level']; ?>">-<a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a></li>
+       <?php endif; ?>
      <?php endforeach; ?>
    </ul>
         
