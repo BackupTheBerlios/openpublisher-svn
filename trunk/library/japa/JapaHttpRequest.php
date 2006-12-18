@@ -190,6 +190,17 @@ class JapaHttpRequest implements JapaInterfaceRequest
         }
         $this->filterRequest->_source[$name] = $value; 
         
+        if(!isset($this->filterGet))
+        {
+            $this->filterGet = new Zend_Filter_Input( $_GET );
+        }
+        $this->filterGet->_source[$name] = $value; 
+ 
+         if(!isset($this->filterPost))
+        {
+            $this->filterPost = new Zend_Filter_Input( $_POST );
+        }
+        $this->filterPost->_source[$name] = $value;        
     }
 }
 ?>
