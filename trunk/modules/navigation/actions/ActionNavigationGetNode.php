@@ -39,6 +39,7 @@ class ActionNavigationGetNode extends JapaAction
                             'rank'         => 'Int',
                             'logo'         => 'String',
                             'media_folder' => 'String',
+                            'rewrite_name' => 'String',
                             'lang'         => 'String',
                             'title'        => 'String',
                             'short_text'   => 'String',
@@ -80,7 +81,7 @@ class ActionNavigationGetNode extends JapaAction
         $rs = $this->model->dba->query($sql);
         if($rs->numRows() > 0)
         {
-            $data['result'] = $rs->fetchAssoc();     
+            $data['result'] = $rs->fetchAssoc(); 
         }
     } 
     /**

@@ -23,6 +23,7 @@
                                               'changedate'   => 'String',
                                               'changestatus' => 'Int',
                                               'articledate'  => 'String',
+                                              'url_rewrite'  => 'String',
                                               'lang'         => 'String',
                                               'title'        => 'String',
                                               'overtitle'    => 'String',
@@ -31,7 +32,6 @@
                                               'description'  => 'String',
                                               'body'         => 'String',
                                               'ps'           => 'String',
-                                              'format'       => 'Int',
                                               'logo'         => 'String',
                                               'media_folder' => 'String')))
  */
@@ -48,6 +48,7 @@ class ActionArticleUpdateArticle extends JapaAction
                                          'changedate'   => 'String',
                                          'changestatus' => 'Int',
                                          'articledate'  => 'String',
+                                         'rewrite_name' => 'String',
                                          'lang'         => 'String',
                                          'title'        => 'String',
                                          'overtitle'    => 'String',
@@ -56,7 +57,6 @@ class ActionArticleUpdateArticle extends JapaAction
                                          'description'  => 'String',
                                          'body'         => 'String',
                                          'ps'           => 'String',
-                                         'format'       => 'Int',
                                          'logo'         => 'String',
                                          'media_folder' => 'String',
                                          'allow_comment' => 'Int',

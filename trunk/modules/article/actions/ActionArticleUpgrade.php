@@ -218,6 +218,11 @@ class ActionArticleUpgrade extends JapaAction
         $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_config
                   CHANGE `use_article_view` `use_article_controller` tinyint(1) NOT NULL default 0 ";
         $this->model->dba->query($sql); 
+        
+        $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_article
+                ADD `rewrite_name`  varchar(255) NOT NULL default ''
+                AFTER `modifydate`"; 
+        $this->model->dba->query($sql);
     }
     
     /**

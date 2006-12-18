@@ -40,6 +40,7 @@ class ActionNavigationGetChilds extends JapaAction
                             'status'       => 'Int',
                             'rank'         => 'Int',
                             'logo'         => 'String',
+                            'rewrite_name' => 'String',
                             'media_folder' => 'String',
                             'lang'         => 'String',
                             'title'        => 'String',
@@ -56,6 +57,12 @@ class ActionNavigationGetChilds extends JapaAction
     {
         $comma = '';
         $_fields = '';
+        
+        if(!in_array('id_node', $data['fields']))
+        {
+            $data['fields'][] = 'id_node';
+        }
+        
         foreach ($data['fields'] as $f)
         {
             $_fields .= $comma.'`'.$f.'`';

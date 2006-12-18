@@ -37,6 +37,7 @@ class ActionArticleSetup extends JapaAction
                    `pubdate`       datetime NOT NULL default '0000-00-00 00:00:00',
                    `articledate`   datetime NOT NULL default '0000-00-00 00:00:00',
                    `modifydate`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                   `rewrite_name`  varchar(255) NOT NULL default '',
                    `allow_comment` tinyint(1) NOT NULL default 0,
                    `close_comment` tinyint(1) NOT NULL default 0,
                    `title`         text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',

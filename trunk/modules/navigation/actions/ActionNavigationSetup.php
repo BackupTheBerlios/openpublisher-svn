@@ -36,6 +36,7 @@ class ActionNavigationSetup extends JapaAction
                    `status`        tinyint(1) NOT NULL default 0,
                    `rank`          smallint(4) unsigned NOT NULL default 0,
                    `modifydate`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                   `rewrite_name`  varchar(255) NOT NULL default '',
                    `lang`          char(2) NOT NULL default 'en',
                    `title`         text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',
                    `short_text`    text CHARACTER SET {$this->config->getVar('_dbcharset')} NOT NULL default '',

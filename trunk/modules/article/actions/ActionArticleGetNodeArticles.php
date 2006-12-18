@@ -51,6 +51,7 @@ class ActionArticleGetNodeArticles extends JapaAction
                                          'pubdate'      => 'String',
                                          'articledate'  => 'String',
                                          'modifydate'   => 'String',
+                                         'rewrite_name' => 'String',
                                          'lang'         => 'String',
                                          'title'        => 'String',
                                          'overtitle'    => 'String',
@@ -80,7 +81,7 @@ class ActionArticleGetNodeArticles extends JapaAction
         $comma = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
-        {            
+        {        
             // Modify dates depended on gmt+X settings
             if(($f == 'pubdate') || ($f == 'modifydate') || ($f == 'articledate'))
             {
@@ -186,7 +187,7 @@ class ActionArticleGetNodeArticles extends JapaAction
         $rs = $this->model->dba->query($sql);
         
         while($row = $rs->fetchAssoc())
-        {            
+        {       
             if(isset($data['author']))
             {
                 $row['authors'] = $this->getAuthors( $row['id_article'], $data );

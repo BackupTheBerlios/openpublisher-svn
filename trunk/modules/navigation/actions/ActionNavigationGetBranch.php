@@ -38,7 +38,7 @@ class ActionNavigationGetBranch extends JapaAction
                             'id_controller'=> 'Int',
                             'status'       => 'Int',
                             'rank'         => 'Int',
-                            'format'       => 'Int',
+                            'rewrite_name' => 'Int',
                             'logo'         => 'String',
                             'media_folder' => 'String',
                             'lang'         => 'String',

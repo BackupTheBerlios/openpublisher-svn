@@ -353,10 +353,17 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
         $this->getNewIdNode();
 
         $status = $this->httpRequest->getParameter('status', 'post', 'digits');
+        $url_rewrite = trim($this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i"));
         
         $articleFields = array('id_node'  => (int)$this->current_id_node,
                                'status'   => (int)$status,
                                'pubdate'  => $this->buildDate('pubdate'));
+
+        $articleFields['rewrite_name'] = '';
+        if(!empty($url_rewrite))
+        {
+            $articleFields['rewrite_name'] = $url_rewrite;
+        }
 
         if( $this->config->getModuleVar('article','use_comment') == 1 )
         {
@@ -826,11 +833,6 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
             }  
             elseif(!empty($url_rewrite))
             {
-                if($this->urlExists( $url_rewrite ))
-                {            
-                    $this->viewVar['error_url_rewrite'] = 'You can not define an url rewrite name which is defined else where!';
-                    return;
-                }
                 $this->model->action('common','updateUrlRewrite',
                                      array( 'id_map'       => (int)$id_map,
                                             'request_name' => (string)$url_rewrite) );    

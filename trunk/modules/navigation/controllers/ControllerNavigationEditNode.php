@@ -328,16 +328,9 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
             }  
             elseif(!empty($this->node_url_rewrite))
             {
-                if($this->urlExists( $this->node_url_rewrite ))
-                {         
-                    $this->viewVar['error'][] = 'You can not define an url rewrite name which is defined else where!';
-                }
-                else
-                {
-                    $this->model->action('common','updateUrlRewrite',
-                                         array( 'id_map'       => (int)$this->node_id_map,
-                                                'request_name' => (string)$this->node_url_rewrite) );  
-                }  
+                $this->model->action('common','updateUrlRewrite',
+                                    array( 'id_map'       => (int)$this->node_id_map,
+                                           'request_name' => (string)$this->node_url_rewrite) );  
             }   
             else
             {
@@ -593,7 +586,13 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $fields['id_parent']  = (int)$node_id_parent;
         $fields['status']     = (int)$status;
         $fields['title']      = JapaCommonUtil::stripSlashes((string)$title);
-
+        
+        $fields['rewrite_name'] = '';
+        if(!empty($this->node_url_rewrite))
+        {
+            $fields['rewrite_name'] = $this->node_url_rewrite;
+        }
+        
         if($this->node_was_moved == TRUE)
         {
             $sub_node_fields = array();
