@@ -81,6 +81,16 @@ class ActionCommonSetup extends JapaAction
                  PRIMARY KEY   (`id_module`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config->getVar('_dbTablePrefix')}common_public_controller_map (
+                 `id_map`        int(11) unsigned NOT NULL auto_increment,
+                 `module`        varchar(30) NOT NULL,
+                 `request_name`  varchar(255) NOT NULL,
+                 `request_value` int(11) unsigned NOT NULL default 0,
+                 PRIMARY KEY   (`id_map`),
+                 KEY           (`module`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);  
 
         $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)

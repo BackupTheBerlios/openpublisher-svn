@@ -100,6 +100,9 @@ class ActionCommonInit extends JapaAction
         
         // check for module upgrade
         $this->checkModuleVersion();   
+        
+        // load public controller map
+        $this->loadPublicControllerMap();
        
         // set session handler
         $this->model->sessionHandler = new JapaSessionHandler( $this->model->dba, $db['dbTablePrefix'] );
@@ -170,6 +173,22 @@ class ActionCommonInit extends JapaAction
             unset($row['config']);
             }
             $this->model->register($row['name'], $row); 
+        }    
+    }
+    
+    /**
+     * Load module descriptions in $this->config['module']['name']
+     *
+     */    
+    private function loadPublicControllerMap()
+    {
+        $sql = "SELECT SQL_CACHE * FROM {$this->config->dbTablePrefix}common_public_controller_map ORDER BY `module`, `id_map`";
+        
+        $rs = $this->model->dba->query($sql);
+        
+        while($row = $rs->fetchAssoc())
+        {
+            $this->model->addToControllerMap( $row['module'], $row['request_name'], $row['request_value'] );
         }    
     }
     
