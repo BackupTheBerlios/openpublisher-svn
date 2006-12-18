@@ -31,6 +31,8 @@ class ActionCommonAddUrlRewrite extends JapaAction
     {
         $module       = $this->model->dba->escape($data['module']);
         $request_name = $this->model->dba->escape($data['request_name']);
+        $id_map       = crc32($data['request_name']);
+        
         if(!isset($data['request_value']))
         {
             $request_value = 0;
@@ -42,9 +44,9 @@ class ActionCommonAddUrlRewrite extends JapaAction
         $request_value = $this->model->dba->escape($data['request_value']);
         
         $sql = "REPLACE INTO {$this->config->dbTablePrefix}common_public_controller_map
-                   (`module`,`request_name`,`request_value`)
+                   (`id_map`,`module`,`request_name`,`request_value`)
                   VALUES
-                   ('{$module}','{$request_name}','{$request_value}')";
+                   ('{$id_map}','{$module}','{$request_name}','{$request_value}')";
 
         $this->model->dba->query($sql);      
     }

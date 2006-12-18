@@ -36,7 +36,7 @@ class ActionCommonGetUrlRewrite extends JapaAction
         
         if(isset($data['id_map']))
         {
-            $sql_where .= '`id_map`='.$this->model->dba->escape((int)$data['id_map']);
+            $sql_where .= "`id_map`='".$this->model->dba->escape($data['id_map'])."'";
             $_and = " AND ";
         }
         

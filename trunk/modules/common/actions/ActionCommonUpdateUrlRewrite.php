@@ -29,11 +29,13 @@ class ActionCommonUpdateUrlRewrite extends JapaAction
     public function perform( $data = FALSE )
     {       
         $request_name = $this->model->dba->escape($data['request_name']);
+        $id_map       = crc32($data['request_name']);
         
         $sql = "
             UPDATE {$this->config->dbTablePrefix}common_public_controller_map
                 SET
-                   `request_name`='{$request_name}'
+                   `request_name`='{$request_name}',
+                   `id_map`='{$id_map}'
                 WHERE
                 `id_map`={$data['id_map']}";
         
@@ -47,7 +49,7 @@ class ActionCommonUpdateUrlRewrite extends JapaAction
     {
         if(!isset($data['id_map']))
         {
-            throw new JapaModelException('Missing "id_map" array var: '); 
+            throw new JapaModelException('Missing "id_map" int var: '); 
         }
         
         if(!is_int($data['id_map']))
