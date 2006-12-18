@@ -373,6 +373,9 @@ function cancel_edit(f)
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">
+        <?php if(isset($view['error_url_rewrite'])): ?>
+            <div class="itemerror"><?php echo $view['error_url_rewrite']; ?></div>
+        <?php endif; ?>
         <input type="hidden"  name="id_map" value="<?php if(isset($view['url_rewrite'][0]['id_map'])) echo $view['url_rewrite'][0]['id_map']; ?>" />
         <input type="text" name="url_rewrite" value="<?php if(isset($view['url_rewrite'][0]['request_name'])) echo $view['url_rewrite'][0]['request_name']; ?>" size="100" maxlength="255" />
         </td>

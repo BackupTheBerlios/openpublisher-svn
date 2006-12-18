@@ -223,7 +223,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $this->node_title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
         $this->node_switchformat = $this->httpRequest->getParameter('switchformat', 'post', 'digits');
         $this->node_url_rewrite = trim($this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i"));
-        $this->node_id_map = $this->httpRequest->getParameter('id_map', 'post', 'digits');
+        $this->node_id_map = $this->httpRequest->getParameter('id_map', 'post', 'int');
         $this->node_uploadlogo = $this->httpRequest->getParameter( 'uploadlogo', 'post', 'alnum' );
         $this->node_deletelogo = $this->httpRequest->getParameter( 'deletelogo', 'post', 'alnum' );
         $this->node_uploadpicture = $this->httpRequest->getParameter( 'uploadpicture', 'post', 'alnum' );
@@ -314,23 +314,24 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
             if($this->node_id_map == 0)
             {
                 $this->model->action('common','addUrlRewrite',
-                                     array( 'module'        => 'navigation',
+                                     array( 'id_map'        => crc32($this->node_url_rewrite),
+                                            'module'        => 'navigation',
                                             'request_name'  => (string)$this->node_url_rewrite,
                                             'request_value' => (int)$this->current_id_node) );    
             }  
-            else
+            elseif(!empty($this->node_url_rewrite))
             {
                 $this->model->action('common','updateUrlRewrite',
                                      array( 'id_map'       => (int)$this->node_id_map,
                                             'request_name' => (string)$this->node_url_rewrite) );    
             }   
-        }   
-        elseif(($this->node_url_rewrite === false) && ($this->node_id_map > 0))
-        {
+            else
+            {
                 $this->model->action('common','removeUrlRewrite',
                                      array( 'module' => 'navigation',
-                                            'id_map' => (int)$this->node_id_map) );    
-        }     
+                                            'id_map' => (int)$this->node_id_map) ); 
+            }
+        }       
         // upload logo
         elseif(!empty($this->node_uploadlogo))
         {   

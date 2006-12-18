@@ -212,7 +212,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                                                         'login','lastname',
                                                         'name','email'))); 
                                                         
-        // get url rewrite for this node
+        // get url rewrite for this article
         $this->viewVar['url_rewrite'] = array();
         $this->model->action( 'common', 'getUrlRewrite',     
                               array('result'        => & $this->viewVar['url_rewrite'],       
@@ -807,30 +807,61 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
     private function urlRewrite()
     {
         $url_rewrite = trim($this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i"));
-        $id_map = $this->httpRequest->getParameter('id_map', 'post', 'digits');
+        $id_map = $this->httpRequest->getParameter('id_map', 'post', 'int');
         
         if($url_rewrite !== false)
         {
             if($id_map == 0)
             {
+                if($this->urlExists( $url_rewrite ))
+                {         
+                    $this->viewVar['error_url_rewrite'] = 'You can not define an url rewrite name which is defined else where!';
+                    return;
+                }
                 $this->model->action('common','addUrlRewrite',
-                                     array( 'module'        => 'article',
+                                     array( 'id_map'        => crc32($url_rewrite),
+                                            'module'        => 'article',
                                             'request_name'  => (string)$url_rewrite,
                                             'request_value' => (int)$this->current_id_article) );    
             }  
-            else
+            elseif(!empty($url_rewrite))
             {
+                if($this->urlExists( $url_rewrite ))
+                {            
+                    $this->viewVar['error_url_rewrite'] = 'You can not define an url rewrite name which is defined else where!';
+                    return;
+                }
                 $this->model->action('common','updateUrlRewrite',
                                      array( 'id_map'       => (int)$id_map,
                                             'request_name' => (string)$url_rewrite) );    
             }   
-        }   
-        elseif(($url_rewrite === false) && ($id_map > 0))
-        {
+            else
+            {
                 $this->model->action('common','removeUrlRewrite',
                                      array( 'module' => 'article',
-                                            'id_map' => (int)$id_map) );    
-        }     
+                                            'id_map' => (int)$id_map) ); 
+            }
+        }      
+    }
+
+    /**
+     * log events of this view
+     *
+     * for $type values see: /modules/user/actions/ActionUserLogAddEvent.php
+     *
+     * @param int $type 
+     */     
+    private function urlExists($url_rewrite)
+    {
+        $tmp = array();
+        $this->model->action( 'common', 'getUrlRewrite',     
+                              array('result'        => & $tmp,       
+                                    'request_name' => $url_rewrite) );
+        if(isset($tmp[0]))
+        {
+            return true;
+        }
+        return false;
     }
     
     /**

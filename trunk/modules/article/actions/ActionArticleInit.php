@@ -37,6 +37,8 @@ class ActionArticleInit extends JapaAction
      
         $this->model->config->setModuleVar( 'article', 'id_item', 'id_article', false );
         
+        $this->model->addToControllerMap( 'article', 'id_article' );
+        
         $this->model->action('article','changedateStatus');
         
         // delete expired articles
