@@ -147,13 +147,7 @@ class ActionNavigationSetup extends JapaAction
                     20,
                     'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
                     '{$_config}')";
-        $this->model->dba->query($sql);  
-        
-        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_public_controller_map
-                 (`module`, `request_name`)
-                VALUES
-                 ('navigation','id_node')";
-        $this->model->dba->query($sql);         
+        $this->model->dba->query($sql);       
     } 
     
     /**

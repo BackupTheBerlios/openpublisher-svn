@@ -210,13 +210,7 @@ class ActionArticleSetup extends JapaAction
                     60,
                     'DATE: 28.12.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>',
                     '{$_config}')";
-        $this->model->dba->query($sql);    
-        
-        $sql = "INSERT INTO {$this->config->getVar('_dbTablePrefix')}common_public_controller_map
-                 (`module`, `request_name`)
-                VALUES
-                 ('article','id_article')";
-        $this->model->dba->query($sql);         
+        $this->model->dba->query($sql);        
     } 
     
     /**
