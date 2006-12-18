@@ -1,4 +1,4 @@
-<?php if($tpl['showHeaderFooter'] == TRUE): ?>
+<?php if($view['showHeaderFooter'] == TRUE): ?>
 <?php if($view['isUserLogged'] == TRUE): ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
