@@ -192,12 +192,11 @@ class JapaModel
      * @param mixed  $request_value request var to register
      * @param string $module Module name
      */
-    public function addToControllerMap( $module, $request_name, $request_value  )
+    public function addToControllerMap( $module, $request_name )
     {
         if(!isset($this->controllerMap[$request_name]))
         {
-            $this->controllerMap[$request_name]['module'] = $module;
-            $this->controllerMap[$request_name]['value']  = $request_value;
+            $this->controllerMap[$request_name] = $module;
         }
         else
         {
@@ -215,7 +214,7 @@ class JapaModel
     {
         if(isset($this->controllerMap[$request_name]))
         {
-            return $this->controllerMap[$request_name]['value'];
+            return $this->controllerMap[$request_name];
         }
         return null;
     } 

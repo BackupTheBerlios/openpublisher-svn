@@ -79,33 +79,44 @@ class JapaControllerWebApplication extends JapaController
 
             if( false === ($controllerRequest = $this->router->getVar('cntr')) )
             {
-                $controller_map = $this->model->getControllerMap();
+                // get controller from url rewrite 
+                if(false !== ($url_rewrite = $this->router->getVar('url_rewrite')))
+                {
+                    $map = $this->model->action( 'common', 'getRequestMap', array('request_name'  => $url_rewrite) ); 
+                    if($map != false)
+                    {
+                        $name    = &$map['item_name'];
+                        $id_item = &$map['request_value'];  
+                        $this->model->action( $map['module'], 'relatedController',
+                                              array($map['item_name'] => (int)$map['request_value'],
+                                                    'result'          => & $controllerRequest));
+                    }
+                }
+                
+                if(empty($controllerRequest))
+                {
+                    $controller_map = $this->model->getControllerMap();
                
-                // try to get a controller name from the model (modules)
-                foreach($controller_map as $item_name => $item)
-                { 
-                    $id_item = $this->controller->httpRequest->getParameter( $item_name, 'request', 'alnum' );
+                    // try to get a controller name from the model (modules)
+                    foreach($controller_map as $item_name => $module)
+                    { 
+                        $id_item = $this->controller->httpRequest->getParameter( $item_name, 'request', 'alnum' );
 
-                    if( false !== $id_item )
-                    {     
-                        if($id_item == 'map')
-                        {
-                            $id_item = $item['value']; 
-                        }     
+                        if( false !== $id_item )
+                        {        
+                            $name = $this->config->getModuleVar( $module, 'id_item' );
                         
-                        $name = $this->config->getModuleVar( $item['module'], 'id_item' );
-                        
-                        $this->model->action( $item['module'], 'relatedController',
-                                              array($name    => (int)$id_item,
-                                                    'result' => & $controllerRequest));
-                                                    
-                        if(!empty($controllerRequest))
-                        {
-                            $this->controller->httpRequest->setRequest( $name, $id_item );
-                        }
-
-                        break;
-                    }           
+                            $this->model->action( $module, 'relatedController',
+                                                  array($name    => (int)$id_item,
+                                                        'result' => & $controllerRequest));
+                            break;
+                        }           
+                    }
+                }
+                
+                if(!empty($controllerRequest))
+                {
+                     $this->controller->httpRequest->setRequest( $name, $id_item );
                 }
             }
             else

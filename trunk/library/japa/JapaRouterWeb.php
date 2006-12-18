@@ -79,9 +79,10 @@ class JapaRouterWeb extends JapaRouter
                     {
                         $value = $path[$next_pos];
                     }
-                    elseif(preg_match("/^[^0-9]/",$path[$next_pos-1]))
+                    elseif(preg_match("/^[^0-9]/",$path[$pos]))
                     {
-                        $value = 'map';
+                        $pathPart = 'url_rewrite';
+                        $value = $path[$pos];
                     }
                     $this->request[$pathPart] = $value;
                     $_GET[$pathPart]          = $value;
