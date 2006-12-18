@@ -67,7 +67,7 @@ class ControllerSimpleNodeArticle extends JapaControllerAbstractPage
                                        'status'      => array('>=', 4),
                                        'node_status' => array('>=', 2),
                                        'pubdate'     => array('<=', 'CURRENT_TIMESTAMP'),
-                                       'fields'      => array('id_article','id_node','title') )); 
+                                       'fields'      => array('id_article','id_node','title','rewrite_name') )); 
  
             // get links which have the same keywords as the current article
             $this->model->action('link','fromKeyword',
