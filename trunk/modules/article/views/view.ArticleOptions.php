@@ -41,6 +41,15 @@
           active: <input name="default_comment_status" type="radio" value="2"<?php if($view['option']['default_comment_status']=='2') echo ' checked="checked"'; ?> class="topselect"> 
     </td>    
       </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold">Use url rewrites</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">
+    <input type="radio" name="use_url_rewrite" value="0"<?php if($view['option']['use_url_rewrite']==0) echo " checked "; ?>> No<br>
+    <input type="radio" name="use_url_rewrite" value="1"<?php if($view['option']['use_url_rewrite']==1) echo " checked "; ?>> Yes
+        </td>
+      </tr>
       <tr>      
         <td align="left" valign="top" class="font10bold">Use article related specific controller</td>
       </tr>

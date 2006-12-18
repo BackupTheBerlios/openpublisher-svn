@@ -211,6 +211,13 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                                   'fields'     => array('id_user','role',
                                                         'login','lastname',
                                                         'name','email'))); 
+                                                        
+        // get url rewrite for this node
+        $this->viewVar['url_rewrite'] = array();
+        $this->model->action( 'common', 'getUrlRewrite',     
+                              array('result'        => & $this->viewVar['url_rewrite'],       
+                                    'module'        => 'article',
+                                    'request_value' => (int)$this->current_id_article) ); 
     }  
 
    /**
@@ -232,6 +239,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
             $this->deleteArticleKeywords();
             $this->deleteArticleUsers();
             $this->updateArticle();
+            $this->urlRewrite();
             $this->addLogEvent( 3 );
 
             $refresh = $this->httpRequest->getParameter('refresh', 'post', 'alnum');
@@ -294,7 +302,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
         $this->viewVar['error']  = array();   
 
         $this->viewVar['use_comment']  = $this->config->getModuleVar('article','use_comment'); 
-
+        $this->viewVar['use_url_rewrite'] = $this->config->getModuleVar('article', 'use_url_rewrite');
         
 
         // assign view config vars
@@ -788,6 +796,43 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                                    'controller' => 'editArticle',
                                    'message' => $this->logMessage ));
     }
+    
+    /**
+     * log events of this view
+     *
+     * for $type values see: /modules/user/actions/ActionUserLogAddEvent.php
+     *
+     * @param int $type 
+     */     
+    private function urlRewrite()
+    {
+        $url_rewrite = trim($this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i"));
+        $id_map = $this->httpRequest->getParameter('id_map', 'post', 'digits');
+        
+        if($url_rewrite !== false)
+        {
+            if($id_map == 0)
+            {
+                $this->model->action('common','addUrlRewrite',
+                                     array( 'module'        => 'article',
+                                            'request_name'  => (string)$url_rewrite,
+                                            'request_value' => (int)$this->current_id_article) );    
+            }  
+            else
+            {
+                $this->model->action('common','updateUrlRewrite',
+                                     array( 'id_map'       => (int)$id_map,
+                                            'request_name' => (string)$url_rewrite) );    
+            }   
+        }   
+        elseif(($url_rewrite === false) && ($id_map > 0))
+        {
+                $this->model->action('common','removeUrlRewrite',
+                                     array( 'module' => 'article',
+                                            'id_map' => (int)$id_map) );    
+        }     
+    }
+    
     /**
      * add log message string
      *

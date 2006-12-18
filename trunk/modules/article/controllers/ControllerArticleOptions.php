@@ -88,7 +88,7 @@ class ControllerArticleOptions extends JapaControllerAbstractPage
         $default_comment_status = $this->httpRequest->getParameter('default_comment_status', 'post', 'digits');
         $use_article_controller = $this->httpRequest->getParameter('use_article_controller', 'post', 'digits');
         $use_article_controller = $this->httpRequest->getParameter('use_article_controller', 'post', 'digits');
-        $force_format  = $this->httpRequest->getParameter('force_format', 'post', 'digits');
+        $use_url_rewrite = $this->httpRequest->getParameter('use_url_rewrite', 'post', 'digits');
         $use_overtitle  = $this->httpRequest->getParameter('use_overtitle', 'post', 'digits');
         $use_subtitle  = $this->httpRequest->getParameter('use_subtitle', 'post', 'digits');
         $use_description  = $this->httpRequest->getParameter('use_description', 'post', 'digits');
@@ -174,21 +174,14 @@ class ControllerArticleOptions extends JapaControllerAbstractPage
             $this->fields['use_article_controller'] = 0;
         }  
         
-        if(!empty($force_format))
+        if(!empty($use_url_rewrite) && ($use_url_rewrite == '1'))
         {
-            if(($force_format >= 0) && ($force_format <= 2))
-            {
-                $this->fields['force_format'] = (int)$force_format;
-            }
-        } 
-        
-        if(!empty($default_format))
+            $this->fields['use_url_rewrite'] = 1;
+        }
+        else
         {
-            if(($default_format >= 0) && ($default_format <= 2))
-            {
-                $this->fields['default_format'] = (int)$default_format;
-            }
-        }  
+            $this->fields['use_url_rewrite'] = 0;
+        }
         
         if(!empty($use_overtitle))
         {

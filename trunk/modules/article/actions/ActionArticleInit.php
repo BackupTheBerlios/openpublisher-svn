@@ -34,9 +34,8 @@ class ActionArticleInit extends JapaAction
     {
         //$this->loadConfig();
         $this->checkModuleVersion();
-        
-        // this module try to find the controller for a related public request var 'id_article'
-        $this->model->addToControllerMap( 'id_article',  'article');  
+     
+        $this->model->config->setModuleVar( 'article', 'id_item', 'id_article', false );
         
         $this->model->action('article','changedateStatus');
         

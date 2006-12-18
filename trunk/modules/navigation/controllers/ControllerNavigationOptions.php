@@ -131,22 +131,6 @@ class ControllerNavigationOptions extends JapaControllerAbstractPage
         {
             $this->viewVar['error'][] = "File size field is empty!";
         }   
-        
-        if(!empty($force_format))
-        {
-            if(($force_format >= 0) && ($force_format <= 2))
-            {
-                $this->fields['force_format'] = (int)$force_format;
-            }
-        } 
-        
-        if(!empty($default_format))
-        {
-            if(($default_format >= 0) && ($default_format <= 2))
-            {
-                $this->fields['default_format'] = (int)$default_format;
-            }
-        }  
 
         if(!empty($use_url_rewrite) && ($use_url_rewrite == '1'))
         {

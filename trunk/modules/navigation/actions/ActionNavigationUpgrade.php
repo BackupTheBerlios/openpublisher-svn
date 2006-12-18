@@ -67,6 +67,12 @@ class ActionNavigationUpgrade extends JapaAction
         $sql = "ALTER TABLE {$this->config->dbTablePrefix}navigation_node
                   ADD KEY `id_controller` (`id_controller`)";
         $this->model->dba->query($sql);
+        
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}common_public_controller_map
+                 (`module`, `request_name`)
+                VALUES
+                 ('navigation','id_node')";
+        $this->model->dba->query($sql);   
     }
     
     /**

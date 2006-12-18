@@ -218,6 +218,12 @@ class ActionArticleUpgrade extends JapaAction
         $sql = "ALTER TABLE {$this->config->dbTablePrefix}article_config
                   CHANGE `use_article_view` `use_article_controller` tinyint(1) NOT NULL default 0 ";
         $this->model->dba->query($sql); 
+        
+        $sql = "INSERT INTO {$this->config->dbTablePrefix}common_public_controller_map
+                 (`module`, `request_name`)
+                VALUES
+                 ('article','id_article')";
+        $this->model->dba->query($sql);   
     }
     
     /**

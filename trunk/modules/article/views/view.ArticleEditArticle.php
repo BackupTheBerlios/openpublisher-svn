@@ -366,6 +366,18 @@ function cancel_edit(f)
       </td>
       </tr>
     <?php endif; ?>
+
+    <?php if($view['use_url_rewrite']==1): ?>
+      <tr>
+        <td align="left" valign="top" class="font12bold"><hr>Url rewrite</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold">
+        <input type="hidden"  name="id_map" value="<?php if(isset($view['url_rewrite'][0]['id_map'])) echo $view['url_rewrite'][0]['id_map']; ?>" />
+        <input type="text" name="url_rewrite" value="<?php if(isset($view['url_rewrite'][0]['request_name'])) echo $view['url_rewrite'][0]['request_name']; ?>" size="100" maxlength="255" />
+        </td>
+      </tr>
+    <?php endif; ?> 
     
     <?php if($view['use_article_controller']==1): ?>
         <tr>
