@@ -27,9 +27,6 @@ class JapaControllerAjaxApplication extends JapaController
      */
     public function dispatch()
     {  
-        // we dont need output buffering at this point
-        @ob_clean();
-        
         // PEAR ajax server classes
         include_once(  JAPA_LIBRARY_DIR . 'PEAR/HTML/AJAX/Server.php'); 
         // application controller class

@@ -32,9 +32,6 @@ class JapaControllerRpcApplication extends JapaController
      */
     public function dispatch()
     { 
-        // we dont need output buffering
-        @ob_clean();
-     
         // application controller class
         include_once( JAPA_LIBRARY_DIR . 'japa/JapaControllerRpcAbstractPage.php' );
         // Include controller factory class
