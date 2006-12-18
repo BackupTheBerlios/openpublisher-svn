@@ -66,7 +66,7 @@ class ControllerArticle extends JapaControllerAbstractPage
         $this->model->action('navigation','getBranch', 
                              array('result'  => & $this->viewVar['nodeBranch'],
                                    'id_node' => (int)$this->viewVar['article']['id_node'],
-                                   'fields'  => array('title','id_node')));  
+                                   'fields'  => array('title','id_node','rewrite_name')));  
                                  
         // get article attached files
         $this->model->action('article','getAllFiles',
