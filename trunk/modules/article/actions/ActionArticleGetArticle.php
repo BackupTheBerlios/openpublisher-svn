@@ -58,6 +58,7 @@ class ActionArticleGetArticle extends JapaAction
                                          'media_folder' => 'String',
                                          'allow_comment' => 'Int',
                                          'close_comment' => 'Int',
+                                         'rewrite_name' => 'String',
                                          'timezone'      => 'Int');
     /**
      * get article data

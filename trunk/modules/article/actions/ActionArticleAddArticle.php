@@ -58,6 +58,7 @@ class ActionArticleAddArticle extends JapaAction
                                          'body'         => 'String',
                                          'ps'           => 'String',
                                          'fulltextbody' => 'String',
+                                         'rewrite_name' => 'String',
                                          'media_folder' => 'String',
                                          'allow_comment' => 'Int',
                                          'close_comment' => 'Int');

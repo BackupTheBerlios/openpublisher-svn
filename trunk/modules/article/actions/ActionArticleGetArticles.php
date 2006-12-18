@@ -58,7 +58,7 @@ class ActionArticleGetArticles extends JapaAction
                                          'description'  => 'String',
                                          'body'         => 'String',
                                          'ps'           => 'String',
-                                         'format'       => 'Int',
+                                         'rewrite_name' => 'String',
                                          'logo'         => 'String',
                                          'media_folder' => 'String',
                                          'num_comments' => 'Int',
