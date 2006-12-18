@@ -23,68 +23,68 @@ class JapaHttpRequest implements JapaInterfaceRequest
         return isset($this->parameters[$context][$name]);
     }
 
-    public function getParameter( $name, $context = 'request', $type = false ) 
+    public function getParameter( $name, $context = 'request', $type = false, $data = false ) 
     {
         switch($context)
         {
             case 'request':
-                return $this->getRequest( $name, $type );
+                return $this->getRequest( $name, $type, $data );
             case 'get':
-                return $this->getGet( $name, $type );
+                return $this->getGet( $name, $type, $data );
             case 'post':
-                return $this->getPost( $name, $type );    
+                return $this->getPost( $name, $type, $data );    
             case 'files':
-                return $this->getFiles( $name, $type );
+                return $this->getFiles( $name, $type, $data );
             case 'cookie':
-                return $this->getCookie( $name, $type );
+                return $this->getCookie( $name, $type, $data );
             default:
                 return null;
         }
     }
 
-    private function getRequest( $name, $type )
+    private function getRequest( $name, $type, $data )
     {
         if(!isset($this->filterRequest))
         {
-            $this->filterRequest = new Zend_Filter_Input( $_REQUEST );
+            $this->filterRequest = new Zend_Filter_Input( $_REQUEST, false );
         }
-        return $this->validate( $this->filterRequest, $name, $type );
+        return $this->validate( $this->filterRequest, $name, $type, $data );
     }
     
-    private function getGet( $name, $type )
+    private function getGet( $name, $type, $data )
     {
         if(!isset($this->filterGet))
         {
-            $this->filterGet = new Zend_Filter_Input( $_GET );
+            $this->filterGet = new Zend_Filter_Input( $_GET, false  );
         }
-        return $this->validate( $this->filterGet, $name, $type );
+        return $this->validate( $this->filterGet, $name, $type, $data );
     }
     
-    private function getPost( $name, $type )
+    private function getPost( $name, $type, $data )
     {
         if(!isset($this->filterPost))
         {
-            $this->filterPost = new Zend_Filter_Input( $_POST );
+            $this->filterPost = new Zend_Filter_Input( $_POST, false  );
         }
-        return $this->validate( $this->filterPost, $name, $type );
+        return $this->validate( $this->filterPost, $name, $type, $data );
     }
     
-    private function getCookie( $name, $type )
+    private function getCookie( $name, $type, $data )
     {
         if(!isset($this->filterCookie))
         {
-            $this->filterCookie = new Zend_Filter_Input( $_COOKIE );
+            $this->filterCookie = new Zend_Filter_Input( $_COOKIE, false  );
         }
-        return $this->validate( $this->filterCookie, $name, $type );
+        return $this->validate( $this->filterCookie, $name, $type, $data );
     }
     
-    private function getFiles( $name, $type )
+    private function getFiles( $name, $type, $data )
     {
         if(!isset($this->filterFiles))
         {
-            $this->filterFiles = new Zend_Filter_Input( $_FILES);
+            $this->filterFiles = new Zend_Filter_Input( $_FILES, false );
         }
-        return $this->validate( $this->filterFiles, $name, $type );
+        return $this->validate( $this->filterFiles, $name, $type, $data );
     }
 
     public function getParameterNames( $context = 'request' ) 
@@ -102,7 +102,7 @@ class JapaHttpRequest implements JapaInterfaceRequest
         return null;
     }
     
-    public function validate( & $filter, $name, $type ) 
+    public function validate( & $filter, $name, $type, $data ) 
     {
         switch( $type )
         {
@@ -118,6 +118,8 @@ class JapaHttpRequest implements JapaInterfaceRequest
                 return $filter->getRaw($name);
             case 'email': 
                 return $filter->testEmail($name);
+            case 'regex': 
+                return $filter->testRegex($name, $data);
             default:
                 return false;
         }
@@ -179,5 +181,15 @@ class JapaHttpRequest implements JapaInterfaceRequest
         return rtrim($baseUrl, '/'); 
 
     } 
+    
+    public function setRequest( $name, $value )
+    {
+        if(!isset($this->filterRequest))
+        {
+            $this->filterRequest = new Zend_Filter_Input( $_REQUEST );
+        }
+        $this->filterRequest->_source[$name] = $value; 
+        
+    }
 }
 ?>

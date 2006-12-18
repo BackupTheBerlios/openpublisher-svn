@@ -73,11 +73,19 @@ class JapaRouterWeb extends JapaRouter
                 {
                     $this->application_controller = 'JapaController' . $pathPart . 'Application';
                 }
-                elseif(isset($path[$next_pos]))
+                else
                 {
-                    $this->request[$pathPart] = $path[$next_pos];
-                    $_GET[$pathPart]          = $path[$next_pos];
-                    $_REQUEST[$pathPart]      = $path[$next_pos];
+                    if(isset($path[$next_pos]))
+                    {
+                        $value = $path[$next_pos];
+                    }
+                    elseif(preg_match("/^[^0-9]/",$path[$next_pos-1]))
+                    {
+                        $value = 'map';
+                    }
+                    $this->request[$pathPart] = $value;
+                    $_GET[$pathPart]          = $value;
+                    $_REQUEST[$pathPart]      = $value;
                 }
             }
         }

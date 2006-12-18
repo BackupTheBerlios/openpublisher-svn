@@ -80,18 +80,30 @@ class JapaControllerWebApplication extends JapaController
             if( false === ($controllerRequest = $this->router->getVar('cntr')) )
             {
                 $controller_map = $this->model->getControllerMap();
-                
+               
                 // try to get a controller name from the model (modules)
-                foreach($controller_map as $item_name => $module_name)
-                {
-                    $id_item = $this->controller->httpRequest->getParameter( $item_name, 'request', 'digits' );
+                foreach($controller_map as $item_name => $item)
+                { 
+                    $id_item = $this->controller->httpRequest->getParameter( $item_name, 'request', 'alnum' );
 
                     if( false !== $id_item )
-                    {                
-                        $this->model->action( $module_name, 'relatedController',
-                                              array($item_name => (int)$id_item,
+                    {     
+                        if($id_item == 'map')
+                        {
+                            $id_item = $item['value']; 
+                        }     
+                        
+                        $name = $this->config->getModuleVar( $item['module'], 'id_item' );
+                        
+                        $this->model->action( $item['module'], 'relatedController',
+                                              array($name    => (int)$id_item,
                                                     'result' => & $controllerRequest));
                                                     
+                        if(!empty($controllerRequest))
+                        {
+                            $this->controller->httpRequest->setRequest( $name, $id_item );
+                        }
+                       
                         break;
                     }           
                 }

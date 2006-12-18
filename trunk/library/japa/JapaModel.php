@@ -188,19 +188,36 @@ class JapaModel
     
     /**
      * add item to public controller map
-     * @param string $name request var to register
+     * @param string $request_name request var to register
+     * @param mixed  $request_value request var to register
      * @param string $module Module name
      */
-    public function addToControllerMap( $name, $module  )
+    public function addToControllerMap( $module, $request_name, $request_value  )
     {
-        if(!isset($this->controllerMap[$name]))
+        if(!isset($this->controllerMap[$request_name]))
         {
-            $this->controllerMap[$name] = $module;
+            $this->controllerMap[$request_name]['module'] = $module;
+            $this->controllerMap[$request_name]['value']  = $request_value;
         }
         else
         {
-            throw new JapaModelException("Duplicate error in controller map: '{$name}, {$module}'");
+            throw new JapaModelException("Duplicate error in controller map: '{$request_name}, {$module}'");
         }
+    } 
+    
+    /**
+     * add item to public controller map
+     * @param string $request_name request var to register
+     * @param mixed  $request_value request var to register
+     * @param string $module Module name
+     */
+    public function getControllerRequestValue( $request_name )
+    {
+        if(isset($this->controllerMap[$request_name]))
+        {
+            return $this->controllerMap[$request_name]['value'];
+        }
+        return null;
     } 
     
     /**

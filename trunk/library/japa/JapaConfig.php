@@ -25,7 +25,7 @@ class JapaConfig
      * vars defined can be assigned only once
      * @var array $override
      */
-    private $override = array();
+    private $override;
 
     /**
      * constructor
@@ -117,7 +117,7 @@ class JapaConfig
         {
             if($override == false)
             {
-                $this->override[$module][$name] = true;
+                $this->override[$module] = array($name => true);
             }
             $this->config[$module][$name] = $value;
         }
