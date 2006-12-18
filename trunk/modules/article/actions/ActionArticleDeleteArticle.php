@@ -76,6 +76,11 @@ class ActionArticleDeleteArticle extends JapaAction
 
         $this->model->dba->query($sql);   
         
+        $this->model->action( 'common', 'removeUrlRewrite', 
+                               array('module' => 'article') );    
+
+        $this->model->dba->query($sql);  
+        
         $sql = "SELECT 
                   `media_folder`,
                   `id_node`

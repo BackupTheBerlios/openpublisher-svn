@@ -55,6 +55,9 @@ class ActionNavigationDeleteNode extends JapaAction
 
     private function deleteNode( $id_node )
     {
+        $this->model->action( 'common', 'removeUrlRewrite', 
+                               array('module' => 'navigation') );          
+                               
         $sql = "DELETE FROM {$this->config->dbTablePrefix}navigation_node_lock
                   WHERE
                    `id_node`={$id_node}";
