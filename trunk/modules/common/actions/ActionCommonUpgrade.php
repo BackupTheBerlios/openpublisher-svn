@@ -183,7 +183,7 @@ class ActionCommonUpgrade extends JapaAction
                  `request_name`  varchar(255) NOT NULL,
                  `request_value` int(11) unsigned NOT NULL default 0,
                  UNIQUE KEY   (`id_map`),
-                 KEY          (`module`)) 
+                 KEY          (`module`,`request_value`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);  
         
