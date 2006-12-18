@@ -222,7 +222,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $this->node_delete_node = $this->httpRequest->getParameter('delete_node', 'post', 'digits');
         $this->node_title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
         $this->node_switchformat = $this->httpRequest->getParameter('switchformat', 'post', 'digits');
-        $this->node_url_rewrite = $this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i");
+        $this->node_url_rewrite = trim($this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i"));
         $this->node_id_map = $this->httpRequest->getParameter('id_map', 'post', 'digits');
         $this->node_uploadlogo = $this->httpRequest->getParameter( 'uploadlogo', 'post', 'alnum' );
         $this->node_deletelogo = $this->httpRequest->getParameter( 'deletelogo', 'post', 'alnum' );

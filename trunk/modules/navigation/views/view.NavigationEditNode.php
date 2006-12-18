@@ -319,12 +319,13 @@ function MM_swapImage() { //v3.0
       
     <?php if($view['use_url_rewrite']==1): ?>
       <tr>
-        <td align="left" valign="top" class="font10bold">Url rewrite</td>
+        <td align="left" valign="top" class="font12bold">Url rewrite</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">
         <input type="hidden"  name="id_map" value="<?php if(isset($view['url_rewrite'][0]['id_map'])) echo $view['url_rewrite'][0]['id_map']; ?>" />
-        <input type="text" name="url_rewrite" value="<?php if(isset($view['url_rewrite'][0]['request_name'])) echo $view['url_rewrite'][0]['request_name']; ?>" size="50" maxlength="255" />
+        <input type="text" name="url_rewrite" value="<?php if(isset($view['url_rewrite'][0]['request_name'])) echo $view['url_rewrite'][0]['request_name']; ?>" size="100" maxlength="255" />
+        <hr>
         </td>
       </tr>
     <?php endif; ?> 
@@ -352,6 +353,7 @@ function MM_swapImage() { //v3.0
           <?php foreach( $view['nodeRelatedPublicController'] as $publicController): ?>
               <?php echo $publicController; ?>
           <?php endforeach; ?>
+          <hr>
         </td>
       </tr>
       <?php if($view['use_keywords']==1): ?>
