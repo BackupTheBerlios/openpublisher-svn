@@ -182,6 +182,7 @@ class ActionArticleSetup extends JapaAction
                  'default_order'         => 'title',
                  'default_ordertype'     => 'asc',
                  'default_comment_status'=> 2,
+                 'use_url_rewrite'       => 1,
                  'use_comment'           => 1,
                  'use_article_controller'=> 1,
                  'use_users'             => 0,
