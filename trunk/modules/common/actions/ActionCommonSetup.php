@@ -98,7 +98,7 @@ class ActionCommonSetup extends JapaAction
                  ('common','', 0,'0.6',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <cms@open-publisher.net>')";
         $this->model->dba->query($sql);            
 
-        return TRUE;
+        return TRUE; 
     } 
 
     /**
