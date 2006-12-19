@@ -7,16 +7,11 @@
 // To read the license please visit http://www.gnu.org/licenses/lgpl.txt
 // ----------------------------------------------------------------------
 
-include_once('Zend/Filter/Input.php');
+include_once( JAPA_LIBRARY_DIR . 'japa/JapaFilterInput.php' );
 
 class JapaHttpRequest implements JapaInterfaceRequest 
 {
     private $parameters = array();
-    
-    public function __construct() 
-    {
-
-    }
 
     public function issetParameter( $name, $context = 'request' ) 
     {
@@ -46,7 +41,7 @@ class JapaHttpRequest implements JapaInterfaceRequest
     {
         if(!isset($this->filterRequest))
         {
-            $this->filterRequest = new Zend_Filter_Input( $_REQUEST, false );
+            $this->filterRequest = new JapaFilterInput( $_REQUEST, false );
         }
         return $this->validate( $this->filterRequest, $name, $type, $data );
     }
@@ -55,7 +50,7 @@ class JapaHttpRequest implements JapaInterfaceRequest
     {
         if(!isset($this->filterGet))
         {
-            $this->filterGet = new Zend_Filter_Input( $_GET, false  );
+            $this->filterGet = new JapaFilterInput( $_GET, false  );
         }
         return $this->validate( $this->filterGet, $name, $type, $data );
     }
@@ -64,7 +59,7 @@ class JapaHttpRequest implements JapaInterfaceRequest
     {
         if(!isset($this->filterPost))
         {
-            $this->filterPost = new Zend_Filter_Input( $_POST, false  );
+            $this->filterPost = new JapaFilterInput( $_POST, false  );
         }
         return $this->validate( $this->filterPost, $name, $type, $data );
     }
@@ -73,7 +68,7 @@ class JapaHttpRequest implements JapaInterfaceRequest
     {
         if(!isset($this->filterCookie))
         {
-            $this->filterCookie = new Zend_Filter_Input( $_COOKIE, false  );
+            $this->filterCookie = new JapaFilterInput( $_COOKIE, false  );
         }
         return $this->validate( $this->filterCookie, $name, $type, $data );
     }
@@ -82,7 +77,7 @@ class JapaHttpRequest implements JapaInterfaceRequest
     {
         if(!isset($this->filterFiles))
         {
-            $this->filterFiles = new Zend_Filter_Input( $_FILES, false );
+            $this->filterFiles = new JapaFilterInput( $_FILES, false );
         }
         return $this->validate( $this->filterFiles, $name, $type, $data );
     }
@@ -186,21 +181,21 @@ class JapaHttpRequest implements JapaInterfaceRequest
     {
         if(!isset($this->filterRequest))
         {
-            $this->filterRequest = new Zend_Filter_Input( $_REQUEST );
+            $this->filterRequest = new JapaFilterInput( $_REQUEST );
         }
-        $this->filterRequest->_source[$name] = $value; 
+        $this->filterRequest->setSource($name ,$value); 
         
         if(!isset($this->filterGet))
         {
-            $this->filterGet = new Zend_Filter_Input( $_GET );
+            $this->filterGet = new JapaFilterInput( $_GET );
         }
-        $this->filterGet->_source[$name] = $value; 
+        $this->filterGet->setSource($name, $value); 
  
          if(!isset($this->filterPost))
         {
-            $this->filterPost = new Zend_Filter_Input( $_POST );
+            $this->filterPost = new JapaFilterInput( $_POST );
         }
-        $this->filterPost->_source[$name] = $value;        
+        $this->filterPost->setSource($name, $value);
     }
 }
 ?>
