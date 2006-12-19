@@ -119,7 +119,7 @@ class ControllerLogin extends JapaControllerAbstractPage
      */     
     private function resetFormData($login_name)
     {
-        $this->viewVar['login'] = $this->model->action( 'common', 'safeHtml', strip_tags(SmartCommonUtil::stripSlashes($login_name)) );  
+        $this->viewVar['login'] = $this->model->action( 'common', 'safeHtml', strip_tags(JapaCommonUtil::stripSlashes($login_name)) );  
     }     
 }
 
