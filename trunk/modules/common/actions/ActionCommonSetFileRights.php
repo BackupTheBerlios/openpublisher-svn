@@ -13,8 +13,7 @@
  * Test action (simple example)
  *
  */
- * 
- */
+
 class ActionCommonSetFileRights extends JapaAction
 {
     /**
