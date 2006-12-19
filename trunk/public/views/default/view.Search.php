@@ -33,16 +33,36 @@
    <?php endif; ?>
   
    <dl id="search">
+   <!-- print result articles  -->
    <?php foreach($view['articles'] as $article): ?>
+   
+   <!-- print node branch of each article  -->
      <dd class="articlenodebranch"> 
+     
        <?php  foreach($article['nodeBranch'] as $bnode): ?>
-         <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
-       <?php endforeach; ?>
-       <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $article['node']['id_node']; ?>"><?php echo $article['node']['title']; ?></a>
+         <?php if(!empty($bnode['rewrite_name'])): ?>
+           <a href="<?php echo $view['urlBase']; ?>/<?php echo $bnode['rewrite_name']; ?>"><?php echo $bnode['title']; ?></a> /
+         <?php else: ?>
+           <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <?php if(!empty($article['node']['rewrite_name'])): ?>
+      <a href="<?php echo $view['urlBase']; ?>/<?php echo $article['node']['rewrite_name']; ?>"><?php echo $article['node']['title']; ?></a>
+    <?php else: ?>
+    <a href="<?php echo $view['urlBase']; ?>/id_node/<?php echo $article['node']['id_node']; ?>"><?php echo $article['node']['title']; ?></a>
+    <?php endif; ?>
+    
      </dd>
+     <!-- print article title  -->
      <dd class="articletitle">
-       <a href="<?php echo $view['urlBase']; ?>/id_article/<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a>
+       <?php if(!empty($article['rewrite_name'])): ?>
+         <a href="<?php echo $view['urlBase']; ?>/<?php echo $article['rewrite_name']; ?>"><?php echo $article['title']; ?></a>
+       <?php else: ?>
+         <a href="<?php echo $view['urlBase']; ?>/id_article/<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a>
+       <?php endif; ?>
      </dd>
+     
+     <!-- print article description if available  -->
      <?php if(!empty($article['description'])): ?>
      <dd class="articledescription">
        <?php echo $article['description']; ?>

@@ -59,6 +59,8 @@
    <?php if(!empty($view['node']['logo'])): ?>
      <img src="data/navigation/<?php echo $view['node']['media_folder']; ?>/<?php echo $view['node']['logo']; ?>" alt="Logo" name="Logo" border="0" align="left" class="nodelogo" />
    <?php endif; ?>
+   
+    <!-- print node body text  -->
    <?php echo $view['node']['body'];  ?>
 
    <!-- print article titles of the current navigation node -->

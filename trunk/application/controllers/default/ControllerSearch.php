@@ -40,7 +40,7 @@ class ControllerSearch extends JapaControllerAbstractPage
                                    'limit'   => array('perPage' => $this->articlesPerPage,
                                                       'numPage' => (int)$this->pageNumber),                                   
                                    'fields'  => array('id_article','title',
-                                                      'id_node','description') ));  
+                                                      'id_node','description','rewrite_name') ));  
 
         // get node + node branch of each article
         foreach($this->viewVar['articles'] as & $article)
@@ -52,13 +52,13 @@ class ControllerSearch extends JapaControllerAbstractPage
             $this->model->action('navigation','getBranch', 
                              array('result'  => & $article['nodeBranch'],
                                    'id_node' => (int)$article['id_node'],
-                                   'fields'  => array('title','id_node','id_parent')));   
+                                   'fields'  => array('title','id_node','id_parent','rewrite_name')));   
                                    
             // get article node content
             $this->model->action('navigation','getNode', 
                                  array('result'  => & $article['node'],
                                        'id_node' => (int)$article['id_node'],
-                                       'fields'  => array('title','id_node')));
+                                       'fields'  => array('title','id_node','rewrite_name')));
         }
         
         // create article pager links
