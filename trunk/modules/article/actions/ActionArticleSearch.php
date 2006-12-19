@@ -45,6 +45,7 @@ class ActionArticleSearch extends JapaAction
                                          'articledate'  => 'String',
                                          'pubdate'      => 'String',
                                          'modifydate'   => 'String',
+                                         'rewrite_name' => 'String',
                                          'lang'         => 'String',
                                          'title'        => 'String',
                                          'overtitle'    => 'String',
