@@ -12,6 +12,7 @@
  *
  * Here we use php as view language
  */
+include_once( JAPA_LIBRARY_DIR . 'japa/JapaViewHelper.php' );
  
 class JapaViewEnginePhp extends JapaViewEngine
 {
@@ -19,6 +20,9 @@ class JapaViewEnginePhp extends JapaViewEngine
      * Tokens found
      */                                    
     private $disallowedItems = array();
+    
+    protected $disallowedHelper = array('renderView','analyze',
+                                        'getHelperInstance');
                                     
     /**
      * render the template
@@ -30,6 +34,10 @@ class JapaViewEnginePhp extends JapaViewEngine
         $view = & $this->vars;
         // compatibility with smart3 
         $tpl = & $view;
+        
+        // view helper instance
+        $helper = new JapaViewHelper;
+        $helper->config = $this->config;
 
         // build the whole file path to the view file
         $view_file = $this->viewFolder . $this->view . '.php';
