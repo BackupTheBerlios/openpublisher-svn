@@ -1,10 +1,11 @@
 <?php
-/*
- * Created on 21.12.2006
- *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
- */
+// ----------------------------------------------------------------------
+// Japa PHP Framework
+// Copyright (c)  Armand Turpel < armand.turpel@open-publisher.net >
+// ----------------------------------------------------------------------
+// GNU LESSER GENERAL PUBLIC LICENSE
+// To read the license please visit http://www.gnu.org/licenses/lgpl.txt
+// ----------------------------------------------------------------------
  
 /**
  * View helper class ViewHelperMailto
