@@ -181,13 +181,13 @@ class ActionCommonInit extends JapaAction
      */    
     private function setPublicFolders()
     {  	
-        $public_controller = JAPA_APPLICATION_DIR . 'controllers/'.$this->config->getModuleVar('common','controllers_folder') .'/';    
+        $public_controller = JAPA_APPLICATION_DIR . 'controllers/'.$this->config->getModuleVar('common','controllers_folder');    
         $this->config->setVar('public_controllers_folder', $public_controller); 
 
-        $public_view = JAPA_PUBLIC_DIR . 'views/'.$this->config->getModuleVar('common','views_folder') .'/';    
+        $public_view = JAPA_PUBLIC_DIR . 'views/'.$this->config->getModuleVar('common','views_folder');    
         $this->config->setVar('public_views_folder', $public_view); 
 
-        $public_style = JAPA_PUBLIC_DIR . 'views/'.$this->config->getModuleVar('common','styles_folder') .'/';    
+        $public_style = JAPA_PUBLIC_DIR . 'views/'.$this->config->getModuleVar('common','styles_folder');    
         $this->config->setVar('public_styles_folder', $public_style);
     }
        
