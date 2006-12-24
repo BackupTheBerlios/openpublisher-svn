@@ -313,6 +313,22 @@ class JapaModel
             $this->action( $module, $action, $data, $constructor_data, $force_instance );
         }
     } 
+    /**
+     * broadcast an action to defined modules
+     *
+     * @param string $b_module Module name array
+     * @param string $action Action name
+     * @param mixed $data Data passed to the action perfom() and validate() methode
+     * @param mixed $data Data passed to the action constructor
+     * @param bool $force_instance Force new action instances
+     */ 
+    public function broadcastAction( $b_module, $action, $data = false, $constructor_data = false, $force_instance = false )
+    {
+        foreach($b_module as $module)
+        {
+            $this->action( $module, $action, $data, $constructor_data, $force_instance );
+        }
+    } 
 }
 
 ?>
