@@ -64,7 +64,7 @@ class JapaControllerModulePageFactory extends JapaControllerPageFactory
         {
             // retrieve controller names from stack
             $controller_match = array_pop($this->controller_match);
-            return JAPA_MODULES_DIR . strtolower($controller_match[1]) . '/views/';
+            return JAPA_MODULES_DIR . strtolower($controller_match[1]) .'/'. $this->model->config->getVar('admin_view_folder');
         }  
     }
     
