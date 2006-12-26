@@ -1,4 +1,4 @@
-#pager {
+.pager {
 	padding: 2px;
         margin-top: 5px;
         margin-right: 0px;
@@ -13,23 +13,23 @@
 	border-top-color: #6699CC;
 	border-bottom-color: #6699CC;
 }
-#pager span {
+.pager span {
   font-weight: bold;
 }
-#pager a:link{
+.pager a:link{
 	color:#0066CC;
 }
-#pager a:visited{
+.pager a:visited{
 	color:#666666;
 }
 
-#pager a:active {
+.pager a:active {
 	color:#993300;
 }
-#pager a:hover {
+.pager a:hover {
 	color:#CC6600;
 }
-#pager a:focus {
+.pager a:focus {
 	color:#0066CC;
 }
 
