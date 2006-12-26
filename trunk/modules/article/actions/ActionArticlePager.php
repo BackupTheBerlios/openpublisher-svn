@@ -61,7 +61,11 @@ class ActionArticlePager extends JapaAction
         if(!isset($data['css_class']))
         {
             $data['css_class'] = 'smart_pager';
-        }      
+        }  
+        if(!isset($data['url_postfix']))
+        {
+           $data['url_postfix'] = '';
+        }
     
         if(isset($data['status']))
         {
@@ -137,6 +141,7 @@ class ActionArticlePager extends JapaAction
                         'result'     => & $data['result'],
                         'url'        => (string)$data['url'],
                         'var_prefix' => (string)$data['var_prefix'],
+                        'url_postfix' => (string)$data['url_postfix'],
                         'css_class'  => (string)$data['css_class']);        
 
         new JapaPager( $config );   
