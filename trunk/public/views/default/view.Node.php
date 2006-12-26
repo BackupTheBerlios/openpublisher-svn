@@ -7,7 +7,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
 <meta name="robots" content="index, follow" />
-<meta name="author" content="" />
+<meta name="author" content="Armand Turpel"/>
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
@@ -66,7 +66,11 @@
    <!-- print article titles of the current navigation node -->
    <?php if(count($view['nodeArticles']) > 0): ?>
    <dl>
-     <dt>Articles:</dt>
+     <dt><a name="article">Articles:</a></dt>
+     <!-- show pager links to other result pages -->
+     <?php if(!empty($view['pager'])): ?>
+       <dd><div id="pager"><?php echo $view['pager']; ?></div></dd>
+     <?php endif; ?>
      <dd>
        <ul>
          <?php foreach($view['nodeArticles'] as $article): ?>
@@ -82,6 +86,10 @@
          <?php endforeach; ?>
        </ul>
      </dd>
+     <!-- show pager links to other result pages -->
+     <?php if(!empty($view['pager'])): ?>
+       <dd><div id="pager"><?php echo $view['pager']; ?></div></dd>
+     <?php endif; ?>
    </dl>
    <?php endif; ?>
 
