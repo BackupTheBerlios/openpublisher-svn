@@ -72,6 +72,7 @@ class ControllerSearch extends JapaControllerAbstractPage
                                    'numPage'    => (int)$this->pageNumber,
                                    'delta'      => 10,
                                    'url'        => $this->viewVar['urlBase'].'/cntr/search/search/'.$this->pagerUrlSearchString,
+                                   'url_postfix' => '#result',
                                    'var_prefix' => 'search_',
                                    'css_class'  => 'search_pager'));    
                                
