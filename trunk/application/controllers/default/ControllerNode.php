@@ -97,7 +97,7 @@ class ControllerNode extends JapaControllerAbstractPage
                                    'url'        => $this->viewVar['urlBase'].'/id_node/'.$this->current_id_node,
                                    'url_postfix' => '#article',
                                    'var_prefix' => 'article_',
-                                   'css_class'  => 'smart_pager'));  
+                                   'css_class'  => 'op_pager'));  
 
         // get node related keywords
         $keywords = array();
