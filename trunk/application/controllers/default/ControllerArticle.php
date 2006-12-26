@@ -463,6 +463,27 @@ class ControllerArticle extends JapaControllerAbstractPage
                              array('content' => & $body) );
         return $body;
     }
+    
+    /**
+     * append filter chain
+     *
+     */ 
+    public function appendFilterChain( & $viewBufferContent )
+    {
+        // highlight text
+        // usually this happen when a search operation was done
+        //
+        if(null !== ($textHighlight = $this->model->session->get('TextHighlight')))
+        {
+        		$textHighlight = unserialize($textHighlight);
+        		foreach($textHighlight as $text)
+        		{
+            	$viewBufferContent = str_replace($text, 
+                                                "<span class='highlight'>{$text}</span>",
+                                                $viewBufferContent); 
+            }
+        }
+    }
 }
 
 ?>

@@ -42,6 +42,9 @@ class ControllerSearch extends JapaControllerAbstractPage
                                    'fields'  => array('id_article','title',
                                                       'id_node','description','rewrite_name') ));  
 
+        // set session var with text to highlight
+		  $this->setHighlightText();
+
         // get node + node branch of each article
         foreach($this->viewVar['articles'] as & $article)
         {
@@ -166,6 +169,21 @@ class ControllerSearch extends JapaControllerAbstractPage
         $this->viewVar['adminWebController'] = $this->config->getVar('default_module_application_controller');        
         $this->viewVar['cssFolder'] = JAPA_PUBLIC_DIR . 'styles/'.$this->config->getModuleVar('common', 'styles_folder');
         $this->viewVar['urlBase']   = $this->router->getBase();
+    }
+    
+    /**
+     * set session var with text to highlight
+     *
+     */    
+    private function setHighlightText()
+    {
+    		$text = explode(" ",$this->searchString);
+    		$_text = array();
+    		foreach($text as $str)
+    		{
+    			$_text[] = str_replace(array("+","-","*"),array("","",""),$str);
+    		}
+    		$this->model->session->set('TextHighlight', serialize($_text));
     }
 }
 
