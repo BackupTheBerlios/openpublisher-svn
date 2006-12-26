@@ -218,7 +218,7 @@ class ControllerNode extends JapaControllerAbstractPage
 
         // set articles limit per page
         $article_page = (int) $this->httpRequest->getParameter( 'article_page', 'get', 'digits' );
-        $this->articlesPerPage = 5;
+        $this->articlesPerPage = 10;
         // get current article pager page
         if($article_page === null)
         {
