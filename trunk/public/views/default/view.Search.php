@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $view['charset']; ?>" />
 
 <meta name="robots" content="noindex, nofollow" />
-<meta name="author" content="" />
+<meta name="author" content="Armand Turpel"/>
 <meta name="description" content="" />
 <meta name="keywords" content="" />
 
@@ -25,11 +25,11 @@
 
 <div id="mainleft"> 
 
-   <h1>search result</h1>
+   <h1><a name="result">search result</a></h1>
 
    <!-- show pager links to other result pages -->
    <?php if(!empty($view['pager'])): ?>
-     <div id="pager"><?php echo $view['pager']; ?></div>
+     <div class="pager"><?php echo $view['pager']; ?></div>
    <?php endif; ?>
   
    <dl id="search">
@@ -73,7 +73,7 @@
 
    <!-- show pager links to other result pages -->
    <?php if(!empty($view['pager'])): ?>
-     <div id="pager"><?php echo $view['pager']; ?></div>
+     <div class="pager"><?php echo $view['pager']; ?></div>
    <?php endif; ?>
        
 </div>
