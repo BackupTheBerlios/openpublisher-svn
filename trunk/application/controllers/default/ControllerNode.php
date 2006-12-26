@@ -94,7 +94,8 @@ class ControllerNode extends JapaControllerAbstractPage
                                    'perPage'    => $this->articlesPerPage,
                                    'numPage'    => (int)$this->pageNumber,
                                    'delta'      => 5,
-                                   'url'        => 'Web/id_node=/'.$this->current_id_node,
+                                   'url'        => $this->viewVar['urlBase'].'/id_node/'.$this->current_id_node,
+                                   'url_postfix' => '#article',
                                    'var_prefix' => 'article_',
                                    'css_class'  => 'smart_pager'));  
 
@@ -166,6 +167,12 @@ class ControllerNode extends JapaControllerAbstractPage
         {
               $this->router->redirect();
         }
+
+         $add = $this->httpRequest->getParameter( 'add', 'get', 'digits' );
+			if($add !== false)
+			{
+				$this->model->action('tools','addRandomContent');
+			}
         
         // create cache id if cache enabled
         // here we use the node id as a unique cache id for this controller
@@ -211,7 +218,7 @@ class ControllerNode extends JapaControllerAbstractPage
 
         // set articles limit per page
         $article_page = (int) $this->httpRequest->getParameter( 'article_page', 'get', 'digits' );
-        $this->articlesPerPage = 20;
+        $this->articlesPerPage = 5;
         // get current article pager page
         if($article_page === null)
         {
