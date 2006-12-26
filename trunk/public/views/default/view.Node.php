@@ -69,7 +69,7 @@
      <dt><a name="article">Articles:</a></dt>
      <!-- show pager links to other result pages -->
      <?php if(!empty($view['pager'])): ?>
-       <dd><div id="pager"><?php echo $view['pager']; ?></div></dd>
+       <dd class="pager"><?php echo $view['pager']; ?></dd>
      <?php endif; ?>
      <dd>
        <ul>
@@ -88,7 +88,7 @@
      </dd>
      <!-- show pager links to other result pages -->
      <?php if(!empty($view['pager'])): ?>
-       <dd><div id="pager"><?php echo $view['pager']; ?></div></dd>
+       <dd class="pager"><?php echo $view['pager']; ?></dd>
      <?php endif; ?>
    </dl>
    <?php endif; ?>
