@@ -44,3 +44,37 @@
 
 
 }
+#mainleft dl .pager {
+	padding: 2px;
+        margin-top: 5px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-left: 5px;
+	font-size: 1.4em;
+	color:#0066CC;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: dashed;
+	border-bottom-style: dashed;
+	border-top-color: #6699CC;
+	border-bottom-color: #6699CC;
+}
+#mainleft dl .pager span {
+  font-weight: bold;
+}
+#mainleft dl .pager a:link{
+	color:#0066CC;
+}
+#mainleft dl .pager a:visited{
+	color:#666666;
+}
+
+#mainleft dl .pager a:active {
+	color:#993300;
+}
+#mainleft dl .pager a:hover {
+	color:#CC6600;
+}
+#mainleft dl .pager a:focus {
+	color:#0066CC;
+}
