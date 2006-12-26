@@ -76,3 +76,8 @@ body{
 	margin-bottom: 10px;
 
 }
+
+#mainleft .highlight{
+   color: #FF9900;
+   font-weight: bold;
+}
