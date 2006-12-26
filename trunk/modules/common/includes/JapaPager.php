@@ -37,7 +37,11 @@ class JapaPager
         $this->config          = & $config;
         $this->totalPages      = $this->getTotalPages(); 
         $this->totalDeltaPages = $this->getTotalDeltaPages();  
-        $this->numDeltaPage    = $this->getNumDeltaPage();  
+        $this->numDeltaPage    = $this->getNumDeltaPage(); 
+        if(!isset($this->config['url_postfix'])) 
+        {
+        		$this->config['url_postfix'] = '';
+        }
         
         if($this->totalPages > 1)
         {
@@ -102,7 +106,7 @@ class JapaPager
     {
         if($this->config['numPage'] > $this->config['delta'])
         {
-            $preDeltaPage = '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/'.$numDelta.'" class="'.$this->config['css_class'].'">&lt;&lt;</a> ';
+            $preDeltaPage = '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/'.$numDelta.$this->config['url_postfix'].'" class="'.$this->config['css_class'].'">&lt;&lt;</a> ';
         }
         else
         {
@@ -124,7 +128,7 @@ class JapaPager
 
         if($this->lastPage >= $numDelta)
         {
-            $nextDeltaPage = '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/'.$numDelta.'" class="'.$this->config['css_class'].'">&gt;&gt;</a> ';
+            $nextDeltaPage = '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/'.$numDelta.$this->config['url_postfix'].'" class="'.$this->config['css_class'].'">&gt;&gt;</a> ';
         }
         else
         {
@@ -143,7 +147,7 @@ class JapaPager
     {
         if($this->numDeltaPage > 1)
         {
-            $firstDeltaPage = '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/1" class="'.$this->config['css_class'].'">1</a> ';
+            $firstDeltaPage = '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/1'.$this->config['url_postfix'].'" class="'.$this->config['css_class'].'">1</a> ';
         }
         else
         {
@@ -162,7 +166,7 @@ class JapaPager
     {
         if(($this->lastPage > $this->config['delta']) && ($this->config['numPage'] < $this->lastPage))
         {
-            $lastDeltaPage = '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/'.$this->lastPage.'" class="'.$this->config['css_class'].'">'.$this->lastPage.'</a> ';
+            $lastDeltaPage = '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/'.$this->lastPage.$this->config['url_postfix'].'" class="'.$this->config['css_class'].'">'.$this->lastPage.'</a> ';
         }
         else
         {
@@ -196,7 +200,7 @@ class JapaPager
             // is this the current page?
             if($this->config['numPage'] != $p)
             {
-                $this->config['result'] .= '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/'.$p.'" class="'.$this->config['css_class'].'">'.$p.'</a> ';  
+                $this->config['result'] .= '<a href="'.$this->config['url'].'/'.$this->config['var_prefix'].'page/'.$p.$this->config['url_postfix'].'" class="'.$this->config['css_class'].'">'.$p.'</a> ';  
             }
             else
             {
