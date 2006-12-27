@@ -126,7 +126,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
 
         // article fields to get
         $articleFields = array('id_article','title','pubdate',
-                               'status','allow_comment','close_comment');
+                               'status','allow_comment','close_comment','rewrite_name');
                                
         // add fields depended on configuration settings
         $this->addGetArticleFields( $articleFields );
