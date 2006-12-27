@@ -187,7 +187,7 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
         {
             $this->resetFormData();
             $this->viewVar['error'] = 'You have no rights to assign the such role to a new user!';
-            $this->setTemplateVars();
+            $this->setViewVars();
             return false;
         }
          // cancel edit user?
@@ -325,6 +325,16 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
                                         'fields'  => array('description' => $this->stripSlashesArray($filedesc),
                                                            'title'       => $this->stripSlashesArray($filetitle))));
         }  
+
+        // check if required fields are empty
+        if (false === $email)
+        {
+            // reset form fields on error
+            $this->resetFormData();
+            $this->viewVar['error'][] = 'Wrong Email format!';
+            $this->setViewVars();
+            return false;
+        }
        
         // check if required fields are empty
         if (false == $this->checkEmptyFields())
@@ -332,7 +342,7 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
             // reset form fields on error
             $this->resetFormData();
             $this->viewVar['error'][] = 'You have fill out at least the name, lastname and email fields!';
-            $this->setTemplateVars();
+            $this->setViewVars();
             return false;
         }
            
@@ -380,7 +390,7 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
         {
             // reset form fields on error
             $this->resetFormData();
-            $this->setTemplateVars();
+            $this->setViewVars();
             return false;                
         }        
     }
@@ -550,16 +560,13 @@ class ControllerUserEditUser extends JapaControllerAbstractPage
         $fileID2del = $this->httpRequest->getParameter( 'fileID2del', 'post', 'digits' );
         $pid = $this->httpRequest->getParameter( 'pid', 'post', 'raw' );
         $fid = $this->httpRequest->getParameter( 'fid', 'post', 'raw' );
-        $this->viewVar['user']['email'] = $this->httpRequest->getParameter( 'email', 'post', 'email' );
+        $this->viewVar['user']['email'] = $this->httpRequest->getParameter( 'email', 'post', 'raw' );
+        $this->viewVar['user']['login'] = $this->httpRequest->getParameter( 'login', 'post', 'alnum' );
         $this->viewVar['user']['name'] = $this->httpRequest->getParameter( 'name', 'post', 'alnum' );
         $this->viewVar['user']['passwd'] = $this->httpRequest->getParameter( 'passwd', 'post', 'alnum' );
-        $this->viewVar['user']['lastname'] = $this->httpRequest->getParameter( 'description', 'post', 'alnum' );
+        $this->viewVar['user']['lastname'] = $this->httpRequest->getParameter( 'lastname', 'post', 'alnum' );
         $this->viewVar['user']['description'] = JapaCommonUtil::stripSlashes($this->httpRequest->getParameter( 'description', 'post', 'raw' ));
         $this->viewVar['user']['user_gmt'] = $this->httpRequest->getParameter( 'user_gmt', 'post', 'int' );
-        
-        
-        // if empty assign form field with old values
-        $this->viewVar['user']['login']    = $this->httpRequest->getParameter( 'deletelogo', 'post', 'alnum' );
     } 
 
     /**
