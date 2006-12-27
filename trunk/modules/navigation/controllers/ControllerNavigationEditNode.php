@@ -311,7 +311,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         // switch format of textarea editor
         elseif($this->node_url_rewrite !== false)
         {
-            if($this->node_id_map == 0)
+            if(empty($this->node_id_map))
             {
                 if($this->urlExists( $this->node_url_rewrite ))
                 {         
@@ -836,6 +836,10 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
      */     
     private function urlExists($url_rewrite)
     {
+        if(empty($url_rewrite))
+        {
+            return false;
+        }
         $tmp = array();
         $this->model->action( 'common', 'getUrlRewrite',     
                               array('result' => & $tmp,       
