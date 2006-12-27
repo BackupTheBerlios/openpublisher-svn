@@ -353,8 +353,8 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
         $this->getNewIdNode();
 
         $status = $this->httpRequest->getParameter('status', 'post', 'digits');
-        $url_rewrite = trim($this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i"));
-        
+        $url_rewrite = trim($this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/^[a-z0-9\._-]*$/i"));
+
         $articleFields = array('id_node'  => (int)$this->current_id_node,
                                'status'   => (int)$status,
                                'pubdate'  => $this->buildDate('pubdate'));
@@ -813,7 +813,7 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
      */     
     private function urlRewrite()
     {
-        $url_rewrite = trim($this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i"));
+        $url_rewrite = $this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/^[a-z0-9\._-]*$/i");
         $id_map = $this->httpRequest->getParameter('id_map', 'post', 'int');
         
         if($url_rewrite !== false)
@@ -825,11 +825,14 @@ class ControllerArticleEditArticle extends JapaControllerAbstractPage
                     $this->viewVar['error_url_rewrite'] = 'You can not define an url rewrite name which is defined else where!';
                     return;
                 }
-                $this->model->action('common','addUrlRewrite',
+                elseif(!empty( $url_rewrite ))
+                {
+                    $this->model->action('common','addUrlRewrite',
                                      array( 'id_map'        => crc32($url_rewrite),
                                             'module'        => 'article',
                                             'request_name'  => (string)$url_rewrite,
                                             'request_value' => (int)$this->current_id_article) );    
+                }
             }  
             elseif(!empty($url_rewrite))
             {

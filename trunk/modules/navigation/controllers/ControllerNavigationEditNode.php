@@ -222,7 +222,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $this->node_delete_node = $this->httpRequest->getParameter('delete_node', 'post', 'digits');
         $this->node_title = trim($this->httpRequest->getParameter('title', 'post', 'raw'));
         $this->node_switchformat = $this->httpRequest->getParameter('switchformat', 'post', 'digits');
-        $this->node_url_rewrite = trim($this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/[a-z0-9\.-_]{1,255}/i"));
+        $this->node_url_rewrite = $this->httpRequest->getParameter('url_rewrite', 'post', 'regex', "/^[a-z0-9\._-]*$/i");
         $this->node_id_map = $this->httpRequest->getParameter('id_map', 'post', 'int');
         $this->node_uploadlogo = $this->httpRequest->getParameter( 'uploadlogo', 'post', 'alnum' );
         $this->node_deletelogo = $this->httpRequest->getParameter( 'deletelogo', 'post', 'alnum' );
@@ -308,7 +308,6 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
                 $this->viewVar['error'][] = "You have no permission to delete a node.";
             }              
         }           
-        // switch format of textarea editor
         elseif($this->node_url_rewrite !== false)
         {
             if(empty($this->node_id_map))
@@ -317,7 +316,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
                 {         
                     $this->viewVar['error'][] = 'You can not define an url rewrite name which is defined else where!';
                 }
-                else
+                elseif(!empty( $this->node_url_rewrite ))
                 {
                     $this->model->action('common','addUrlRewrite',
                                          array( 'id_map'        => crc32($this->node_url_rewrite),
@@ -588,7 +587,7 @@ class ControllerNavigationEditNode extends JapaControllerAbstractPage
         $fields['title']      = JapaCommonUtil::stripSlashes((string)$title);
         
         $fields['rewrite_name'] = '';
-        if(!empty($this->node_url_rewrite))
+        if($this->node_url_rewrite !== false)
         {
             $fields['rewrite_name'] = $this->node_url_rewrite;
         }
